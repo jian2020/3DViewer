@@ -1,0 +1,243 @@
+@import 'circular_prog_bar';
+@import "dashboard";
+@import "createProject";
+@import "visualPlanner";
+@import "filemanager";
+@import "materials";
+@import "reports";
+
+/* common styles */
+body {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 300;
+  font-size: 12px;
+}
+img {
+  max-width: 100%;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 500;
+}
+h6,
+.h6 {
+  font-size: 0.8rem;
+  font-weight: 300;
+}
+a {
+  transition: all 0.5s;
+  color: #666;
+}
+a:hover {
+  text-decoration: none;
+  color: #999;
+}
+.loader {position: absolute; top: 50vh; z-index: 10000; width: 22px; left: 50%; display: none;}
+textarea:hover,
+textarea:active,
+textarea:focus,
+input:hover,
+input:active,
+input:focus,
+button:focus,
+button:active,
+button:hover,
+label:focus,
+.btn:active,
+.btn.active,
+.form-control:focus {
+  outline: 0px !important;
+  -webkit-appearance: none;
+  box-shadow: 0 0 0;
+}
+input[type="checkbox"]:hover,
+input[type="checkbox"]:active,
+input[type="checkbox"]:focus {
+  -webkit-appearance: checkbox;
+}
+.loginMenu a i,
+.loginMenu a {
+  line-height: 1.15;
+}
+.loginMenu a.round-30 {
+  border-radius: 30px;
+}
+.bg-success {
+  background-color: #4ed1be !important;
+}
+.bg-warning {
+  background-color: #f3c332 !important;
+}
+.bg-info {
+  background-color: #1abed8 !important;
+}
+.bg-gray {
+  background-color: #909aa2 !important;
+}
+.box-shadow {
+  box-shadow: 0px 10px 50px rgba(0, 0, 0, 0.1);
+}
+.payrollMenu.nav-item {
+  display: none;
+}
+.breadcrumb-item.active {
+  font-weight: bold;
+}
+
+/* scale */
+.max-h-70vh {
+  max-height: 70vh;
+}
+.scrollw {
+  height: 55vh;
+  max-height: 55vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.z-100 {
+  z-index: 100;
+  position: relative;
+}
+.rounded-30 {
+  border-radius: 30px !important;
+}
+
+/* Button styles */
+.btn.focus,
+.btn:focus {
+  box-shadow: none;
+}
+.btn-cyan {
+  color: #fff;
+  background-color: #1bdddb;
+  border-color: #1bdddb;
+}
+.btn-cyan:hover,
+.btn-cyan.active {
+  color: #fff;
+  background-color: #0fbbb9;
+  border-color: #0fbbb9;
+}
+.btn-yellow {
+  color: #fff;
+  background-color: #fec52e;
+  border-color: #fec52e;
+}
+.btn-yellow:hover {
+  color: #fff;
+  background-color: #daa720;
+  border-color: #daa720;
+}
+.btn-gray {
+  color: #fff;
+  background-color: #4f5352;
+  border-color: #4f5352;
+}
+.btn-gray:hover {
+  color: #fff;
+  background-color: #282929;
+  border-color: #282929;
+}
+.btn-orange {
+  color: #fff;
+  background-color: #fe6f47;
+  border-color: #fe6f47;
+}
+.btn-orange:hover {
+  color: #fff;
+  background-color: #d44117;
+  border-color: #d44117;
+}
+
+/* header */
+.navbar {
+  background: #efefef;
+  z-index: 10;
+  box-shadow: 0 2px 5px #aaa;
+}
+.page-content {
+  position: relative;
+  top: 70px;
+}
+.pro-pic {
+  width: 40px;
+}
+.pro-picEmpl {
+  width: 200px;
+}
+.img-thumb {
+  width: 80px;
+}
+.navbar-nav .dropdown-menu {
+  padding: 0;
+}
+.navbar-nav .dropdown-item {
+  color: #fff;
+  font-size: 14px;
+  border-bottom: 1px solid #00000024;
+  padding: 15px;
+}
+.dropdown-item:focus,
+.dropdown-item:hover {
+  text-decoration: none;
+  background-color: #35a998;
+}
+
+/* drop down */
+multiselect .btn {
+  border-radius: 0;
+}
+multiselect .btn-group .btn {
+  border: 1px solid transparent;
+}
+multiselect .dropdown-menu > li > a {
+  display: block;
+}
+multiselect .dropdown-menu li.divider {
+  padding: 0px;
+}
+multiselect .dropdown-menu li a {
+  padding: 6px 12px;
+}
+.dropdown-header {
+  padding: 0.5rem 0.5rem;
+}
+multiselect .dropdown-menu > .active > a,
+multiselect .dropdown-menu > .active > a:focus,
+multiselect .dropdown-menu > .active > a:hover {
+  color: #fff;
+  text-decoration: none;
+  background-color: #337ab7;
+  outline: 0;
+}
+
+/* Scroll Bar */
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+.select2-container .select2-choice,
+.select2-container-multi .select2-choices {max-height: 60px !important; border: 0 !important; background-image: none !important; overflow-y: scroll}
+label.select2-offscreen:focus,
+.select2-container-multi.select2-container-active .select2-choices { box-shadow: none !important}
+.select2-container .select2-choice .select2-arrow {border-left:0 !important; background-image: none !important; background: transparent !important}

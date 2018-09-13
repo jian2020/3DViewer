@@ -1,0 +1,567 @@
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/fonts/webfont.css">
+    <link rel="stylesheet" href="../assets/fonts/open-iconic-bootstrap.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <nav class="navbar top-toolbar fixed-top navbar-expand-lg navbar-light px-2">
+        
+        <a class="navbar-brand"><img src="../css/../assets/images/logo-2.png" /></a>
+        
+        <div class="mx-auto align-items-center d-flex">
+          <div class="border-right border-dark pr-2">
+            <button class="btn mr-2">
+              <i class="fas fa-file text-green"></i>
+            </button>
+            <button class="btn mr-2">
+              <i class="fas fa-save text-green"></i>
+            </button>
+            <button class="btn">
+              <i class="fas fa-times-circle text-green"></i>
+            </button>
+          </div>
+
+          <div class="border-right border-dark px-2">
+            <button class="btn mr-2">
+              <i class="fas fa-cube text-primary"></i>
+            </button>
+            <button class="btn mr-2">
+              <i class="fas fa-database text-primary"></i>
+            </button>
+            <button class="btn mr-2">
+              <i class="fas fa-drafting-compass text-primary"></i>
+            </button>
+            <button class="btn">
+              <i class="fas fa-image text-primary"></i>
+            </button>
+          </div>
+
+          <div class="border-right border-dark px-2">
+            <button class="btn mr-2">
+              <i class="fas fa-long-arrow-alt-up text-grey"></i>
+            </button>
+            <button class="btn mr-2">
+              <i class="fas fa-palette text-grey"></i>
+            </button>
+            <button class="btn mr-2">
+              <i class="fas fa-square-full text-grey"></i>
+            </button>
+            <button class="btn mr-2">
+              <i class="fas fa-project-diagram text-grey"></i>
+            </button>
+            <button class="btn mr-2">
+              <i class="fas fa-th-large text-grey"></i>
+            </button>
+            <button class="btn mr-2">
+              <i class="fas fa-signature text-grey"></i>
+            </button>
+            <button class="btn mr-2">
+              <i class="fas fa-eye text-grey"></i>
+            </button>
+            <button class="btn mr-2">
+              <i class="fas fa-exchange-alt text-grey"></i>
+            </button>
+          </div>
+
+          <div class="border-right border-dark px-2">
+            <button class="btn mr-2">
+              <i class="fas fa-bullseye text-dark"></i>
+            </button>
+            <button class="btn mr-2">
+              <i class="fas fa-camera text-dark"></i>
+            </button>
+            <button class="btn mr-2">
+              <i class="fas fa-users-cog text-dark"></i>
+            </button>
+            <button class="btn mr-2">
+              <i class="fas fa-exclamation-triangle text-dark"></i>
+            </button>
+          </div>
+
+        </div>
+
+        <div class="ml-auto align-items-center d-flex">
+          <div class="slider-container mr-1">
+              <div class="range-slide-container">
+                   <input type="range" min="1" max="100" value="50" class="range-slider">
+              </div>  
+          </div>
+
+          <button class="btn mr-4">
+            <i class="fas fa-crosshairs text-dark"></i>
+          </button>
+
+          <div class="undo-redo mr-4">
+            <button class="btn">
+              <i class="fas fa-undo text-warning"></i>
+            </button>
+            <button class="btn">
+              <i class="fas fa-redo text-warning"></i>
+            </button>
+          </div>
+          <div class="windows mr-4">
+            <div class="dropdown">
+              <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+                Windows
+              </button>
+              <div class="dropdown-menu">
+                <a class="dropdown-item small px-2" href="#"><i class="fas fa-check fa-sm text-success"></i> Files</a>
+                <a class="dropdown-item small px-2" href="#"><i class="fas fa-check fa-sm  text-success"></i>Tools</a>
+                <a class="dropdown-item small px-2" href="#"><i class="fas fa-check  fa-sm text-success"></i>Layers</a>
+                <a class="dropdown-item small px-2" href="#"><i class="fas fa-check fa-sm  text-success"></i>Properties</a>
+                <a class="dropdown-item small px-2" href="#"><i class="fas text-success"></i>IFC Tools</a>
+              </div>
+            </div>
+          </div>
+          <div class="ca m-0 bg-light row  rounded py-1 text-dark">
+            <div class="col px-2 border-right">
+              Calibration <br> 1 unit = 0 units
+            </div>
+            <div class="col pl-0 pr-1 border-right">
+              <span>x: 100</span><span>y: 480</span><br>
+              <span>w: 100</span><span>h: 480</span>
+            </div>
+          </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid m-top-70 px-5">
+      <div class="row">
+        <div class="col-md-12">
+          <img src="../assets/images/3d-img.png" class="w-100 fluid-img">
+        </div>
+      </div>
+    </div>
+
+    <div class="window-left window rounded bg-light border text-center"> 
+      <div class="drag-space">
+        <button class="btn m-0"><i class="fas fa-times fa-sm"></i></button>
+      </div>
+      <hr class="mt-0">
+      <button class="btn"><img src="../assets/images/move.png"></button>
+      <button class="btn"><img src="../assets/images/hand.png"></button>
+      <button class="btn"><img src="../assets/images/zoom.png"></button>
+      <hr>
+      <button class="btn"><img src="../assets/images/scale.png"></button>
+      <hr>
+      <button class="btn"><img src="../assets/images/edit.png"></button>
+      <hr>
+      <button class="btn"><i class="fas fa-eraser"></i></button>
+      <hr>
+      <div class="btn-group dropright w-dd-mw">
+        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <img src="../assets/images/square.png">
+        </button>
+        <div class="dropdown-menu box-shadow">
+          <div class="">
+            <button class="btn mx-1"><img src="../assets/images/square.png"></button>
+            <button class="btn mx-1"><img src="../assets/images/round.png"></button>
+          </div>
+          <div class="">
+            <button class="btn mx-1"><img src="../assets/images/line.png"></button>
+            <button class="btn mx-1"><img src="../assets/images/poly.png"></button>
+          </div>
+        </div>
+      </div>
+      <button class="btn"><img src="../assets/images/text-tool.png"></button>
+    </div>
+
+
+    <div class="window-right-wrapper bg-white box-shadow p-1 window">   
+
+      <button class="minimize btn m-0">
+        <i class="fas fa-angle-double-right"></i>
+      </button>
+
+      <div class="rounded bg-light border"> 
+        <div class="drag-space d-flex justify-content-between px-2">
+          <a class="btn m-0" data-toggle="collapse" href="#group" role="button"><i class="fas fa-caret-down"></i>Group</a><button class="btn m-0"><i class="fas fa-times fa-sm"></i></button>
+        </div>
+        <div id="group" class="collapse show">
+          <div class="bg-white p-2">
+            <div class="row align-items-center">
+              <div class="col-md-3">
+                <a href=""><img src="../assets/images/pattern.jpg" class="w-100"></a>
+              </div>
+              <div class="col-md-9 form-inline">
+                <div class="form-group mb-2">
+                  <label class="pr-2">Layer </label> 
+                  <select class="form-control form-control-sm">
+                    <option>option 1</option>
+                    <option>option 1</option>
+                    <option>option 1</option>
+                  </select>
+                </div>
+                <div class="form-group mb-2">
+                  <label class="pr-2">Instance </label> 
+                  <span class="h6 m-0"><b>Wig</b></span>
+                </div>
+                <div class="form-group">
+                  <label class="pr-2">Type </label> 
+                  <select class="form-control form-control-sm">
+                    <option>option 1</option>
+                    <option>option 1</option>
+                    <option>option 1</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div class="toggle">
+              <span class="mr-3">Toggles</span> 
+              <button class="btn m-0"><i class="fas fa-eye"></i></button>
+              <button class="btn m-0"><i class="fas fa-lock"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rounded bg-light border mt-1"> 
+        <div class="drag-space d-flex justify-content-between px-2">
+          <a class="btn m-0" data-toggle="collapse" href="#layers" role="button"><i class="fas fa-caret-down"></i>Layers</a><button class="btn m-0"><i class="fas fa-times fa-sm"></i></button>
+        </div>
+        <div id="layers" class="collapse show">
+          <div class="d-flex px-2">
+            <button class="btn"><i class="fas fa-plus-circle rounded"></i></button>
+            <button class="btn"><i class="fas fa-minus-circle"></i></button>
+            <button class="btn ml-auto"><i class="fas fa-arrow-alt-circle-right"></i></button>
+          </div>
+          <div class="bg-white px-2">
+            <table class="table table-bordered">
+              <thead class="text-dark">
+                <tr>
+                  <th>Name</th>
+                  <th width="30"><i class="fas fa-eye rounded"></i></th>
+                  <th width="30"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="text-truncate">Layer 0</td>
+                  <td>
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" checked id="customCheck1">
+                      <label class="custom-control-label" for="customCheck1"></label>
+                    </div>
+                  </td>
+                  <td>
+                    <i class="fas fa-square" style="color: #400"></i>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-truncate">Layer 0</td>
+                  <td>
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" checked id="customCheck1">
+                      <label class="custom-control-label" for="customCheck1"></label>
+                    </div>
+                  </td>
+                  <td>
+                    <i class="fas fa-square" style="color: #f78"></i>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-truncate">Layer 0</td>
+                  <td>
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" checked id="customCheck1">
+                      <label class="custom-control-label" for="customCheck1"></label>
+                    </div>
+                  </td>
+                  <td>
+                    <i class="fas fa-square" style="color: #5d4"></i>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-truncate">Layer 0</td>
+                  <td>
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" checked id="customCheck1">
+                      <label class="custom-control-label" for="customCheck1"></label>
+                    </div>
+                  </td>
+                  <td>
+                    <i class="fas fa-square" style="color: #9b5"></i>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-truncate">Layer 0</td>
+                  <td>
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" checked id="customCheck1">
+                      <label class="custom-control-label" for="customCheck1"></label>
+                    </div>
+                  </td>
+                  <td>
+                    <i class="fas fa-square" style="color: #89f"></i>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-truncate">Layer 0</td>
+                  <td>
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" checked id="customCheck1">
+                      <label class="custom-control-label" for="customCheck1"></label>
+                    </div>
+                  </td>
+                  <td>
+                    <i class="fas fa-square" style="color: #34d"></i>
+                  </td>
+                </tr>
+                <tr class="current bg-light">
+                  <td class="text-truncate pl-2">Layer 0</td>
+                  <td>
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" checked id="customCheck1">
+                      <label class="custom-control-label" for="customCheck1"></label>
+                    </div>
+                  </td>
+                  <td>
+                    <i class="fas fa-square" style="color: #86c"></i>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-truncate">Layer 0</td>
+                  <td>
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" checked id="customCheck1">
+                      <label class="custom-control-label" for="customCheck1"></label>
+                    </div>
+                  </td>
+                  <td>
+                    <i class="fas fa-square" style="color: #f76"></i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="rounded bg-light border mt-1"> 
+        <div class="drag-space d-flex justify-content-between px-2">
+          <a class="btn m-0" data-toggle="collapse" href="#materials" role="button"><i class="fas fa-caret-down"></i>Materials</a><button class="btn m-0"><i class="fas fa-times fa-sm"></i></button>
+        </div>
+        <div id="materials" class="collapse show">
+          <div class="bg-white p-2">
+            <div class="row align-items-center">
+              <div class="col-md-3">
+                <a href=""><img src="../assets/images/pattern.jpg" class="w-100"></a>
+              </div>
+              <div class="col-md-6">Title of the pattern</div>
+            </div>
+            <hr>
+            <ul class="nav nav-tabs mt-1">
+              <li><a data-toggle="tab" href="#select" class="active">Select</a></li>
+              <li><a data-toggle="tab" href="#edit">Edit</a></li>
+            </ul>
+
+            <div class="tab-content">
+              <div>
+                <select class="form-control form-control-sm mb-2">
+                  <option>option 1</option>
+                  <option>option 1</option>
+                  <option>option 1</option>
+                </select>
+              </div>
+              <div id="select" class="tab-pane active">
+                <div class="row m-0">
+                  <div class="col-md-2 p-0 m-0">
+                    <button class="btn m-0 border p-1 rounded-0"><img src="../assets/images/pattern.jpg" class="w-100"></button>
+                  </div>
+                  <div class="col-md-2 p-0 m-0">
+                    <button class="btn m-0 border p-1 rounded-0"><img src="../assets/images/pattern.jpg" class="w-100"></button>
+                  </div>
+                  <div class="col-md-2 p-0 m-0">
+                    <button class="btn m-0 border p-1 rounded-0"><img src="../assets/images/pattern.jpg" class="w-100"></button>
+                  </div>
+                  <div class="col-md-2 p-0 m-0">
+                    <button class="btn m-0 border p-1 rounded-0"><img src="../assets/images/pattern.jpg" class="w-100"></button>
+                  </div>
+                  <div class="col-md-2 p-0 m-0">
+                    <button class="btn m-0 border p-1 rounded-0"><img src="../assets/images/pattern.jpg" class="w-100"></button>
+                  </div>
+                  <div class="col-md-2 p-0 m-0">
+                    <button class="btn m-0 border p-1 rounded-0"><img src="../assets/images/pattern.jpg" class="w-100"></button>
+                  </div>
+                  <div class="col-md-2 p-0 m-0">
+                    <button class="btn m-0 border p-1 rounded-0"><img src="../assets/images/pattern.jpg" class="w-100"></button>
+                  </div>
+                  <div class="col-md-2 p-0 m-0">
+                    <button class="btn m-0 border p-1 rounded-0"><img src="../assets/images/pattern.jpg" class="w-100"></button>
+                  </div>
+                  <div class="col-md-2 p-0 m-0">
+                    <button class="btn m-0 border p-1 rounded-0"><img src="../assets/images/pattern.jpg" class="w-100"></button>
+                  </div>
+
+                </div>
+              </div>
+              <div id="edit" class="tab-pane">
+                <h3>Menu 1</h3>
+                <p>Some content in menu 1.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="rounded bg-light border mt-1"> 
+        <div class="drag-space d-flex justify-content-between px-2">
+          <a class="btn m-0" data-toggle="collapse" href="#components" role="button"><i class="fas fa-caret-down"></i>Components</a><button class="btn m-0"><i class="fas fa-times fa-sm"></i></button>
+        </div>
+        <div id="components" class="collapse show">
+          <div class="bg-white p-2">
+            <div class="row align-items-center">
+              <div class="col-md-3">
+                <a href=""><img src="../assets/images/comp.jpg" class="w-100"></a>
+              </div>
+              <div class="col-md-6">Title of the component</div>
+            </div>
+            <hr>
+            <ul class="nav nav-tabs mt-1">
+              <li><a data-toggle="tab" href="#select-comp" class="active">Select</a></li>
+              <li><a data-toggle="tab" href="#edit-comp">Edit</a></li>
+              <li><a data-toggle="tab" href="#st">Statitics</a></li>
+            </ul>
+
+            <div class="tab-content">
+              <div>
+                <input type="text" name="" class="form-control form-control-sm mb-2" />
+              </div>
+              <div id="select-comp" class="tab-pane active">
+                <div class="row m-0 align-items-center">
+                  <div class="col-md-3 p-0 m-0">
+                    <button class="btn m-0 border p-1 rounded-0"><img src="../assets/images/comp.jpg" class="w-100"></button>
+                  </div>
+                  <div class="col-md-9">
+                    <h6>title</h6>
+                    <p>detailed info goes here</p>
+                  </div>
+                </div>
+                <hr>
+                <div class="row m-0 align-items-center">
+                  <div class="col-md-3 p-0 m-0">
+                    <button class="btn m-0 border p-1 rounded-0"><img src="../assets/images/comp.jpg" class="w-100"></button>
+                  </div>
+                  <div class="col-md-9">
+                    <h6>title</h6>
+                    <p>detailed info goes here</p>
+                  </div>
+                </div>
+                <hr>
+                <div class="row m-0 align-items-center">
+                  <div class="col-md-3 p-0 m-0">
+                    <button class="btn m-0 border p-1 rounded-0"><img src="../assets/images/comp.jpg" class="w-100"></button>
+                  </div>
+                  <div class="col-md-9">
+                    <h6>title</h6>
+                    <p>detailed info goes here</p>
+                  </div>
+                </div>
+                <hr>
+                <div class="row m-0 align-items-center">
+                  <div class="col-md-3 p-0 m-0">
+                    <button class="btn m-0 border p-1 rounded-0"><img src="../assets/images/comp.jpg" class="w-100"></button>
+                  </div>
+                  <div class="col-md-9">
+                    <h6>title</h6>
+                    <p>detailed info goes here</p>
+                  </div>
+                </div>
+                <hr>
+                <div class="row m-0 align-items-center">
+                  <div class="col-md-3 p-0 m-0">
+                    <button class="btn m-0 border p-1 rounded-0"><img src="../assets/images/comp.jpg" class="w-100"></button>
+                  </div>
+                  <div class="col-md-9">
+                    <h6>title</h6>
+                    <p>detailed info goes here</p>
+                  </div>
+                </div>
+                <hr>
+              </div>
+              <div id="edit-comp" class="tab-pane">
+                <h3>Menu 1</h3>
+                <p>Some content in menu 1.</p>
+              </div>
+              <div id="st" class="tab-pane">
+                <h3>Menu 1</h3>
+                <p>Some content in menu 1.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="window-float window rounded bg-light border text-center" id="properties"> 
+      <div class="drag-space d-flex justify-content-between px-2" id="properties-header">
+        <a class="btn m-0" data-toggle="collapse" href="#properties-box" role="button"><i class="fas fa-caret-down"></i>Properties</a><button class="btn m-0"><i class="fas fa-times fa-sm"></i></button>
+      </div>
+      <div class="row mx-0 py-2 collapse show" id="properties-box">
+        <div class="col-md-5 px-2">
+          <input type="text" name="" value="1/4" class="form-control form-control-xs rounded-0 mb-1">
+          <input type="text" name="" value="1/4" class="form-control form-control-xs rounded-0 mb-1">
+          <input type="text" name="" value="1/4" class="form-control form-control-xs rounded-0 mb-1">
+          <input type="text" name="" value="1/4" class="form-control form-control-xs rounded-0 mb-1">
+        </div>
+        <div class="col-md-7 pl-0 pr-2"><img src="../assets/images/pic.png" class="w-100"></div>
+      </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="js/main.js" ></script>
+    <script type="text/javascript">
+      //Make the DIV element draggagle:
+      dragElement(document.getElementById("properties"));
+
+      function dragElement(elmnt) {
+        var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+        if (document.getElementById(elmnt.id + "header")) {
+          /* if present, the header is where you move the DIV from:*/
+          document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+        } else {
+          /* otherwise, move the DIV from anywhere inside the DIV:*/
+          elmnt.onmousedown = dragMouseDown;
+        }
+
+        function dragMouseDown(e) {
+          e = e || window.event;
+          e.preventDefault();
+          // get the mouse cursor position at startup:
+          pos3 = e.clientX;
+          pos4 = e.clientY;
+          document.onmouseup = closeDragElement;
+          // call a function whenever the cursor moves:
+          document.onmousemove = elementDrag;
+        }
+
+        function elementDrag(e) {
+          e = e || window.event;
+          e.preventDefault();
+          // calculate the new cursor position:
+          pos1 = pos3 - e.clientX;
+          pos2 = pos4 - e.clientY;
+          pos3 = e.clientX;
+          pos4 = e.clientY;
+          // set the element's new position:
+          elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+          elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+        }
+
+        function closeDragElement() {
+          /* stop moving when mouse button is released:*/
+          document.onmouseup = null;
+          document.onmousemove = null;
+        }
+      }
+    </script>
