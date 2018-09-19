@@ -1,21 +1,15 @@
 
     <link href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
-    <!-- bingo -->
-    <link rel="stylesheet" href="../css/metadata.css"/>
-    <link rel="stylesheet" href="../css/tree.css"/>
-    <link rel="stylesheet" href="../css/3dviewer.css"/>
-    <script type="text/javascript" data-main="bimsurfer/loader_gltf.js" src="../bimsurfer/lib/require.js"></script>
-    <!-- bingo -->
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/fonts/webfont.css">
     <link rel="stylesheet" href="../assets/fonts/open-iconic-bootstrap.css">
     <link rel="stylesheet" href="../css/style.css">
     <nav class="navbar top-toolbar fixed-top navbar-expand-lg navbar-light px-2">
         
-        <a class="navbar-brand"><img src="../css/../assets/images/logo-2.png" /></a>
+        <a class="navbar-brand"><img src="../assets/images/logo-2.png" /></a>
         
         <div class="mx-auto align-items-center d-flex">
           <div class="border-right border-dark pr-2">
@@ -139,35 +133,8 @@
         <div class="col-md-12">
           <!-- bingo -->
           <!-- <img src="../assets/images/3d-img.png" class="w-100 fluid-img"> -->
-          <div id="viewerContainer" height:1000px>
-            </div>
-          <!-- <div id="maincontainer">
-            <div id="topsection">
-                <h1>3D Viewer</h1>
-                <div id="typeSelector">
-                    <div>&nbsp;</div>
-                </div>
-            </div>
-            <div id="contentwrapper">
-                <div id="colmid">
-                    <div id="colright">
-                        <div id="col1wrap">
-                            <div id="col1pad">
-                                <div id="viewerContainer">
-                                </div>                        
-                            </div>
-                        </div>
-                        <div id="treeContainer" class="bimsurfer-static-tree">
-                        </div>
-                        <div id="dataContainer" class="bimsurfer-metadata">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-        </div>
-        <div id="status"></div> -->
-        <!-- bingo -->
+          <iframe src="../bimsurfer/bimsurfer.html" id = "bimviewer" style="width:80%;height:-webkit-fill-available;" frameborder ="0" ></iframe>
+          <!-- bingo -->
         </div>
       </div>
     </div>
@@ -552,7 +519,7 @@
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script type="text/javascript" src="js/main.js" ></script>
@@ -600,4 +567,17 @@
           document.onmousemove = null;
         }
       }
+
+      //bingo
+      // document.getElementById("bimviewer").addEventListener("load", onloadBimViewer);
+      // function onloadBimViewer(){
+        
+      // $.ajax({
+      // url : "../bimsurfer/bimsurfer.html",
+      // success : function (data) {
+      //     $("#bimviewer").html(data);
+      // }
+      // });
+      // }
+      //bingo
     </script>
