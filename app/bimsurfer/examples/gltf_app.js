@@ -57,8 +57,8 @@ function (BimSurfer, StaticTreeRenderer, MetaDataRenderer, Request, Utils) {
         var diag = xeogl.math.subVec3(aabb.slice(3), aabb, xeogl.math.vec3());
         var modelExtent = xeogl.math.lenVec3(diag);
     
-        scene.camera.project.near = modelExtent / 1000.;
-        scene.camera.project.far = modelExtent * 100.;
+        scene.camera.project.near = modelExtent / 1000;
+        scene.camera.project.far = modelExtent * 100;
        
         scene.camera.view.eye = [-1,-1,5];
         scene.camera.view.up = [0,0,1];
