@@ -35,7 +35,7 @@ function (BimSurfer, StaticTreeRenderer, MetaDataRenderer, Request, Utils) {
     modelName = "models/" + modelName;
     
     var tree = new StaticTreeRenderer({
-        domNode: "treeContainer"
+        domNode: "treeBasic"
     });
     tree.addModel({id: 1, src: modelName + ".xml"});
     tree.build();

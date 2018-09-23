@@ -3,12 +3,15 @@
 <head>
     <meta charset="utf-8"/>
     <title>IFC Viewer</title>
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,600' rel='stylesheet' type='text/css' />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
     
     <link rel="stylesheet" href="css/demo.css"/>
     <link rel="stylesheet" href="css/apiref.css"/>
-    <link rel="stylesheet" href="../../css/tree.css">
-    <link rel="stylesheet" href="../../css/metadata.css"/>
+    <link rel="stylesheet" href="css/tree.css">
+	<link rel="stylesheet" href="css/metadata.css"/>
+	<link rel="stylesheet" href="css/theme.css"/>
+    <link rel="stylesheet" href="css/newtree.css">
+    <link rel="stylesheet" href="css/default.css"/>
     
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"/>
     
@@ -37,7 +40,9 @@
         };
     </script>
 
-    <script type="text/javascript" src="../lib/require.js"></script>
+	<script src="js/jquery.js"></script>
+	<script src="js/jstree.js"></script>
+	<script src="js/mytree.js"></script>
     <script type="text/javascript">
 
         // Loads a model from BIMServer, builds an explorer tree UI.
@@ -55,20 +60,23 @@
             eval(str);
         });
         p.then(() => {
-            require(["src/BimSurfer","src/BimServerModelLoader","src/StaticTreeRenderer","src/MetaDataRenderer","lib/domReady!"],
-    	            function (BimSurfer, BimServerModelLoader, StaticTreeRenderer, MetaDataRenderer) {
+            require(["src/BimSurfer","src/BimServerModelLoader","src/StaticTreeRenderer","src/DynamicTreeRenderer","src/MetaDataRenderer","lib/domReady!"],
+    	            function (BimSurfer, BimServerModelLoader, StaticTreeRenderer, DynamicTreeRenderer, MetaDataRenderer) {
                 	
                 		function processBimSurferModel(roid, bimSurferModel) {
                 			bimSurferModel.getTree().then(function (tree) {
     	                        // Build a tree view of the elements in the model. The fact that it
     	                        // is 'static' refers to the fact that all branches are loaded and
     	                        // rendered immediately.
-    	                        var domtree = new StaticTreeRenderer({
-    	                            domNode: 'treeContainer'
+    	                        var domtree = new DynamicTreeRenderer({
+    	                            domNode: 'treeBasic'
     	                        });
     	                        domtree.addModel({name: "", id: roid, tree: tree});
     	                        domtree.build();
-    	                        
+								
+								treeTheme();
+    	                        domtree.addAction();
+
     	                        // Add a widget that displays metadata (IfcPropertySet and instance
     	                        // attributes) of the selected element.
     	                        var metadata = new MetaDataRenderer({
@@ -84,7 +92,8 @@
     	                        });
     	                        
     	                        domtree.on("click", function (oid, selected) {
-    	                            // Clicking an explorer node fits the view to its object and selects
+									// Clicking an explorer node fits the view to its object and selects
+									console.log(selected);
                                     if (selected.length) {
                                         bimSurfer.viewFit({
                                             ids: selected,
@@ -173,26 +182,52 @@
     	                });
     	                
     	                bimSurfer.on("loading-finished", function(){
+							//Import type 
     	                	document.getElementById("status").innerHTML = "Loading finished";
-                            var domNode = document.getElementById("typeSelector");
-                            domNode.innerHTML = "";
+                            var typeNode = document.getElementById("typeSelector");
+                            typeNode.innerHTML = "";
                             bimSurfer.getTypes().forEach(function(ifc_type) {
                                 var on = ifc_type.visible;
                                 var d = document.createElement("div");
-                                var t = document.createTextNode(ifc_type.name);
+								var t = document.createElement("a");
+								//t.setClass("btn m-0");
+								t.innerText=ifc_type.name;
                                 var setClass = function() {
                                     d.className = "fa fa-eye " + ["inactive", "active"][on*1];
                                 };
                                 setClass();
                                 d.appendChild(t);
-                                domNode.appendChild(d);
+                                typeNode.appendChild(d);
                                 d.onclick = function() {
                                     on = !on;
                                     setClass();
                                     bimSurfer.setVisibility({types:[ifc_type.name], visible:on});
                                 };
-                            });
-    	                });
+							});
+							
+
+							//Import layer
+                            // var layerNode = parent.document.getElementById("layerPanel");
+                            // layerNode.innerHTML = "";
+                            // bimSurfer.getLayers().forEach(function(ifc_layer) {
+                            //     var on = ifc_layer.visible;
+                            //     var d = document.createElement("div");
+                            //     var t = document.createTextNode(ifc_layer.name);
+                            //     var setClass = function() {
+                            //         d.className = "fa fa-eye " + ["inactive", "active"][on*1];
+                            //     };
+                            //     setClass();
+                            //     d.appendChild(t);
+                            //     layerNode.appendChild(d);
+                            //     d.onclick = function() {
+                            //         on = !on;
+                            //         setClass();
+                            //         bimSurfer.setVisibility({types:[ifc_layer.name], visible:on});
+                            //     };
+                            // });
+						});
+						
+
     	                bimSurfer.on("loading-started", function(){
     	                	document.getElementById("status").innerHTML = "Loading...";
     	                });
@@ -318,12 +353,12 @@
 </head>
 <body>
 <div id="maincontainer">
-    <!-- <div id="topsection">
-        <h1>IFC Viewer</h1>
+    <div id="topsection">
+        <!-- <h1>IFC Viewer</h1> -->
         <div id="typeSelector">
             <div>&nbsp;</div>
         </div>
-    </div> -->
+    </div>
     <div id="contentwrapper">
         <div id="colmid">
             <div id="colright">
@@ -333,7 +368,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="treeContainer" class="bimsurfer-static-tree">
+                <div id="treeBasic" class="treeContainer">
                 </div>
                 <div id="dataContainer" class="bimsurfer-metadata">
                 </div>
@@ -348,5 +383,6 @@
     <h1>API Reference</h1>
 </div> -->
 
+<script type="text/javascript" src="../lib/require.js"></script>
 </body>
 </html>

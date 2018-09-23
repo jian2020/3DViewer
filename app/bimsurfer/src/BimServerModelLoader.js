@@ -63,10 +63,10 @@ define(["./BimServerModel", "./PreloadQuery", "./BimServerGeometryLoader", "./Bi
 	        loader.addProgressListener(function (progress, nrObjectsRead, totalNrObjects) {
 				if (progress == "start") {
 					console.log("Started loading geometries");
-//					self.fire("loading-started");
+					bimSurfer.fire("loading-started");
 				} else if (progress == "done") {
 					console.log("Finished loading geometries (" + totalNrObjects + " objects received)");
-//					self.fire("loading-finished");
+					bimSurfer.fire("loading-finished");
 	                viewer.taskFinished();
 				}
 	        });

@@ -14,18 +14,10 @@ define(["./EventHandler", "./Request", "./Utils"], function(EventHandler, Reques
         
         var domNodes = {};
         var selectionState = {};
-        
+        var treenodeids = [];
+
         this.getOffset = function(elem) {
-            var reference = document.getElementById(args['domNode']);
-            var y = 0;
-            while (true) {
-                y += elem.offsetTop;
-                if (elem == reference) {
-                    break;
-                }
-                elem = elem.offsetParent;
-            }
-            return y;
+            return 0;
         };
         
         this.setSelected = function(ids, mode) {
@@ -100,41 +92,50 @@ define(["./EventHandler", "./Request", "./Utils"], function(EventHandler, Reques
             }
         };
 
+        this.parseTreeNodeId = function(id){
+            return id.substring(id.indexOf('_')+1, id.lastIndexOf('_'))-1; 
+        };
+
+        this.addAction = function(){
+            var tree = document.getElementById(args.domNode);
+            atags = tree.getElementsByTagName('li');
+            atags[0].addEventListener("dblclick", function(e){
+                mid = treenodeids[self.parseTreeNodeId(e.target.id)];
+                self.setSelected([mid], SELECT_EXCLUSIVE);
+                self.fire("click", [mid, self.getSelected(true)]);
+            });
+        };
+
         this.build = function() {
             var build = function(modelId, d, n) {
                 var qid = self.qualifyInstance(modelId, fromXml ? n.guid : n.id);
-                var label = document.createElement("div");
-                var children = document.createElement("div");
-                
+                var label = document.createElement("li");
                 label.className = "label";
-                label.appendChild(document.createTextNode(n.name || n.guid));
+                label.appendChild(document.createTextNode(n.name!==''?n.name:'Unknown'));
+                label.setAttribute('data-jstree', '{ "opened" : true }');
+                if((n.children || []).length===0){
+                    label.setAttribute('data-jstree', '{ "icon" : "/bimsurfer/examples/css/icon.png" }');
+                }
                 d.appendChild(label);
-                children.className = "children";
-                d.appendChild(children);
                 domNodes[qid] = label;
-                
-                label.onclick = function(evt) {
-                    evt.stopPropagation();
-                    evt.preventDefault();
-                    self.setSelected([qid], evt.shiftKey ? TOGGLE : SELECT_EXCLUSIVE);
-                    self.fire("click", [qid, self.getSelected(true)]);
-                    return false;
-                };
+                treenodeids.push(qid);
                 
                 for (var i = 0; i < (n.children || []).length; ++i) {
+                    if((n.children || []).length===0)
+                        build(modelId, d, n);
                     var child = n.children[i];
                     if (fromXml) {
                         if (child["xlink:href"]) continue;
                         if (child.type === "IfcOpeningElement") continue;
                     }
-                    var d2 = document.createElement("div");
+                    var d2 = document.createElement("ul");
                     d2.className = "item";
-                    children.appendChild(d2);
+                    label.appendChild(d2);
                     build(modelId, d2, child);
                 }
-            }
+            };
             models.forEach(function(m) {
-                var d = document.createElement("div");
+                var d = document.createElement("ul");
                 d.className = "item";
                 if (m.tree) {
                     build(m.id, d, m.tree);
@@ -147,7 +148,7 @@ define(["./EventHandler", "./Request", "./Utils"], function(EventHandler, Reques
                 }
                 document.getElementById(args['domNode']).appendChild(d);
             });
-        }
+        };
         
     }
     
