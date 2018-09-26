@@ -453,7 +453,8 @@ define(["./DataInputStreamReader"], function (DataInputStreamReader) {
     			} else {
     				o.model.apiModel.get(oid, function(object){
     					object.gid = geometryInfoOid;
-    					var modelId = o.roid; // TODO: set to the model ID
+                        var modelId = o.roid; // TODO: set to the model ID
+                        //console.log(modelId, roid, oid, oid, geometryDataOids, object.getType(), matrix );
     					o._createObject(modelId, roid, oid, oid, geometryDataOids, object.getType(), matrix);
     				});
     			}
@@ -477,6 +478,7 @@ define(["./DataInputStreamReader"], function (DataInputStreamReader) {
 
             // o.models[roid].get(oid,
                 // function () {
+                    //console.log("sddd object !!!!!!!!");
                     if (o.viewer.createObject(modelId, roid, oid, objectId, geometryIds, type, matrix)) {
 
                         // o.objectAddedListeners.forEach(function (listener) {

@@ -240,6 +240,7 @@ define(["./Notifier", "./BimServerModel", "./PreloadQuery", "./BimServerGeometry
                 loader.start();
             });
         };
+
         
         // Helper function to traverse over the mappings for individually loaded models
         var _traverseMappings = function(mappings) {
@@ -408,7 +409,7 @@ define(["./Notifier", "./BimServerModel", "./PreloadQuery", "./BimServerGeometry
          */
         this.destroy = function() {
             viewer.destroy();
-        }
+        };
     }
 
     BimSurfer.prototype = Object.create(EventHandler.prototype);

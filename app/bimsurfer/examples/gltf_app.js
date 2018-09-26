@@ -19,7 +19,6 @@ require([
     "src/MetaDataRenderer",
     "src/Request",
     "src/Utils",
-    "lib/domReady!",
 ],
 function (BimSurfer, StaticTreeRenderer, MetaDataRenderer, Request, Utils) {
     var bimSurfer = new BimSurfer({

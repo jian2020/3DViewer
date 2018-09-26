@@ -1,4 +1,4 @@
-require(["../../src/BimSurfer.js", "../../src/StaticTreeRenderer.js", "../../src/MetaDataRenderer.js", "../../lib/domReady.js!"], function (BimSurfer, StaticTreeRenderer, MetaDataRenderer) {
+require(["../../src/BimSurfer.js", "../../src/StaticTreeRenderer.js", "../../src/MetaDataRenderer.js"], function (BimSurfer, StaticTreeRenderer, MetaDataRenderer) {
 
     var bimSurfer = new BimSurfer({
         domNode: "viewerContainer"

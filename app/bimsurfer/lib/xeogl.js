@@ -8642,6 +8642,7 @@ var Canvas2Image = (function () {
             }
 
             add("uniform vec3 xeo_uEmissive;");
+            add("uniform vec3 xeo_uPointColor;");
             add("uniform float xeo_uOpacity;");
             add("uniform vec3 xeo_uDiffuse;");
 
@@ -8814,6 +8815,7 @@ var Canvas2Image = (function () {
 
             add("   vec3 ambient = xeo_uLightAmbientColor;");
             add("   vec3 emissive = xeo_uEmissive;");
+            add("   vec3 pointColor = xeo_uPointColor;");
             add("   float opacity = xeo_uOpacity;");
 
             if (states.geometry.colors) {
@@ -9966,6 +9968,7 @@ var Canvas2Image = (function () {
             this._uDiffuse = draw.getUniform("xeo_uDiffuse");
             this._uSpecular = draw.getUniform("xeo_uSpecular");
             this._uEmissive = draw.getUniform("xeo_uEmissive");
+            this._uPointColor = draw.getUniform("xeo_uPointColor");
             this._uOpacity = draw.getUniform("xeo_uOpacity");
             this._uShininess = draw.getUniform("xeo_uShininess");
 
@@ -10069,6 +10072,10 @@ var Canvas2Image = (function () {
 
             if (this._uPointSize) {
                 this._uPointSize.setValue(state.pointSize);
+            }
+
+            if(this._uPointColor){
+                this._uPointColor.setValue(state.pointColor);
             }
 
             // Ambient map
@@ -29493,13 +29500,14 @@ xeogl.GLTFLoaderUtils = Object.create(Object, {
                 diffuse: xeogl.math.vec3([1.0, 1.0, 1.0]),
                 specular: xeogl.math.vec3([1.0, 1.0, 1.0]),
                 emissive: xeogl.math.vec3([0.0, 0.0, 0.0]),
+                pointColor: xeogl.math.vec3([1.0, 0.0, 0.0]),
 
                 opacity: 1.0,
                 shininess: 30.0,
                 reflectivity: 1.0,
 
-                lineWidth: 1.0,
-                pointSize: 1.0,
+                lineWidth: 50.0,
+                pointSize: 100.0,
 
                 ambientMap: null,
                 normalMap: null,
@@ -29533,6 +29541,7 @@ xeogl.GLTFLoaderUtils = Object.create(Object, {
             this.diffuse = cfg.diffuse;
             this.specular = cfg.specular;
             this.emissive = cfg.emissive;
+            this.pointColor = cfg.pointColor;
 
             this.opacity = cfg.opacity;
             this.shininess = cfg.shininess;
@@ -29685,6 +29694,39 @@ xeogl.GLTFLoaderUtils = Object.create(Object, {
 
                 get: function () {
                     return this._state.emissive;
+                }
+            },
+
+            /**
+             The PhongMaterial's pointColor color.
+
+             This property may be overridden by {{#crossLink "PhongMaterial/emissiveMap:property"}}{{/crossLink}}.
+
+             Fires a {{#crossLink "PhongMaterial/pointColor:event"}}{{/crossLink}} event on change.
+
+             @property pointColor
+             @default [0.0, 0.0, 0.0]
+             @type Float32Array
+             */
+             pointColor: {
+
+                set: function (value) {
+
+                    this._state.pointColor.set(value || [0.0, 0.0, 0.0]);
+
+                    this._renderer.imageDirty = true;
+
+                    /**
+                     Fired whenever this PhongMaterial's {{#crossLink "PhongMaterial/pointColor:property"}}{{/crossLink}} property changes.
+
+                     @event pointColor
+                     @param value {Float32Array} The property's new value
+                     */
+                    this.fire("pointColor", this._state.pointColor);
+                },
+
+                get: function () {
+                    return this._state.pointColor;
                 }
             },
 
@@ -30360,7 +30402,8 @@ xeogl.GLTFLoaderUtils = Object.create(Object, {
                 ambient: this._state.ambient,
                 diffuse: this._state.diffuse,
                 specular: this._state.specular,
-                emissive: this._state.emissive
+                emissive: this._state.emissive,
+                pointColor: this._state.pointColor
             };
 
             if (this._state.opacity !== 1.0) {

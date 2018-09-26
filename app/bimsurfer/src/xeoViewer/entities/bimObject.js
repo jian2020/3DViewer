@@ -56,7 +56,8 @@ define(["../../../lib/xeogl"], function () {
                 type: "xeogl.PhongMaterial", // http://xeoengine.org/docs/classes/Material.html
                 emissive: [0, 0, 0],
                 diffuse: [Math.random(), Math.random(), Math.random()], // Random color until we set for type
-                opacity: 1.0
+                opacity: 1.0,
+                pointSize: 100
             });
 
             // Rendering modes component

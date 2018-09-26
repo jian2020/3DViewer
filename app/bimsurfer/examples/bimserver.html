@@ -43,13 +43,15 @@
 	<script src="js/jquery.js"></script>
 	<script src="js/jstree.js"></script>
 	<script src="js/mytree.js"></script>
-    <script type="text/javascript">
-
+	<script type="text/javascript">
+		var o = this;
+		o.modelLoader = null;
+		o.bimSurfer = null;
         // Loads a model from BIMServer, builds an explorer tree UI.
         // Clicking on a tree node fits the view to its scene object.
 
-        var apiVersion = new Date().getTime();
-        
+		var apiVersion = new Date().getTime();
+	
         var p = new Promise(function(resolve, reject){
 	        var str = `
                 import("${address}/apps/bimserverjavascriptapi/bimserverclient.js?_v=${apiVersion}").then((bimserverapi) => {
@@ -60,7 +62,7 @@
             eval(str);
         });
         p.then(() => {
-            require(["src/BimSurfer","src/BimServerModelLoader","src/StaticTreeRenderer","src/DynamicTreeRenderer","src/MetaDataRenderer","lib/domReady!"],
+            require(["src/BimSurfer","src/BimServerModelLoader","src/StaticTreeRenderer","src/DynamicTreeRenderer","src/MetaDataRenderer"],
     	            function (BimSurfer, BimServerModelLoader, StaticTreeRenderer, DynamicTreeRenderer, MetaDataRenderer) {
                 	
                 		function processBimSurferModel(roid, bimSurferModel) {
@@ -84,7 +86,7 @@
     	                        });
                                 metadata.addModel({name: "", id: roid, model: bimSurferModel});
     	                        
-    	                        bimSurfer.on("selection-changed", function(params) {
+    	                        o.bimSurfer.on("selection-changed", function(params) {
     	                            domtree.setSelected(params.objects, domtree.SELECT_EXCLUSIVE);
     	                            metadata.setSelected(params.objects);
                                     
@@ -95,12 +97,12 @@
 									// Clicking an explorer node fits the view to its object and selects
 									console.log(selected);
                                     if (selected.length) {
-                                        bimSurfer.viewFit({
+                                        o.bimSurfer.viewFit({
                                             ids: selected,
                                             animate: true
                                         });
                                     }
-                                    bimSurfer.setSelection({
+                                    o.bimSurfer.setSelection({
                                         ids:selected,
                                         clear:true,
                                         selected:true
@@ -123,11 +125,13 @@
     	                        // var oids = flatten(tree);
     	                        // _.shuffle(oids);
     	                        // oids.splice(10);
-    	                        // var guids = bimSurfer.toGuid(oids);
+    	                        // var guids = o.bimSurfer.toGuid(oids);
     	                        
     	                        // oids = "["+oids.join(", ")+"]";
-    	                        // guids = "["+guids.map(function(s) {return '"'+s+'"';}).join(", ")+"]";
-    	                        
+								// guids = "["+guids.map(function(s) {return '"'+s+'"';}).join(", ")+"]";
+								// console.log("dddddd");
+								// console.log(oids);
+								// console.log("dddddd");
     	                        // var METHODS = [
     	                        //     {name:'setVisibility',     args:[{name: "ids", value: oids}, {name: "visible", value:false}]},
     	                        //     {name:'setVisibility',     args:[{name: "types", value: '["IfcWallStandardCase"]'}, {name: "visible", value:false}]},
@@ -161,7 +165,7 @@
     	                        //         args = "{"+args+"}";
     	                        //     }
     	                            
-    	                        //     var cmd = "bimSurfer."+m.name+"("+args+");";
+    	                        //     var cmd = "o.bimSurfer."+m.name+"("+args+");";
     	                        //     n.innerHTML += "<textarea rows=3 id='code"+i+"' spellcheck=false>"+cmd+"\n</textarea>";
     	                        //     exec_statement = "eval(document.getElementById(\"code"+i+"\").value)"
     	                        //     if (m.hasResult) {
@@ -175,18 +179,19 @@
     	                        //     }
     	                        // });
     	                    });
-                		}
+						}				
                 	
-    	                var bimSurfer = new BimSurfer({
-    	                    domNode: "viewerContainer"
+    	                o.bimSurfer = new BimSurfer({
+							domNode: "viewerContainer",
+							selectionBorderColor: [1.0,0,0]
     	                });
     	                
-    	                bimSurfer.on("loading-finished", function(){
+    	                o.bimSurfer.on("loading-finished", function(){
 							//Import type 
     	                	document.getElementById("status").innerHTML = "Loading finished";
                             var typeNode = document.getElementById("typeSelector");
                             typeNode.innerHTML = "";
-                            bimSurfer.getTypes().forEach(function(ifc_type) {
+                            o.bimSurfer.getTypes().forEach(function(ifc_type) {
                                 var on = ifc_type.visible;
                                 var d = document.createElement("div");
 								var t = document.createElement("a");
@@ -201,46 +206,25 @@
                                 d.onclick = function() {
                                     on = !on;
                                     setClass();
-                                    bimSurfer.setVisibility({types:[ifc_type.name], visible:on});
+                                    o.bimSurfer.setVisibility({types:[ifc_type.name], visible:on});
                                 };
 							});
-							
-
-							//Import layer
-                            // var layerNode = parent.document.getElementById("layerPanel");
-                            // layerNode.innerHTML = "";
-                            // bimSurfer.getLayers().forEach(function(ifc_layer) {
-                            //     var on = ifc_layer.visible;
-                            //     var d = document.createElement("div");
-                            //     var t = document.createTextNode(ifc_layer.name);
-                            //     var setClass = function() {
-                            //         d.className = "fa fa-eye " + ["inactive", "active"][on*1];
-                            //     };
-                            //     setClass();
-                            //     d.appendChild(t);
-                            //     layerNode.appendChild(d);
-                            //     d.onclick = function() {
-                            //         on = !on;
-                            //         setClass();
-                            //         bimSurfer.setVisibility({types:[ifc_layer.name], visible:on});
-                            //     };
-                            // });
 						});
 						
 
-    	                bimSurfer.on("loading-started", function(){
+    	                o.bimSurfer.on("loading-started", function(){
     	                	document.getElementById("status").innerHTML = "Loading...";
     	                });
 
     	                // Lets us play with the Surfer in the console
-    	                window.bimSurfer = bimSurfer;
-
+    	                window.bimSurfer = o.bimSurfer;
+						
     	                // Create a BIMserver API, we only need one of those for every server we connect to
     	                var bimServerClient = new BimServerClient(address, null);
     	                bimServerClient.init(function(){
     						bimServerClient.setToken(token, function() {
     			                // Create a model loader, this one is able to load models from a BIMserver and therefore can have BIMserver specific calls
-    			                var modelLoader = new BimServerModelLoader(bimServerClient, bimSurfer);
+    			                o.modelLoader = new BimServerModelLoader(bimServerClient, o.bimSurfer);
     			                
     			                var models = {}; // roid -> Model
     			                
@@ -262,13 +246,15 @@
     			                		0, 0, 1, 0,
     			                		-center[0], -center[1], -center[2], 1
     			                	];
-    			                	console.log(totalBounds, models);
-    			                	
+    			                	//console.log(totalBounds, models);
+									
+									//init LayerPanel
+									parent.document.getElementById("layerTable").innerHTML='';
     			                	for (var roid in models) {
     			                		var model = models[roid];
     				                	// Example 1: Load a full model
-    				                	modelLoader.setGlobalTransformationMatrix(globalTransformationMatrix);
-    					                modelLoader.loadFullModel(model).then(function(bimSurferModel){
+    				                	o.modelLoader.setGlobalTransformationMatrix(globalTransformationMatrix);
+    					                o.modelLoader.loadFullModel(model, parent.document.getElementById("layerTable")).then(function(bimSurferModel){
     					                    processBimSurferModel(roid, bimSurferModel);
     					                });
     				                	
@@ -277,7 +263,7 @@
 //    				                	model.getAllOfType("IfcWall", true, function(wall){
 //    				                		objects.push(wall);
 //    				                	}).done(function(){
-//    						                modelLoader.loadObjects(model, objects).then(function(bimSurferModel){
+//    						                o.modelLoader.loadObjects(model, objects).then(function(bimSurferModel){
 //    						                    processBimSurferModel(roid, bimSurferModel);
 //    						                });
 //    				                	});
@@ -290,12 +276,14 @@
 //    				                	model.query(query, function(object){
 //    				                		objects.push(object);
 //    				                	}).done(function(){
-//    						                modelLoader.loadObjects(model, objects).then(function(bimSurferModel){
+//    						                o.modelLoader.loadObjects(model, objects).then(function(bimSurferModel){
 //    						                    processBimSurferModel(roid, bimSurferModel);
 //    						                });
 //    				                	});
     			                	}
-    			                }
+								}
+								
+
     			                
     			                bimServerClient.call("ServiceInterface", "getAllRelatedProjects", {poid: poid}, function(projects){
     			                	nrProjects = projects.length;
@@ -308,7 +296,9 @@
     			                	projects.forEach(function(project){
     			                		if (project.lastRevisionId != -1 && (project.nrSubProjects == 0 || project.oid != poid)) {
     			                			bimServerClient.getModel(project.oid, project.lastRevisionId, project.schema, false, function (model) {
-    						                	models[project.lastRevisionId] = model;
+												models[project.lastRevisionId] = model;
+												
+												//loadLayers(project, model);
     						                	
     						                	bimServerClient.call("ServiceInterface", "getModelMinBounds", {roid: project.lastRevisionId}, function(minBounds){
     							                	bimServerClient.call("ServiceInterface", "getModelMaxBounds", {roid: project.lastRevisionId}, function(maxBounds){
@@ -343,10 +333,44 @@
     				                			loadModels(models, totalBounds);
     				                		}
     			                		}
-    			                	});
- 						       });
+									});
+
+								});
+								
 			            });
-	                });
+					});
+					//Opacity View in Scene
+					var btnTransView = parent.document.getElementById('btnTransView');
+					btnTransView.onclick = function() {
+						o.bimSurfer.setOpacity({ids:o.modelLoader.allObjectIds, opacity:0.2});
+					}
+					//Wire View in Scene
+					var btnWireView = parent.document.getElementById('btnWireView');
+					btnWireView.onclick = function() {
+						o.modelLoader.allObjects.forEach(element => {
+							console.log(element);
+							element.material = {
+							edges: true,
+							edgeAlpha: 1.0,
+							edgeColor: [0.2, 1.0, 0.2],
+							edgeWidth: 2,
+							vertices: true,
+							vertexAlpha: 1.0,
+							vertexColor: [0.6, 1.0, 0.6],
+							vertexSize: 8,
+							fill: true,
+							fillColor: [0, 0, 0],
+							fillAlpha: 0.7
+							};
+						});
+						console.log(o.modelLoader.allObjects);
+						//o.bimSurfer.setOpacity({ids:o.modelLoader.allObjectIds, opacity:0.5});
+					}
+					//Edge View in Scene
+					var btnEdgeView = parent.document.getElementById('btnEdgeView');
+					btnEdgeView.onclick = function() {
+						o.bimSurfer.setOpacity({ids:o.modelLoader.allObjectIds, opacity:1});
+					}
 	            });
         });
     </script>

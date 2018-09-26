@@ -47,7 +47,7 @@ h1, h2 {
 }
 
 #col1pad {
-    margin:0 15px 0 500px;
+    margin:0 15px 0 560px;
     overflow:hidden;
     border-right: solid 1px #ddd;
 }
@@ -60,7 +60,7 @@ h1, h2 {
 
 .treeContainer {
     float:left;
-    width:300px;
+    width:360px;
     position:relative;
     margin-left:-50%;
     left:200px;

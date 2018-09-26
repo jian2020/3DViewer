@@ -23,6 +23,7 @@ define([
         EventHandler.call(this);
 
         var self = this;
+        var bimObjects = [];
 
         var domNode = document.getElementById(cfg.domNode);
         var canvas = document.createElement("canvas");
@@ -279,7 +280,7 @@ define([
          * @param {Float32Array} [params.center] Center point of model.
          */
         this.loadRandom = function (params) {
-
+            //console.log("loadRandom !!!!!!!!");
             params = params || {};
 
             this.clear();
@@ -348,6 +349,7 @@ define([
          * @private
          */
         this.createGeometry = function (geometryId, positions, normals, colors, indices) {
+            //console.log("create geometry !!!!!!!!");
             var geometry = new xeogl.Geometry(scene, { // http://xeoengine.org/docs/classes/Geometry.html
                 id: "geometry." + geometryId,
                 primitive: "triangles",
@@ -371,7 +373,7 @@ define([
          * @private
          */
         this.createModel = function (modelId) {
-
+            //console.log("create model !!!!!!!!");
             if (models[modelId]) {
                 console.log("Model with id " + modelId + " already exists, won't recreate");
                 return;
@@ -399,7 +401,7 @@ define([
          * @private
          */
         this.createObject = function (modelId, roid, oid, objectId, geometryIds, type, matrix) {
-        	
+        	//console.log("create object !!!!!!!!");
             if (modelId) {
                 var model = models[modelId];
                 if (!model) {
@@ -431,8 +433,11 @@ define([
         	// Hide objects of certain types by default
         	if (hiddenTypes.indexOf(type) !== -1) {
         		object.visibility.visible = false;
-        	}
-
+            }
+            //object.material.opacity = 0.1;
+            //console.log(object.material.opacity+"dddddd");
+            if(object)
+                //this.bimObjects.add(object);
             return object;
         };
 
@@ -444,6 +449,7 @@ define([
          * @private
          */
         this._addObject = function (type, object) {
+            
             var guid;
             if (object.id.indexOf("#") !== -1) {
                 guid = Utils.CompressGuid(object.id.split("#")[1].substr(8, 36).replace(/-/g, ""));
@@ -474,6 +480,7 @@ define([
             if (object.material.opacity < 1) { // Transparent object
                 object.modes.transparent = true;
             }
+            //console.log("add object !!!!!!!!"+object);
         };
 
         /**
@@ -578,6 +585,7 @@ define([
 
             var ids = params.ids;
             var types = params.types;
+            //console.log(ids, types);
 
             if (!ids && !types) {
                 console.error("Param expected: ids or types");
@@ -623,7 +631,7 @@ define([
 					hiddenTypes.push(type);			// add type to array
 				}
             }
-
+            //console.log(objects);
             for (i = 0, len = ids.length; i < len; i++) {
                 id = ids[i];
                 var fn = function(object) {
@@ -667,7 +675,6 @@ define([
          * @param params.clear Whether to clear selection state prior to updating
          */
         this.setSelection = function (params) {
-
             params = params || {};
 
             var changed = false; // Only fire "selection-changed" when selection actually changes
@@ -1078,11 +1085,13 @@ define([
         };
 
         // Updates the boundary helper
+        //Effect highlight
         function setBoundaryState(params) {
-
+            console.log(params);
             if (params.aabb) {
                 throw new Error("Not supported");
             } else if (params.ids) {
+                //Edge Effect
                 boundaryHelper.setSelected(params.ids);
                 
                 highlightEffect.clear();
@@ -1095,7 +1104,7 @@ define([
                     objectId = ids[i];
                     object = objects[objectId];
                     if (object) {
-
+                        //Color Effect
                         highlightEffect.add(object);
                         //object.highlighted = true;
                     }
@@ -1384,11 +1393,11 @@ define([
                 cameraControl.mousePickEntity.rayPick = params.mouseRayPick;
             }
 
-            if (params.viewFitFOV != undefined) {
+            if (params.viewFitFOV !== undefined) {
                 cameraFlight.fitFOV = params.viewFitFOV;
             }
 
-            if (params.viewFitDuration != undefined) {
+            if (params.viewFitDuration !== undefined) {
                 cameraFlight.duration = params.viewFitDuration;
             }
         };

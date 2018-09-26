@@ -1,6 +1,6 @@
 define(["./EventHandler", "./Request", "./Utils"], function(EventHandler, Request, Utils) {
     
-    function StaticTreeRenderer(args) {
+    function DynamicTreeRenderer(args) {
         
         var self = this;        
         EventHandler.call(this);
@@ -111,6 +111,7 @@ define(["./EventHandler", "./Request", "./Utils"], function(EventHandler, Reques
                 var qid = self.qualifyInstance(modelId, fromXml ? n.guid : n.id);
                 var label = document.createElement("li");
                 label.className = "label";
+                //console.log((n.children || []).length);
                 label.appendChild(document.createTextNode(n.name!==''?n.name:'Unknown'));
                 label.setAttribute('data-jstree', '{ "opened" : true }');
                 if((n.children || []).length===0){
@@ -152,8 +153,8 @@ define(["./EventHandler", "./Request", "./Utils"], function(EventHandler, Reques
         
     }
     
-    StaticTreeRenderer.prototype = Object.create(EventHandler.prototype);
+    DynamicTreeRenderer.prototype = Object.create(EventHandler.prototype);
 
-    return StaticTreeRenderer;
+    return DynamicTreeRenderer;
     
 });

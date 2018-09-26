@@ -906,7 +906,65 @@ input:checked + .slider:before {
 .overflow-x-auto{
 	overflow-x: auto;
 }
+
+.eye {
+	cursor: pointer;
+	float: right;
+	display: inline-block;
+	width: 23px;
+	height: 23px;
+	background-position: center;
+	background-repeat: no-repeat;
+	margin-right: 5px;
+}
+
+.eyeopen {
+	background-image: url("../assets/images/eye.png");
+}
+
+.eyeclosed {
+	background-image: url("../assets/images/eye_bw.png");
+}
+
+.layertable{
+	width: 100%;
+    max-width: 100%;
+	margin-bottom: 20px;	
+	background-color: transparent;
+	border-spacing: 0;
+	border-collapse: collapse;
+	display: table;
+}
 		
+.layertr {
+    display: table-row;
+    vertical-align: inherit;
+}
+
+.layertd{
+	padding: 8px;
+    line-height: 1.42857143;
+	vertical-align: top;
+	font-size: 13px;
+	color: #000;
+	border-bottom: 1px solid #ddd;
+}
+
+.badge{
+	float: right;
+	display: inline-block;
+    min-width: 10px;
+    padding: 3px 7px;
+    font-size: 12px;
+    color: #fff;
+    vertical-align: middle;
+    background-color: #888686;
+	border-radius: 10px;
+	font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+    text-align: center;
+}
 
 
 
