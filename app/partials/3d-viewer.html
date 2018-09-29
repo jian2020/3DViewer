@@ -7,11 +7,28 @@
     <link rel="stylesheet" href="../assets/fonts/webfont.css">
     <link rel="stylesheet" href="../assets/fonts/open-iconic-bootstrap.css">
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="../bimsurfer/examples/css/metadata.css">
+
+    <!-- <link rel="stylesheet" href="../bimsurfer/examples/css/demo.css"/> -->
+    <link rel="stylesheet" href="../bimsurfer/examples/css/tree.css">
+	  <!-- <link rel="stylesheet" href="../bimsurfer/examples/css/theme.css"/> -->
+    <link rel="stylesheet" href="../bimsurfer/examples/css/newtree.css">
+
+		<!-- Theme CSS -->
+		<!-- <link rel="stylesheet" href="../css/theme.css" /> -->
+
+		<!-- Skin CSS -->
+		<!-- <link rel="stylesheet" href="../css/skins/default.css" /> -->
+
+		<!-- Theme Custom CSS -->
+		<!-- <link rel="stylesheet" href="../css/custom.css"> -->
+
     <nav class="navbar top-toolbar fixed-top navbar-expand-lg navbar-light px-2">
         
         <a class="navbar-brand"><img src="../assets/images/logo-2.png" /></a>
         
-        <div class="mx-auto align-items-center d-flex">
+        <!-- <div class="mx-auto align-items-center d-flex">
           <div class="border-right border-dark pr-2">
             <button class="btn mr-2">
               <i class="fas fa-file text-green"></i>
@@ -80,8 +97,8 @@
               <i class="fas fa-exclamation-triangle text-dark"></i>
             </button>
           </div>
-          <!-- Trans, edge, wire -->
-          <div class="border-right border-dark px-2">
+          <!-- Trans, edge, wire view method-->
+          <!-- <div class="border-right border-dark px-2">
             <button id = "btnTransView" class="btn mr-2">
               <i class="fas fa-bullseye text-dark"></i>
             </button>
@@ -91,7 +108,7 @@
             <button id = "btnEdgeView" class="btn mr-2">
               <i class="fas fa-users-cog text-dark"></i>
             </button>
-          </div>
+          </div> -->
 
         </div>
 
@@ -128,7 +145,7 @@
               </div>
             </div>
           </div>
-          <div class="ca m-0 bg-light row  rounded py-1 text-dark">
+          <!-- <div class="ca m-0 bg-light row  rounded py-1 text-dark">
             <div class="col px-2 border-right">
               Calibration <br> 1 unit = 0 units
             </div>
@@ -136,22 +153,296 @@
               <span>x: 100</span><span>y: 480</span><br>
               <span>w: 100</span><span>h: 480</span>
             </div>
-          </div>
+          </div> -->
+          <div class="header-right">
+	         
+              <ul class="notifications">
+                <li>
+                  <a href="#" class="notification-icon" data-toggle="dropdown">
+                    <i class="faaa fa-envelope"></i>
+                    <span class="badge">4</span>
+                  </a>
+          
+                  <div class="dropdown-menu notification-menu">
+                    <div class="notification-title">
+                      <span class="float-right badge badge-default">230</span>
+                      Messages
+                    </div>
+          
+                    <div class="content">
+                      <ul>
+                        <li>
+                          <a href="#" class="clearfix">
+                            <figure class="image">
+                              <img src="../assets/images/!sample-user.jpg" alt="Joseph Doe Junior" class="rounded-circle" />
+                            </figure>
+                            <span class="title">Joseph Doe</span>
+                            <span class="message">Lorem ipsum dolor sit.</span>
+                          </a>
+                        </li>
+                      </ul>
+          
+                      <hr />
+          
+                      <div class="text-right">
+                        <a href="#" class="view-more">View All</a>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <a href="#" class="notification-icon" data-toggle="dropdown">
+                    <i class="faaa fa-bell"></i>
+                    <span class="badge">3</span>
+                  </a>
+          
+                  <div class="dropdown-menu notification-menu">
+                    <div class="notification-title">
+                      <span class="float-right badge badge-default">3</span>
+                      Alerts
+                    </div>
+          
+                    <div class="content">
+                      <ul>
+                        <li>
+                          <a href="#" class="clearfix">
+                            <div class="image">
+                              <i class="faaa fa-thumbs-down bg-danger text-light"></i>
+                            </div>
+                            <span class="title">Server is Down!</span>
+                            <span class="message">Just now</span>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#" class="clearfix">
+                            <div class="image">
+                              <i class="faaa fa-lock bg-warning text-light"></i>
+                            </div>
+                            <span class="title">User Locked</span>
+                            <span class="message">15 minutes ago</span>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#" class="clearfix">
+                            <div class="image">
+                              <i class="faaa fa-signal bg-success text-light"></i>
+                            </div>
+                            <span class="title">Connection Restaured</span>
+                            <span class="message">10/10/2017</span>
+                          </a>
+                        </li>
+                      </ul>
+          
+                      <hr />
+          
+                      <div class="text-right">
+                        <a href="#" class="view-more">View All</a>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+          
+              <span class="separator"></span>
+          
+              <div id="userbox" class="userbox">
+                  <a href="#" data-toggle="dropdown" aria-expanded="false">
+                    <figure class="profile-picture">
+                      <img src="../assets/images/!logged-user.jpg" alt="Joseph Doe" class="rounded-circle" data-lock-picture="../assets/images/!logged-user.jpg">
+                    </figure>
+                    <div class="profile-info" data-lock-name="John Doe" data-lock-email="johndoe@okler.com">
+                      <span class="name">John Doe Junior</span>
+                      <span class="role">administrator</span>
+                    </div>
+            
+                    <i class="faaa custom-caret"></i>
+                  </a>
+            
+                  <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(-8px, 35px, 0px); top: 0px; left: 0px; will-change: transform;">
+                    <ul class="list-unstyled mb-2">
+                      <li class="divider"></li>
+                      <li>
+                        <a role="menuitem" tabindex="-1" href="pages-user-profile.html"><i class="faaa fa-user"></i> My Profile</a>
+                      </li>
+                      <li>
+                        <a role="menuitem" tabindex="-1" href="#" data-lock-screen="true"><i class="faaa fa-lock"></i> Lock Screen</a>
+                      </li>
+                      <li>
+                        <a role="menuitem" tabindex="-1" href="pages-signin.html"><i class="faaa fa-power-off"></i> Logout</a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+            </div>
         </div>
     </nav>
 
-    <div class="container-fluid m-top-70 px-5">
-      <div class="row">
-        <div class="col-md-12">
-          <!-- bingo -->
-          <!-- <img src="../assets/images/3d-img.png" class="w-100 fluid-img"> -->
-          <iframe src="../bimsurfer/bimsurfer.html" id = "bimviewer" style="width:-webkit-fill-available;height:-webkit-fill-available;margin-right:256px;" frameborder ="0" ></iframe>
-          <!-- bingo -->
+    <div class="m-top-50 viewContainer window-toolbar-container" id="toolbarContainer">
+        <iframe src="../bimsurfer/bimsurfer.html" id = "bimviewer" style="width:-webkit-fill-available;height:-webkit-fill-available;margin-left:50px;" frameborder ="0" oncontextmenu="return false;"></iframe>
+        <!-- main toolbar -->
+        <div class="window-toolbar" id="toolbar"> 
+            <div class="window-toolbar-center" id="toolbar_center"></div>
+            <img id = "btnfileload" class="window-toolbar-icon" src="../assets/images/toolbar/fileload.png"/>
+            <img id = "btnlayer" class="window-toolbar-icon" src="../assets/images/toolbar/layer.png"/>
+            <img id = "btnviewtype" class="window-toolbar-icon" src="../assets/images/toolbar/viewtype.png"/>
+            <img id = "btndraw" class="window-toolbar-icon" src="../assets/images/toolbar/draw.png"/>
+            <img id = "btnfilesave" class="window-toolbar-icon" src="../assets/images/toolbar/filesave.png"/>
+            <img id = "btnviewport" class="window-toolbar-icon" src="../assets/images/toolbar/viewport.png"/>
+            <img id = "btnselect" class="window-toolbar-icon" src="../assets/images/toolbar/select.png"/>
+            <img id = "btnmeasure" class="window-toolbar-icon" src="../assets/images/toolbar/measure.png"/>
         </div>
-      </div>
+        <!-- top toolbar -->
+        <div class="top-controller">
+          <!-- camera view -->
+          <div class="item">
+            <div class="dropdown">
+              <button class="dropdown-toggle top-toolbar-btn" type="button" data-toggle="dropdown" aria-expanded="false">
+                Cameras
+              </button>
+              <div class="dropdown-menu">
+                <a id = "chk_cam_persp" class="dropdown-item submenu px-2" onclick="onCheckCameras('persp')"><i id="chk_persp" class="fas fa-check fa-sm text-success"></i>Perspective&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;P</a>
+                <a id = "chk_cam_ortho" class="dropdown-item submenu px-2" onclick="onCheckCameras('ortho')" href="#"><i id="chk_ortho" class="fas fa-sm text-success"></i>Orthographic&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;O</a>
+                <a id = "chk_cam_top" class="dropdown-item submenu px-2" onclick="onCheckCameras('top')" href="#"><i id ="chk_top" class="fas fa-sm text-success"></i>Top&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Num 1</a>
+                <a id = "chk_cam_bottom" class="dropdown-item submenu px-2" onclick="onCheckCameras('bottom')" href="#"><i id = "chk_bottom" class="fas fa-sm text-success"></i>Bottom&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Num 2</a>
+                <a id = "chk_cam_front" class="dropdown-item submenu px-2" onclick="onCheckCameras('front')" href="#"><i id="chk_front" class="fas fa-sm text-success"></i>Front&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Num 3</a>
+                <a id = "chk_cam_back" class="dropdown-item submenu px-2" onclick="onCheckCameras('back')" href="#"><i id="chk_back" class="fas fa-sm text-success"></i>Back&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Num 4</a>
+                <a id = "chk_cam_left" class="dropdown-item submenu px-2" onclick="onCheckCameras('left')" href="#"><i id="chk_left" class="fas fa-sm text-success"></i>Left&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Num 5</a>
+                <a id = "chk_cam_right" class="dropdown-item submenu px-2" onclick="onCheckCameras('right')" href="#"><i id = "chk_right" class="fas fa-sm text-success"></i>Right&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Num 6</a>
+              </div>
+            </div>
+          </div>
+          <!-- view method -->
+          <div class="item">
+            <div class="dropdown">
+              <button class="dropdown-toggle top-toolbar-btn" type="button" data-toggle="dropdown" aria-expanded="false">
+                Views
+              </button>
+              <div class="dropdown-menu">
+                <a id = "chk_view_shaded" class="dropdown-item submenu px-2" onclick="onCheckViews('shaded')"><i class="fas fa-check fa-sm text-success"></i>Shaded</a>
+                <a id = "chk_view_transp" class="dropdown-item submenu px-2" onclick="onCheckViews('transp')" href="#"><i class="fas fa-check fa-sm text-success"></i>Transparence</a>
+                <a id = "chk_view_wire" class="dropdown-item submenu px-2" onclick="onCheckViews('wire')" href="#"><i class="fas fa-check fa-sm text-success"></i>Wireframe</a>
+                <a id = "chk_cam_edge" class="dropdown-item submenu px-2" onclick="onCheckViews('edge')" href="#"><i class="fas fa-check fa-sm text-success"></i>Edged Faces</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- left toolbar -->
+        <div id="left_toolbar"class="left-toolbar" >
+          <div id = "btn_structures" class="left-toolbar-icon" onclick="onbtnStructures()">
+            <div class="left-toolbar-img">
+                <img src="../assets/images/lefttoolbar/structures_.png" style="width: 20px;"/>
+            </div>
+          </div>
+          <div id = "btn_layers" class="left-toolbar-icon" onclick="onbtnLayers()">
+            <div class="left-toolbar-img">
+                <img src="../assets/images/lefttoolbar/layers_.png" style="width: 20px;"/>
+            </div>
+          </div>
+          <div id = "btn_types" class="left-toolbar-icon" onclick="onbtnTypes()">
+            <div class="left-toolbar-img">
+                <img src="../assets/images/lefttoolbar/types.png" style="width: 20px;"/>
+            </div>
+          </div>
+          <div class="separator-horizontal"></div>
+          <div id = "btn_selector" class="left-toolbar-icon" onclick="onbtnSelector()">
+              <div class="left-toolbar-img">
+                  <img src="../assets/images/lefttoolbar/selector.png" style="width: 20px;"/>
+              </div>
+          </div>
+          <div id = "btn_pan" class="left-toolbar-icon" onclick="onbtnPanMove()">
+              <div class="left-toolbar-img">
+                  <img src="../assets/images/lefttoolbar/pan.png" style="width: 20px;"/>
+              </div>
+          </div>
+          <div id = "btn_orbit" class="left-toolbar-icon" onclick="onbtnOrbit()">
+              <div class="left-toolbar-img">
+                  <img src="../assets/images/lefttoolbar/orbit.png" style="width: 20px;"/>
+              </div>
+          </div>
+        </div>
+        <!-- structure dialog -->
+        <section id="dlg_structures" class="dialog dialog-structure">
+            <header class="dialog-header">
+              <div class="dialog-actions" onclick="getElementById('dlg_structures').style.display = 'none'; getElementById('btn_structures').classList.remove('select');">
+                <a href="#" class="dialog-action dialog-action-dismiss" data-dialog-dismiss></a>
+              </div>
+              <h2 class="dialog-title">Structures</h2>
+            </header>
+            <div class="dialog-body">
+              <div class="scrollable" data-plugin-scrollable style="height: 100%;">
+                <div id = "dlg_structures_content" class="scrollable-content">  
+                </div>
+              </div>
+            </div>
+          </section>
+          <!-- layers dialog -->
+          <section id="dlg_layers" class="dialog dialog-structure">
+              <header class="dialog-header">
+                <div class="dialog-actions" onclick="getElementById('dlg_layers').style.display = 'none'; getElementById('btn_layers').classList.remove('select');">
+                  <a href="#" class="dialog-action dialog-action-dismiss" data-dialog-dismiss></a>
+                </div>
+                <h2 class="dialog-title">Layers</h2>
+              </header>
+              <div class="dialog-body">
+                <div class="scrollable" data-plugin-scrollable style="height: 100%;">
+                  <div class="scrollable-content">  
+                      <table class="layertable">
+                          <thead class="text-dark">
+                             </thead>
+                             <tbody id="dlg_layers_content" >
+                          </tbody>
+                       </table>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <!-- types dialog -->
+            <section id="dlg_types" class="dialog dialog-structure">
+              <header class="dialog-header">
+                <div class="dialog-actions" onclick="getElementById('dlg_types').style.display = 'none'; getElementById('btn_types').classList.remove('select');">
+                  <a href="#" class="dialog-action dialog-action-dismiss" data-dialog-dismiss></a>
+                </div>
+                <h2 class="dialog-title">Types</h2>
+              </header>
+              <div class="dialog-body">
+                <div class="scrollable" data-plugin-scrollable style="height: 100%;">
+                  <div class="scrollable-content">  
+                      <table class="layertable">
+                          <thead class="text-dark">
+                             </thead>
+                             <tbody id="dlg_types_content" >
+                          </tbody>
+                       </table>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <!-- properties dialog -->
+            <section id="dlg_properties" class="dialog dialog-properties">
+                <header id = "dlg_properties_header" class="dialog-header">
+                  <div class="dialog-actions" onclick="getElementById('dlg_properties').style.display = 'none'">
+                    <a href="#" class="dialog-action dialog-action-dismiss" data-dialog-dismiss></a>
+                  </div>
+                  <h2 class="dialog-title">Properties</h2>
+                </header>
+                <div class="dialog-body">
+                  <div class="scrollable" data-plugin-scrollable>
+                    <div class="scrollable-content">  
+                        <table class="layertable">
+                            <thead class="text-dark">
+                               </thead>
+                               <tbody id="dlg_properties_content" >
+                            </tbody>
+                         </table>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
     </div>
 
-    <div class="window-left window rounded bg-light border text-center"> 
+    <!-- <div class="window-left window rounded bg-light border text-center"> 
       <div class="drag-space">
         <button class="btn m-0"><i class="fas fa-times fa-sm"></i></button>
       </div>
@@ -182,10 +473,11 @@
         </div>
       </div>
       <button class="btn"><img src="../assets/images/text-tool.png"></button>
-    </div>
+    </div> -->
 
+    
 
-    <div class="window-right-wrapper bg-white box-shadow p-1 window">   
+    <!-- <div class="window-right-wrapper bg-white box-shadow p-1 window">   
 
       <button class="minimize btn m-0">
         <i class="fas fa-angle-double-right"></i>
@@ -247,109 +539,9 @@
           <div class="bg-white px-2">
             <table class="layertable">
               <thead class="text-dark">
-                <!-- <tr>
-                  <th>Name</th>
-                  <th width="30"><i class="fas fa-eye rounded"></i></th>
-                  <th width="30"></th>
-                </tr> -->
               </thead>
               <tbody id="layerTable" >
-                <!-- <tr>
-                  <td class="text-truncate">Layer 0</td>
-                  <td>
-                    <div class="custom-control custom-checkbox">
-                      <input type="checkbox" class="custom-control-input" checked id="customCheck1">
-                      <label class="custom-control-label" for="customCheck1"></label>
-                    </div>
-                  </td>
-                  <td>
-                    <i class="fas fa-square" style="color: #400"></i>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="text-truncate">Layer 0</td>
-                  <td>
-                    <div class="custom-control custom-checkbox">
-                      <input type="checkbox" class="custom-control-input" checked id="customCheck1">
-                      <label class="custom-control-label" for="customCheck1"></label>
-                    </div>
-                  </td>
-                  <td>
-                    <i class="fas fa-square" style="color: #f78"></i>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="text-truncate">Layer 0</td>
-                  <td>
-                    <div class="custom-control custom-checkbox">
-                      <input type="checkbox" class="custom-control-input" checked id="customCheck1">
-                      <label class="custom-control-label" for="customCheck1"></label>
-                    </div>
-                  </td>
-                  <td>
-                    <i class="fas fa-square" style="color: #5d4"></i>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="text-truncate">Layer 0</td>
-                  <td>
-                    <div class="custom-control custom-checkbox">
-                      <input type="checkbox" class="custom-control-input" checked id="customCheck1">
-                      <label class="custom-control-label" for="customCheck1"></label>
-                    </div>
-                  </td>
-                  <td>
-                    <i class="fas fa-square" style="color: #9b5"></i>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="text-truncate">Layer 0</td>
-                  <td>
-                    <div class="custom-control custom-checkbox">
-                      <input type="checkbox" class="custom-control-input" checked id="customCheck1">
-                      <label class="custom-control-label" for="customCheck1"></label>
-                    </div>
-                  </td>
-                  <td>
-                    <i class="fas fa-square" style="color: #89f"></i>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="text-truncate">Layer 0</td>
-                  <td>
-                    <div class="custom-control custom-checkbox">
-                      <input type="checkbox" class="custom-control-input" checked id="customCheck1">
-                      <label class="custom-control-label" for="customCheck1"></label>
-                    </div>
-                  </td>
-                  <td>
-                    <i class="fas fa-square" style="color: #34d"></i>
-                  </td>
-                </tr>
-                <tr class="current bg-light">
-                  <td class="text-truncate pl-2">Layer 0</td>
-                  <td>
-                    <div class="custom-control custom-checkbox">
-                      <input type="checkbox" class="custom-control-input" checked id="customCheck1">
-                      <label class="custom-control-label" for="customCheck1"></label>
-                    </div>
-                  </td>
-                  <td>
-                    <i class="fas fa-square" style="color: #86c"></i>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="text-truncate">Layer 0</td>
-                  <td>
-                    <div class="custom-control custom-checkbox">
-                      <input type="checkbox" class="custom-control-input" checked id="customCheck1">
-                      <label class="custom-control-label" for="customCheck1"></label>
-                    </div>
-                  </td>
-                  <td>
-                    <i class="fas fa-square" style="color: #f76"></i>
-                  </td>
-                </tr> -->
+               
               </tbody>
             </table>
           </div>
@@ -511,10 +703,17 @@
           </div>
         </div>
       </div>
-    </div>
+      <div class="rounded bg-light border mt-1"> 
+          <div class="drag-space d-flex justify-content-between px-2">
+            <a class="btn m-0" data-toggle="collapse" href="#properties" role="button"><i class="fas fa-caret-down"></i>Properties</a><button class="btn m-0"><i class="fas fa-times fa-sm"></i></button>
+          </div>
+          <div id="properties" class="collapse show bimsurfer-metadata">
+          </div>
+      </div>
+    </div> -->
 
 
-    <div class="window-float window rounded bg-light border text-center" id="properties"> 
+    <!-- <div class="window-float window rounded bg-light border text-center" id="properties"> 
       <div class="drag-space d-flex justify-content-between px-2" id="properties-header">
         <a class="btn m-0" data-toggle="collapse" href="#properties-box" role="button"><i class="fas fa-caret-down"></i>Properties</a><button class="btn m-0"><i class="fas fa-times fa-sm"></i></button>
       </div>
@@ -527,7 +726,9 @@
         </div>
         <div class="col-md-7 pl-0 pr-2"><img src="../assets/images/pic.png" class="w-100"></div>
       </div>
-    </div>
+    </div> -->
+
+    
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -536,51 +737,172 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <!-- <script type="text/javascript" src="js/main.js" ></script> -->
     <script type="text/javascript" src="../bimsurfer/src/BimSurfer.js" ></script>
+    
+    <!-- Vendor -->
+		<!-- <script src="../vendor/jquery/jquery.js"></script>
+		<script src="../vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
+		<script src="../vendor/popper/umd/popper.min.js"></script>
+		<script src="../vendor/bootstrap/js/bootstrap.js"></script>
+		<script src="../vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+		<script src="../vendor/common/common.js"></script>
+		<script src="../vendor/nanoscroller/nanoscroller.js"></script>
+		<script src="../vendor/magnific-popup/jquery.magnific-popup.js"></script>
+		<script src="../vendor/jquery-placeholder/jquery-placeholder.js"></script> -->
+		
+    <!-- Theme Base, Components and Settings -->
+    <!-- <script src="../bimsurfer/examples/js/jquery.js"></script> -->
+		<!-- <script src="../js/theme.js"></script> -->
+		
+		<!-- Theme Custom -->
+		<!-- <script src="../js/custom.js"></script> -->
+		
+		<!-- Theme Initialization Files -->
+		<!-- <script src="../js/theme.init.js"></script> -->
+
+
     <script type="text/javascript">
       //Make the DIV element draggagle:
-      dragElement(document.getElementById("properties"));
+      var dragItem = document.querySelector("#toolbar");
+      var dragItem_center = document.querySelector("#toolbar_center");
+      var container = document.querySelector("#toolbarContainer");
 
-      function dragElement(elmnt) {
-        var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-        if (document.getElementById(elmnt.id + "header")) {
-          /* if present, the header is where you move the DIV from:*/
-          document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+      var active = false;
+      var currentX;
+      var currentY;
+      var initialX;
+      var initialY;
+      var xOffset = 0;
+      var yOffset = 0;
+
+      container.addEventListener("touchstart", dragStart, false);
+      container.addEventListener("touchend", dragEnd, false);
+      container.addEventListener("touchmove", drag, false);
+
+      container.addEventListener("mousedown", dragStart, false);
+      container.addEventListener("mouseup", dragEnd, false);
+      container.addEventListener("mousemove", drag, false);
+
+      function dragStart(e) {
+        if (e.type === "touchstart") {
+          initialX = e.touches[0].clientX - xOffset;
+          initialY = e.touches[0].clientY - yOffset;
         } else {
-          /* otherwise, move the DIV from anywhere inside the DIV:*/
-          elmnt.onmousedown = dragMouseDown;
+          initialX = e.clientX - xOffset;
+          initialY = e.clientY - yOffset;
         }
 
-        function dragMouseDown(e) {
-          e = e || window.event;
-          e.preventDefault();
-          // get the mouse cursor position at startup:
-          pos3 = e.clientX;
-          pos4 = e.clientY;
-          document.onmouseup = closeDragElement;
-          // call a function whenever the cursor moves:
-          document.onmousemove = elementDrag;
-        }
-
-        function elementDrag(e) {
-          e = e || window.event;
-          e.preventDefault();
-          // calculate the new cursor position:
-          pos1 = pos3 - e.clientX;
-          pos2 = pos4 - e.clientY;
-          pos3 = e.clientX;
-          pos4 = e.clientY;
-          // set the element's new position:
-          elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-          elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-        }
-
-        function closeDragElement() {
-          /* stop moving when mouse button is released:*/
-          document.onmouseup = null;
-          document.onmousemove = null;
+        if (e.target === dragItem || e.target === dragItem_center) {
+          active = true;
         }
       }
 
+      function dragEnd(e) {
+        initialX = currentX;
+        initialY = currentY;
+
+        active = false;
+      }
+
+      function drag(e) {
+        if (active) {
+        
+          e.preventDefault();
+        
+          if (e.type === "touchmove") {
+            currentX = e.touches[0].clientX - initialX;
+            currentY = e.touches[0].clientY - initialY;
+          } else {
+            currentX = e.clientX - initialX;
+            currentY = e.clientY - initialY;
+          }
+
+          xOffset = currentX;
+          yOffset = currentY;
+
+          setTranslate(currentX, currentY, dragItem);
+        }
+      }
+
+      function setTranslate(xPos, yPos, el) {
+        el.style.transform = "translate3d(" + xPos + "px, " + yPos + "px, 0)";
+      }
+      // dragElement(document.getElementById("properties"));
+      // function dragElement(elmnt) {
+      //   var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+      //   if (document.getElementById(elmnt.id + "header")) {
+      //     /* if present, the header is where you move the DIV from:*/
+      //     document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+      //   } else {
+      //     /* otherwise, move the DIV from anywhere inside the DIV:*/
+      //     elmnt.onmousedown = dragMouseDown;
+      //   }
+
+      //   function dragMouseDown(e) {
+      //     e = e || window.event;
+      //     e.preventDefault();
+      //     // get the mouse cursor position at startup:
+      //     pos3 = e.clientX;
+      //     pos4 = e.clientY;
+      //     document.onmouseup = closeDragElement;
+      //     // call a function whenever the cursor moves:
+      //     document.onmousemove = elementDrag;
+      //   }
+
+      //   function elementDrag(e) {
+      //     e = e || window.event;
+      //     e.preventDefault();
+      //     // calculate the new cursor position:
+      //     pos1 = pos3 - e.clientX;
+      //     pos2 = pos4 - e.clientY;
+      //     pos3 = e.clientX;
+      //     pos4 = e.clientY;
+      //     // set the element's new position:
+      //     elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+      //     elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+      //   }
+
+      //   function closeDragElement() {
+      //     /* stop moving when mouse button is released:*/
+      //     document.onmouseup = null;
+      //     document.onmousemove = null;
+      //   }
+      // }
+
+      //position into circle for toolbar icon
+      var circle = document.getElementById('toolbar'),
+        imgs = document.getElementsByClassName('window-toolbar-icon'),
+        total = imgs.length,
+        coords = {},
+        diam, radius1, radius2, imgW;
+      var bigcirclediam = 110;
+      var icondiam = 40;
+      // get circle diameter
+      // getBoundingClientRect outputs the actual px AFTER transform
+      //      using getComputedStyle does the job as we want
+      diam = parseInt( window.getComputedStyle(circle).getPropertyValue('width') ),
+      //console.log(diam);
+      radius = bigcirclediam,
+      imgW = imgs[0].getBoundingClientRect().width,
+      //console.log(imgW);
+      // get the dimensions of the inner circle we want the images to align to
+      radius2 = radius - icondiam;
+
+      var i,
+          alpha = Math.PI / 2,
+          len = imgs.length,
+          corner = 2 * Math.PI / total;
+
+      for ( i = 0 ; i < total; i++ ){
+
+        imgs[i].style.left = parseInt( ( radius - icondiam / 2-10) + ( radius2 * Math.cos( alpha ) ) ) + 'px'
+        imgs[i].style.top =  parseInt( ( radius - icondiam / 2-10) - ( radius2 * Math.sin( alpha ) ) ) + 'px'
+
+        alpha = alpha - corner;
+      }
+
+      //
+      // Dialog
+      
       //bingo
       //init layerPanel
       // document.getElementById("layerPanel").addEventListener("load", onInitLayerViewer);
@@ -588,5 +910,177 @@
       //   document.getElementById("layerPanel").innerHTML = '';
       // }
       //bingo
+      
+      //left toolbar 
+      var btnStructures = document.getElementById("btn_structures");
+      var btnLayers = document.getElementById("btn_layers");
+      var btnTypes = document.getElementById("btn_types");
+      var dlgStructures = document.getElementById("dlg_structures");
+      var dlgLayers = document.getElementById("dlg_layers");
+      var dlgTypes = document.getElementById("dlg_types");
 
+      var btnSelector = document.getElementById("btn_selector");
+      var btnPanMove = document.getElementById("btn_pan");
+      var btnOrbit = document.getElementById("btn_orbit");
+
+      var chkCameras=[];
+      var camType = [];
+      camType.push("persp");
+      camType.push("ortho");
+      camType.push("top");
+      camType.push("bottom");
+      camType.push("front");
+      camType.push("back");
+      camType.push("left");
+      camType.push("right");
+      chkCameras.push(document.getElementById("chk_persp"));
+      chkCameras.push(document.getElementById("chk_ortho"));
+      chkCameras.push(document.getElementById("chk_top"));
+      chkCameras.push(document.getElementById("chk_bottom"));
+      chkCameras.push(document.getElementById("chk_front"));
+      chkCameras.push(document.getElementById("chk_back"));
+      chkCameras.push(document.getElementById("chk_left"));
+      chkCameras.push(document.getElementById("chk_right"));
+      function initDialog(){
+        dlgStructures.style.display = "none";
+        dlgLayers.style.display = "none";
+        dlgTypes.style.display = "none";
+      };
+      function initLeftToolbar(){
+        btnSelector.classList.add("select");
+      };
+      initDialog();
+      initLeftToolbar();
+      function onbtnStructures(){
+        if(!btnStructures.classList.contains("select")){
+          btnStructures.classList.add("select");
+          dlgStructures.style.display = "block";
+        }
+        else{
+          btnStructures.classList.remove("select");
+          dlgStructures.style.display = "none";
+        }
+        if(btnLayers.classList.contains("select")){
+          btnLayers.classList.remove("select");
+        }
+        if(btnTypes.classList.contains("select")){
+          btnTypes.classList.remove("select");
+        }
+        
+        dlgLayers.style.display = "none";
+        dlgTypes.style.display = "none";
+      }
+      function onbtnLayers(){
+        if(btnStructures.classList.contains("select")){
+          btnStructures.classList.remove("select");
+        }
+        if(!btnLayers.classList.contains("select")){
+          btnLayers.classList.add("select");
+          dlgLayers.style.display = "block";
+        }
+        else{
+          btnLayers.classList.remove("select");
+          dlgLayers.style.display = "none";
+        }
+        if(btnTypes.classList.contains("select")){
+          btnTypes.classList.remove("select");
+        }
+        
+        dlgStructures.style.display = "none";
+        dlgTypes.style.display = "none";
+      }
+      function onbtnTypes(){
+        if(btnStructures.classList.contains("select")){
+          btnStructures.classList.remove("select");
+        }
+        if(btnLayers.classList.contains("select")){
+          btnLayers.classList.remove("select");
+        }
+        if(!btnTypes.classList.contains("select")){
+          btnTypes.classList.add("select");
+          dlgTypes.style.display = "block";
+        }
+        else{
+          btnTypes.classList.remove("select");
+          dlgTypes.style.display = "none";
+        }
+        
+        dlgStructures.style.display = "none";
+        dlgLayers.style.display = "none";
+      }
+      function onbtnSelector(){
+        if(!btnSelector.classList.contains("select")){
+          btnSelector.classList.add("select");
+        }
+        else{
+          btnSelector.classList.remove("select");
+        }
+        if(btnPanMove.classList.contains("select")){
+          btnPanMove.classList.remove("select");
+        }
+        if(btnOrbit.classList.contains("select")){
+          btnOrbit.classList.remove("select");
+        }
+        if($('#bimviewer').contents().find('canvas').length !== 0){
+          var iframe = document.getElementById('bimviewer');
+          iframe.contentWindow.setDefaultDragAction("selector");
+        }
+      }
+      function onbtnPanMove(){
+        if(btnSelector.classList.contains("select")){
+          btnSelector.classList.remove("select");
+        }
+        if(!btnPanMove.classList.contains("select")){
+          btnPanMove.classList.add("select");
+        }
+        else{
+          btnPanMove.classList.remove("select");
+        }
+        if(btnOrbit.classList.contains("select")){
+          btnOrbit.classList.remove("select");
+        }
+        if($('#bimviewer').contents().find('canvas').length !== 0){
+          var iframe = document.getElementById('bimviewer');
+          iframe.contentWindow.setDefaultDragAction("pan");
+        }
+      }
+      function onbtnOrbit(){
+        if(btnSelector.classList.contains("select")){
+          btnSelector.classList.remove("select");
+        }
+        if(btnPanMove.classList.contains("select")){
+          btnPanMove.classList.remove("select");
+        }
+        if(!btnOrbit.classList.contains("select")){
+          btnOrbit.classList.add("select");
+        }
+        else{
+          btnOrbit.classList.remove("select");
+        }
+        if($('#bimviewer').contents().find('canvas').length !== 0){
+          var iframe = document.getElementById('bimviewer');
+          iframe.contentWindow.setDefaultDragAction("orbit");
+        }
+      }
+      // Control Camera View
+      function onCheckCameras(type) {
+        chkCameras.forEach(function(chkCam){
+          if(chkCam.classList.contains("fa-check")){
+            chkCam.classList.remove("fa-check");
+          }
+        });
+        chkCameras[camType.indexOf(type)].classList.add("fa-check");
+        
+        if($('#bimviewer').contents().find('canvas').length !== 0){
+          var iframe = document.getElementById('bimviewer');
+          iframe.contentWindow.setCameraView(type);
+        }
+      }
+      // Control view method
+      function onCheckViews(type){
+        if($('#bimviewer').contents().find('canvas').length !== 0){
+          var iframe = document.getElementById('bimviewer');
+          iframe.contentWindow.setViewMethod(type);
+        }
+      }
     </script>

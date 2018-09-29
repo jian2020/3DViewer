@@ -15,6 +15,7 @@
 <h1>glTF</h1>
 <a href="examples/gltf.html">glTF</a>
 <script>
+
 document.addEventListener("DOMContentLoaded", function(event) {
 	function loadFromBimserver(address, username, password, target) {
 		target.innerHTML = "";
@@ -64,7 +65,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	}
 	
 	function loadBimServerApi(apiAddress, loadUmd) {
-		console.log(loadUmd);
+		//console.log(loadUmd);
 		var p = new Promise(function(resolve, reject){
 			if (loadUmd) {
 				// TODO
@@ -82,9 +83,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
 				// TODO One remaining problem here is that dependencies are not loaded with the "apiVersion" attached, so you need to have your browser on "clear cache" all the time
 				
 				var apiVersion = new Date().getTime();
-				console.log(apiVersion);
+				//console.log(apiVersion);
 				
 				var str = "import(\"" + apiAddress + "\" + \"/bimserverclient.js?_v=" + apiVersion + "\").then((bimserverapi) => {	window.BimServerClient = bimserverapi.default; window.BimServerApiPromise = bimserverapi.BimServerApiPromise; resolve(bimserverapi);});";
+
 				eval(str);
 			}
 		});
@@ -108,7 +110,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		// 	console.log(e);
 		// }
 		try {
-			loadFromBimserver("http://localhost:8082", "admin@localhost.com", "panda0214", document.getElementById("localhost8082"));
+			loadFromBimserver("http://192.168.1.103:8082", "admin@localhost.com", "panda0214", document.getElementById("localhost8082"));
 		} catch (e) {
 			console.log(e);
 		}		

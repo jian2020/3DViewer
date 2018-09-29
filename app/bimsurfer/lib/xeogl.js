@@ -15411,11 +15411,10 @@ var Canvas2Image = (function () {
          * @private
          */
         _createCanvas: function () {
-
             var canvasId = "xeogl-canvas-" + xeogl.math.createUUID();
             var body = document.getElementsByTagName("body")[0];
             var div = document.createElement('div');
-
+            div.id = "canvas-overlay";
             var style = div.style;
             style.height = "100%";
             style.width = "100%";
@@ -15476,13 +15475,14 @@ var Canvas2Image = (function () {
 
             var style = div.style;
             style.padding = "0";
-            style.margin = "0";
+            // style.margin = "0";
+            style.marginLeft = "0px";
             style.background = "black";
             style.float = "left";
             style.left = "0";
             style.top = "0";
-            style.width = "0px";
-            style.height = "0px";
+            style.width = "100%";
+            style.height = "100%";
             style.position = "absolute";
             style.opacity = 0;
             style["z-index"] = "100000";
@@ -17525,9 +17525,8 @@ var Canvas2Image = (function () {
 
             this._fitFOV = 55;
             var dist = Math.abs((diag) / Math.tan(this._fitFOV / 2));
-
             switch (keyCode) {
-
+                
                 case input.KEY_NUM_1:
 
                     // Right view

@@ -71,18 +71,18 @@
     	                        // is 'static' refers to the fact that all branches are loaded and
     	                        // rendered immediately.
     	                        var domtree = new DynamicTreeRenderer({
-    	                            domNode: 'treeBasic'
+    	                            domNode: 'dlg_structures_content'
     	                        });
     	                        domtree.addModel({name: "", id: roid, tree: tree});
     	                        domtree.build();
 								
-								treeTheme();
+								treeTheme(parent.document.getElementById('dlg_structures_content'));
     	                        domtree.addAction();
 
     	                        // Add a widget that displays metadata (IfcPropertySet and instance
     	                        // attributes) of the selected element.
     	                        var metadata = new MetaDataRenderer({
-    	                            domNode: 'dataContainer'
+    	                            domNode: 'dlg_properties_content'
     	                        });
                                 metadata.addModel({name: "", id: roid, model: bimSurferModel});
     	                        
@@ -185,35 +185,48 @@
 							domNode: "viewerContainer",
 							selectionBorderColor: [1.0,0,0]
     	                });
-    	                
+    	                //Type Viewer
     	                o.bimSurfer.on("loading-finished", function(){
 							//Import type 
-    	                	document.getElementById("status").innerHTML = "Loading finished";
-                            var typeNode = document.getElementById("typeSelector");
+    	                	//document.getElementById("status").innerHTML = "Loading finished";
+                            var typeNode = parent.document.getElementById("dlg_types_content");
                             typeNode.innerHTML = "";
                             o.bimSurfer.getTypes().forEach(function(ifc_type) {
-                                var on = ifc_type.visible;
-                                var d = document.createElement("div");
-								var t = document.createElement("a");
-								//t.setClass("btn m-0");
-								t.innerText=ifc_type.name;
-                                var setClass = function() {
-                                    d.className = "fa fa-eye " + ["inactive", "active"][on*1];
-                                };
-                                setClass();
-                                d.appendChild(t);
-                                typeNode.appendChild(d);
-                                d.onclick = function() {
-                                    on = !on;
-                                    setClass();
-                                    o.bimSurfer.setVisibility({types:[ifc_type.name], visible:on});
-                                };
+								var tr = document.createElement("tr");
+								tr.className = "layertr";
+								var td1 = document.createElement("td");
+								td1.className = "layertd";
+								td1.innerText = ifc_type.name;
+								tr.appendChild(td1);
+											
+								var td2 = document.createElement("td");
+								td2.className = "layertd";
+								var eye = document.createElement("div");
+											
+								var on = ifc_type.visible;
+								var setClass = function() {
+									eye.className = "eye " + ["eyeclosed", "eyeopen"][on*1];
+								};
+								setClass();
+							    eye.onclick = function() {
+									on = !on;
+									setClass();
+									bimSurfer.setVisibility({types:[ifc_type.name], visible:on});
+								};
+								td2.appendChild(eye);
+								var span = document.createElement("span");
+								span.className = "badge";
+								var objs = bimSurfer.getObjectsByType();
+								span.innerText = objs[ifc_type.name].length;
+								td2.appendChild(span);
+								tr.appendChild(td2);		
+								typeNode.appendChild(tr);
 							});
 						});
 						
 
     	                o.bimSurfer.on("loading-started", function(){
-    	                	document.getElementById("status").innerHTML = "Loading...";
+    	                	//document.getElementById("status").innerHTML = "Loading...";
     	                });
 
     	                // Lets us play with the Surfer in the console
@@ -248,13 +261,13 @@
     			                	];
     			                	//console.log(totalBounds, models);
 									
-									//init LayerPanel
-									parent.document.getElementById("layerTable").innerHTML='';
+									//layer viewer
+									parent.document.getElementById("dlg_layers_content").innerHTML='';
     			                	for (var roid in models) {
     			                		var model = models[roid];
     				                	// Example 1: Load a full model
     				                	o.modelLoader.setGlobalTransformationMatrix(globalTransformationMatrix);
-    					                o.modelLoader.loadFullModel(model, parent.document.getElementById("layerTable")).then(function(bimSurferModel){
+    					                o.modelLoader.loadFullModel(model, parent.document.getElementById("dlg_layers_content")).then(function(bimSurferModel){
     					                    processBimSurferModel(roid, bimSurferModel);
     					                });
     				                	
@@ -339,69 +352,110 @@
 								
 			            });
 					});
-					//Opacity View in Scene
-					var btnTransView = parent.document.getElementById('btnTransView');
-					btnTransView.onclick = function() {
-						o.bimSurfer.setOpacity({ids:o.modelLoader.allObjectIds, opacity:0.2});
-					}
-					//Wire View in Scene
-					var btnWireView = parent.document.getElementById('btnWireView');
-					btnWireView.onclick = function() {
-						o.modelLoader.allObjects.forEach(element => {
-							console.log(element);
-							element.material = {
-							edges: true,
-							edgeAlpha: 1.0,
-							edgeColor: [0.2, 1.0, 0.2],
-							edgeWidth: 2,
-							vertices: true,
-							vertexAlpha: 1.0,
-							vertexColor: [0.6, 1.0, 0.6],
-							vertexSize: 8,
-							fill: true,
-							fillColor: [0, 0, 0],
-							fillAlpha: 0.7
-							};
-						});
-						console.log(o.modelLoader.allObjects);
-						//o.bimSurfer.setOpacity({ids:o.modelLoader.allObjectIds, opacity:0.5});
-					}
-					//Edge View in Scene
-					var btnEdgeView = parent.document.getElementById('btnEdgeView');
-					btnEdgeView.onclick = function() {
-						o.bimSurfer.setOpacity({ids:o.modelLoader.allObjectIds, opacity:1});
-					}
+					// //Opacity View in Scene
+					// var btnTransView = parent.document.getElementById('btnTransView');
+					// btnTransView.onclick = function() {
+					// 	o.bimSurfer.setOpacity({ids:o.modelLoader.allObjectIds, opacity:0.2});
+					// }
+					// //Wire View in Scene
+					// var btnWireView = parent.document.getElementById('btnWireView');
+					// btnWireView.onclick = function() {
+					// 	o.modelLoader.allObjects.forEach(element => {
+					// 		console.log(element);
+					// 		element.material = {
+					// 		edges: true,
+					// 		edgeAlpha: 1.0,
+					// 		edgeColor: [0.2, 1.0, 0.2],
+					// 		edgeWidth: 2,
+					// 		vertices: true,
+					// 		vertexAlpha: 1.0,
+					// 		vertexColor: [0.6, 1.0, 0.6],
+					// 		vertexSize: 8,
+					// 		fill: true,
+					// 		fillColor: [0, 0, 0],
+					// 		fillAlpha: 0.7
+					// 		};
+					// 	});
+					// 	console.log(o.modelLoader.allObjects);
+					// 	//o.bimSurfer.setOpacity({ids:o.modelLoader.allObjectIds, opacity:0.5});
+					// }
+					// //Edge View in Scene
+					// var btnEdgeView = parent.document.getElementById('btnEdgeView');
+					// btnEdgeView.onclick = function() {
+					// 	o.bimSurfer.setOpacity({ids:o.modelLoader.allObjectIds, opacity:1});
+					// }
 	            });
-        });
+		});
+		//control camera view
+		window.setCameraView = function(type){
+			switch(type){
+				case "persp": 
+					o.bimSurfer.setCamera({type: type});
+					break;
+				case "ortho":
+					o.bimSurfer.setCamera({type: type});
+					break;
+				case "top":
+					o.bimSurfer.setCameraView(type);
+					break;
+				case "bottom":
+					o.bimSurfer.setCameraView(type);
+					break;
+				case "front":
+					o.bimSurfer.setCameraView(type);
+					break;
+				case "back":
+					o.bimSurfer.setCameraView(type);
+					break;
+				case "left":
+					o.bimSurfer.setCameraView(type);
+					break;
+				case "right":
+					o.bimSurfer.setCameraView(type);
+					break;
+			}
+		}
+		//control view method
+		window.setViewMethod = function(type){
+			switch(type){
+				case "shaded":
+					o.bimSurfer.setOpacity({ids:o.modelLoader.allObjectIds, opacity:1});
+					break;
+				case "transp":
+					o.bimSurfer.setOpacity({ids:o.modelLoader.allObjectIds, opacity:0.2});
+					break;
+				case "wire":
+					break;
+				case "edge":
+					break;
+			}
+		}
+		//set pan move
+		window.setDefaultDragAction = function(type){
+			o.bimSurfer.setDefaultDragAction(type);
+		}
     </script>
 </head>
 <body>
 <div id="maincontainer">
     <div id="topsection">
-        <!-- <h1>IFC Viewer</h1> -->
-        <div id="typeSelector">
+        <!-- <div id="typeSelector">
             <div>&nbsp;</div>
-        </div>
+        </div> -->
     </div>
     <div id="contentwrapper">
-        <div id="colmid">
-            <div id="colright">
-                <div id="col1wrap">
-                    <div id="col1pad">
-                        <div id="viewerContainer">
-                        </div>
-                    </div>
-                </div>
-                <div id="treeBasic" class="treeContainer">
-                </div>
-                <div id="dataContainer" class="bimsurfer-metadata">
-                </div>
-            </div>
-        </div>
+			<!-- <div id="treeBasic" class="treeContainer bg-white p-1 window">
+				</div> -->
+		<div id="viewerContainer">
+				
+		</div>
+    </div>
+
+
     </div>
     
 </div>
-<div id="status"></div>
+<!-- <div id="status"></div> -->
 
 <!-- <div id='apirefContainer'>
     <h1>API Reference</h1>

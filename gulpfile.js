@@ -29,7 +29,8 @@ gulp.task("js", () => {
       "app/js/src/factories/**/*.js",
       "app/js/src/controllers/*.js",
       "app/js/src/directives/*.js",
-      "app/js/src/filters/*.js"
+      "app/js/src/filters/*.js",
+      "app/js/*.js"
     ])
     .pipe(sourcemaps.init())
     .pipe(concat_js("app/js/dist/app.js"))
@@ -65,7 +66,8 @@ gulp.task("browser-sync", () => {
         "app/js/src/factories/**/*.js",
         "app/js/src/controllers/*.js",
         "app/js/src/directives/*.js",
-        "app/js/src/filters/*.js"
+        "app/js/src/filters/*.js",
+        "app/js/*.js"
       ],
       ["js"]
     )

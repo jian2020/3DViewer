@@ -343,6 +343,11 @@ define(["./Notifier", "./BimServerModel", "./PreloadQuery", "./BimServerGeometry
         this.setCamera = function (params) {
             viewer.setCamera(params);
         };
+
+        this.setCameraView = function(type){
+            //console.log(type);
+            viewer.setCameraView(type);
+        }
 		
 		/**
          * Redefines light sources.
@@ -380,6 +385,10 @@ define(["./Notifier", "./BimServerModel", "./PreloadQuery", "./BimServerGeometry
           */
         this.getTypes = function() {
             return viewer.getTypes();
+        };
+
+        this.getObjectsByType = function(){
+            return viewer.objects_by_type;
         };
 
         /**

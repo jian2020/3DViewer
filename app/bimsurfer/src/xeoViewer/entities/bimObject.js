@@ -57,7 +57,7 @@ define(["../../../lib/xeogl"], function () {
                 emissive: [0, 0, 0],
                 diffuse: [Math.random(), Math.random(), Math.random()], // Random color until we set for type
                 opacity: 1.0,
-                pointSize: 100
+                pointSize: 5
             });
 
             // Rendering modes component

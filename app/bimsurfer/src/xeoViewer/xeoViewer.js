@@ -23,6 +23,8 @@ define([
         EventHandler.call(this);
 
         var self = this;
+        self.objects_by_type = [];
+        self.typenames = [];
         var bimObjects = [];
 
         var domNode = document.getElementById(cfg.domNode);
@@ -222,6 +224,10 @@ define([
                 });
             });
 
+        this.setCameraView = function(type){
+            cameraControl.fire("cameraview", type);
+        };
+
         /**
          * Sets the default behaviour of mouse and touch drag input
          *
@@ -229,6 +235,7 @@ define([
          * @param {String} action ("pan" | "orbit")
          */
         this.setDefaultDragAction = function (action) {
+            // console.log(action);
             cameraControl.defaultDragAction = action;
         };
 
@@ -449,7 +456,7 @@ define([
          * @private
          */
         this._addObject = function (type, object) {
-            
+            //console.log(type);
             var guid;
             if (object.id.indexOf("#") !== -1) {
                 guid = Utils.CompressGuid(object.id.split("#")[1].substr(8, 36).replace(/-/g, ""));
@@ -481,6 +488,17 @@ define([
                 object.modes.transparent = true;
             }
             //console.log("add object !!!!!!!!"+object);
+
+            if(self.typenames.indexOf(type)===-1)
+            {
+                self.typenames.push(type);
+                self.objects_by_type[type] = []; 
+                self.objects_by_type[type].push(object);
+            }
+            else
+            {
+                self.objects_by_type[type].push(object);
+            }
         };
 
         /**
@@ -906,6 +924,7 @@ define([
             // Set projection type
 
             var type = params.type;
+            // console.log(type);
 
             if (type && type !== projectionType) {
 

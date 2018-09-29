@@ -47,7 +47,7 @@ h1, h2 {
 }
 
 #col1pad {
-    margin:0 15px 0 560px;
+    margin:0 15px 0 150px;
     overflow:hidden;
     border-right: solid 1px #ddd;
 }
@@ -58,17 +58,20 @@ h1, h2 {
     line-height: 150%;
 }
 
+.treeContainer.minimized{
+	left: -270px;
+}
 .treeContainer {
+    height: 100vh;
+    overflow-y: auto;
+	z-index: 900;
+	left: 0;
+	transition: all .7s;
     float:left;
     width:360px;
-    position:relative;
-    margin-left:-50%;
-    left:200px;
-    overflow-x:hidden;
-    overflow-y:scroll;
-    height:-webkit-fill-available;
+    position:absolute;
     padding-top:12px;
-    background-color: #f0f0f0;
+    background-color: #ffffff;
 }
 
 #dataContainer {

@@ -36,7 +36,7 @@
         localStorageService.remove("inventoryState");
 
         $state.go("preLogin");
-        throttler(() => Notification.error("Please login"));
+        //throttler(() => Notification.error("Please login"));
       },
       /* Access user info globally */
       userStore: (() => {

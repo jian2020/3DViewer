@@ -46,7 +46,7 @@ define(["./EventHandler", "./Request", "./Utils"], function(EventHandler, Reques
                 desiredViewRange.sort()
                 desiredViewRange = [desiredViewRange[0], desiredViewRange[desiredViewRange.length-1]];
             
-                var domNode = document.getElementById(args['domNode']);
+                var domNode = parent.document.getElementById(args['domNode']);
                 var currentViewRange = [domNode.scrollTop, domNode.scrollTop + domNode.offsetHeight];
                 
                 if (!(desiredViewRange[0] >= currentViewRange[0] && desiredViewRange[1] <= currentViewRange[1])) {
@@ -97,7 +97,7 @@ define(["./EventHandler", "./Request", "./Utils"], function(EventHandler, Reques
         };
 
         this.addAction = function(){
-            var tree = document.getElementById(args.domNode);
+            var tree = parent.document.getElementById(args.domNode);
             atags = tree.getElementsByTagName('li');
             atags[0].addEventListener("dblclick", function(e){
                 mid = treenodeids[self.parseTreeNodeId(e.target.id)];
@@ -147,7 +147,7 @@ define(["./EventHandler", "./Request", "./Utils"], function(EventHandler, Reques
                         build(m.id || i, d, project);
                     });
                 }
-                document.getElementById(args['domNode']).appendChild(d);
+                parent.document.getElementById(args.domNode).appendChild(d);
             });
         };
         

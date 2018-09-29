@@ -111,7 +111,7 @@ define(["./EventHandler", "./Request", "./Utils"], function(EventHandler, Reques
         EventHandler.call(this);
         
         var models = {};
-        var domNode = document.getElementById(args['domNode']);
+        var domNode = parent.document.getElementById(args['domNode']);
         
         this.addModel = function(args) {
             return new Promise(function (resolve, reject) {

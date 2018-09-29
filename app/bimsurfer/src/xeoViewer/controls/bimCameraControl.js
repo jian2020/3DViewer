@@ -61,7 +61,7 @@ define(["../../../lib/xeogl"], function () {
 
             var lastHoverDistance = null;
 
-            this._defaultDragAction = "orbit";
+            this._defaultDragAction = "selector";
 
             // Returns the inverse of the camera's current view transform matrix
             var getInverseViewMat = (function () {
@@ -429,20 +429,39 @@ define(["../../../lib/xeogl"], function () {
                     var A = unproject(canvasPos);
                     var B = unproject(lastCanvasPos);
 
-                    var panning = self._defaultDragAction === "pan";
+                    // var panning = self._defaultDragAction === "pan";
 
-                    if (input.keyDown[input.KEY_SHIFT] || input.mouseDownMiddle || (input.mouseDownLeft && input.mouseDownRight)) {
-                        panning = !panning;
+                    // if (input.keyDown[input.KEY_SHIFT] || input.mouseDownMiddle || (input.mouseDownLeft && input.mouseDownRight)) {
+                    //     panning = !panning;
+                    // }
+                    // if (input.mouseDownLeft) {
+                    //     //console.log("left!!!");
+                    //     self._defaultDragAction = "orbit";
+                    // }
+                    // if(input.mouseDownLeft && input.keyDown[input.KEY_SHIFT]){
+                    //     //console.log("right!!!");
+                    //     self._defaultDragAction = "pan";
+                    // }
+                    if(input.mouseDownMiddle){
+                        console.log("mousemiddle");
+                    }
+                    
+                    if(input.mouseDownLeft && input.keyDown[input.KEY_SHIFT]){
+                        self._defaultDragAction = "orbit";
+                    }
+                    if(input.mouseDownRight){
+                        self._defaultDragAction = 'pan';
                     }
 
-                    if (panning) {
+
+                    if (self._defaultDragAction === "pan") {
                         // TODO: view.pan is in view space? We have a world coord vector.
 
                         // Subtract model space unproject points
                         math.subVec3(A[1], B[1], tempVecHover);
                         view.eye = math.addVec3(view.eye, tempVecHover);
                         view.look = math.addVec3(view.look, tempVecHover);
-                    } else {
+                    } else if(self._defaultDragAction === "orbit"){
                         // If not panning, we are orbiting                        
 
                         // Subtract camera space unproject points
@@ -793,7 +812,7 @@ define(["../../../lib/xeogl"], function () {
             // Keyboard axis view
             // Press 1,2,3,4,5 or 6 to view center of model from along an axis 
             //---------------------------------------------------------------------------------------------------------
-
+            
             (function () {
 
                 var flight = self.create({
@@ -803,7 +822,7 @@ define(["../../../lib/xeogl"], function () {
                 });
 
                 function fly(eye, look, up) {
-
+                    console.log("fly");
                     rotatePos.set(look);
 
                     flying = true;
@@ -822,9 +841,49 @@ define(["../../../lib/xeogl"], function () {
                         });
                 }
 
+                self.on("cameraview", function(type){
+                    // console.log(type);
+                    var boundary = scene.worldBoundary;
+                    var aabb = boundary.aabb;
+                    var center = boundary.center;
+                    var diag = math.getAABB3Diag(aabb);
+                    var fitFOV = 55;
+                    var dist = Math.abs((diag) / Math.tan(fitFOV/2));
+
+                    switch (type) {
+
+                        case "right": // Right view
+                            fly(math.vec3([center[0] - dist, center[1], center[2]]), center, math.vec3([0, 0, 1]));
+                            break;
+
+                        case "back": // Back view
+                            fly(math.vec3([center[0], center[1] + dist, center[2]]), center, math.vec3([0, 0, 1]));
+                            break;
+
+                        case "left": // Left view
+                            fly(math.vec3([center[0] + dist, center[1], center[2]]), center, math.vec3([0, 0, 1]));
+                            break;
+
+                        case "front": // Front view
+                            fly(math.vec3([center[0], center[1] - dist, center[2]]), center, math.vec3([0, 0, 1]));
+                            break;
+
+                        case "top": // Top view
+                            fly(math.vec3([center[0], center[1], center[2] + dist]), center, math.vec3([0, 1, 0]));
+                            break;
+
+                        case "bottom": // Bottom view
+                            fly(math.vec3([center[0], center[1], center[2] - dist]), center, math.vec3([0, -1, 0]));
+                            break;
+
+                        default:
+                            return;
+                        }
+                });
+
                 input.on("keydown",
                     function (keyCode) {
-
+                        console.log('bimcamkey');
                         if (!input.mouseover) {
                             return;
                         }
@@ -922,7 +981,7 @@ define(["../../../lib/xeogl"], function () {
                             var z = 0;
 
                             var sceneSize = getSceneDiagSize();
-                            var sensitivity = sceneSize / 4000.0;
+                            var sensitivity = sceneSize / 1000.0;
 
                             if (skey) {
                                 y = elapsed * sensitivity;
@@ -970,7 +1029,7 @@ define(["../../../lib/xeogl"], function () {
 
             defaultDragAction: {
                 set: function (value) {
-                    if (value === "pan" || value === "orbit") {
+                    if (value === "pan" || value === "orbit" || value === "selector") {
                         this._defaultDragAction = value;
                     }
                 }

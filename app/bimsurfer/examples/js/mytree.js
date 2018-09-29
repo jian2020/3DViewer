@@ -4,14 +4,14 @@ Written by: 	Okler Themes - (http://www.okler.net)
 Theme Version: 	2.0.0
 */
 
-var treeTheme = function() {
+var treeTheme = function(t) {
 
 	'use strict';
 
 	/*
 	Basic
 	*/
-	$('#treeBasic').jstree({
+	$(t).jstree({
 		'core' : {
 			'themes' : {
 				'responsive': true
