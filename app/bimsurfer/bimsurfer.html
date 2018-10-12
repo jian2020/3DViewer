@@ -1,17 +1,18 @@
+
 <h1>BIMservers</h1>
 <!-- <div id="expserver"></div> -->
 <!-- <div id="localhost8080"></div> -->
 <div id="localhost8082"></div>
 <!-- <div id="lindsay"></div> -->
-<!-- <h3>Other BIMserver</h3> -->
-<!-- <a id="loadFromOtherBimServer" style="cursor: pointer">Load from other server</a>
+<h3>Other BIMserver</h3>
+<a id="loadFromOtherBimServer" style="cursor: pointer">Load from other server</a>
 <div id="other" style="display: none">
 <input id="address"/>
 <input id="username"/>
 <input id="password" type="password"/>
 <button id="loadProjectsBtn">Load projects</button>
 <div id="otherProjects"></div>
-</div> -->
+</div>
 <h1>glTF</h1>
 <a href="examples/gltf.html">glTF</a>
 <script>
@@ -110,32 +111,32 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		// 	console.log(e);
 		// }
 		try {
-			loadFromBimserver("http://192.168.1.103:8082", "admin@localhost.com", "panda0214", document.getElementById("localhost8082"));
+			loadFromBimserver("http://localhost:8082", "admin@localhost.com", "panda0214", document.getElementById("localhost8082"));
 		} catch (e) {
 			console.log(e);
 		}		
 	});
 	
-	// var loadLink = document.getElementById("loadFromOtherBimServer");
-	// loadLink.onclick = function(){
-	// 	document.getElementById("other").style.display = "block";
-	// 	if (localStorage.getItem("address") != null) {
-	// 		document.getElementById("address").value = localStorage.getItem("address");
-	// 		document.getElementById("username").value = localStorage.getItem("username");
-	// 		document.getElementById("password").value = localStorage.getItem("password");
-	// 	}
-	// 	document.getElementById("address").focus();
-	// };
+	var loadLink = document.getElementById("loadFromOtherBimServer");
+	loadLink.onclick = function(){
+		document.getElementById("other").style.display = "block";
+		if (localStorage.getItem("address") != null) {
+			document.getElementById("address").value = localStorage.getItem("address");
+			document.getElementById("username").value = localStorage.getItem("username");
+			document.getElementById("password").value = localStorage.getItem("password");
+		}
+		document.getElementById("address").focus();
+	};
 	
-	// var loadProjectsBtn = document.getElementById("loadProjectsBtn");
-	// loadProjectsBtn.onclick = function(){
-	// 	var address = document.getElementById("address").value;
-	// 	var username = document.getElementById("username").value;
-	// 	var password = document.getElementById("password").value;
-	// 	localStorage.setItem("address", address);
-	// 	localStorage.setItem("username", username);
-	// 	localStorage.setItem("password", password);
-	// 	loadFromBimserver(address, username, password, document.getElementById("otherProjects"));
-	// };
+	var loadProjectsBtn = document.getElementById("loadProjectsBtn");
+	loadProjectsBtn.onclick = function(){
+		var address = document.getElementById("address").value;
+		var username = document.getElementById("username").value;
+		var password = document.getElementById("password").value;
+		localStorage.setItem("address", address);
+		localStorage.setItem("username", username);
+		localStorage.setItem("password", password);
+		loadFromBimserver(address, username, password, document.getElementById("otherProjects"));
+	};
 });
 </script>

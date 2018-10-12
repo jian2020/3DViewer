@@ -1,4 +1,5 @@
 (() => {
+  /* Currenty convertor */
   angular.module("app").filter("convertCurrency", convertCurrency);
 
   function convertCurrency() {
@@ -10,6 +11,8 @@
       }
     };
   }
+
+  /* Round number */
 
   angular.module("app").filter("roundNum", roundNum);
 
@@ -23,7 +26,16 @@
     };
   }
 
-  
-  
+  /* Fetch thumbnail */
 
+  angular.module("app").filter("fetchThumbnail", fetchThumbnail);
+
+  function fetchThumbnail() {
+    return function(input) {
+      if (!input) return;
+      return /cloudinary/.test(input.secure_url)
+        ? input.secure_url.replace(/\.pdf/, ".png")
+        : input.thumbnail;
+    };
+  }
 })();

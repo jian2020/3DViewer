@@ -34,7 +34,6 @@
   },
   "dependencies": {
     "angular-datatable": "^2.2.1",
-    "gulp-install": "^1.1.0",
     "ui-select": "^0.19.8"
   }
 }

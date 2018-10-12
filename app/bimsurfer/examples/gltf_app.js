@@ -15,12 +15,12 @@ function highlight(oid, selected) {
 
 require([
     "src/BimSurfer",
-    "src/StaticTreeRenderer",
+    "src/DynamicTreeRenderer",
     "src/MetaDataRenderer",
     "src/Request",
     "src/Utils",
 ],
-function (BimSurfer, StaticTreeRenderer, MetaDataRenderer, Request, Utils) {
+function (BimSurfer, DynamicTreeRenderer, MetaDataRenderer, Request, Utils) {
     var bimSurfer = new BimSurfer({
         domNode: "viewerContainer"
     });
@@ -33,8 +33,8 @@ function (BimSurfer, StaticTreeRenderer, MetaDataRenderer, Request, Utils) {
     }
     modelName = "models/" + modelName;
     
-    var tree = new StaticTreeRenderer({
-        domNode: "treeBasic"
+    var tree = new DynamicTreeRenderer({
+        domNode: "dlg_structures_content"
     });
     tree.addModel({id: 1, src: modelName + ".xml"});
     tree.build();
@@ -42,7 +42,7 @@ function (BimSurfer, StaticTreeRenderer, MetaDataRenderer, Request, Utils) {
     tree.on("click", highlight);
     
     var data = new MetaDataRenderer({
-        domNode: "dataContainer"
+        domNode: "dlg_components_content"
     });
     data.addModel({id: 1, src: modelName + ".xml"});
     

@@ -1,0 +1,111 @@
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" crossorigin="anonymous">
+<div ng-include="'/partials/header.html'"></div>
+<div id="clients" class="page-content pt-4 page-layout simple fullwidth">
+   
+        <section class="container-fluid">
+                <div class="row justify-content-between" id="issuesList" ng-cloak>
+                    <div class="col-3">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <span class="fas fa-search"></span>
+                                </span>
+                            </div>
+                            <input type="search" class="form-control rounded-30 searchTable" placeholder="Search client" ng-model="vm.searchText" ng-change="vm.searchClients(vm.searchText)"
+                                aria-controls="DataTables_Table_0">
+                        </div>
+                    </div>
+                    <div class="col-3 text-right">
+                        <button type="button" class="btn btn-gray rounded-30" data-toggle="modal" data-target="#addClient">Add New Client</button>
+                    </div>
+                    <div class="w-100"></div>
+                    <div class="col-12">
+                            <table ng-cloak class="dataTable table-bordered hover" datatable="ng" dt-options="vm.dtOptions">
+                                <thead class="bg-success text-white">
+                                    <tr ng-cloak style="height: 40px;">
+                                        <th class="secondary-text">
+                                            <div class="table-header">
+                                                <span class="column-title">Company Logo</span>
+                                            </div>
+                                        </th>
+                                        <th class="secondary-text">
+                                            <div class="table-header" ng-click="vm.sortclients('clientName', 'toggleClient')">
+                                                <span class="column-title">Name</span>
+                                                <span class="float-right">
+                                                    <i class="fa" ng-class="vm.toggleObj.toggleClient.clientName ? 'fa-angle-up' : 'fa-angle-down'"></i>
+                                                </span>
+                                            </div>
+                                        </th>
+                                        <th class="secondary-text">
+                                            <div class="table-header" ng-click="vm.sortclients('phoneNo', 'toggleClient')">
+                                                <span class="column-title">Phone No.</span>
+                                                <span class="float-right">
+                                                    <i class="fa" ng-class="vm.toggleObj.toggleClient.phoneNo ? 'fa-angle-up' : 'fa-angle-down'"></i>
+                                                </span>
+                                            </div>
+                                        </th>
+                                        <th class="secondary-text">
+                                            <div class="table-header" ng-click="vm.sortclients('email', 'toggleClient')">
+                                                <span class="column-title">Email</span>
+                                                <span class="float-right">
+                                                    <i class="fa" ng-class="vm.toggleObj.toggleClient.email ? 'fa-angle-up' : 'fa-angle-down'"></i>
+                                                </span>
+                                            </div>
+                                        </th>
+                                        <th class="secondary-text">
+                                            <div class="table-header" ng-click="vm.sortclients('primaryAdd', 'toggleClient')">
+                                                <span class="column-title">Primary Address</span>
+                                                <span class="float-right">
+                                                    <i class="fa" ng-class="vm.toggleObj.toggleClient.primaryAdd ? 'fa-angle-up' : 'fa-angle-down'"></i>
+                                                </span>
+                                            </div>
+                                        </th>
+                                      
+                                        <th class="secondary-text">
+                                            <div class="table-header" ng-click="vm.sortclients('created', 'toggleClient')">
+                                                <span class="column-title">Created Date</span>
+                                                <span class="float-right">
+                                                    <i class="fa" ng-class="vm.toggleObj.toggleClient.created ? 'fa-angle-up' : 'fa-angle-down'"></i>
+                                                </span>
+                                            </div>
+                                        </th>
+                                        <th class="secondary-text">
+                                            <div class="table-header">
+                                                <span class="column-title">View</span>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-cloak ng-repeat="client in vm.allClients">
+                                        <td  class="table-data text-center"><img ng-src="{{client.clientLogo}}" err-src="/assets/images/clientimage.png"
+                                             style="max-width: 50px;" alt=""></td>
+                                        <td class="table-data">{{ client.clientName }}</td>
+                                        <td class="table-data">{{ client.clientContact.dialCode }}+{{client.clientContact.phoneNumber}}</td>
+                                        <td class="table-data">{{ client.email }}</td>
+                                        <td class="table-data">
+                                                <span ng-if="client.address1.line1">{{ client.address1.line1+",&nbsp;" }}</span>
+                                                <span ng-if="client.address1.line2">{{ client.address1.line2+",&nbsp;" }}</span>
+                                                <span ng-if="client.address1.line3">{{  client.address1.line3 +",&nbsp;"}}</span>
+                                                <span ng-if="client.address1.postalCode">{{   client.address1.postalCode+",&nbsp;"  }}</span>
+                                                <span ng-if="client.address1.countryCode">{{ client.address1.countryCode }}</span>
+                                            <!-- {{ client.address1.line1}},{{ client.address1.line2}},{{client.address1.countryCode}} -->
+                                        </td>
+                                        <td class="table-data">{{ client.created | date : 'MM/dd/yyyy HH:MM:ss' }}</td>
+                                        <td class="text-center"><i class="fas fa-eye"></i></td>
+                                    </tr>
+            
+                                </tbody>
+                            </table>
+            
+                            <div id="pagination" class="mt-3" >
+                           
+                            </div>
+                           
+                </div>
+        </section>
+</div>
+
+<div class="modal fade" id="addClient" tabindex="-1" role="dialog">
+        <div ng-include="'/partials/addclient.html'"></div>
+</div>

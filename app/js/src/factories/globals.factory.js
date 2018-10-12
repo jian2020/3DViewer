@@ -32,11 +32,11 @@
         localStorageService.remove("access-token");
         localStorageService.remove("userData");
         localStorageService.remove("companyData");
-        localStorageService.remove("currentProject");
+        localStorageService.set("currentProject", null);
         localStorageService.remove("inventoryState");
 
         $state.go("preLogin");
-        //throttler(() => Notification.error("Please login"));
+        throttler(() => Notification.error("Please login"));
       },
       /* Access user info globally */
       userStore: (() => {
@@ -107,7 +107,7 @@
             currentProject = data;
             return currentProject;
           },
-          get: () => currentProject,
+          get: () => localStorageService.get("currentProject"),
           reset: () => {
             localStorageService.remove("currentProject");
             currentProject = null;
@@ -118,6 +118,7 @@
       inventoryState: () => {
         let state = localStorageService.get("inventoryState") || {
           tab: 0,
+          searchText: "",
           page: {
             material: 1,
             combo: 1
@@ -132,6 +133,12 @@
           setTab: val => {
             state.tab = val;
             localStorageService.set("inventoryState", state);
+          },
+          text: text => {
+            if (text) {
+              state.searchText = text;
+              localStorageService.set("inventoryState", state);
+            }
           },
           get: () => {
             return state;
@@ -200,6 +207,76 @@
             return item;
           }
         };
+      },
+
+      /**
+       * @param {String} pdfLink
+       * @returns {Object[]} - links of individual pages as image (cloudinary)
+       */
+
+      extractPagesFromPdf: (pdfLink, pageCount) => {
+        return [...Array(pageCount).keys()].reduce((acc, _, i) => {
+          let pageObj = {
+            pageNo: i,
+            url: pdfLink
+              .replace("/upload/", `/upload/pg_${i + 1}/`)
+              .replace(/\.pdf$/, ".png"),
+            title: `title_${Date.now()}`,
+            selected: false,
+            description: ""
+          };
+          acc.push(pageObj);
+          return acc;
+        }, []);
+      },
+
+      /**
+       * @param {Object} pdf - File object
+       * @returns {Promise}
+       */
+
+      createPagesFromPdf: pdf => {
+        return new Promise((resolve, reject) => {
+          pdfjsLib
+            .getDocument(pdf.secure_url)
+            .promise.then(doc => {
+              Promise.all(
+                [...Array(doc.numPages).keys()].map((_, i) =>
+                  doc.getPage(i + 1)
+                )
+              )
+                .then(pages => {
+                  resolve(
+                    pages.map((x, i) => {
+                      (x.pageNo = i), (x.title = `title_${Date.now()}`);
+                      x.selected = false;
+                      x.description = "";
+                      return x;
+                    })
+                  );
+                })
+                .catch(e => {
+                  reject(e);
+                });
+            })
+            .catch(e => {
+              console.log(e);
+              reject(e);
+            });
+        });
+      },
+
+      renderPage: (page, canvas) => {
+        var viewport = page.getViewport(
+          canvas.width / page.getViewport(1).width
+        );
+        var context = canvas.getContext("2d");
+        canvas.height = viewport.height;
+
+        var task = page.render({
+          canvasContext: context,
+          viewport: viewport
+        });
       }
     };
   }

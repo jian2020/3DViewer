@@ -1,11 +1,19 @@
 {
   "name": "cloudes assets",
-  "authors": ["Leo Allen <leo@askpundit.com>"],
+  "authors": [
+    "Leo Allen <leo@askpundit.com>"
+  ],
   "description": "",
   "main": "",
   "license": "MIT",
   "homepage": "",
-  "ignore": ["**/.*", "node_modules", "bower_components", "test", "tests"],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
   "dependencies": {
     "bootstrap": "^4.1.1",
     "angular-ui-router": "^1.0.18",

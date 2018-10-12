@@ -15,8 +15,11 @@ define(["./BimServerModel", "./PreloadQuery", "./BimServerGeometryLoader", "./Bi
     			var model = new BimServerModel(apiModel);
 				//Load Layer
     			apiModel.query(PreloadQuery, function () {}).done(function(){
-    				var oids = [];
+					var oids = [];
+					var cnt = 0;
     				apiModel.getAllOfType("IfcProduct", true, function(object){
+						
+						// console.log(object, cnt++);
 						oids.push(object.oid);
 						//All Model
 						o.allObjects.push(object);

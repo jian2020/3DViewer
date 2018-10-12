@@ -25,18 +25,19 @@
     <link rel="stylesheet" href="/libs/bower_components/angular-ui-tree/dist/angular-ui-tree.min.css">
     <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css">  -->
     <!-- <link rel="stylesheet" href="http://cdn.datatables.net/1.10.2/css/jquery.dataTables.min.css"></style> -->
-    <link rel="stylesheet" type="text/css" href="https://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css">
+    <!-- <link rel="stylesheet" type="text/css" href="https://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css"> -->
     <link rel="stylesheet" type="text/css" href="/libs/bower_components/angular-auto-complete/angular-auto-complete.css" />
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.5.3/css/bootstrap-colorpicker.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.5.3/css/bootstrap-colorpicker.css"
+    />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" crossorigin="anonymous">
     <link rel="stylesheet" href="css/dist/style.min.css">
     <link rel="stylesheet" href="/libs/bower_components/select2/select2.css">
-    
     <title>CloudES</title>
 
+
+
     <!-- Angular scripts -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
     <script type="text/javascript" src="/libs/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
     <link rel="stylesheet" href="/libs/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.standalone.min.css"
     />
@@ -66,6 +67,7 @@
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="/libs/bower_components/ng-file-upload/ng-file-upload.min.js"></script>
     <script src="/libs/jquery.simplePagination.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.0.550/pdf.min.js"></script>
     <script src="/libs/angular-datatables.min.js"></script>
     <script src="/libs/bower_components/angular-chips/dist/angular-chips.min.js"></script>
     <script src="/libs/bower_components/angular-bootstrap-multiselect/dist/angular-bootstrap-multiselect.min.js"></script>
@@ -78,21 +80,35 @@
     <script type="text/javascript" src="js/dist/app.min.js"></script>
     <script src="/libs/bower_components/select2/select2.js"></script>
     <script src="/libs/bower_components/angular-ui-select2/src/select2.js"></script>
+    <!-- <script src="js/dist/wow.js"></script> -->
+    <script type="text/javascript">
+        new WOW().init();
+    </script>
 </head>
 
 <body>
     <ui-view></ui-view>
+
+
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA3MIA-mKWq_60q1K0zOHguraxT-1QPxNU&libraries=places"></script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
         crossorigin="anonymous"></script>
     <script src="libs/bower_components/bootstrap/dist/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
         crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+    <!-- <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script> -->
     <script src="https://cdn.rawgit.com/niklasvh/html2canvas/0.5.0-alpha2/dist/html2canvas.min.js"></script>
     <script src="libs/bower_components/jsPDF/dist/jspdf.debug.js"></script>
     <script src="libs/bower_components/jsPDF/dist/jspdf.debug.js"></script>
     <script src="libs/jspdf.plugin.autotable.js"></script>
     <script src="libs/bower_components/angular-save-html-to-pdf/dist/saveHtmlToPdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-drag-and-drop-lists/2.1.0/angular-drag-and-drop-lists.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-drag-and-drop-lists/2.1.0/angular-drag-and-drop-lists.min.js"></script> -->
     <script type="text/javascript" src="http://goldfirestudios.com/proj/canvasinput/CanvasInput.min.js?v=1.2.0"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.5.3/js/bootstrap-colorpicker.js"></script>
 

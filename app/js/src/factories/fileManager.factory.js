@@ -51,7 +51,8 @@
                   resolve(true);
                 })
                 .catch(e => {
-                  reject(e);
+                  console.log(e);
+                  reject(false);
                 });
             });
           }
@@ -131,11 +132,12 @@
         return filesArray.reduce(
           (acc, x) => {
             if (
-              x.size < 20000000 &&
+              x.size < 50000000 &&
               (x.type === "application/pdf" || /image*/.test(x.type))
             ) {
               acc.cloudinary.push(x);
             } else {
+              /* If file size is greater than 50mb and the file is a pdf, generate a thumbnail */
               acc.s3.push(x);
             }
             return acc;
@@ -143,14 +145,15 @@
           { s3: [], cloudinary: [] }
         );
       },
+
       /**
-       * @param {Number} fileSize
+       * @param {Object} file
        * @returns {Number}  1 - direct s3, 2 - s3 -> cloudinary
        */
 
       resolveDestType: file => {
         if (
-          file.size < 150000000 &&
+          file.size < 50000000 &&
           (file.type === "application/pdf" || /image*/.test(file.type))
         ) {
           return 2;
@@ -158,6 +161,10 @@
         return 1;
       },
 
+      /**
+       * @param {Object[]} files
+       * @returns {Boolean}
+       */
       checkUploadCompletion: files => {
         let bool = true;
         files.s3.forEach(x => {
@@ -171,6 +178,117 @@
           }
         });
         return bool;
+      },
+
+      /**
+       * @param {Object[]} files - Array of file
+       * @returns {Promise} - Resolving will fetch an object of files categorized into two arrays
+       */
+
+      checkDuplicateFiles: (files, destId) => {
+        return new Promise((resolve, reject) => {
+          apiFactory
+            .checkAssetDuplicate({
+              assetNames: files.map(x => x.name),
+              destId
+            })
+            .then(resp => {
+              /* Get duplicate file obj */
+              let duplicateFiles = files
+                .map(x => {
+                  x.action = "rename";
+                  x.assetName = x.name;
+                  return x;
+                })
+                .reduce(
+                  (acc, x) => {
+                    resp.data.duplicates.indexOf(x.name) === -1
+                      ? acc.uploadFiles.push(x)
+                      : acc.duplicates.push(x);
+
+                    return acc;
+                  },
+                  { duplicates: [], uploadFiles: [] }
+                );
+
+              resolve(duplicateFiles);
+            })
+            .catch(e => {
+              reject(e);
+            });
+        });
+      },
+
+      /**
+       * @param {Object[]} files - Array of file
+       * @returns {Boolean}
+       */
+
+      checkNameChange: files => {
+        return files.filter(x => x.action === "rename").reduce((acc, x) => {
+          acc = acc || x.assetName === x.name;
+          return acc;
+        }, false);
+      },
+
+      /**
+       * @param {String} fileName
+       * @returns {String}
+       */
+
+      generateVersion: fileName => {
+        return `${fileName} (v${Date.now()})`;
+      },
+      /**
+       * @param {Object} file
+       */
+      generateThumbnail: file => {
+        var reader = new FileReader();
+        reader.onload = function() {
+          pdfjsLib.getDocument({ url: reader.result }).then(doc => {
+            doc.getPage(1).then(page => {
+              console.log("page!!!", page);
+              var scale = 1;
+              var viewport = page.getViewport(scale);
+              var canvas = document.createElement("canvas");
+              var context = canvas.getContext("2d");
+              canvas.height = viewport.height;
+              canvas.width = viewport.width;
+
+              var task = page.render({
+                canvasContext: context,
+                viewport: viewport
+              });
+              task.promise.then(function() {
+                var dataURL = canvas.toDataURL("image/png");
+                var link = document.createElement("a");
+                link.download = "roofplan_image_" + Date.now();
+                link.href = dataURL;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+              });
+            });
+          });
+        };
+
+        reader.readAsDataURL(file);
+      },
+      splitFileDest: filesArray => {
+        return filesArray.reduce(
+          (acc, x) => {
+            if (
+              x.file.size < 20000000 &&
+              (x.file.type === "application/pdf" || /image*/.test(x.file.type))
+            ) {
+              acc.cloudinary.push(x);
+            } else {
+              acc.s3.push(x);
+            }
+            return acc;
+          },
+          { s3: [], cloudinary: [] }
+        );
       }
     };
   }

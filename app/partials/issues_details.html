@@ -1,0 +1,214 @@
+<div ng-include="'/partials/header.html'"></div>
+<section class="issue-details sectionbg">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">        
+        <div class="test-block animated fadeInUp wow">
+          <div class="row">
+            <div class="col-lg-4 padright0 side-shadow highindex animated fadeInLeft wow" data-wow-delay=".8s">
+              <div class="head-block d-flex align-items-center justify-content-between">
+                <div>
+                    <h2 class="headOne" style="text-transform:capitalize;">{{vm.issueData.title}}</h2>
+                    <p class="issue-number mb-0 f600">{{vm.issueData.systemTag}}</p>
+                </div>
+                <button data-target="#issue_modal" class="btn edit_btn transition ripple border-0" data-toggle="modal">
+                  <!-- <i class="fa fa-pencil" aria-hidden="true"></i> -->
+                  <img src="assets/images/edit.png" />
+                </button>
+              </div>
+              <div id="issueslider" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                  <div class="carousel-item" ng-repeat="asset in vm.issueData.listAssets" ng-class="{active:!$index}">
+                    <img class="d-block w-100 img_center" src="{{asset.secure_url || 'assets/images/bulb.png'}}" alt="slide" style="height:250px;width:200px;">
+                    </div>
+                  </div> 
+                
+                <a class="carousel-control-prev " data-target="#issueslider" role="button" data-slide="prev">
+                  <img class="img-fluid wobble-horizontal" src="assets/images/arrow_left.png" alt="arrow_left">
+                </a>
+                <a class="carousel-control-next " data-target="#issueslider" role="button" data-slide="next">
+                  <img class="img-fluid wobble-horizontal" src="assets/images/arrow_right.png" alt="arrow_right">
+                </a>
+              </div>
+             
+              <div class="sidespacing">
+                <h4 class="chat_msg f600 txtgrey">
+                  Description
+                </h4>
+                <p class="chat_msg txtblack">
+                  {{vm.issueData.description}}
+                </p>
+                <div class="table-responsive">
+                  <table class="table table-bordered issue_table mb-0 ">
+                    <thead>
+                      <tr>
+                        <th width="160">Type</th>
+                        <th>Issue</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Project Name</td>
+                        <td>{{vm.issueData.projectId.projectName}}</td> 
+                      </tr>
+                      <tr>
+                        <td>Creation</td>
+                        <td>{{vm.issueData.created| date : 'MMM dd, yyyy'}}</td> 
+                      </tr>
+                      <tr>
+                        <td>DeadLine</td>
+                        <td>{{vm.issueData.deadLine| date : 'MMM dd, yyyy'}}</td> 
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="space30"></div>
+                <ul class="list-unstyled d-flex flex-wrap prior_list mb-0">
+                  <li>
+                    <p class="issue-number mb-0 f600">Priority</p>
+                    <span ng-If='vm.issueData.issueStatus==="High Priority"'class="lbl_stat text-uppercase transition"style="background-color:#ff1919;color:#ffffff;">High</span>
+                    <span ng-If='vm.issueData.issueStatus==="Medium Priority"'class="lbl_stat text-uppercase transition"style="background-color:#fad154;color:#ffffff;">Medium</span>
+                    <span ng-If='vm.issueData.issueStatus==="On Hold"'class="lbl_stat text-uppercase transition"style="background-color:#f5edd3;color:#ffffff;">On hold</span>
+                    <span ng-If='vm.issueData.issueStatus==="Low Priority"'class="lbl_stat text-uppercase transition"style="background-color:#f5edd3;color:#ffffff;">Low</span>
+                    <span ng-If='vm.issueData.issueStatus==="Completed"'class="lbl_stat text-uppercase transition"style="background-color:#52cab9;color:#ffffff;">Completed</span>
+
+                  </li>
+                  <li>
+                      <p class="issue-number mb-0 f600">Completion Status</p>
+                      <span class="lbl_stat  text-uppercase transition"style="background-color:#808080;color:#ffffff;"ng-If="vm.issueData.completionStatus=='OPEN'">
+                          {{vm.issueData.completionStatus}}</span>
+                       <span class="lbl_stat  text-uppercase transition"style="background-color:#52cab9;color:#ffffff;"ng-If="vm.issueData.completionStatus=='RESOLVED'">
+                          {{vm.issueData.completionStatus}}</span>
+                          <span class="lbl_stat  text-uppercase transition"ng-If="vm.issueData.completionStatus=='RESOLVED'"
+                         
+                          data-target="#confirmmodal" data-toggle="modal">
+                              <img  src="assets/images/reload (1).png"><a href="" style="color:#808080;"><u>Reopen Issue</u></a></span>
+                       <span class="lbl_stat transition"ng-If="vm.issueData.completionStatus=='OPEN'"
+                                ng-click="markIssueAsComplete()" >
+                              <img  src="assets/images/tick (4).png"> <a href="" style="color:#7EE635;"><u>Mark As Complete</u></a></span>
+                       
+                  </li>
+                  <li>
+                     <p class="issue-number mb-0 f600">Assigned To</p>
+                     <span class="lbl_stat text-uppercase transition"style="border: 1px solid #dddddd;color:#000;">{{vm.issueData.assignedTo.firstName }}&nbsp;&nbsp;{{vm.issueData.assignedTo.lastName}} </span>
+                  </li>
+                </ul>  
+              </div>
+            </div>
+            <div class="col-lg-8 d-md-flex flex-column padleft0 animated fadeInRight wow" data-wow-delay="0.8s">
+              <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                  <a class="nav-link active ripple ripple2" id="home-tab" data-toggle="tab" data-target="#home" role="tab" aria-controls="home" aria-selected="true">
+                  Comments</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link ripple ripple2" id="profile-tab" data-toggle="tab" data-target="#profile" role="tab" aria-controls="profile" aria-selected="false">Attachments</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link ripple ripple2" id="contact-tab" data-toggle="tab" data-target="#contact" role="tab" aria-controls="contact" aria-selected="false">History</a>
+                </li>
+              </ul>
+              <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                  <div class="sidespacing">
+                    <div class="comment-box position-relative animated fadeInUp wow" data-wow-delay="1.20s">
+                      <textarea class="form-control" rows="3" ng-model="vm.comment" placeholder="Type your comment here..."></textarea>
+                      <button class="btn btn_create_issue ripple" ng-click="vm.postComment(vm.comment)">post</button>
+                    </div>
+                    <div class="space40"></div>
+                    <div class="history_container">
+                     <div class="media animated fadeInUp wow " data-wow-delay="1.20s"
+                     ng-repeat="comment in vm.allComments">
+                        <img src="{{comment.pic}}"  style="border-radius: 50%;width:50px;height:50px;"
+                        class="img-fluid mr-2 w35_img" alt="user pic">
+                        <div class="media-body">
+                          <p class="fsize18 txtblack f700 mb-0 mt-2">{{comment.userName}}</p>
+                          <p class="fsize18 txtgrey f500">{{comment.addTime| date : 'HH:MM on MMM dd,yyyy' }} </p>
+                          <p class="fsize18 txtblack">{{comment.comment}}</p>
+                          
+                        </div>
+                      </div>
+                      <div id="pagination" class="mt-3 text-center"></div>
+                      
+                      
+                    </div>
+                  </div>                  
+                </div>
+                <div class="tab-pane fade " id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                  <div class="filname">
+                    <h5 class="fsize18 dark f500">Images</h5>
+                    <div class="filname_block " ng-repeat="filename in vm.issueData.listAssets">
+                      <div class="d-flex align-items-center justify-content-between">
+                        <p class="fsize18 f500 mb-0 animated fadeInUp wow">{{filename.originalname}}</p>
+                        <button class="btn download_btn animated fadeInUp wow" >
+                            <a><img src="assets/images/download2.png" class="img-fluid" alt="download-icon" ></a>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="filname">
+                    <h5 class="fsize18 dark f500">Documents</h5>
+                    <div class="filname_block " ng-repeat="docs in documents2">
+                      <div class="d-flex align-items-center justify-content-between">
+                        <p class="fsize18 f500 mb-0 animated fadeInUp wow">{{docs.file}}</p>
+                        <button class="btn download_btn animated fadeInUp wow"  ng-click="downLoadAttachment(filename)">
+                         <a ng-href="docs.secure_url" download><img src="img/download2.png" class="img-fluid" alt="download-icon" ></a>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane fade " id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                  <div class="sidespacing">
+                  <div class="history_container">
+                    <div class="media animated fadeInUp wow " ng-repeat="activity in vm.allActivities">
+                      <img src="{{activity.pic}}"  style="border-radius: 50%;width:50px;height:50px;"
+                      class="img-fluid mr-2 w35_img" alt="user pic">
+                      <div class="media-body">
+                        <p class="mb-0 txtblack fsize18" ng-If="activity.activity=='created_issue'"><span class="f700 ">{{activity.userName}}</span> created an issue.</p>
+                        <p class="mb-0 txtblack fsize18" ng-If="activity.activity=='added_comment'"><span class="f700 ">{{activity.userName}}</span> added a new Comment.</p>
+                        <p class="mb-0 txtblack fsize18" ng-If="activity.activity=='uploaded_new_file'"><span class="f700 ">{{activity.userName}}</span> uploaded new file.</p>
+                        <p class="mb-0 txtblack fsize18" ng-If="activity.activity=='edited_issue'"><span class="f700 ">{{activity.userName}}</span> edited Issue.</p>
+                        <p class="mb-0 txtblack fsize18" ng-If="activity.activity=='reopened_issue'"><span class="f700 ">{{activity.userName}}</span> reopened Issue.</p>
+                       
+                        <p class="mb-0 txtgrey f500 fsize18 mt-1">{{activity.addedTime| date : 'HH:MM on MMM dd,yyyy' }}</p>
+                      </div>
+                    </div>
+                    <div id="paginationActivity" class="mt-4"></div>
+
+                  </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!--confirm reopen popup-->
+
+ <div class="modal fade popup2" data-easein="slideUpBigIn" id="confirmmodal" role="dialog" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal body -->
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm</h5>
+            </div>
+            <div class="modal-body">
+                <p class="mb-0 txtblack fsize18 text-center">Are you sure you want to REOPEN the issue ?</p>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary"ng-click="reOpenIssue()">Confirm</button>
+  
+            </div>
+        </div>
+    </div>
+  </div>
+

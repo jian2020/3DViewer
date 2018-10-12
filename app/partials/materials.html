@@ -1,0 +1,401 @@
+<div ng-include="'/partials/header-new.html'"></div>
+
+<section class="calc-section material_dcp_sec">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="space30" id="pills-tabContent">
+          <div class="out-line-radius" id="m_dcp">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active" id="home-tab" data-toggle="tab" data-target="#material" role="tab" aria-controls="home" aria-selected="true">Materials</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="profile-tab" data-toggle="tab" data-target="#dcp" role="tab" aria-controls="profile" aria-selected="false">DCP</a>
+              </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+              <div class="tab-pane fade show active pl-5 pr-5 pb-5" id="material" role="tabpanel" aria-labelledby="home-tab">
+                <div class="d-flex align-items-center space20 float-right">
+                  <div class="search-material">
+                    <img src="/assets/images/Search-Icon.png">
+                    <input type="text" class="form-control" placeholder="Search materials..." name="">
+                  </div>
+                  <button class="btn btn_create_issue transition ripple float-right" data-toggle="modal" data-target="#todo_modal">Add Material</button>
+                </div>
+                <div class="clearfix"></div>
+                <div class="row issue-row">
+                  <div class="col-xl-4 col-12" ng-repeat="dcps in vm.material">
+                    <a href="#!material/{{ dcps._id }}">
+                      <div class="issue-box position-relative transition animated fadeInUp wow">
+                        <div class="image-holder">
+                          <img ng-if="dcps.files.length > 0" src="{{dcps.files[0].secure_url}}" class="img-fluid animated zoomIn wow" data-wow-delay=".8s"
+                            alt="issue-image">
+                          <img ng-if="dcps.files.length == 0" src="/assets/images/noImg.jpg" class="img-fluid animated zoomIn wow" data-wow-delay=".8s"
+                            alt="issue-image">
+                        </div>
+                        <div class="issue-info py-3 px-4 animated fadeIn wow" data-wow-delay="1.2s">
+                          <h6 class="headTwo txtblack mb-0 text-sm-left f700">{{dcps.name}}</h6>
+                          <p class="mb-0 text-sm-left">{{dcps.createdAt | date}}</p>
+
+                          <p class="mb-0 mt-4 text-sm-left text-uppercase f700">MATERIAL COST</p>
+                          <h5 class="mb-0 text-sm-left price-txt text-center">{{dcps.currentRate.materialCost.value | roundNum: 2}}
+                            <small class="text-muted">{{dcps.currentRate.materialCost.currencyCode}}</small>
+                          </h5>
+
+                          <p class="mb-0 mt-4 text-sm-left text-uppercase f700">Roofer Cost</p>
+                          <h5 class="mb-0 text-sm-left price-txt text-center">{{dcps.currentRate.rooferCost.value | roundNum: 2}}
+                            <small class="text-muted">{{dcps.currentRate.rooferCost.currencyCode}}</small>
+                          </h5>
+                          <p class="red-box-txt f700">{{dcps.systemTag}}</p>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane fade pl-5 pr-5 pb-5" id="dcp" role="tabpanel" aria-labelledby="profile-tab">
+                <div class="d-flex align-items-center space20 float-right">
+                  <div class="search-material">
+                    <img src="/assets/images/Search-Icon.png">
+                    <input type="text" class="form-control" placeholder="Search DCP..." name="">
+                  </div>
+                  <button class="btn btn_create_issue transition ripple float-right" data-toggle="modal" data-target="#todo_modal.dcp_modal">Add DCP</button>
+                </div>
+                <div class="clearfix"></div>
+                <div class="row issue-row">
+                  <div class="col-xl-4 col-12" ng-repeat="dcps in vm.combo">
+                    <a href="#!combo_material/{{dcps._id}}">
+                      <div class="issue-box position-relative transition animated fadeInUp wow">
+                        <div class="image-holder">
+                          <img ng-if="dcps.files.length > 0" src="{{dcps.files[0].secure_url}}" class="img-fluid animated zoomIn wow" data-wow-delay=".8s"
+                            alt="issue-image">
+                          <img ng-if="dcps.files.length == 0" src="/assets/images/noImg.jpg" class="img-fluid animated zoomIn wow" data-wow-delay=".8s"
+                            alt="issue-image">
+                        </div>
+                        <div class="issue-info py-3 px-4 animated fadeIn wow" data-wow-delay="1.2s">
+                          <h6 class="headTwo txtblack mb-0 text-sm-left f700">{{dcps.name}}</h6>
+                          <p class="mb-0 text-sm-left">{{dcps.createdAt | date}}</p>
+
+                          <p class="mb-0 mt-4 text-sm-left text-uppercase f700">material Total</p>
+                          <h5 class="mb-0 text-sm-left price-txt text-center">{{dcps.materialTotal.value | roundNum: 2}}
+                            <!-- <small class="text-muted">{{dcps.currentRate.materialCost.currencyCode}}</small> -->
+                          </h5>
+
+                          <p class="mb-0 mt-4 text-sm-left text-uppercase f700">Roofer Total</p>
+                          <h5 class="mb-0 text-sm-left price-txt text-center">{{dcps.rooferTotal.value | roundNum: 2}}
+                            <!-- <small class="text-muted">{{dcps.currentRate.rooferCost.currencyCode}}</small> -->
+                          </h5>
+                          <p class="red-box-txt f700">{{dcps.systemTag}}</p>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="space30"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<div class="modal fade eventmodal" data-easein="pulse" id="dcp_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body pad0">
+        <div class="row issue-row">
+          <div class="col-xl-6 col-12" ng-repeat="dcps in popup_dcp">
+            <a data-toggle="modal" data-target="#new_event">
+              <div class="issue-box position-relative transition animated fadeInUp wow">
+                <div class="image-holder">
+                  <img src="{{dcps.img}}" class="img-fluid animated zoomIn wow" data-wow-delay=".8s" alt="issue-image">
+                </div>
+                <div class="issue-info w-100 d-flex justify-content-center flex-column animated fadeIn wow" data-wow-delay="1.2s">
+                  <h6 class="headTwo txtblack mb-0 text-sm-left text-center">{{dcps.title}}</h6>
+                  <p class="issue-number mb-0 text-sm-left text-center">{{dcps.date}}</p>
+
+                  <p class="issue-number mb-0 space30 text-sm-left text-center text-uppercase">{{dcps.m_cost}}</p>
+                  <h5 class="mb-0 text-sm-left price-txt text-center">{{dcps.m_price}}</h5>
+
+                  <p class="issue-number mb-0 space30 text-sm-left text-center text-uppercase">{{dcps.w_cost}}</p>
+                  <h5 class="mb-0 text-sm-left price-txt text-center">{{dcps.w_price}}</h5>
+
+                  <p class="red-box-txt">{{dcps.red_txt}}</p>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade popup2 material_modal" data-easein="slideUpBigIn" id="todo_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="d-flex align-items-center justify-content-between w-100">
+          <h5 class="modal-title f500 txtwhite">Add Material</h5>
+        </div>
+      </div>
+      <div class="modal-body pad0">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" id="home-tab" data-toggle="tab" data-target="#material1" role="tab" aria-controls="home" aria-selected="true">Material Detail</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="profile-tab" data-toggle="tab" data-target="#dcp1" role="tab" aria-controls="profile" aria-selected="false">Set Cost</a>
+          </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+          <div class="tab-pane fade show active" id="material1" role="tabpanel" aria-labelledby="home-tab">
+            <div class="d-md-flex">
+              <div class="col-lg-12 pad0">
+                <div class="issue_form">
+                  <!-- <ul class="list-inline add-material-block text-center">
+                    <li class="list-inline-item">
+                      <a href="#">
+                        <img src="/assets/images/plus-red-icon.png" class="img-fluid">
+                      </a>
+                    </li>
+                    <li class="list-inline-item">
+                      <a href="#">
+                        <img src="/assets/images/material-img.png" class="img-fluid">
+                      </a>
+                    </li>
+                    <li class="list-inline-item">
+                      <a href="#">
+                        <img src="/assets/images/material-img.png" class="img-fluid">
+                      </a>
+                    </li>
+                    <li class="list-inline-item">
+                      <a href="#">
+                        <img src="/assets/images/material-img.png" class="img-fluid">
+                      </a>
+                    </li>
+                  </ul> -->
+                  <div class="f_block">
+                    <p class="fsize18 f500 txtgrey c_space mb-2">Material Name</p>
+                    <input type="text" class="form-control animated zoomIn wow" ng-change="vm.tabStyle()" 
+                    ng-model="vm.addMaterial.materialName" maxlength="100" ng-minlength="2" required>
+                  </div>
+                  <div class="f_block">
+                    <p class="fsize18 f500 txtgrey c_space mb-2 mt-4">Unit</p>
+                    <div class="dropdown position-relative d-inline-block ml-auto taskdrop w-100">
+                      <button class="btn selectbox dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span ng-if="vm.selectedUnit">{{vm.selectedUnit}}</span>
+                        <span ng-if="!vm.selectedUnit">Please select Unit</span>
+                      </button>
+                      <ul class="dropdown-menu avail_option">
+                        <li ng-repeat="unit in vm.mUnits" ng-click="vm.unitSelect(unit)">{{unit.name}}</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="f_block">
+                    <p class="fsize18 f500 txtgrey c_space mb-2 mt-4">Currency</p>
+                    <select ui-select2 ng-model="vm.addMaterial.currency" class="form-control" ng-change="vm.showConversionRate(vm.companyData.currentCurrency.currencyCode, vm.addMaterial.currency.cc)"
+                      ng-options="currency.cc +' - '+ currency.name for currency in vm.currencies"></select>
+                  </div>
+                  <div class="f_block">
+                    <p class="fsize18 f500 txtgrey c_space mb-2 mt-4">Conversion Factor</p>
+                    <span class="form-control animated zoomIn wow">{{vm.addMaterial.conversionFactor | roundNum:2}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="dcp1" role="tabpanel" aria-labelledby="profile-tab">
+            <div class="d-md-flex">
+              <div class="col-lg-12 pad0">
+                <div class="issue_form">
+                  <div class="f_block">
+                    <p class="fsize18 f500 txtgrey c_space mb-2 mt-4">Material Cost</p>
+                    <input type="text" class="form-control animated zoomIn wow" value="200 DKK">
+                  </div>
+                  <div class="f_block">
+                    <p class="fsize18 f500 txtgrey c_space mb-2 mt-4">Workers Cost</p>
+                    <input type="text" class="form-control animated zoomIn wow" value="200 DKK">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer align-items-center">
+        <div>
+          <button type="button" class="btn btn_create_issue ripple" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn_create_issue ripple">Create</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade popup2 dcp_modal" data-easein="slideUpBigIn" id="todo_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="d-flex align-items-center justify-content-between w-100">
+          <h5 class="modal-title f500 txtwhite">Add Combo Material</h5>
+        </div>
+      </div>
+      <div class="modal-body pad0">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" id="home-tab" data-toggle="tab" data-target="#material2" role="tab" aria-controls="home" aria-selected="true">Description</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="profile-tab" data-toggle="tab" data-target="#dcp2" role="tab" aria-controls="profile" aria-selected="false">Combination</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="profile-tab" data-toggle="tab" data-target="#summary" role="tab" aria-controls="profile" aria-selected="false">Summary</a>
+          </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+          <div class="tab-pane fade show active" id="material2" role="tabpanel" aria-labelledby="home-tab">
+            <div class="d-md-flex">
+              <div class="col-lg-12 pad0">
+                <div class="issue_form">
+                  <div class="f_block">
+                    <p class="fsize18 f500 txtgrey c_space mb-2">Combo Material Name</p>
+                    <input type="text" class="form-control animated zoomIn wow" value="Material ABC">
+                  </div>
+                  <div class="f_block">
+                    <p class="fsize18 f500 txtgrey c_space mb-2 mt-4">Supplier</p>
+                    <div class="dropdown position-relative d-inline-block ml-auto taskdrop w-100 animated wow zoomIn">
+                      <button class="btn selectbox dropdown-toggle ml-2 w-100" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Supplier ABC
+                      </button>
+                      <ul class="dropdown-menu avail_option">
+                        <li>Supplier ABC 1</li>
+                        <li>Supplier ABC 1</li>
+                        <li>Supplier ABC 1</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="f_block">
+                    <p class="fsize18 f500 txtgrey c_space mb-2 mt-4">Unit</p>
+                    <div class="dropdown position-relative d-inline-block ml-auto taskdrop w-100 animated wow zoomIn">
+                      <button class="btn selectbox dropdown-toggle ml-2 w-100" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Square Meters
+                      </button>
+                      <ul class="dropdown-menu avail_option">
+                        <li>Square Meters 1</li>
+                        <li>Square Meters 1</li>
+                        <li>Square Meters 1</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="f_block">
+                    <p class="fsize18 f500 txtgrey c_space mb-2 mt-4">Description</p>
+                    <textarea class="form-control animated wow zoomIn" rows="5" placeholder="Enter description here..."></textarea>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <h5 class="fsize18 f500 c_space animated fadeInUp space30 txtgrey">Next Maintenance Date</h5>
+                      <input type="text" class="form-control animated zoomIn wow date-icon datepicker txt_box1">
+                    </div>
+                    <div class="col-md-6">
+                      <h5 class="fsize18 f500 c_space animated fadeInUp space30 txtgrey">Maintenance Interval</h5>
+                      <input type="text" class="form-control animated zoomIn wow txt_box1" value="90 Days" data-wow-delay="0.4s">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="dcp2" role="tabpanel" aria-labelledby="profile-tab">
+            <div class="d-md-flex">
+              <div class="col-lg-12 pad0">
+                <div class="issue_form">
+                  <div class="f_block">
+                    <p class="fsize18 f500 txtgrey c_space mb-2 mt-4">Material List</p>
+                    <div class="dropdown position-relative d-inline-block ml-auto taskdrop w-100 animated wow zoomIn">
+                      <button class="btn selectbox dropdown-toggle w-100" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Material ABC
+                      </button>
+                      <ul class="dropdown-menu avail_option">
+                        <li>Material ABC 1</li>
+                        <li>Material ABC 1</li>
+                        <li>Material ABC 1</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="f_block position-relative mb-2">
+                    <p class="fsize18 f500 txtgrey c_space mb-2 mt-4">Quantity</p>
+                    <input type="text" class="form-control animated zoomIn wow" value="1">
+
+                    <ul class="list-inline quantity-txtboxes animated wow zoomIn" data-wow-delay="0.4s">
+                      <li class="list-inline-item">
+                        <p class="fsize18 f500 txtgrey c_space mb-2 mt-4">Material Cost</p>
+                        <input type="text" class="form-control" value="0 DKK">
+                      </li>
+                      <li class="list-inline-item">
+                        <p class="fsize18 f500 txtgrey c_space mb-2 mt-4">Worker Cost</p>
+                        <input type="text" class="form-control" value="0 DKK">
+                      </li>
+                    </ul>
+                  </div>
+                  <button class="btn task_tag ripple ripplePurple red-one animated wow zoomIn">+ &nbsp; Add Another</button>
+                  <a data-target="#" class="add-perc-calc animated wow zoomIn">Add Percentage Calculation</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="summary" role="tabpanel" aria-labelledby="profile-tab">
+            <div class="d-md-flex">
+              <div class="col-lg-12 pad0">
+                <div class="issue_form">
+                  <div class="f_block">
+                    <p class="fsize18 f500 txtgrey c_space mb-0 mt-2">NAME</p>
+                    <input type="text" class="form-control animated zoomIn wow" value="DCP ABC">
+                  </div>
+                  <div class="f_block mt-4 desc-box">
+                    <p class="fsize18 f500 txtgrey c_space mb-0 mt-2">DESCRIPTION</p>
+                    <textarea rows="4" class="form-control animated zoomIn wow">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</textarea>
+                  </div>
+                  <div class="table-responsive animated wow zoomIn">
+                    <table id="summary-table">
+                      <thead>
+                        <th ng-repeat="heading in sum_headers">{{heading.name}}</th>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="item in sum_items">
+                          <td>{{ item.no }}</td>
+                          <td>{{ item.location }}</td>
+                          <td>{{ item.adon1 }}</td>
+                          <td>{{ item.adon2 }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer align-items-center">
+        <div>
+          <button type="button" class="btn btn_create_issue ripple" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn_create_issue ripple">Create</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.2/velocity.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.2/velocity.ui.min.js"></script>
+<script type="text/javascript" src="js/custom.js"></script>

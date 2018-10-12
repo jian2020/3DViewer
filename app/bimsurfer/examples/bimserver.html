@@ -11,7 +11,8 @@
 	<link rel="stylesheet" href="css/metadata.css"/>
 	<link rel="stylesheet" href="css/theme.css"/>
     <link rel="stylesheet" href="css/newtree.css">
-    <link rel="stylesheet" href="css/default.css"/>
+	<link rel="stylesheet" href="css/default.css"/>
+	<link rel="stylesheet" href="css/annotation-style.css"/>
     
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"/>
     
@@ -82,7 +83,7 @@
     	                        // Add a widget that displays metadata (IfcPropertySet and instance
     	                        // attributes) of the selected element.
     	                        var metadata = new MetaDataRenderer({
-    	                            domNode: 'dlg_properties_content'
+    	                            domNode: 'dlg_components_content'
     	                        });
                                 metadata.addModel({name: "", id: roid, model: bimSurferModel});
     	                        
@@ -90,12 +91,12 @@
     	                            domtree.setSelected(params.objects, domtree.SELECT_EXCLUSIVE);
     	                            metadata.setSelected(params.objects);
                                     
-                                    console.log("Clicked", params.clickPosition);
+                                    // console.log("Clicked", params.clickPosition);
     	                        });
     	                        
     	                        domtree.on("click", function (oid, selected) {
 									// Clicking an explorer node fits the view to its object and selects
-									console.log(selected);
+									// console.log(selected);
                                     if (selected.length) {
                                         o.bimSurfer.viewFit({
                                             ids: selected,
@@ -352,44 +353,13 @@
 								
 			            });
 					});
-					// //Opacity View in Scene
-					// var btnTransView = parent.document.getElementById('btnTransView');
-					// btnTransView.onclick = function() {
-					// 	o.bimSurfer.setOpacity({ids:o.modelLoader.allObjectIds, opacity:0.2});
-					// }
-					// //Wire View in Scene
-					// var btnWireView = parent.document.getElementById('btnWireView');
-					// btnWireView.onclick = function() {
-					// 	o.modelLoader.allObjects.forEach(element => {
-					// 		console.log(element);
-					// 		element.material = {
-					// 		edges: true,
-					// 		edgeAlpha: 1.0,
-					// 		edgeColor: [0.2, 1.0, 0.2],
-					// 		edgeWidth: 2,
-					// 		vertices: true,
-					// 		vertexAlpha: 1.0,
-					// 		vertexColor: [0.6, 1.0, 0.6],
-					// 		vertexSize: 8,
-					// 		fill: true,
-					// 		fillColor: [0, 0, 0],
-					// 		fillAlpha: 0.7
-					// 		};
-					// 	});
-					// 	console.log(o.modelLoader.allObjects);
-					// 	//o.bimSurfer.setOpacity({ids:o.modelLoader.allObjectIds, opacity:0.5});
-					// }
-					// //Edge View in Scene
-					// var btnEdgeView = parent.document.getElementById('btnEdgeView');
-					// btnEdgeView.onclick = function() {
-					// 	o.bimSurfer.setOpacity({ids:o.modelLoader.allObjectIds, opacity:1});
-					// }
 	            });
 		});
+
 		//control camera view
 		window.setCameraView = function(type){
 			switch(type){
-				case "persp": 
+				case "perspective": 
 					o.bimSurfer.setCamera({type: type});
 					break;
 				case "ortho":
@@ -416,24 +386,50 @@
 			}
 		}
 		//control view method
+		var oldViewMethod = "shaded";
+		var _isTransp = false;
+		var _isEdges = false;
 		window.setViewMethod = function(type){
+						
 			switch(type){
 				case "shaded":
-					o.bimSurfer.setOpacity({ids:o.modelLoader.allObjectIds, opacity:1});
+					o.bimSurfer.setWireframeView({ids:o.modelLoader.allObjectIds, wireframe:false});
+					o.bimSurfer.setEdgesView({ids:o.modelLoader.allObjectIds, edges: _isEdges ? true : false});
 					break;
 				case "transp":
-					o.bimSurfer.setOpacity({ids:o.modelLoader.allObjectIds, opacity:0.2});
+					o.bimSurfer.setTransparentView({ids:o.modelLoader.allObjectIds, opacity: _isTransp ? 1 : 0.6});
+					_isTransp = !_isTransp;
 					break;
 				case "wire":
+					o.bimSurfer.setWireframeView({ids:o.modelLoader.allObjectIds, wireframe:true});
 					break;
 				case "edge":
+					o.bimSurfer.setEdgesView({ids:o.modelLoader.allObjectIds, edges: _isEdges ? false : true});
+					_isEdges = !_isEdges;
 					break;
 			}
+		}
+		//show hide grid
+		window.showGrid = function(show){
+			o.bimSurfer.showGrid(show);
 		}
 		//set pan move
 		window.setDefaultDragAction = function(type){
 			o.bimSurfer.setDefaultDragAction(type);
 		}
+		//set dimensions
+		window.newDimensions = function(){
+			o.bimSurfer.newDimensions();
+		}
+		//delete all dimensions
+		window.deleteDimensions = function(){
+			o.bimSurfer.deleteDimensions();
+		}
+
+		window.getScene = function(){
+			return o.bimSurfer.getScene();
+		}
+
     </script>
 </head>
 <body>

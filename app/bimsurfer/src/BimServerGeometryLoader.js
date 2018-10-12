@@ -267,13 +267,18 @@ define(["./DataInputStreamReader"], function (DataInputStreamReader) {
                 ];
 
                 this.viewer.setCamera({
-                    type: "persp",
+                    type: "perspective",
                     target: center,
                     up: [0, 0, 1],
                     eye: [center[0] - scale * diagonal, center[1] - scale * diagonal, center[2] + scale * diagonal],
                     far: 5000,
                     near: 0.1,
-                    fovy: 35.8493
+                    fovy: 35.8493,
+                    worldAxis: [
+                        1, 0, 0, // Right
+                        0, 0, 1, // Up
+                        0,-1, 0  // Forward
+                    ]
                 });
             }
         };
@@ -281,6 +286,7 @@ define(["./DataInputStreamReader"], function (DataInputStreamReader) {
         this._updateProgress = function () {};
 
         this._readObject = function (stream, geometryType) {
+            console.log(stream);
             var geometryId;
             var numGeometries;
             var numParts;

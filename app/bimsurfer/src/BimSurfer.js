@@ -283,6 +283,20 @@ define(["./Notifier", "./BimServerModel", "./PreloadQuery", "./BimServerGeometry
             viewer.setVisibility(params);
         };
 
+        this.showGrid = function (show) {
+            viewer.showGrid(show);
+        };
+
+        this.newDimensions = function(){
+            viewer.newDimensions();
+        };
+        this.deleteDimensions = function(){
+            viewer.deleteDimensions();
+        };
+        this.getScene = function(){
+            return viewer.getScene();
+        };
+
         /**
          * Selects/deselects objects specified by id.
          **
@@ -313,8 +327,26 @@ define(["./Notifier", "./BimServerModel", "./PreloadQuery", "./BimServerGeometry
          **
          * @param params
          */
-        this.setOpacity = function (params) {
-            viewer.setOpacity(params);
+        this.setTransparentView = function (params) {
+            viewer.setTransparentView(params);
+        };
+
+        /**
+         * Sets wireframe of objects specified by ids or entity type, e.g IfcWall.
+         **
+         * @param params
+         */
+        this.setWireframeView = function (params) {
+            viewer.setWireframeView(params);
+        };
+
+        /**
+         * Sets edges of objects specified by ids or entity type, e.g IfcWall.
+         **
+         * @param params
+         */
+        this.setEdgesView = function (params) {
+            viewer.setEdgesView(params);
         };
 
         /**

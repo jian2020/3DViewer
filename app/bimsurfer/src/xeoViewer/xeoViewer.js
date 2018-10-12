@@ -13,13 +13,15 @@ define([
 
     "use strict";
 
+
+
     function xeoViewer(cfg) {
 
         // Distance to WebGL's far clipping plane.
         const FAR_CLIP = 5000;
 
         // Create xeoViewer
-
+        var math = xeogl.math;
         EventHandler.call(this);
 
         var self = this;
@@ -32,10 +34,15 @@ define([
 
         domNode.appendChild(canvas);
 
+        var rateDimension = 346.07;
+
         // Create a Scene
         var scene = self.scene = new xeogl.Scene({ // http://xeoengine.org/docs/classes/Scene.html
             canvas: canvas,
-			transparent: true
+            transparent: true,
+            backgroundcolor: [0,0,0],
+            webgl2 : true,
+            gammaFactor : 1.5
         });
 
         // Redefine default light sources;
@@ -77,11 +84,111 @@ define([
             duration: 1
         });
 
+        new xeogl.AxisHelper({
+            lookat: camera,
+            size: [200, 200],
+            visible: true
+        });
+        // Grid Plane
+        var gridPlane1 = new xeogl.Entity(scene, {
+            geometry: new xeogl.Geometry(scene, {
+                primitive: "lines",
+                positions: [
+                    -100, 100, 0, -100, -100, 0,
+                    -80, 100, 0, -80, -100, 0,
+                    -60, 100, 0, -60, -100, 0,
+                    -40, 100, 0, -40, -100, 0,
+                    -20, 100, 0, -20, -100, 0,
+                    0, 100, 0, 0, -100, 0,
+                    20, 100, 0, 20, -100, 0,
+                    40, 100, 0, 40, -100, 0,
+                    60, 100, 0, 60, -100, 0,
+                    80, 100, 0, 80, -100, 0,
+                    100, 100, 0, 100, -100, 0,
+                    -100,80,0,100,80,0,
+                    -100,60,0,100,60,0,
+                    -100,40,0,100,40,0,
+                    -100,20,0,100,20,0,
+                    -100,0,0,100,0,0,
+                    -100,-20,0,100,-20,0,
+                    -100,-40,0,100,-40,0,
+                    -100,-60,0,100,-60,0,
+                    -100,-80,0,100,-80,0
+                ],
+                indices: [
+                    0, 1,
+                    2, 3,
+                    4, 5,
+                    6, 7,
+                    8, 9,
+                    10, 11,
+                    12, 13,
+                    14,15,
+                    16,17,
+                    18,19,
+                    20,21,
+                    0,20,
+                    1,21,
+                    22,23,
+                    24,25,
+                    26,27,
+                    28,29,
+                    30,31,
+                    32,33,
+                    34,35,
+                    36,37,
+                    38,39
+                ]
+            }),
+
+            material: new xeogl.PhongMaterial(scene, {
+                emissive: [0.6, 0.6, 0.6],
+                diffuse: [0, 0, 0],
+                ambient: [0, 0, 0],
+                backfaces: true,
+                lineWidth: 2
+            }),
+            pickable: false,
+            layer: 1
+        });
+
+        var gridPlane2 = new xeogl.Entity(scene, {
+            geometry: new xeogl.Geometry(scene, {
+                primitive: "lines",
+                positions: [
+                    -100, 0, 0, 100, 0, 0,
+                    0, 100, 0, 0, -100, 0
+                ],
+                indices: [
+                    0, 1,
+                    2, 3
+                ]
+            }),
+
+            material: new xeogl.PhongMaterial(scene, {
+                emissive: [0.0, 0.0, 0.0],
+                diffuse: [0, 0, 0],
+                ambient: [0, 0, 0],
+                backfaces: true,
+                lineWidth: 10
+            }),
+            pickable: false,
+            layer : 0
+        });
+
+        var firstDimensionPos = math.vec2();
+        var endDimensionPos = math.vec2();
+        var _isDimentions = false;
+        var _isFirstDimensionPos = false;
+        var _isEndDimensionPos = false;
+        var _firstPosDimension = math.vec3();
+        var _endPosDimension = math.vec3();
+
         // Registers loaded xeoEngine components for easy destruction
         var collection = new xeogl.Collection(scene); // http://xeoengine.org/docs/classes/Collection.html
 
         // Shows a wireframe box at the given boundary
-        var boundaryHelper = new xeogl.BIMBoundaryHelper(scene, self, {color: cfg.selectionBorderColor});
+        // var boundaryHelper = new xeogl.BIMBoundaryHelper(scene, self, {color: cfg.selectionBorderColor});
 
         var highlightEffect = new xeogl.HighlightEffect(scene, {color: cfg.selectionColor});
 
@@ -114,21 +221,24 @@ define([
         // Bookmark of initial state to reset to - captured with #saveReset(), applied with #reset().
         var resetBookmark = null;
 
+        var transparentObjectIds = [];
+
         // Component for each projection type,
         // to swap on the camera when we switch projection types
-        var projections = {
+        var project = { perspective : camera.project, ortho : new xeogl.Ortho(scene,{scale:5000, near:0.1, far:FAR_CLIP})};
+        // var projections = {
 
-            persp: camera.project, // Camera has a xeogl.Perspective by default
+        //     persp: camera.project, // Camera has a xeogl.Perspective by default
 
-            ortho: new xeogl.Ortho(scene, {
-                scale: 1.0,
-                near: 0.1,
-                far: FAR_CLIP
-            })
-        };
+        //     ortho: new xeogl.Ortho(scene, {
+        //         scale: 1.0,
+        //         near: 0.1,
+        //         far: FAR_CLIP
+        //     })
+        // };
 
         // The current projection type
-        var projectionType = "persp";
+        var projectionType = "perspective";
 
         //-----------------------------------------------------------------------------------------------------------
         // Camera notifications
@@ -182,11 +292,15 @@ define([
         // Camera control
         //-----------------------------------------------------------------------------------------------------------
 
-        var cameraControl = new xeogl.BIMCameraControl(scene, {
-            camera: camera
-        });
+        // var cameraControl = new xeogl.BIMCameraControl(scene, {
+        //     camera: camera
+        // });
 
-        cameraControl.on("pick",
+        var cameraControl = new xeogl.CameraControl(scene, {camera: camera});
+
+
+
+        cameraControl.on("doublePickedSurface",
             function (hit) {
 
                 // Get BIM object ID from entity metadata
@@ -216,15 +330,19 @@ define([
                     clickPosition: clickPos
                 });
             });
-
-        cameraControl.on("nopick",
+        
+        cameraControl.on("pickedNothing",
             function (hit) {
+                // console.log("dd");
                 self.setSelection({
                     clear: true
                 });
             });
 
+        cameraControl.active = true;
+        
         this.setCameraView = function(type){
+            // console.log(type);
             cameraControl.fire("cameraview", type);
         };
 
@@ -236,7 +354,7 @@ define([
          */
         this.setDefaultDragAction = function (action) {
             // console.log(action);
-            cameraControl.defaultDragAction = action;
+            cameraControl.toolbarDragAction = action;
         };
 
         /**
@@ -439,12 +557,8 @@ define([
 			
         	// Hide objects of certain types by default
         	if (hiddenTypes.indexOf(type) !== -1) {
-        		object.visibility.visible = false;
+        		object.visible = false;
             }
-            //object.material.opacity = 0.1;
-            //console.log(object.material.opacity+"dddddd");
-            if(object)
-                //this.bimObjects.add(object);
             return object;
         };
 
@@ -476,16 +590,19 @@ define([
             var color = DefaultMaterials[type] || DefaultMaterials["DEFAULT"];
 
             if (!guid) {
-                object.material.diffuse = [color[0], color[1], color[2]];
+                //object.material.diffuse = [color[0], color[1], color[2]];
+                object.ghostMaterial.fillColor  = [color[0], color[1], color[2]];
             }
-            object.material.specular = [0, 0, 0];
+            //object.material.specular = [0, 0, 0];
 
             if (color[3] < 1) { // Transparent object
-                object.material.opacity = color[3];
-                object.modes.transparent = true;
+                // object.material.alpha = color[3];
+                object.ghostMaterial.fillAlpha = color[3];
+                object.material.alphaMode = "blend";
+                transparentObjectIds.push(object.id);
             }
-            if (object.material.opacity < 1) { // Transparent object
-                object.modes.transparent = true;
+            if (object.material.alpha < 1) { // Transparent object
+                object.material.alphaMode = "blend";
             }
             //console.log("add object !!!!!!!!"+object);
 
@@ -597,7 +714,7 @@ define([
          * @param params.color Color to set.
          */
         this.setVisibility = function (params) {
-
+            // console.log(params.ids, params.types);
             var changed = false; // Only fire "visibility-changed" when visibility updates are actually made
             params = params || {};
 
@@ -637,7 +754,10 @@ define([
 
                 Object.keys(typedict).forEach(function (id) {
                     var object = typedict[id];
-                    object.visibility.visible = visible;
+                    var entities = object.entities;
+                    for(var i=0; i<entities.length; i++){
+                        entities[i].visible = visible;
+                    }
                     changed = true;
                 });
 				
@@ -653,7 +773,10 @@ define([
             for (i = 0, len = ids.length; i < len; i++) {
                 id = ids[i];
                 var fn = function(object) {
-                    object.visibility.visible = visible;
+                    var entities = object.entities;
+                    for(var i=0; i<entities.length; i++){
+                        entities[i].visible = visible;
+                    }
                     changed = true;
                 }
                 var object_ = objects[id];
@@ -693,6 +816,11 @@ define([
          * @param params.clear Whether to clear selection state prior to updating
          */
         this.setSelection = function (params) {
+            console.log(_isDimentions);
+            if(_isDimentions){
+                return;
+            }
+            highlightEffect.clear();
             params = params || {};
 
             var changed = false; // Only fire "selection-changed" when selection actually changes
@@ -839,22 +967,22 @@ define([
             var material = object.material;
             material.diffuse = [color[0], color[1], color[2]];
 
-            var opacity = (color.length > 3) ? color[3] : 1;
-            if (opacity !== material.opacity) {
-                material.opacity = opacity;
-                object.modes.transparent = opacity < 1;
+            var alpha = (color.length > 3) ? color[3] : 1;
+            if (alpha !== material.alpha) {
+                material.alpha = alpha;
+                object.modes.transparent = alpha < 1;
             }
         };
 		
 		/**
-         * Sets the opacity of objects specified by IDs of IFC types.
+         * Sets the alpha of objects specified by IDs of IFC types.
          *
          * @param params
          * @param params.ids IDs of objects to update.
          * @param params.types IFC type of objects to update.
-         * @param params.opacity Opacity to set.
+         * @param params.alpha alpha to set.
          */
-        this.setOpacity = function (params) {
+        this.setTransparentView = function (params) {
 
             params = params || {};
 
@@ -903,39 +1031,595 @@ define([
         };
 		
 		this._setObjectOpacity = function (object, opacity) {
+            // console.log("Transparent!!!!", object, object.transparent);
+            // var material = object.material;
 
-            var material = object.material;
-
-            if (opacity !== material.opacity) {
-                material.opacity = opacity;
-                object.modes.transparent = opacity < 1;
+            // if (opacity !== material.alpha) {
+            //     material.alpha = opacity;
+            //     // console.log("Transparent!!!!", object, object.transparent);
+            //     object.transparent = opacity < 1;
+            // }
+            if(transparentObjectIds.indexOf(object.id) !== -1)
+                return;
+            var entities = object.entities;
+            //console.log(entities);
+            if (entities) {
+                for (var i = 0, len = entities.length; i < len; i++) {
+                    // console.log(entities[i]);
+                    // console.log(opacity);
+                    entities[i].ghostMaterial.fillAlpha = opacity;
+                    entities[i].material.alphaMode = "blend";
+                    
+                }
             }
         };
 
+
+		/**
+         * Sets the wireframe of objects specified by IDs of IFC types.
+         *
+         * @param params
+         * @param params.ids IDs of objects to update.
+         * @param params.types IFC type of objects to update.
+         * @param params.wireframe bool to set.
+         */
+        this.setWireframeView = function (params) {
+
+            params = params || {};
+
+            var ids = params.ids;
+            var types = params.types;
+
+            if (!ids && !types) {
+                console.error("Param expected: ids or types");
+                return;
+            }
+
+            ids = ids || [];
+            types = types || [];
+
+            var wireframe = params.wireframe;
+
+            if (wireframe === undefined) {
+                console.error("Param expected: 'wireframe'");
+                return;
+            }
+
+            var objectId;
+            var object;
+			
+			for (i = 0, len = types.length; i < len; i++) {
+                var typedict = rfcTypes[types[i]] || {};
+                Object.keys(typedict).forEach(function (id) {
+                    var object = typedict[id];
+                    self._setWireframeView(object, wireframe);
+                });
+            }
+
+            for (var i = 0, len = ids.length; i < len; i++) {
+
+                objectId = ids[i];
+                object = objects[objectId] || objects_by_guid[objectId];
+
+                if (!object) {
+                    // No return on purpose to continue changing wireframe of
+                    // other potentially valid object identifiers.
+                    console.error("Object not found: '" + objectId + "'");
+                } else {
+                    this._setWireframeView(object, wireframe);
+                }
+            }
+        };
+		
+		this._setWireframeView = function (object, wireframe) {
+            var entities = object.entities;
+            if (entities) {
+                for (var i = 0, len = entities.length; i < len; i++) {
+                    if(wireframe)
+                    {
+                        entities[i].ghostMaterial.edges = true;
+                        entities[i].ghostMaterial.fill = false;
+                    }
+                    else{
+                        entities[i].ghostMaterial.edges = false;
+                        entities[i].ghostMaterial.fill = true;
+                    }
+                    
+                }
+            }
+        };
+
+        /**
+         * Sets the edges of objects specified by IDs of IFC types.
+         *
+         * @param params
+         * @param params.ids IDs of objects to update.
+         * @param params.types IFC type of objects to update.
+         * @param params.wireframe bool to set.
+         */
+        this.setEdgesView = function (params) {
+
+            params = params || {};
+
+            var ids = params.ids;
+            var types = params.types;
+
+            if (!ids && !types) {
+                console.error("Param expected: ids or types");
+                return;
+            }
+
+            ids = ids || [];
+            types = types || [];
+
+            var edges = params.edges;
+
+            if (edges === undefined) {
+                console.error("Param expected: 'edges'");
+                return;
+            }
+
+            var objectId;
+            var object;
+			
+			for (i = 0, len = types.length; i < len; i++) {
+                var typedict = rfcTypes[types[i]] || {};
+                Object.keys(typedict).forEach(function (id) {
+                    var object = typedict[id];
+                    self._setEdgesView(object, edges);
+                });
+            }
+
+            for (var i = 0, len = ids.length; i < len; i++) {
+
+                objectId = ids[i];
+                object = objects[objectId] || objects_by_guid[objectId];
+
+                if (!object) {
+                    // No return on purpose to continue changing edges of
+                    // other potentially valid object identifiers.
+                    console.error("Object not found: '" + objectId + "'");
+                } else {
+                    this._setEdgesView(object, edges);
+                }
+            }
+        };
+		
+		this._setEdgesView = function (object, edges) {
+            var entities = object.entities;
+            if (entities) {
+                for (var i = 0, len = entities.length; i < len; i++) {
+                    entities[i].ghostMaterial.edges = edges;
+                }
+            }
+        };
+
+        this.showGrid = function(show){
+            gridPlane1.visible = show;
+            gridPlane2.visible = show;
+        };
+
+
+        
+        var tempVecHover = math.vec3();
+        var _targetMeshDimension = new xeogl.Entity(scene, {
+            geometry: new xeogl.Geometry(scene, {
+                primitive: "lines",
+                positions: [
+                    -0.5, 0.5, 0, 0.5, 0.5, 0,
+                    -0.5, -0.5, 0, 0.5, -0.5, 0,
+                    -0.3,0,0,0.3,0,0,
+                    0,0.3,0,0,-0.3,0,
+                    0,0,0,0,0,0.5
+                ],
+                indices: [
+                    0,1,
+                    0,2,
+                    2,3,
+                    1,3,
+                    4,5,
+                    6,7,
+                    8,9
+                ]
+            }),
+            material: new xeogl.PhongMaterial(scene, {
+                emissive: [1, 0.2, 0.2],
+                diffuse: [1, 0, 0],
+                ambient: [0, 0, 0],
+                backfaces: true,
+                lineWidth: 10
+            }),
+            pickable: false,
+            layer : -1,
+            visible: false
+        });
+        var _preLineDimension = new xeogl.Entity(scene, {
+            geometry: new xeogl.Geometry(scene, {
+                primitive: "lines",
+                positions: [
+                    0,0,0,0,0,0
+                ],
+                indices: [
+                    0,1
+                ]
+            }),
+            material: new xeogl.PhongMaterial(scene,{
+                diffuse:[0,0,0],
+                backfaces:true,
+                lineWidth:5
+            }),
+            pickable: false,
+            layer : 0,
+            visible : false
+        });
+        
+        input.on("mousemove",
+            function (canvasPos) {
+                // console.log(_isDimentions);
+                if(_isDimentions){
+                    // console.log("move");
+                    updateHitCursorForMeasure(canvasPos);
+                }
+            });
+        input.on("mousedown", 
+            function(canvasPos){
+                // console.log(_isDimentions);
+                if(_isDimentions){
+                    // console.log("down");
+                    setDimensionPos(canvasPos);
+                }
+            });
+
+        this.newDimensions = function(){
+            _isDimentions = true;
+            _isFirstDimensionPos = false;
+            _isEndDimensionPos = false;
+            _firstPosDimension = math.vec3();
+            _endPosDimension = math.vec3();
+            highlightEffect.clear();
+        };
+
+        this.getScene = function(){
+            return scene;
+        }
+
+        this.deleteDimensions = function(){
+            for(var dim in dimensionLines){
+                dimensionLines[dim].destroy();
+            }
+            dimensionLines = [];
+        };
+
+        var updateHitCursorForMeasure = function(canvasPos) {
+            var hit = scene.pick({
+                canvasPos: canvasPos,
+                pickSurface: true
+            });
+
+            if (hit) {
+                // setCursor("pointer", true);
+                if (hit.worldPos) {
+                    //   console.log(hit);
+                    var t_p0 = []; 
+                    // console.log(hit.indices);
+
+                    var indices = [];
+                    indices[0] = hit.indices[0];
+                    indices[1] = hit.indices[1];
+                    indices[2] = hit.indices[2];
+                    // var temp = 0;
+                    // for (var i = 0; i < indices.length; i++) {
+                    //   for (var j = i; j < indices.length; j++) {
+                    //     if (indices[j] < indices[i]) {
+                    //       temp = indices[j];
+                    //       indices[j] = indices[i];
+                    //       indices[i] = temp;
+                    //     }
+                    //   }
+                    // }
+
+                    t_p0[0] = hit.entity.geometry.positions[indices[0]*3];
+                    t_p0[1] = hit.entity.geometry.positions[indices[0]*3+1];
+                    t_p0[2] = hit.entity.geometry.positions[indices[0]*3+2];
+                    var t_p1 = []; 
+                    t_p1[0] = hit.entity.geometry.positions[indices[1]*3];
+                    t_p1[1] = hit.entity.geometry.positions[indices[1]*3+1];
+                    t_p1[2] = hit.entity.geometry.positions[indices[1]*3+2];
+                    var t_p2 = []; 
+                    t_p2[0] = hit.entity.geometry.positions[indices[2]*3];
+                    t_p2[1] = hit.entity.geometry.positions[indices[2]*3+1];
+                    t_p2[2] = hit.entity.geometry.positions[indices[2]*3+2];
+                    var t_normal = [];
+                    t_normal = math.triangleNormal(t_p0, t_p1, t_p2, t_normal);
+
+                    // var mat_angle = hit.entity.transform.matrix;
+                    // var euler_angle = math.mat4ToEuler(mat_angle, 'XYZ', euler_angle);
+                    // euler_angle[0] = radianToDegree(euler_angle[0]);
+                    // euler_angle[1] = radianToDegree(euler_angle[1]);
+                    // euler_angle[2] = radianToDegree(euler_angle[2]);
+                    // console.log(euler_angle);
+
+                    var ang_x = Math.asin(-t_normal[1]);
+                    var ang_y = Math.asin(t_normal[0]);
+                    var ang_z = Math.acos(t_normal[2]);
+
+                    // ang_x = (ang_x + ang_z)/2;
+                    // ang_y = (ang_y + ang_z)/2;
+
+                    ang_x = radianToDegree(ang_x);
+                    ang_y = radianToDegree(ang_y);
+                    ang_z = radianToDegree(ang_z);
+
+                    // if(t_normal[3] === 1){
+                    //     ang_z = -90;
+                    //     console.log("dddddd");
+                    // }
+
+                    if(ang_x === 0 || ang_y === 0)
+                        ang_z = 90;
+                    else
+                        ang_z = 0; 
+
+                    // distance target pos with camera eye
+                    var disCamToTarget = distanceVec3(hit.worldPos, camera.eye);
+                    var targetScale = [disCamToTarget/20, disCamToTarget/20, disCamToTarget/20];
+
+                    // console.log(t_normal, ang_x, ang_y, ang_z);
+                    
+                    var t1 = new xeogl.Translate(scene, {
+                        xyz: hit.worldPos
+                    });
+                    var t2 = new xeogl.Scale(scene, {
+                        parent: t1,
+                        xyz: targetScale
+                    });
+                    var t3 = new xeogl.Rotate(scene, {
+                        parent:t2,
+                        xyz: [0,0,1],
+                        angle: ang_z - 90
+                    });
+                    var t4 = new xeogl.Rotate(scene, {
+                        parent:t3,
+                        xyz: [0,1,0],
+                        angle: ang_y
+                    });
+                    var t5 = new xeogl.Rotate(scene, {
+                        parent:t4,
+                        xyz: [1,0,0],
+                        angle: ang_x
+                    });
+
+
+                    _targetMeshDimension.visible = true;
+                    _targetMeshDimension.transform = t5;
+
+                    if(_isFirstDimensionPos){
+                        // console.log(_preLineDimension);
+                        // console.log(_firstPosDimension, hit.worldPos);
+                        _preLineDimension.visible = true;
+                        _preLineDimension.geometry.positions = [_firstPosDimension[0], _firstPosDimension[1], _firstPosDimension[2], hit.worldPos[0], hit.worldPos[1], hit.worldPos[2]];
+                    }
+                }
+            } else {
+                _targetMeshDimension.visible = false;
+                // setCursor("auto", true);
+            }
+        };
+        var dimensionLines = [];
+        var setDimensionPos = function(canvasPos){
+            // console.log(canvasPos);
+            var hit = scene.pick({
+                canvasPos: canvasPos,
+                pickSurface: true
+            });
+            if (hit) {
+                // setCursor("pointer", true);
+                if (hit.worldPos) {
+                    // TODO: This should be somehow hit.viewPos.z, but doesn't seem to be
+                    // var lastHoverDistance = math.lenVec3(math.subVec3(hit.worldPos, camera.view.eye, tempVecHover));
+                    if(_isFirstDimensionPos){
+                        _isEndDimensionPos = true;
+                        _endPosDimension = hit.worldPos;
+                        _isDimentions = false;
+                        _targetMeshDimension.visible = false;
+                        _preLineDimension.visible = false;
+                        //Draw new dimension
+                        // console.log(_firstPosDimension, hit.worldPos);
+                        dimensionLines.push(new xeogl.Entity(scene, {
+                            geometry: new xeogl.Geometry(scene, {
+                                primitive: "lines",
+                                positions: [
+                                    _firstPosDimension[0],_firstPosDimension[1],_firstPosDimension[2],_endPosDimension[0],_endPosDimension[1],_endPosDimension[2]
+                                ],
+                                indices: [
+                                    0,1
+                                ]
+                            }),
+                            material: new xeogl.PhongMaterial(scene,{
+                                emissive: [0.9, 0.3, 0.3],
+                                backfaces: true,
+                                lineWidth: 2
+                            }),
+                            highlightMaterial: new xeogl.EmphasisMaterial(scene, {
+                                edges: true,
+                                edgeAlpha: 1.0,
+                                edgeColor: [1, 0.0039, 0.682], //pink color
+                                edgeWidth: 2,
+                                vertices: true,
+                                vertexAlpha: 0.3,
+                                vertexColor: [1, 0.005, 0.682],
+                                vertexSize: 8,
+                                fill: true,
+                                fillColor: [1, 0.0039, 0.682],
+                                fillAlpha: 1
+                            }),
+                            highlighted: true,
+                            pickable: false,
+                            layer : -2,
+                            visible : true
+                        }));
+                        var dis = distanceVec3(_endPosDimension, _firstPosDimension);
+                        //unit mm
+                        dis = rateDimension * dis;
+                        dis = Math.floor(dis);
+
+                        var t_p0 = []; 
+                        t_p0[0] = hit.entity.geometry.positions[hit.indices[0]*3];
+                        t_p0[1] = hit.entity.geometry.positions[hit.indices[0]*3+1];
+                        t_p0[2] = hit.entity.geometry.positions[hit.indices[0]*3+2];
+                        var t_p1 = []; 
+                        t_p1[0] = hit.entity.geometry.positions[hit.indices[1]*3];
+                        t_p1[1] = hit.entity.geometry.positions[hit.indices[1]*3+1];
+                        t_p1[2] = hit.entity.geometry.positions[hit.indices[1]*3+2];
+                        var t_p2 = []; 
+                        t_p2[0] = hit.entity.geometry.positions[hit.indices[2]*3];
+                        t_p2[1] = hit.entity.geometry.positions[hit.indices[2]*3+1];
+                        t_p2[2] = hit.entity.geometry.positions[hit.indices[2]*3+2];
+                        var t_normal = [];
+                        t_normal = math.triangleNormal(t_p0, t_p1, t_p2, t_normal);
+
+                        // var ang = angleVec3(_endPosDimension, _firstPosDimension);
+                        var ang_x = Math.asin(-t_normal[1]);
+                        var ang_y = Math.asin(t_normal[0]);
+                        var ang_z = Math.acos(t_normal[2]);
+    
+                        // ang_x = (ang_x + ang_z)/2;
+                        // ang_y = (ang_y + ang_z)/2;
+    
+                        ang_x = radianToDegree(ang_x);
+                        ang_y = radianToDegree(ang_y);
+                        ang_z = radianToDegree(ang_z);
+
+                        var p0 = (_endPosDimension[0] + _firstPosDimension[0])/2;
+                        var p1 = (_endPosDimension[1] + _firstPosDimension[1])/2;
+                        var p2 = (_endPosDimension[2] + _firstPosDimension[2])/2;
+
+                        var txtPos = [p0,p1,p2];
+                        
+                        var t1 = new xeogl.Translate(scene, {
+                            xyz: txtPos
+                        });
+                        var t2 = new xeogl.Rotate(scene, {
+                            parent:t1,
+                            xyz: [0,0,1],
+                            angle: ang_z - 90
+                        });
+                        var t3 = new xeogl.Rotate(scene, {
+                            parent:t2,
+                            xyz: [0,1,0],
+                            angle: ang_y
+                        });
+                        var t4 = new xeogl.Rotate(scene, {
+                            parent:t3,
+                            xyz: [1,0,0],
+                            angle: ang_x
+                        });
+
+                        var t5 = new xeogl.Translate(scene, {
+                            parent:t1,
+                            xyz: [t_normal[0] * 2* dis/ 10540, t_normal[1]* 2* dis/ 10540, t_normal[2]* 2* dis/ 10540]
+                        });
+                        // dimension text
+                        marker(txtPos, dis + "mm");
+                        // var dimText = new xeogl.Entity(scene, {
+                        //     geometry: new xeogl.VectorTextGeometry(scene, {
+                        //         text: dis + "mm",
+                        //         size: 2 * dis/10540,
+                        //         origin: [-(dis+"mm").length/ 2 * 2 * dis/10540,-2 * dis/10540 /2,0 ]
+                        //     }),
+                        //     material: new xeogl.PhongMaterial(scene, {
+                        //         emissive: [0.9, 0.3, 0.3],
+                        //         backfaces: true,
+                        //         lineWidth: 2
+                        //     }),
+                        //     pickable: false,
+                        //     layer : -2,
+                        //     visible : true,
+                        //     transform: t5
+                        // });
+
+                    }
+                    else{
+                        _isFirstDimensionPos = true;
+                        _firstPosDimension[0] = hit.worldPos[0];
+                        _firstPosDimension[1] = hit.worldPos[1];
+                        _firstPosDimension[2] = hit.worldPos[2];
+                    }
+                }
+            } else {
+                // setCursor("auto", true);
+            }
+        }
+
+
+        //marker
+        var marker = function (pivotPoint, text) { // Pivots the Camera around an arbitrary World-space position
+            var spot = document.createElement("div");
+            spot.innerText = text;
+            spot.classList.add("marker");
+            spot.style.color = "#ff0080";
+            spot.style.position = "absolute";
+            spot.style.height = "25px";
+            spot.style.left = "0px";
+            spot.style.top = "0px";
+            // spot.style["border-radius"] = "5px";
+            // spot.style["border"] = "2px solid #ffffff";
+            spot.style["background"] = "#ffffff3f";
+            spot.style.visibility = "hidden";
+            spot.style["z-index"] = 0;
+            spot.style["pointer-events"] = "none";
+            spot.style["font-size"] = "x-large";
+            document.body.appendChild(spot);
+
+            (function () {
+                var viewPos = math.vec4();
+                var projPos = math.vec4();
+                var canvasPos = math.vec2();
+                var distDirty = true;
+                var canvas = scene.canvas;
+                camera.on("viewMatrix", function () {
+                    distDirty = true;
+                });
+                camera.on("projMatrix", function () {
+                    distDirty = true;
+                });
+                scene.on("tick", function () {
+                    if (distDirty) {
+                        math.transformPoint3(camera.viewMatrix, pivotPoint, viewPos);
+                        viewPos[3] = 1;
+                        math.transformPoint4(camera.projMatrix, viewPos, projPos);
+                        var aabb = canvas.boundary;
+                        // console.log(canvas, aabb);
+                        canvasPos[0] = Math.floor((1 + projPos[0] / projPos[3]) * aabb[2] / 2);
+                        canvasPos[1] = Math.floor((1 - projPos[1] / projPos[3]) * aabb[3] / 2);
+                        var canvasElem = canvas.canvas;
+                        // console.log(canvasElem);
+                        var rect = canvasElem.getBoundingClientRect();
+                        spot.style.left = (Math.floor(rect.left + canvasPos[0]) - 12) + "px";
+                        spot.style.top = (Math.floor(rect.top + canvasPos[1]) - 12) + "px";
+                        spot.style.visibility = "visible";
+                        distDirty = false;
+                    }
+                });
+            })();
+        };
         /**
          * Sets camera state.
          *
          * @param params
          */
         this.setCamera = function (params) {
-
+            // console.log(params)
             params = params || {};
 
             // Set projection type
 
             var type = params.type;
             // console.log(type);
-
-            if (type && type !== projectionType) {
-
-                var projection = projections[type];
-
-                if (!projection) {
-                    console.error("Unsupported camera projection type: " + type);
-                } else {
-                    camera.project = projection;
-                    projectionType = type;
-                }
+            if (type) {
+                camera.projection = type;
+                projectionType = type;
+                camera.project = project[type];
             }
 
             // Set camera position
@@ -969,7 +1653,7 @@ define([
             // Set camera FOV angle, only if currently perspective
 
             if (params.fovy) {
-                if (projectionType !== "persp") {
+                if (projectionType !== "perspective") {
                     console.error("Ignoring update to 'fovy' for current '" + projectionType + "' camera");
                 } else {
                     camera.project.fovy = params.fovy;
@@ -984,6 +1668,10 @@ define([
                 } else {
                     camera.project.scale = params.scale;
                 }
+            }
+
+            if(params.worldAxis){
+                camera.worldAxis = params.worldAxis;
             }
         };
 
@@ -1005,7 +1693,7 @@ define([
 
             var project = camera.project;
 
-            if (projectionType === "persp") {
+            if (projectionType === "perspective") {
                 json.fovy = project.fovy;
 
             } else if (projectionType === "ortho") {
@@ -1075,6 +1763,7 @@ define([
                 aabb = scene.worldBoundary.aabb;
 
             } else {
+                // console.log(ids);
                 aabb = getObjectsAABB(ids);
             }
 
@@ -1106,12 +1795,12 @@ define([
         // Updates the boundary helper
         //Effect highlight
         function setBoundaryState(params) {
-            console.log(params);
+            // console.log(params);
             if (params.aabb) {
                 throw new Error("Not supported");
             } else if (params.ids) {
                 //Edge Effect
-                boundaryHelper.setSelected(params.ids);
+                //boundaryHelper.setSelected(params.ids);
                 
                 highlightEffect.clear();
 
@@ -1123,6 +1812,7 @@ define([
                     objectId = ids[i];
                     object = objects[objectId];
                     if (object) {
+                        // console.log("ddd",object);
                         //Color Effect
                         highlightEffect.add(object);
                         //object.highlighted = true;
@@ -1163,9 +1853,9 @@ define([
 
                 objectId = ids[0];
                 object = objects[objectId] || objects_by_guid[objectId];
-
+                console.log(object);
                 if (object) {
-                    worldBoundary = object.worldBoundary;
+                    worldBoundary = object.entities[0];
 
                     if (worldBoundary) {
 
@@ -1304,7 +1994,7 @@ define([
 
                         object = objects[objectId] || objects_by_guid[objectId];
 
-                        if (getVisible && object.visibility.visible) {
+                        if (getVisible && object.visible) {
                             visible.push(objectId);
                         }
                     }
@@ -1313,8 +2003,7 @@ define([
             }
 
             if (getColors) {
-
-                var opacity;
+                
                 var colors = {};
                 var opacities = {};
 
@@ -1322,7 +2011,7 @@ define([
                     if (objects.hasOwnProperty(objectId)) {
                         object = objects[objectId] || objects_by_guid[objectId];
                         colors[objectId] = object.material.diffuse.slice(); // RGB
-                        opacities[objectId] = object.modes.transparent ? object.material.opacity : 1.0;
+                        opacities[objectId] = object.transparent ? object.material.opacity : 1.0;
                     }
                 }
                 bookmark.colors = colors;
@@ -1394,32 +2083,32 @@ define([
             }
         };
 
-        /**
-         * Sets general configurations.
-         *
-         * @param params
-         * @param {Boolean} [params.mouseRayPick=true] When true, camera flies to orbit each clicked point, otherwise
-         * it flies to the boundary of the object that was clicked on.
-         * @param [params.viewFitFOV=25] {Number} How much of field-of-view, in degrees, that a target {{#crossLink "Entity"}}{{/crossLink}} or its AABB should
-         * fill the canvas when calling {{#crossLink "CameraFlightAnimation/flyTo:method"}}{{/crossLink}} or {{#crossLink "CameraFlightAnimation/jumpTo:method"}}{{/crossLink}}.
-         * @param [params.viewFitDuration=1] {Number} Flight duration, in seconds, when calling {{#crossLink "CameraFlightAnimation/flyTo:method"}}{{/crossLink}}.
-         */
-        this.setConfigs = function (params) {
+        // /**
+        //  * Sets general configurations.
+        //  *
+        //  * @param params
+        //  * @param {Boolean} [params.mouseRayPick=true] When true, camera flies to orbit each clicked point, otherwise
+        //  * it flies to the boundary of the object that was clicked on.
+        //  * @param [params.viewFitFOV=25] {Number} How much of field-of-view, in degrees, that a target {{#crossLink "Entity"}}{{/crossLink}} or its AABB should
+        //  * fill the canvas when calling {{#crossLink "CameraFlightAnimation/flyTo:method"}}{{/crossLink}} or {{#crossLink "CameraFlightAnimation/jumpTo:method"}}{{/crossLink}}.
+        //  * @param [params.viewFitDuration=1] {Number} Flight duration, in seconds, when calling {{#crossLink "CameraFlightAnimation/flyTo:method"}}{{/crossLink}}.
+        //  */
+        // this.setConfigs = function (params) {
 
-            params = params || {};
+        //     params = params || {};
 
-            if (params.mouseRayPick != undefined) {
-                cameraControl.mousePickEntity.rayPick = params.mouseRayPick;
-            }
+        //     if (params.mouseRayPick != undefined) {
+        //         cameraControl.mousePickEntity.rayPick = params.mouseRayPick;
+        //     }
 
-            if (params.viewFitFOV !== undefined) {
-                cameraFlight.fitFOV = params.viewFitFOV;
-            }
+        //     if (params.viewFitFOV !== undefined) {
+        //         cameraFlight.fitFOV = params.viewFitFOV;
+        //     }
 
-            if (params.viewFitDuration !== undefined) {
-                cameraFlight.duration = params.viewFitDuration;
-            }
-        };
+        //     if (params.viewFitDuration !== undefined) {
+        //         cameraFlight.duration = params.viewFitDuration;
+        //     }
+        // };
 
         /**
          Returns a snapshot of this xeoViewer as a Base64-encoded image.
@@ -1511,9 +2200,33 @@ define([
         this.destroy = function() {
             scene.destroy();
         }
+
+        var distanceVec3 = function(a,b){
+            var c0 = a[0] - b[0];
+            var c1 = a[1] - b[1];
+            var c2 = a[2] - b[2];
+            return Math.sqrt(c0*c0 + c1*c1 + c2*c2);
+        }
+        var angleVec3 = function(a, b){
+            var angle = [];
+            angle[0] = Math.atan((a[2] - b[2])/(a[0] - b[0]));
+            angle[1] = Math.atan((a[2] - b[2])/(a[1] - b[1]));
+            angle[2] = Math.atan((a[1] - b[1])/(a[0] - b[0]));
+
+            angle[0] = radianToDegree(angle[0]);
+            angle[1] = radianToDegree(angle[1]);
+            angle[2] = radianToDegree(angle[2]);
+            return angle;
+        }
+
+        var radianToDegree = function(rad){
+            return rad*180/Math.PI;
+        }
+
     }
 
     xeoViewer.prototype = Object.create(EventHandler.prototype);
 
     return xeoViewer;
 });
+

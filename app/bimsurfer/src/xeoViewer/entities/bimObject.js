@@ -46,39 +46,69 @@ define(["../../../lib/xeogl"], function () {
             });
 
             // Visibility control component.
-            this.visibility = this.create({
-                type: "xeogl.Visibility", // http://xeoengine.org/docs/classes/Visibility.html
-                visible: true
-            });
+            // this.visibility = this.create({
+            //     type: "xeogl.Visibility", // http://xeoengine.org/docs/classes/Visibility.html
+            //     visible: true
+            // });
 
             // Material component
             this.material = this.create({
                 type: "xeogl.PhongMaterial", // http://xeoengine.org/docs/classes/Material.html
-                emissive: [0, 0, 0],
                 diffuse: [Math.random(), Math.random(), Math.random()], // Random color until we set for type
-                opacity: 1.0,
-                pointSize: 5
-            });
-
-            // Rendering modes component
-            this.modes = this.create({
-                type: "xeogl.Modes", // http://xeoengine.org/docs/classes/Modes.html
-                transparent: false,
+                alpha: 1.0,
+                alphaMode: "opaque",
                 backfaces: true
             });
 
-            // When highlighting, causes this object to render after non-highlighted objects
-            this.stage = this.create({
-                type: "xeogl.Stage",
-                priority: 0
+            this.ghostMaterial = this.create({
+                type: "xeogl.EmphasisMaterial",
+                edges: false,
+                edgeAlpha: 1.0,
+                edgeColor: [0.2, 0.8, 0.2],
+                edgeWidth: 2,
+                vertices: false,
+                vertexAlpha: 1.0,
+                vertexColor: [0.6, 1.0, 0.6],
+                vertexSize: 10,
+                fill: true,
+                fillColor: [0,0,0],
+                fillAlpha: 1
             });
+
+            this.highlightMaterial = this.create({
+                type: "xeogl.EmphasisMaterial",
+                edges: true,
+                edgeAlpha: 1.0,
+                edgeColor: [0, 1.0, 0.2],
+                edgeWidth: 2,
+                vertices: true,
+                vertexAlpha: 1.0,
+                vertexColor: [0.6, 1.0, 0.6],
+                vertexSize: 5,
+                fill: true,
+                fillColor: [0, 0.9, 0.1],
+                fillAlpha: 0.7
+            });
+
+            // Rendering modes component
+            // this.modes = this.create({
+            //     type: "xeogl.Modes", // http://xeoengine.org/docs/classes/Modes.html
+            //     transparent: false,
+            //     backfaces: true
+            // });
+
+            // When highlighting, causes this object to render after non-highlighted objects
+            // this.stage = this.create({
+            //     type: "xeogl.Stage",
+            //     priority: 0
+            // });
 
             // When highlighting, we use this component to disable depth-testing so that this object
             // appears to "float" over non-highlighted objects
-            this.depthBuf = this.create({
-                type: "xeogl.DepthBuf",
-                active: true
-            });
+            // this.depthBuf = this.create({
+            //     type: "xeogl.DepthBuf",
+            //     active: true
+            // });
 
             // Create a xeogl.Entity for each xeogl.Geometry
             // Each xeogl.Entity shares the components defined above
@@ -97,11 +127,16 @@ define(["../../../lib/xeogl"], function () {
                     },
                     geometry: "geometry." + cfg.geometryIds[i],
                     transform: this.transform,
-                    visibility: this.visibility,
+                    // visibility: this.visibility,
+                    visible: true,
                     material: this.material,
-                    modes: this.modes,
-                    stage: this.stage,
-                    depthBuf: this.depthBuf
+                    ghostMaterial: this.ghostMaterial,
+                    ghosted: true,
+                    highlightMaterial: this.highlightMaterial,
+                    highlighted: false
+                    // modes: this.modes,
+                    // stage: this.stage,
+                    // depthBuf: this.depthBuf
                 });
 
                 this.entities.push(entity);
@@ -116,11 +151,17 @@ define(["../../../lib/xeogl"], function () {
                 },
                 geometry: "geometry." + geometryId,
                 transform: this.transform,
-                visibility: this.visibility,
+                // visibility: this.visibility,
+                visible: true,
                 material: this.material,
-                modes: this.modes,
-                stage: this.stage,
-                depthBuf: this.depthBuf
+                ghostMaterial: this.ghostMaterial,
+                ghosted: true,
+                highlightMaterial: this.highlightMaterial,
+                highlighted: false
+
+                // modes: this.modes,
+                // stage: this.stage,
+                // depthBuf: this.depthBuf
             });
 
             this.entities.push(entity);
@@ -131,34 +172,34 @@ define(["../../../lib/xeogl"], function () {
         _props: {
 
             // World-space bounding volume
-            worldBoundary: {
-                get: function () {
-                    return this.entities[0].worldBoundary
-                }
-            },
+            // worldBoundary: {
+            //     get: function () {
+            //         return this.entities[0].worldBoundary
+            //     }
+            // },
 
             // View-space bounding volume
-            viewBoundary: {
-                get: function () {
-                    return this.entities[0].viewBoundary
-                }
-            },
+            // viewBoundary: {
+            //     get: function () {
+            //         return this.entities[0].viewBoundary
+            //     }
+            // },
 
             // Canvas-space bounding volume
-            canvasBoundary: {
-                get: function () {
-                    return this.entities[0].viewBoundary
-                }
-            },
+            // canvasBoundary: {
+            //     get: function () {
+            //         return this.entities[0].viewBoundary
+            //     }
+            // },
 
             // Whether or not this object is highlighted
-            highlighted: {
-                set: function (highlight) {
-                    this.depthBuf.active = !highlight;
-                    this.stage.priority = highlight ? 2 : 0;
-                    this.material.emissive = highlight ? [0.5, 0.5, 0.5] : [0, 0, 0];
-                }
-            }
+            // highlighted: {
+            //     set: function (highlight) {
+            //         this.depthBuf.active = !highlight;
+            //         this.stage.priority = highlight ? 2 : 0;
+            //         this.material.emissive = highlight ? [0.5, 0.5, 0.5] : [0, 0, 0];
+            //     }
+            // }
         }
     });
 });

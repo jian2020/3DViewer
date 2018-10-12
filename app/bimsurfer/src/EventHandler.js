@@ -2,13 +2,16 @@ define(function() {
     
     function EventHandler() {
         this.handlers = {};
+        //console.log("aaaaa");
     }
     
     EventHandler.prototype.on = function(evt, handler) {
-        (this.handlers[evt] || (this.handlers[evt] = [])).push(handler);        
+        (this.handlers[evt] || (this.handlers[evt] = [])).push(handler);       
+        //console.log("ooooooo"); 
     };
     
     EventHandler.prototype.off = function(evt, handler) {
+        //console.log("fffff");
         var h = this.handlers[evt];
         var found = false;
         if (typeof(h) !== 'undefined') {
@@ -24,6 +27,7 @@ define(function() {
     };
     
     EventHandler.prototype.fire = function(evt, args) {
+        //console.log("sssss");
         var h = this.handlers[evt];
         if (!h) {
             return;
