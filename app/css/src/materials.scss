@@ -70,7 +70,8 @@ table.dataTable.no-footer, #calculationList, #payrollList, #materialList {border
 #addMaterial input, #addMaterial select { border-radius: 20px }
 
 .light-theme ul li a, .light-theme ul li span {
-    background: #2259E4;
+    //background: #2259E4;
+    background: #DC3545;
     color: #fff;
     border-radius: 0;
     box-shadow: none;
@@ -81,7 +82,8 @@ table.dataTable.no-footer, #calculationList, #payrollList, #materialList {border
 .light-theme ul li.active span, .light-theme ul li span, .light-theme ul li .current,
 .light-theme ul li.active span:hover, .light-theme ul li span:hover, .light-theme ul li .current:hover {
     background: #e9ecef;
-    color: #2259E4;
+   // color: #2259E4;
+   color: #DC3545;
 }
 .light-theme ul li:first-child span, .light-theme ul li:first-child a {
     border-radius: 4px 0 0 4px;
@@ -137,3 +139,8 @@ table.dataTable tr.odd {background: #fff !important;}
 ul li.chip {padding: 5px; list-style: none; background: #e0e0e0; display: inline; border-radius: 6px;}
 #carousel.flexslider .slides img {width: 75px; height: 75px; object-fit: cover;}
 #slider.flexslider {margin-bottom: 0px;}
+
+.thumbImg {width: 110px; height:110px; overflow: hidden; position: relative;}
+.thumbImg img {width:110px; height:110px; object-fit:cover; object-position:center;}
+.thumbImg .removeImg {position: absolute; top: 5px; font-size: 16px; right: 5px; color: red; cursor: pointer;}
+table.dataTable thead>tr>th {padding: 0.75rem !important}

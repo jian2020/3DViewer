@@ -297,6 +297,14 @@ define(["./Notifier", "./BimServerModel", "./PreloadQuery", "./BimServerGeometry
             return viewer.getScene();
         };
 
+        this.getSelectedMaterial = function(){
+            return viewer.getSelectedMaterial();
+        };
+
+        this.changeSelectedMaterial = function(material){
+            viewer.changeSelectedMaterial(material);
+        };
+
         /**
          * Selects/deselects objects specified by id.
          **

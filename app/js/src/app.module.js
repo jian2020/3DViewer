@@ -7,7 +7,7 @@ const app = angular.module("app", [
   "ui-notification",
   "ngMap",
   "ui.select",
-  'ui.select2',
+  "ui.select2",
   "ngSanitize",
   "color.picker",
   "ui.bootstrap",
@@ -16,12 +16,14 @@ const app = angular.module("app", [
   "ngFileUpload",
   "infinite-scroll",
   "ui.tree",
+  "angularMoment",
   "btorfs.multiselect",
   "htmlToPdfSave",
   "dndLists",
   "angular.chips",
   "ui.bootstrap.contextMenu",
-  "cloudinary"
+  "cloudinary",
+  "FileSaver"
 ]);
 app.config(config);
 

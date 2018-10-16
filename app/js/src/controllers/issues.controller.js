@@ -14,7 +14,7 @@
       fileManagerFactory,
       Upload,
       localStorageService,
-      uploadFactory
+      uploadFactory,
     ) {
       let vm = this;
       const { logout, userStore,debounce } = globals;
@@ -292,12 +292,15 @@
         
       }
 
-      vm.files3Update=function(array){
-        console.log("in s3 function");
-        angular.forEach(array, x => {
+      
+
+      vm.files3Update=function(array,issuedata){
+        console.log("in s3 function",issuedata);
+        array.forEach((x,i,array) => {
           //console.log("S3 FILE FOREACH MEthod as array is not null");
           /* Attach events and props to fileObj so that we can use them in the view */
           let uploadHandler = evaporate => {
+            Notification.info(x.file.name+" is uploading ...");
             /* upload to s3 if value is less than 3 */
             x.file.pause = uploadFactory.pause.bind(evaporate, x);
             x.file.resume = uploadFactory.resume.bind(evaporate, x);
@@ -338,32 +341,38 @@
                 console.log(x);
                 let payload = {
                   type: fileManagerFactory.resolveDestType(x.file),
-                  
+                 
                   assetData: {
                     assetName: x.file.name,
                     assetdescription:x.comment,
                     bucket: "3dfilesdata",
                     key: `test/${x.file.name}`,
                     mimetype: x.file.type,
-                    bytes: x.file.size
+                    bytes: x.file.size,
+                    issueId:issuedata.data._id
                   }
                 };
+                console.log("INDEX:  ", i);
                 apiFactory
                   .newIssues3FileUpload(payload)
                   .then(resp => {
-                //   console.log("response from s3:",resp);
-                   itemProcessed++;
-                   $scope.UploadedFiles.push(resp);
-                   if(itemProcessed===vm.uploadViewFiles.s3.length){
-                   //return $scope.UploadedFiles;
-                   return "response from s3";
-                   }
+                    if (i === (array.length -1)) {
+                      $scope.inputFiles = [];
+           
+                      vm.issueData ={};
+                      $('#issue_modal').modal('hide');
+                      $('#issue_marker').modal('show');
+                       vm.sortissues("created", "toggleIssue");
+                       Notification.success("Asset saved successfully");
+                  }
+                    
+                  
                   })
                   .catch(e => {
                     console.log(e);
+                    Notification.error("Could not save asset object");
                   });
-                Notification.success("File successfully uploaded");
-                //console.log("File successfully uploaded to:", awsObjectKey);
+              
               },
               function(reason) {
                 /* Failure block */
@@ -395,7 +404,7 @@
             apiFactory
             .issueImage($scope.cloudinaryPayload)
             .then(resp => {
-              console.log("response of cloudinary: ", resp);
+              console.log("response of cloudinary: ", resp.data);
               // vm.uploadViewFiles.cloudinary = vm.uploadViewFiles.cloudinary.map(
               //   x => {
               //     x.completed = true;
@@ -429,13 +438,13 @@
         issueObject.description =  issueData.description;
         issueObject.project =  issueData.project._id;
         issueObject.issueCategory =  issueData.category;
-        issueObject.ownerId = issueData.roofer._id;
+        issueObject.ownerId = issueData.owner._id;
         issueObject.deadLine = issueData.deadLine;
         if(issueObject.dependencyOn){
          issueObject.dependencyOn=issueData.dependencyOn._id;
         }
         
-        issueObject.assignedTo=issueData.assignedTo._id;
+       // issueObject.assignedTo=issueData.assignedTo._id;
         issueObject.issueStatus=issueData.issueStatus;
         console.log("issueObj:",issueData);
       
@@ -458,51 +467,60 @@
       }
 
 
-       //fun1
-       function f1(){
-         console.log("f1");
-        apiFactory.getIssuesList().then(resp => {
-          vm.listOfIssue1 = resp.data.list;
-          console.log("f1", vm.listOfIssue1);
-           return vm.listOfIssue1 ;
-          });
-       }
-       //fun2
-       function f2(){
-        console.log("f2");
-
-        apiFactory.listAllRoofers().then(resp => {
-          vm.listOfRoofers1 = resp.data.list;
-          console.log("f2", vm.listOfRoofers1);
-
-          return vm.listOfRoofers1 ;
-          });
-       }
-       //fun 3
-       function f3(){
-        console.log("f3");
-
-        apiFactory.listAllProjects().then(resp => {
-          vm.listOfProjects1 = resp.data.list;
-          console.log("f3", vm.listOfProjects1);
-
-          return vm.listOfProjects1 ;
-          });
-       }
-
+      
+      
       vm.ADDISSUE = function(issueData){
-        //$scope.filesArray=$scope.inputFiles;
-        //vm.uploadViewFiles = fileManagerFactory.splitFileDest($scope.filesArray);
-        $("#issue_modal").modal("hide");
-        $("#issue_marker").modal("show");
-       // var projectID=issueData.project._id;
+        console.log(issueData);
+        
+       $scope.filesArray=$scope.inputFiles;
+       vm.uploadViewFiles = fileManagerFactory.splitFileDest($scope.filesArray);
 
+       var issueObject = {};
+       issueObject.assignedTo=[];
+       issueObject.title =  issueData.title;
+       issueObject.description =  issueData.description;
+       issueObject.projectId =  issueData.project._id;
+       issueObject.issueCategory =  issueData.category;
+       issueObject.ownerId = issueData.owner._id;
+       issueObject.deadLine = issueData.deadLine;
+      
+        issueObject.dependencyOn=issueData.dependencyOn._id;
        
+       
+       issueData.assignedTo.map(x=>{
+        issueObject.assignedTo.push(x._id);
+       });
+       issueObject.issueStatus=issueData.issueStatus;
+       issueObject.files=vm.uploadViewFiles.cloudinary;
+       console.log("issueObject: ",issueObject);
+        apiFactory
+          .createIssue(issueObject)
+          .then(resp => {
+            Notification.success("Issue has been saved successfully");
+            console.log(resp);
+            if(vm.uploadViewFiles.s3){
+              vm.files3Update(vm.uploadViewFiles.s3,resp.data);
 
-          
-         
+            }
+            else{
+            $scope.inputFiles = [];
+           
+            vm.issueData ={};
+            $('#issue_modal').modal('hide');
+            $('#issue_marker').modal('show');
+             vm.sortissues("created", "toggleIssue");
+            }
+            //vm.savedIssueObject = resp.data;
+           
+           // return resp;
+          })
+          .catch(e => {
+            console.log(e);
+            Notification.error("couldn't save issue");
+          });
 
       };
+
       vm.localFiles=[];
       $scope.getFilesFromLocal = function(files){
        console.log("local files: ",files);
@@ -736,6 +754,7 @@
       $scope.canvas = document.getElementById('slideCanvas');
     $( "#issue_marker").on('shown.bs.modal', function (e) {
    
+    
      $("#carousellist").flexslider({
       animation: "slide",
       controlNav: false,

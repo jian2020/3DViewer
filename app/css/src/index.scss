@@ -74,7 +74,7 @@ label:focus,
 .form-control:focus {
   outline: 0px !important;
   -webkit-appearance: none;
-  box-shadow: 0 0 0;
+  // box-shadow: 0 0 0;
 }
 
 input[type="checkbox"]:hover,
@@ -426,6 +426,9 @@ outline: none;
 }
 .btn {
   cursor: pointer;
+}
+.txtred{
+  color: #DC3545;
 }
 
 .transition {
@@ -1838,7 +1841,7 @@ box-shadow: 0 0 80px rgba(40, 54, 83, 0.2);
   border: 2px solid #dbdbdb;
   background: #fff;
   border-radius: 30px;
-  padding: 20px;
+  padding: 20px 8px;
 }
 .attached_images{
 margin: 0 -6px;
@@ -2103,6 +2106,10 @@ textarea.white_block:focus{
   object-fit: cover;
   height: 100%;
 }
+.img_box  .img_height img{
+  object-fit: contain;
+  height: 100%; width: 100%;
+}
 
 /*============Equipment Details=========================*/
 .equipment_details .test-block .head-block{
@@ -2117,9 +2124,10 @@ textarea.white_block:focus{
 }
 #equipment_slider .carousel-item img,#equipment_slider .carousel-inner,#equipment_slider .carousel-item,#equipment_slider {
   height:100%;
+  max-height: 500px
 }
 #equipment_slider .carousel-item img{
-  object-fit: cover;
+  object-fit: contain;
 }
 #equipment_slider .carousel-control-next,#equipment_slider .carousel-control-prev{
   top: 45%;
@@ -2303,6 +2311,9 @@ textarea.white_block:focus{
   }
   .f_block .form-control{
       height: 55px;
+  }
+  .percentageAddition .form-control{
+      height: 35px;
   }
   .head-block, #myTab.nav-tabs{
       height: 100px;
@@ -3112,4 +3123,7 @@ textarea.white_block:focus{
 
 body {
   padding-right: 0 !important;
+}
+.client-section .yello_clr.btn_create_issue {
+  background-color: #dc3545;
 }

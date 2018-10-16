@@ -1,0 +1,341 @@
+<div ng-include="'/partials/header-new.html'"></div>
+<section class="chat_section heightfull">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="row m-0 out-line-radius ">
+                    <div class="column1 pad0 side-shadow highindex animated fadeInLeft">
+                        <div>
+                            <!-- <md-button class="md-raised new_meeting " data-toggle="modal" data-target="#newmeeting_popup"><img src="/assets/images/plus.png" alt="plus-icon" > New Meeting</md-button> -->
+
+                            <a data-target="#newmeeting_popup" class="new_meeting ripple position-relative" data-toggle="modal">
+                                <img src="/assets/images/plus.png" alt=".." /> New Meeting</a>
+                            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                                <a class="nav-link ripple ripple2 animated fadeInUp wow" id="v-pills-home-tab" data-toggle="pill" data-target="#v-pills-home"
+                                    role="tab">
+                                    <div class="d-flex align-items-baseline">
+                                        <p class="mb-0">Meeting Room A</p>
+                                        <img src="/assets/images/newmessage.png" class="ml-auto" alt="newmessage" />
+                                    </div>
+                                    <div class="d-flex flex-wrap flex-xl-nowrap align-items-start space5">
+                                        <div class="pro_img">
+                                            <img src="/assets/images/user1.png" alt="userimage">
+                                        </div>
+                                        <div class="side_space">
+                                            <p class="person_name mb-0">Lisa Guerrero
+                                                <span class="time_tag">2:30 PM</span>
+                                            </p>
+                                            <p class="chat_msg f400">Lorem ipsum dolor sit amet, consectetur adipisicing...</p>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a class="nav-link ripple ripple2 animated fadeInUp wow active" id="v-pills-profile-tab" data-toggle="pill" data-target="#v-pills-profile"
+                                    role="tab">
+                                    Meeting Room B
+                                    <div class="d-flex flex-wrap flex-xl-nowrap align-items-start space5">
+                                        <div class="pro_img">
+                                            <img src="/assets/images/user1.png" alt="userimage">
+                                        </div>
+                                        <div class="side_space">
+                                            <p class="person_name mb-0">Lisa Guerrero
+                                                <span class="time_tag">2:00 PM</span>
+                                            </p>
+                                            <p class="chat_msg f400">Lorem ipsum dolor sit amet, consectetur adipisicing...</p>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a class="nav-link ripple ripple2 animated fadeInUp wow" id="v-pills-messages-tab" data-toggle="pill" data-target="#v-pills-messages"
+                                    role="tab">
+                                    Meeting Room C
+                                    <div class="d-flex flex-wrap flex-xl-nowrap align-items-start space5">
+                                        <div class="pro_img">
+                                            <img src="/assets/images/user1.png" alt="userimage">
+                                        </div>
+                                        <div class="side_space">
+                                            <p class="person_name mb-0">Lisa Guerrero
+                                                <span class="time_tag">1:30 PM</span>
+                                            </p>
+                                            <p class="chat_msg f400">Lorem ipsum dolor sit amet, consectetur adipisicing...</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column2 pad0 side-shadow lowindex animated fadeInUp wow">
+                        <div class="chat_window">
+                            <div class="chat_header">
+                                <div class="d-md-flex align-items-center justify-content-between w-100">
+                                    <h3 class="headOne">Meeting Room B</h3>
+                                    <div class="space15 d-md-none"></div>
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <ul class="list-inline mb-0 userlist d-flex align-items-center">
+                                            <li class="list-inline-item wobble-vertical">
+                                                <img src="/assets/images/user_pic.png" class="img-fluid" alt="userimage">
+                                            </li>
+                                            <li class="list-inline-item wobble-vertical">
+                                                <img src="/assets/images/user_pic4.png" class="img-fluid" alt="userimage">
+                                            </li>
+                                            <li class="list-inline-item wobble-vertical">
+                                                <img src="/assets/images/user_pic.png" class="img-fluid" alt="userimage">
+                                            </li>
+                                            <li class="list-inline-item wobble-vertical">
+                                                <img src="/assets/images/user_pic4.png" class="img-fluid" alt="userimage">
+                                            </li>
+                                            <li class="list-inline-item wobble-vertical">
+                                                +4
+                                            </li>
+                                        </ul>
+                                        <button data-target="#sharedfiles_popup" data-toggle="modal" class="btn shared ripple ripplePink">Shared Files
+                                            <img src="/assets/images/arrow_icon.png" class="ml-2" alt="arrow_icon">
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-content chat-container" id="v-pills-tabContent">
+                                <div class="tab-pane fade" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab"></div>
+                                <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                                    <div class="media reverse2 flex-wrap flex-md-nowrap animated fadeInUp wow">
+                                        <div class="media-body">
+                                            <p class="person_name mb-1 c_space dark f500 text-right">Lisa Guerrero</p>
+                                            <p class="chat_msg mb-0 whitebg_chat">
+                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.
+                                            </p>
+                                            <p class="time_tag mt-1 c_space mb-0">1:30 PM</p>
+                                        </div>
+                                        <img class="ml-auto ml-md-3" src="/assets/images/user1.png" alt="Generic placeholder image">
+                                    </div>
+                                    <div class="media space25 flex-md-row flex-column flex-wrap flex-md-nowrap  animated fadeInUp wow">
+                                        <img class="mr-3" src="/assets/images/user2.png" alt="Generic placeholder image">
+                                        <div class="media-body">
+                                            <p class="person_name mb-1 c_space dark f500">Peter Gregor</p>
+                                            <p class="chat_msg mb-0 purplebg_chat">
+                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.
+                                            </p>
+                                            <p class="time_tag mt-1 c_space mb-0 float-none">2:00 PM</p>
+                                        </div>
+                                    </div>
+                                    <div class="media space25 reverse2 flex-wrap flex-md-nowrap  animated fadeInUp wow">
+                                        <div class="media-body">
+                                            <p class="person_name mb-1 c_space dark f500 text-right">Lisa Guerrero</p>
+                                            <img src="/assets/images/media.png" class="d-block ml-auto c_space mb-3" alt="media">
+                                            <p class="chat_msg mb-0 whitebg_chat">
+                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.
+                                            </p>
+                                            <p class="time_tag mt-1 c_space mb-0">1:30 PM</p>
+                                        </div>
+                                        <img class="ml-auto ml-md-3" src="/assets/images/user1.png" alt="Generic placeholder image">
+                                    </div>
+                                    <div class="space30"></div>
+                                </div>
+                                <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab"></div>
+                            </div>
+                            <div class="type_msg d-flex">
+                                <input class="form-control msg_txtbox" placeholder="Type your message here...">
+                                <div class="d-flex align-items-center">
+                                    <button class="btn btn-attach ripple" data-target="#attach_popup" data-toggle="modal">
+                                        <!-- <img src="/assets/images/attach.png" class="img-fluid"> -->
+                                        <i class="fa fa-paperclip " aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                                <button class="btn btn-send ripple">Send</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column3 reverse pad0 animated fadeInRight">
+                        <div>
+                            <a data-target="#members_popup" data-toggle="modal" class="invite_member ripple">
+                                <img src="/assets/images/plus.png" alt=""> Invite Members</a>
+                        </div>
+                        <div class="todo_section">
+                            <h3 class="headOne animated fadeInUp wow">Todo List</h3>
+                            <ul class="list-unstyled to_dolist ">
+                                <li ng-repeat="list in todolist" class="animated fadeInUp wow">
+                                    <span class="dark">{{list.num}}</span>{{list.text}}
+                                    <p class="dark f600 mb-0 text-uppercase fsize14 space30">Assigned To</p>
+                                    <p class="mb-0">{{list.assigned}}</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Modal Popups -->
+
+<!-- Modal New Meetings-->
+<div class="modal fade popup1" data-easein="whirlIn" id="newmeeting_popup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title f500 txtwhite">New Meeting</h5>
+            </div>
+            <div class="modal-body">
+                <div class="content-width">
+                    <h5 class="fsize18 f500 c_space animated fadeInUp">Meeting Room Name</h5>
+                    <input type="text" class="form-control txt_box animated zoomIn wow">
+                    <div class="space50"></div>
+                    <h5 class="fsize18 f500 c_space animated fadeInUp">Todo List</h5>
+                    <ul class="list-unstyled mb-0 to_dolist2">
+                        <li ng-repeat="todo in todolist2" class="animated zoomIn wow">
+                            <span class="numblock">{{todo.num}}</span>
+                            <div class="borderblock">
+                                <p class="mb-0 fsize18 dark f500 ">{{todo.text}}</p>
+                            </div>
+                            <button class="btn cross_icon wobble-vertical">
+                                <img src="/assets/images/cross2.png" class="img-fluid">
+                            </button>
+                        </li>
+                    </ul>
+                    <button class="btn task_tag ripple ripplePurple">
+                        <img src="/assets/images/plus2.png" class="img-fluid" alt="plus">&nbsp; Add Another Task</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn_create ripple" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn_create ripple position-relative">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Invite Members-->
+<div class="modal fade popup1" data-easein="shrinkIn" id="members_popup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title f500 txtwhite">Invite Members</h5>
+            </div>
+            <div class="input-group searchbar">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">
+                        <img src="/assets/images/magnifyglass.png" class="search-icon">
+                    </span>
+                </div>
+                <input type="text" class="form-control" placeholder="Search members...">
+            </div>
+            <div class="modal-body">
+                <div class="inviteblock d-flex flex-wrap align-items-center " ng-repeat="invite in invitees">
+                    <div class="checkbox">
+                        <input id="{{invite.id}}" type="checkbox" ng-model="checked">
+                        <label for="{{invite.id}}"></label>
+                    </div>
+                    <div class="media align-items-center spaceleft">
+                        <img src="{{invite.img}}" class="img-fluid animated zoomIn wow">
+                        <div class="media-body animated zoomIn wow">
+                            <h6 class="fsize18 dark f500 user_name">{{invite.name}}</h6>
+                        </div>
+                    </div>
+                    <div class="dropdown ml-auto taskdrop animated zoomIn wow" ng-show="checked">
+                        <button class="btn selectbox dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Assign Task
+                        </button>
+                        <ul class="dropdown-menu avail_option">
+                            <li>Task1</li>
+                            <li>Task1</li>
+                            <li>Task1</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn_create ripple" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn_create ripple">Invite</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Shared Files-->
+<div class="modal fade popup1" id="sharedfiles_popup" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="d-flex align-items-center justify-content-between w-100">
+                    <h5 class="modal-title f500 txtwhite">Shared Files</h5>
+                    <button type="button" class="btn btn_cancel wobble-vertical" data-dismiss="modal">
+                        <img src="/assets/images/cross.png" class="img-fluid" alt="cross">
+                    </button>
+                </div>
+            </div>
+            <div class="input-group searchbar">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">
+                        <img src="/assets/images/magnifyglass.png" class="search-icon">
+                    </span>
+                </div>
+                <input type="text" class="form-control" placeholder="Search members...">
+            </div>
+            <div class="modal-body">
+                <div class="filname ">
+                    <h5 class="fsize18 dark f500">Images</h5>
+                    <div class="filname_block " ng-repeat="filename in images">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <p class="fsize18 f500 mb-0 ">{{filename.file}}</p>
+                            <button class="btn download_btn ">
+                                <img src="/assets/images/download.png" class="img-fluid " alt="download-icon">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="filname">
+                    <h5 class="fsize18 dark f500">Videos</h5>
+                    <div class="filname_block w" ng-repeat="vid in videos">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <p class="fsize18 f500 mb-0 ">{{vid.file}}</p>
+                            <button class="btn download_btn ">
+                                <img src="/assets/images/download.png" class="img-fluid " alt="download-icon">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="filname ">
+                    <h5 class="fsize18 dark f500">Documents</h5>
+                    <div class="filname_block" ng-repeat="docs in documents">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <p class="fsize18 f500 mb-0">{{docs.file}}</p>
+                            <button class="btn download_btn ">
+                                <img src="/assets/images/download.png" class="img-fluid " alt="download-icon">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Attach Files -->
+<div class="modal fade popup1" id="attach_popup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content animated wow flipInX">
+            <div class="modal-header">
+                <div class="d-flex align-items-center justify-content-between w-100">
+                    <h5 class="modal-title f500 txtwhite ">Attach File</h5>
+                    <button type="button" class="btn btn_cancel ripple wobble-vertical" data-dismiss="modal">
+                        <img src="/assets/images/cross.png" class="img-fluid" alt="cross">
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <ul class="flex-column flex-sm-row list-inline attach_list d-flex align-items-center mb-0 justify-content-between">
+                    <li class="d-flex" ng-repeat="attach in attachments">
+                        <a href="#" class="d-flex align-items-center flex-column animated zoomIn wow">
+                            <img src="{{attach.img}}" class="img-fluid" alt="categor-icon">
+                            <span class="dark fsize18 f500 cat_name">{{attach.name}}</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.2/velocity.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.2/velocity.ui.min.js"></script>
+<script type="text/javascript" src="js/custom.js"></script>

@@ -13,6 +13,28 @@
   ) {
     /* Requiring vars */
 
+    $scope.equipment = [
+      { img: '/assets/images/equipment.png', title: 'Equipment ABC', subtitle: 'EQ - 1234', work: 'Worker ID', tag: 'NNS1 - Kim Mosegaard' },
+      { img: '/assets/images/equipment.png', title: 'Equipment ABC', subtitle: 'EQ - 1234', work: 'Car', tag: 'NR. 99' },
+      { img: '/assets/images/equipment.png', title: 'Equipment ABC', subtitle: 'EQ - 1234', work: 'Worker ID', tag: 'NNS1 - Kim Mosegaard' },
+      { img: '/assets/images/equipment.png', title: 'Equipment ABC', subtitle: 'EQ - 1234', work: 'Worker ID', tag: 'NNS1 - Kim Mosegaard' },
+      { img: '/assets/images/equipment.png', title: 'Equipment ABC', subtitle: 'EQ - 1234', work: 'Car', tag: 'NR. 99' },
+      { img: '/assets/images/equipment.png', title: 'Equipment ABC', subtitle: 'EQ - 1234', work: 'Worker ID', tag: 'NNS1 - Kim Mosegaard' },
+      { img: '/assets/images/equipment.png', title: 'Equipment ABC', subtitle: 'EQ - 1234', work: 'Worker ID', tag: 'NNS1 - Kim Mosegaard' },
+      { img: '/assets/images/equipment.png', title: 'Equipment ABC', subtitle: 'EQ - 1234', work: 'Car', tag: 'NR. 99' },
+      { img: '/assets/images/equipment.png', title: 'Equipment ABC', subtitle: 'EQ - 1234', work: 'Worker ID', tag: 'NNS1 - Kim Mosegaard' }
+    ]
+    $scope.img_upload = [
+      { img: '/assets/images/equipment3.png' },
+      { img: '/assets/images/equipment3.png' },
+      { img: '/assets/images/equipment3.png' }
+    ]
+    $scope.equipdocuments = [
+      { img: '/assets/images/pdf.png', type: 'Document_1.pdf' },
+      { img: '/assets/images/pdf.png', type: 'Document_2.pdf' },
+      { img: '/assets/images/pdf.png', type: 'Document_3.pdf' }
+    ]
+
     let vm = this;
     const { logout, userStore } = globals;
     if (!authFactory.checkUser()) {

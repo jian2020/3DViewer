@@ -63,6 +63,12 @@ function routeConfig($stateProvider, $urlRouterProvider) {
     controller: "equipmentCtrl as vm"
   });
 
+  $stateProvider.state("equipmentView", {
+    url: "/equipmentView/:id",
+    templateUrl: "/partials/equipmentView.html",
+    controller: "equipmentViewCtrl as vm"
+  });
+
   $stateProvider.state("fileManager", {
     url: "/file_manager",
     templateUrl: "/partials/fileManager.html",
@@ -172,5 +178,29 @@ function routeConfig($stateProvider, $urlRouterProvider) {
     url: "/subcontractor_details/:id",
     templateUrl: "/partials/subcontractordetails.html",
     controller: "subcontractorDetailCtrl as vm"
+  });
+
+  $stateProvider.state("meetingroom", {
+    url: "/meetingroom",
+    templateUrl: "/partials/meetingRoom.html",
+    controller: "meetingRoomCtrl as vm"
+  });
+
+  $stateProvider.state("calender", {
+    url: "/calender",
+    templateUrl: "/partials/calender.html",
+    controller: "calenderCtrl as vm"
+  });
+  
+  $stateProvider.state("todo", {
+    url: "/todo",
+    templateUrl: "/partials/todo.html",
+    controller: "todoCtrl as vm"
+  });
+
+  $stateProvider.state("todoView", {
+    url: "/todoView/:id",
+    templateUrl: "/partials/todoView.html",
+    controller: "todoViewCtrl as vm"
   });
 }

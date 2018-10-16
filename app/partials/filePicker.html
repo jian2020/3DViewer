@@ -41,7 +41,7 @@
                 <ul class="rootFolder p-0">
                     <li ng-repeat="folder in folders" ng-click="viewFolder(folder)">
                         <i class="fas fa-folder mr-3"></i> {{folder.name}}</li>
-                    <li ng-repeat="file in files | filter: {format: 'pdf'}" ng-click="selectFile(file, breadCrumbs)">
+                    <li ng-repeat="file in files | filter: {format: options.filter}" ng-click="selectFile(file, breadCrumbs)">
                         <i class="fas fa-file mr-3"></i> {{file.assetName}}</li>
                 </ul>
             </div>

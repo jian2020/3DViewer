@@ -10,10 +10,10 @@
     Notification,
     globals,
     NgMap,
-    Upload
+    Upload,
+    moment
   ) {
     /* Requiring vars */
-
     let vm = this;
     const { logout, userStore, debounce } = globals;
     if (!authFactory.checkUser()) {
@@ -28,8 +28,9 @@
       logout();
     };
 
-    $(".payrollMenu").hide();
-
+    
+    vm.inputImg = [];
+    vm.inputFiles = [];
     /* Data table setup **************************/
     vm.dtOptions = {
       retrieve: true,
@@ -43,16 +44,14 @@
     /* Setting up inventory state */
     const inventoryState = globals.inventoryState();
     vm.activeTab = inventoryState.get().tab;
-    $scope.activeJustified = 0;
+    $(".tab-content .tab-pane")
+      .eq(inventoryState.get().tab)
+      .addClass("show");
     vm.currentPage = 1;
-    
-    $scope.$watch(
-      "vm.activeTab",
-      tab => {
-        inventoryState.setTab(tab);
-      },
-      true
-    );
+
+    vm.toggleTab = val => {
+      inventoryState.setTab(val);
+    };
 
     vm.toggleObj = {
       material: {
@@ -71,6 +70,15 @@
       }
     };
 
+    apiFactory
+      .getAllSuppliers()
+      .then(resp => {
+        vm.suppliers = resp.data.list;
+      })
+      .catch(e => {
+        console.log(e);
+      });
+
     vm.searchText = inventoryState.get().searchText;
 
     $scope.$watch(
@@ -80,15 +88,19 @@
       },
       true
     );
-    
-    /* $('.avail_option li').click(function () {
-      var txt = $(this).text();
-      var val = $(this).val();
-      $(this).parents().siblings('.selectbox').text(val);
-    }) */
-    vm.unitSelect = (data) => {
+
+    vm.unitSelect = data => {
       vm.selectedUnit = data.name;
-    }
+    };
+
+    vm.sortDisplay = (type, resource) => {
+      if (type && resource) {
+        console.log("ty", vm.toggleObj[resource][type]);
+        return `Sorted By: ${type} - ${
+          vm.toggleObj[resource][type] ? "ASC" : "DSC"
+        }`;
+      }
+    };
 
     vm.sortMaterials = (type, resource) => {
       /* For toggling ascending and descending order */
@@ -102,7 +114,7 @@
         page: inventoryState.get().page[resource],
         chunk: 10,
         sort: type,
-        search: vm.searchText,
+        search: inventoryState.get().searchText,
         sortType: vm.toggleObj[resource][type]
       })
         .then(resp => {
@@ -124,6 +136,7 @@
                   page: page,
                   chunk: 10,
                   sort: type,
+                  search: inventoryState.get().searchText,
                   sortType: vm.toggleObj[resource][type]
                 })
                   .then(resp => {
@@ -204,8 +217,100 @@
     /* End of  Data table setup **********************/
 
     /* Add material functionality */
-    vm.addMaterial = { conversionFactor: 1 };
+    let defaultMaintenancePeriod = 90;
+    vm.addMaterial = {
+      conversionFactor: 1,
+      maintenancePeriod: defaultMaintenancePeriod,
+      maintenanceDate: moment()
+        .add(defaultMaintenancePeriod, "days")
+        .format()
+    };
+    vm.changeMaintenancePeriod = days => {
+      vm.addMaterial.maintenanceDate = moment()
+        .add(days, "days")
+        .format();
+    };
+
     vm.tabSettings = { disable: true };
+
+    vm.tabChange = (val, flag) => {
+      if (flag == "combo") {
+        if (val == 0) {
+        } else if (val == 1) {
+          if (!vm.addComboMaterialForm.name) {
+            Notification.error("Please enter combo material name");
+            return;
+          } else if (!vm.selectedUnit) {
+            Notification.error("Please select unit");
+            return;
+          } else if (!vm.addComboMaterialForm.description) {
+            Notification.error("Please enter combo description");
+            return;
+          } else {
+            tabChangeFun(val);
+          }
+        } else if (val == 2) {
+          if (vm.comboMaterialList.length == 0) {
+            Notification.error("Please add Combination list");
+            return;
+          } else {
+            vm.TotalMC = 0;
+            vm.TotalRC = 0;
+
+            angular.forEach(vm.comboMaterialList, function(value) {
+              vm.TotalMC =
+                parseFloat(vm.TotalMC) + parseFloat(value.materialCost);
+              vm.TotalRC =
+                parseFloat(vm.TotalRC) + parseFloat(value.rooferCost);
+            });
+            vm.TotalMC = parseFloat(Math.round(vm.TotalMC * 100) / 100);
+            vm.TotalRC = parseFloat(Math.round(vm.TotalRC * 100) / 100);
+            tabChangeFun(val);
+          }
+        }
+        function tabChangeFun(val) {
+          $(".dcp_modal .nav-tabs li .nav-link").removeClass("active");
+          $(".dcp_modal .nav-tabs li .nav-link")
+            .eq(val)
+            .addClass("active");
+
+          $(".dcp_modal .tab-content .tab-pane").removeClass("active");
+          $(".dcp_modal .tab-content .tab-pane").removeClass("show");
+          $(".dcp_modal .tab-content .tab-pane")
+            .eq(val)
+            .addClass("show");
+          $(".dcp_modal .tab-content .tab-pane")
+            .eq(val)
+            .addClass("active");
+        }
+      } else {
+        if (!vm.addMaterial.materialName) {
+          Notification.error("Please enter material name");
+          return;
+        /* } else if (!vm.selectedUnit) {
+          Notification.error("Please select material unit");
+          return; */
+        } else if (!vm.addMaterial.currency) {
+          Notification.error("Please select currency");
+          return;
+        } else {
+          $(".material_modal .nav-tabs li .nav-link").removeClass("active");
+          $(".material_modal .nav-tabs li .nav-link")
+            .eq(val)
+            .addClass("active");
+
+          $(".material_modal .tab-content .tab-pane").removeClass("active");
+          $(".material_modal .tab-content .tab-pane").removeClass("show");
+          $(".material_modal .tab-content .tab-pane")
+            .eq(val)
+            .addClass("show");
+          $(".material_modal .tab-content .tab-pane")
+            .eq(val)
+            .addClass("active");
+        }
+      }
+    };
+
     apiFactory
       .getCompanyById(vm.userData.companyId)
       .then(resp => {
@@ -240,91 +345,24 @@
         });
     };
 
-    vm.tabStyle = val => {
-      if (
-        (vm.addMaterial.materialName !== undefined &&
-          vm.addMaterial.materialName !== "") ||
-        (vm.addComboMaterialForm.name !== undefined &&
-          vm.addComboMaterialForm.name !== "")
-      ) {
-        if (
-          (vm.addMaterial.matrialUnit !== undefined &&
-            vm.addMaterial.matrialUnit !== " ") ||
-          (vm.addComboMaterialForm.unitSymbol !== undefined &&
-            vm.addComboMaterialForm.unitSymbol !== " ")
-        ) {
-          if (
-            (vm.addMaterial.currency !== undefined &&
-              vm.addMaterial.currency !== "") ||
-            (vm.addComboMaterialForm.description !== undefined &&
-              vm.addComboMaterialForm.description !== " ")
-          ) {
-            if (
-              (vm.addMaterial.conversionFactor !== undefined &&
-                vm.addMaterial.conversionFactor !== "") ||
-              (vm.addComboMaterialForm.description !== undefined &&
-                vm.addComboMaterialForm.description !== " ")
-            ) {
-              $("uib-tab-heading.info i.fa").attr(
-                "style",
-                "display: inline-block !important; color: #3cbdaa"
-              );
-              $("uib-tab-heading.info .number").hide();
-              $(".btn-success.next").attr("disabled", false);
-            } else {
-              $("uib-tab-heading.info i.fa").attr(
-                "style",
-                "display: none !important; color: #3cbdaa"
-              );
-              $("uib-tab-heading.info .number").show();
-              $(".btn-success.next").attr("disabled", true);
-            }
-          } else {
-            $("uib-tab-heading.info i.fa").attr(
-              "style",
-              "display: none !important; color: #3cbdaa"
-            );
-            $("uib-tab-heading.info .number").show();
-            $(".btn-success.next").attr("disabled", true);
-          }
-        } else {
-          $("uib-tab-heading.info i.fa").attr(
-            "style",
-            "display: none !important; color: #3cbdaa"
-          );
-          $("uib-tab-heading.info .number").show();
-          $(".btn-success.next").attr("disabled", true);
-        }
-      } else {
-        $("uib-tab-heading.info i.fa").attr(
-          "style",
-          "display: none !important; color: #3cbdaa"
-        );
-        $("uib-tab-heading.info .number").show();
-        $(".btn-success.next").attr("disabled", true);
-      }
-    };
-
     vm.addMaterialNext = () => {
+      console.log(vm.addMaterial.materialUnit);
       if (
-        vm.addMaterial.materialName == undefined ||
-        vm.addMaterial.materialName == " "
+        vm.addMaterial.materialName == undefined &&
+        vm.addMaterial.materialName == ""
       ) {
         Notification.error("Please enter material name");
         return;
       }
 
-      if (
-        vm.addMaterial.matrialUnit == undefined ||
-        vm.addMaterial.matrialUnit == ""
-      ) {
+      if (!vm.addMaterial.materialUnit && vm.addMaterial.materialUnit == "") {
         Notification.error("Please select material Unit");
         return;
       }
 
       if (
-        vm.addMaterial.currency == undefined ||
-        vm.addMaterial.currency == " "
+        vm.addMaterial.currency == undefined &&
+        vm.addMaterial.currency == ""
       ) {
         Notification.error("Please select Currency");
         return;
@@ -337,10 +375,32 @@
       return cost * conversionRate;
     };
 
+    vm.deleteFile = (indexVal,type) => {
+      if(type='image') {
+        vm.inputImg.splice(indexVal, 1);
+      } else {
+        vm.inputFiles.splice(indexVal, 1);
+      }
+    }
+
+    vm.descriptionPopover = (indexVal,type) => {
+      $scope.fileType = type;
+      $scope.fileIndex = indexVal;
+    }
+    vm.addDescription = (index, data) => {
+      if($scope.fileType == 'image') {
+        vm.inputImg[index].description = data;
+      } else {
+        vm.inputFiles[index].description = data;
+      }
+      console.log($(this).parent().attr('class'))
+    }
     vm.addMaterialDetails = () => {
+      $scope.uploadFiles = [].concat(vm.inputImg, vm.inputFiles);
+      console.log($scope.uploadFiles)
       var formData = {
         name: vm.addMaterial.materialName,
-        unit: vm.addMaterial.matrialUnit,
+        unit: vm.selectedUnit,
         materialCost: {
           value: vm.changeCost(
             vm.addMaterial.materialCostValue,
@@ -355,14 +415,20 @@
           ),
           currencyCode: vm.companyData.currentCurrency.currencyCode
         },
-        files: vm.inputFiles
+        suppliers: vm.addMaterial.suppliers,
+        files: $scope.uploadFiles,
+        assetObj: $scope.uploadFiles.map((x, i) =>  {
+          return {
+            assetDescription : x.description
+          }
+        })
       };
 
       apiFactory
         .createMaterials(formData)
         .then(resp => {
           $scope.tab = 1;
-          $("#addMaterial").modal("hide");
+          $("#todo_modal").modal("hide");
           Notification.success(resp.data.message);
 
           /* Setting below prop true to force decending order on material add instead of toggling states */
@@ -402,55 +468,6 @@
     vm.comboMaterialList = [];
     vm.addComboMaterialForm = {};
     vm.percentageAddition = [];
-    vm.addComboMaterialNext = val => {
-      if (val == 0) {
-        $timeout(function() {
-          $(".btn-success.next").attr("disabled", false);
-        }, 500);
-        $scope.comboActiveJustified = val;
-      } else if (val == 1) {
-        if (
-          vm.addComboMaterialForm.name == undefined ||
-          vm.addComboMaterialForm.name == " "
-        ) {
-          Notification.error("Please enter material name");
-          return;
-        }
-
-        if (
-          vm.addComboMaterialForm.unitSymbol == undefined ||
-          vm.addComboMaterialForm.unitSymbol == ""
-        ) {
-          Notification.error("Please select material Unit");
-          return;
-        }
-
-        if (
-          vm.addComboMaterialForm.description == undefined ||
-          vm.addComboMaterialForm.description == " "
-        ) {
-          Notification.error("Please select Currency");
-          return;
-        }
-        $scope.comboActiveJustified = val;
-      } else if (val == 2) {
-        if (vm.comboMaterialList.length == 0) {
-          Notification.error("Please add Combination list");
-          return;
-        } else {
-          vm.TotalMC = 0;
-          vm.TotalRC = 0;
-          angular.forEach(vm.comboMaterialList, function(value) {
-            vm.TotalMC =
-              parseFloat(vm.TotalMC) + parseFloat(value.materialCost);
-            vm.TotalRC = parseFloat(vm.TotalRC) + parseFloat(value.rooferCost);
-          });
-          vm.TotalMC = parseFloat(Math.round(vm.TotalMC * 100) / 100);
-          vm.TotalRC = parseFloat(Math.round(vm.TotalRC * 100) / 100);
-          $scope.comboActiveJustified = val;
-        }
-      }
-    };
 
     /* get all material List */
     vm.mUnits = globals.mUnits;
@@ -463,14 +480,14 @@
       };
     });
 
-    /* apiFactory
+    apiFactory
       .listAllMaterials()
       .then(resp => {
         vm.allmaterilaList = resp.data.list;
       })
       .catch(e => {
         console.log(e);
-      }); */
+      });
 
     vm.comboList = {
       quantity: 1,
@@ -478,26 +495,30 @@
       rooferCost: 0
     };
 
-    vm.getMaterialInfo = materialInfo => {
-      vm.comboList.materialCost = parseFloat(
-        Math.round(
-          vm.comboList.quantity *
-            materialInfo.currentRate.materialCost.value *
-            100
-        ) / 100
-      );
-      vm.comboList.rooferCost = parseFloat(
-        Math.round(
-          vm.comboList.quantity *
-            materialInfo.currentRate.rooferCost.value *
-            100
-        ) / 100
-      );
-      vm.tabStyle();
-      $("a.item-selected span").removeClass("glyphicon glyphicon-remove");
-      $("a.item-selected span").addClass("fas fa-times mr-3");
+    vm.getMaterialInfo = material => {
+      let materialInfo = JSON.parse(material);
+      if (material) {
+        vm.comboList.materialCost = parseFloat(
+          Math.round(
+            vm.comboList.quantity *
+              materialInfo.currentRate.materialCost.value *
+              100
+          ) / 100
+        );
+        vm.comboList.rooferCost = parseFloat(
+          Math.round(
+            vm.comboList.quantity *
+              materialInfo.currentRate.rooferCost.value *
+              100
+          ) / 100
+        );
+        $("a.item-selected span").removeClass("glyphicon glyphicon-remove");
+        $("a.item-selected span").addClass("fas fa-times mr-3");
+      }
     };
-    vm.QtyChange = (val, material) => {
+
+    vm.QtyChange = (val, data) => {
+      let material = JSON.parse(data);
       if (val == "" || val == 0) {
         vm.comboList.quantity = 1;
         val = 1;
@@ -515,7 +536,6 @@
           Math.round(val * material.currentRate.rooferCost.value * 100) / 100
         );
       }
-      vm.tabStyle();
     };
 
     vm.addPercentageValue = () => {
@@ -528,7 +548,9 @@
       vm.percentageAddition.splice(index, 1);
     };
 
-    vm.materialCombination = data => {
+    vm.materialCombination = material => {
+      let data = JSON.parse(material);
+      console.log("material--", data);
       if (data != "") {
         vm.comboMaterialList.push({
           materialId: data._id,
@@ -550,9 +572,12 @@
       }
     };
 
-    vm.fileUpdated = (files, event) => {
+    vm.fileUpdated = (files, event, model) => {
       let fileObj = event.target.files;
       vm.fileNames = Object.keys(fileObj).map(x => fileObj[x].name);
+      angular.forEach(files, function (x, index) {
+        x.description = ''
+      })
     };
 
     vm.createComboMaterialList = () => {
@@ -576,7 +601,7 @@
         name: vm.addComboMaterialForm.name,
         unit: vm.addComboMaterialForm.unitSymbol,
         comboMaterialList: cmList,
-        files: vm.inputFiles
+        files: vm.inputImg
       };
 
       apiFactory

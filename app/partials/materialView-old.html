@@ -182,8 +182,8 @@
                                     <tr ng-repeat="rate in vm.matrialData.rateLog">
                                         <td class="table-data text-center"> {{$index + 1}} </td>
                                         <td class="table-data text-center"> {{rate.date | date}} </td>
-                                        <td class="table-data text-center"> {{rate.materialCost.value}} ({{rate.materialCost.currencyCode}}) </td>
-                                        <td class="table-data text-center"> {{rate.rooferCost.value}} ({{rate.rooferCost.currencyCode}}) </td>
+                                        <td class="table-data text-center"> {{rate.materialCost.value | roundNum:2}} ({{rate.materialCost.currencyCode}}) </td>
+                                        <td class="table-data text-center"> {{rate.rooferCost.value | roundNum:2}} ({{rate.rooferCost.currencyCode}}) </td>
                                     </tr>
                                 </tbody>
                             </table>

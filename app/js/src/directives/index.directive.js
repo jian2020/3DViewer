@@ -1,15 +1,15 @@
 (() => {
     angular.module('app').directive('autoComplete', function($timeout) {
-        return function(scope, iElement, iAttrs) {
-                iElement.autocomplete({
-                    source: scope[iAttrs.uiItems],
-                    select: function() {
-                        $timeout(function() {
-                          iElement.trigger('input');
-                        }, 0);
-                    }
-                });
-        };
+      return function(scope, iElement, iAttrs) {
+              iElement.autocomplete({
+                  source: scope[iAttrs.uiItems],
+                  select: function() {
+                      $timeout(function() {
+                        iElement.trigger('input');
+                      }, 0);
+                  }
+              });
+      };
     });
   })();
   
@@ -25,5 +25,5 @@
       }
     }
   });
-})();
   
+})();

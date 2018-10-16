@@ -7,6 +7,7 @@
       templateUrl: "/partials/filePicker.html",
       scope: {
         folders: "=",
+        options: "=",
         source: "=",
         sourcefile: "=",
         sourcedir: "="

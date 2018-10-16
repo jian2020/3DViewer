@@ -490,7 +490,11 @@
           });
       }
     };
+    /* File picker options */
 
+    vm.filePickerOptions = {
+      filter: "pdf"
+    };
     /* Function to search projects */
     vm.searchProjects = text => {
       apiFactory
@@ -704,10 +708,10 @@
         }
       }
     });
-    vm.hideSelectFile =()=> {
+    vm.hideSelectFile = () => {
       $("#chooseRoofModal").css("visibility", "visible");
-      $('#selectFile').css('display', 'none')
-    }
+      $("#selectFile").css("display", "none");
+    };
     vm.selectedFileList = (val, type, asset) => {
       if (val == "submit") {
         $("#chooseFile, #selectFile, #selectFileCanvas").css("display", "none");

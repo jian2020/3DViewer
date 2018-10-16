@@ -29,6 +29,55 @@
 
     vm.materialId = $stateParams.id;
     vm.mUnits = globals.mUnits;
+    globals.getCurrency().then(resp => {
+      vm.currencies = resp.data;
+      vm.loadCurrencies = $query => {
+        return new Promise((resolve, reject) => {
+          resolve(resp.data);
+        });
+      };
+    });
+
+    vm.showConversionRate = (from, to) => {
+      $(".loader").show();
+      let currencyData = {
+        from,
+        to
+      };
+      if (from) {
+        apiFactory
+          .showConversionRate(currencyData)
+          .then(resp => {
+            vm.editMaterial.conversionFactor = resp.data.conversionFactor;
+            $timeout(function () {
+              $(".loader").hide();
+            }, 500);
+          })
+          .catch(e => {
+            console.log(e);
+          });
+      }
+      
+    };
+
+    vm.tabChange = (val) => {
+      if (!vm.editMaterial.name) {
+        Notification.error("Please enter material name");
+      } else if (!vm.selectedUnit) {
+        Notification.error("Please select material unit");
+      } else if (!vm.editMaterial.currency) {
+        Notification.error("Please select currency");
+      } else {
+        $(".material_modal .nav-tabs li .nav-link").removeClass("active");
+        $(".material_modal .nav-tabs li .nav-link").eq(val).addClass("active");
+
+        $(".material_modal .tab-content .tab-pane").removeClass("active");
+        $(".material_modal .tab-content .tab-pane").removeClass("show");
+        $(".material_modal .tab-content .tab-pane").eq(val).addClass("show");
+        $(".material_modal .tab-content .tab-pane").eq(val).addClass("active");
+      }
+    };
+
     vm.editFlag = false;
     vm.removedFiles = [];
     $scope.getMatDetail = () => {
@@ -66,35 +115,36 @@
 
     vm.removeImg = img => {
       vm.removedFiles.push(vm.matrialData.files[img]._id);
-      vm.matrialData.files.splice(img, 1);
+      vm.editMaterial.files.splice(img, 1);
     };
-    vm.editMaterial = val => {
+    
+    vm.editMaterialFunction = val => {
       if (val == 1) {
         // edit Material
         vm.editFlag = true;
-        $(".materialDetail input, .materialDetail select").attr(
-          "disabled",
-          false
-        );
+        vm.editMaterial = angular.copy(vm.matrialData)
+        vm.selectedUnit = vm.editMaterial.unit
+        vm.currentCurrency = vm.editMaterial.currentRate.rooferCost.currencyCode
+        vm.editMaterial.currency = vm.editMaterial.currentRate.rooferCost.currencyCode
+        vm.showConversionRate(vm.currentCurrency, vm.editMaterial.currency)
+        console.log(vm.editMaterial)
+        $('#todo_modal.material_modal').modal('show')
+        // $(".materialDetail input, .materialDetail select").attr("disabled", false );
       } else if (val == 2) {
         // update Material
         vm.editFlag = false;
-        $(".materialDetail input, .materialDetail select").attr(
-          "disabled",
-          true
-        );
         var materialupdatedata = {
-          name: vm.matrialName,
-          unit: vm.matrialUnit,
+          name: vm.editMaterial.name,
+          unit: vm.selectedUnit,
           removedFiles: vm.removedFiles,
           currentRate: {
             materialCost: {
-              value: vm.matrialCost,
-              currencyCode: vm.matrialCurrencyCode //$scope.checkNull($scope.materialObj.materialCostcurrencyCode)["cc"]
+              value: vm.editMaterial.currentRate.materialCost.value,
+              currencyCode: vm.editMaterial.currency //$scope.checkNull($scope.materialObj.materialCostcurrencyCode)["cc"]
             },
             rooferCost: {
-              value: vm.matrialRooferCost,
-              currencyCode: vm.matrialRooferCurrencyCode //$scope.checkNull($scope.materialObj.rooferCostcurrencyCode)["cc"]
+              value: vm.editMaterial.currentRate.rooferCost.value,
+              currencyCode: vm.editMaterial.currency //$scope.checkNull($scope.materialObj.rooferCostcurrencyCode)["cc"]
             }
           },
           file: vm.inputFiles
@@ -103,9 +153,9 @@
           .updateMaterialById(vm.materialId, materialupdatedata)
           .then(resp => {
             Notification.success(resp.data.message);
+            $('#todo_modal.material_modal').modal('hide')
             $scope.getMatDetail();
-            vm.fileNames=[]
-            $timeout(imgSlider, 1000);
+            vm.fileNames=[];
           })
           .catch(e => {
             console.log(e);
@@ -158,5 +208,9 @@
       { s_no: '11', date: 'Sep 25, 2018', m_cost: '200 DKK', w_cost: '200 DKK' },
       { s_no: '12', date: 'Sep 25, 2018', m_cost: '200 DKK', w_cost: '200 DKK' }
     ]
+
+
   }
+  
+  
 })();

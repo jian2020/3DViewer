@@ -8,7 +8,8 @@ define([
     "./entities/bimObject",
     "./helpers/bimBoundaryHelper",
     "./effects/highlightEffect",
-    "./utils/collection"
+    "./utils/collection",
+    "../materialManager"
 ], function (DefaultMaterials, EventHandler, Utils) {
 
     "use strict";
@@ -184,6 +185,10 @@ define([
         var _firstPosDimension = math.vec3();
         var _endPosDimension = math.vec3();
 
+
+        var materialManager = new xeogl.MaterialManager(scene, {colors: DefaultMaterials});
+        materialManager.initMaterials();
+
         // Registers loaded xeoEngine components for easy destruction
         var collection = new xeogl.Collection(scene); // http://xeoengine.org/docs/classes/Collection.html
 
@@ -222,6 +227,9 @@ define([
         var resetBookmark = null;
 
         var transparentObjectIds = [];
+
+
+        
 
         // Component for each projection type,
         // to swap on the camera when we switch projection types
@@ -405,7 +413,7 @@ define([
          * @param {Float32Array} [params.center] Center point of model.
          */
         this.loadRandom = function (params) {
-            //console.log("loadRandom !!!!!!!!");
+            // console.log("loadRandom !!!!!!!!");
             params = params || {};
 
             this.clear();
@@ -425,7 +433,7 @@ define([
             var scale;
             var matrix;
             var types = Object.keys(DefaultMaterials);
-
+            console.log(types);
             var numEntities = params.numEntities || 200;
             var size = params.size || 200;
             var halfSize = size / 2;
@@ -570,7 +578,6 @@ define([
          * @private
          */
         this._addObject = function (type, object) {
-            //console.log(type);
             var guid;
             if (object.id.indexOf("#") !== -1) {
                 guid = Utils.CompressGuid(object.id.split("#")[1].substr(8, 36).replace(/-/g, ""));
@@ -586,25 +593,28 @@ define([
             // Register object against IFC type
             var types = (rfcTypes[type] || (rfcTypes[type] = {}));
             types[object.id] = object;
-
-            var color = DefaultMaterials[type] || DefaultMaterials["DEFAULT"];
+            // console.log(DefaultMaterials);
+            // var color = DefaultMaterials[type] || DefaultMaterials["DEFAULT"];
 
             if (!guid) {
-                //object.material.diffuse = [color[0], color[1], color[2]];
-                object.ghostMaterial.fillColor  = [color[0], color[1], color[2]];
-            }
-            //object.material.specular = [0, 0, 0];
+                // object.ghostMaterial.fillColor  = [color[0], color[1], color[2]];
+                // console.log(materialManager.getMaterialByType( type || "DEFAULT" ));
 
-            if (color[3] < 1) { // Transparent object
-                // object.material.alpha = color[3];
-                object.ghostMaterial.fillAlpha = color[3];
+                object.ghostMaterial = materialManager.getMaterialByType( type || "DEFAULT" );
+                var entities = object.entities;
+                for(var i=0; i<entities.length; i++){
+                    entities[i].ghostMaterial = materialManager.getMaterialByType( type || "DEFAULT" );
+                }
+                materialManager.addMaterial(object.ghostMaterial);
+            }
+
+            if (object.ghostMaterial.fillAlpha < 1) { // Transparent object
                 object.material.alphaMode = "blend";
                 transparentObjectIds.push(object.id);
             }
-            if (object.material.alpha < 1) { // Transparent object
-                object.material.alphaMode = "blend";
-            }
-            //console.log("add object !!!!!!!!"+object);
+            // if (object.material.alpha < 1) { // Transparent object
+            //     object.material.alphaMode = "blend";
+            // }
 
             if(self.typenames.indexOf(type)===-1)
             {
@@ -1281,7 +1291,15 @@ define([
 
         this.getScene = function(){
             return scene;
-        }
+        };
+
+        this.getSelectedMaterial = function(){
+            return materialManager.getSelectedMaterial();
+        };
+
+        this.changeSelectedMaterial = function(material){
+            materialManager.changeSelectedMaterial(material);
+        };
 
         this.deleteDimensions = function(){
             for(var dim in dimensionLines){
@@ -1562,9 +1580,7 @@ define([
             spot.style.height = "25px";
             spot.style.left = "0px";
             spot.style.top = "0px";
-            // spot.style["border-radius"] = "5px";
-            // spot.style["border"] = "2px solid #ffffff";
-            spot.style["background"] = "#ffffff3f";
+            spot.style.background = "#ffffff3f";
             spot.style.visibility = "hidden";
             spot.style["z-index"] = 0;
             spot.style["pointer-events"] = "none";

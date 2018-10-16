@@ -8,10 +8,12 @@
     localStorageService,
     globals,
     Upload,
-    Notification
+    Notification,
+    $q
   ) {
+    //const url = "http://192.168.10.188:1337",
     const url = "https://api.staging.cloudes.eu",
-    //  const url = "http://localhost:4200",
+      // const url = "http://localhost:4200",
       //const url = "http://localhost:1337",
       headers = (method, token) => {
         return {
@@ -193,10 +195,9 @@
       },
 
       createIssue: function(issueobj) {
-        console.log("in create issue api",issueobj);
+        console.log("in create issue api", issueobj);
         const promise = this.progressify(
-          // Upload.upload({
-            $http({
+          Upload.upload({
             url: url + "/api/createIssue",
             method: "POST",
             data: issueobj,
@@ -229,7 +230,6 @@
       },
 
       updateIssue: function(issueobj, id) {
-
         const promise = this.progressify(
           Upload.upload({
             url: url + "/api/updateIssue/" + id,
@@ -370,6 +370,17 @@
         const promise = this.progressify(
           $http({
             url: `${url}/api/getComboMaterialById/${comboId}`,
+            method: "GET",
+            headers: headers("GET", true)
+          })
+        );
+        return promise;
+      },
+
+      getEquipmentById: function(id) {
+        const promise = this.progressify(
+          $http({
+            url: `${url}/api/getEquipmentById/${id}`,
             method: "GET",
             headers: headers("GET", true)
           })
@@ -856,7 +867,6 @@
         );
         return promise;
       },
-   
 
       getAllSubcontractors: function(queryObj) {
         let query = !queryObj // building query string
@@ -924,112 +934,145 @@
         );
         return promise;
       },
-   
 
-     
-   
-    createNewSubcontractor:function(subcontractor){
-      const promise = this.progressify(
-        Upload.upload({
-          url: url + "/api/addsubcontractor",
-          method: "POST",
-          data: subcontractor,
-          headers: headers("POST", true)
-        })
-      );
-      return promise;
-    },
-   
+      createNewSubcontractor: function(subcontractor) {
+        const promise = this.progressify(
+          Upload.upload({
+            url: url + "/api/addsubcontractor",
+            method: "POST",
+            data: subcontractor,
+            headers: headers("POST", true)
+          })
+        );
+        return promise;
+      },
 
-    
+      getSubcontractorById: function(supplierID) {
+        const promise = this.progressify(
+          $http({
+            url: `${url}/api/getsubcontractor/${supplierID}`,
+            method: "GET",
+            headers: headers("GET", true)
+          })
+        );
+        return promise;
+      },
 
-  getSubcontractorById: function(supplierID) {
-    const promise = this.progressify(
-      $http({
-        url: `${url}/api/getsubcontractor/${supplierID}`,
-        method: "GET",
-        headers: headers("GET", true)
-      })
-    );
-    return promise;
-  },
+      issueImage: function(payload) {
+        const promise = this.progressify(
+          Upload.upload({
+            url: url + "/api/issueImage",
+            method: "POST",
+            data: payload,
+            headers: headers("POST", true)
+          })
+        );
+        return promise;
+      },
 
-  issueImage: function(payload) {
-    const promise = this.progressify(
-      Upload.upload({
-        url: url + "/api/issueImage",
-        method: "POST",
-        data: payload,
-        headers: headers("POST", true)
-      })
-    );
-    return promise;
-  },
+      newIssues3FileUpload: function(payload) {
+        console.log("IN S3 ISSUE FUNCTION");
+        const promise = this.progressify(
+          $http({
+            url: url + "/api/newIssues3FileUpload",
+            method: "POST",
+            data: payload,
+            headers: headers("POST", true)
+          })
+        );
+        return promise;
+      },
 
-  newIssues3FileUpload: function(payload) {
-    console.log("IN S3 ISSUE FUNCTION");
-    const promise = this.progressify(
-      $http({
-        url: url + "/api/newIssues3FileUpload",
-        method: "POST",
-        data: payload,
-        headers: headers("POST", true)
-      })
-    );
-    return promise;
-  },
+      postCommentForIssue: function(id, comment) {
+        console.log("Comment: ", comment);
+        const promise = this.progressify(
+          $http({
+            url: url + "/api/addcomment/" + id,
+            method: "PUT",
+            data: comment,
+            headers: headers("PUT", true)
+          })
+        );
+        return promise;
+      },
 
-  postCommentForIssue:function(id,comment){
-    console.log("Comment: ",comment);
-    const promise = this.progressify(
-      $http({
-        url: url + "/api/addcomment/" + id,
-        method: "PUT",
-        data: comment,
-        headers: headers("PUT", true)
-      })
-    );
-    return promise;
-  },
+      saveLocalIssueAsset: function(files) {
+        const promise = this.progressify(
+          Upload.upload({
+            url: `${url}/api/localFileImages`,
+            method: "POST",
+            headers: headers("POST", true),
+            data: files
+          })
+        );
+        return promise;
+      },
 
-  saveLocalIssueAsset: function(files) {
-    const promise = this.progressify(
-      Upload.upload({
-        url: `${url}/api/localFileImages`,
-        method: "POST",
-        headers: headers("POST", true),
-        data: files
-      })
-    );
-    return promise;
-  },
+      postMarkImg: function(dt) {
+        console.log("data: ", dt);
+        const promise = this.progressify(
+          Upload.upload({
+            url: `${url}/api/postmarkings`,
+            method: "POST",
+            headers: headers("POST", true),
+            data: dt
+          })
+        );
+        return promise;
+      },
 
-  postMarkImg:function(dt){
-    console.log("data: ",dt);
-    const promise = this.progressify(
-      Upload.upload({
-        url: `${url}/api/postmarkings`,
-        method: "POST",
-        headers: headers("POST", true),
-        data: dt
-      })
-    );
-    return promise;
-  },
+      reOpenIssueStatusUpdate: function(id) {
+        var IssuestatusObj = { completionStatus: "OPEN" };
+        const promise = this.progressify(
+          $http({
+            url: url + "/api/reopenStatus/" + id,
+            method: "PUT",
+            data: IssuestatusObj,
+            headers: headers("PUT", true)
+          })
+        );
+        return promise;
+      },
 
-  reOpenIssueStatusUpdate:function(id){
-    var IssuestatusObj={completionStatus:"OPEN"}
-    const promise = this.progressify(
-      $http({
-        url: url + "/api/reopenStatus/" + id,
-        method: "PUT",
-        data: IssuestatusObj,
-        headers: headers("PUT", true)
-      })
-    );
-    return promise;
-  },
-     
+      getAllAtOnce: function() {
+        // make our own promise
+        var deferred = $q.defer();
+
+        // we'll asume that you can put the fruit as part of the path
+        var infoPromise = $http({
+          url: url + "/api/getadminusers",
+          method: "GET",
+          headers: headers("GET", true)
+        });
+        var detailsPromise = $http({
+          url: url + "/api/listAllRoofers",
+          method: "GET",
+          headers: headers("GET", true)
+        });
+        // $http.get(url + "/api/listAllRoofers");
+
+        $q.all([infoPromise, detailsPromise]).then(function(data) {
+          deferred.resolve({
+            fruitInfo: data[0],
+            fruitDetails: data[1]
+          });
+
+          return deferred.promise;
+        });
+      },
+
+      saveIssueAsComplete: function(id, object) {
+        console.log(object);
+        const promise = this.progressify(
+          Upload.upload({
+            url: url + "/api/markissueascomplete/" + id,
+            method: "PUT",
+            data: object,
+            headers: headers("PUT", true)
+          })
+        );
+        return promise;
+      }
     };
   }
 })();

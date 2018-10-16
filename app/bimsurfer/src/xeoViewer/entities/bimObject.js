@@ -90,26 +90,6 @@ define(["../../../lib/xeogl"], function () {
                 fillAlpha: 0.7
             });
 
-            // Rendering modes component
-            // this.modes = this.create({
-            //     type: "xeogl.Modes", // http://xeoengine.org/docs/classes/Modes.html
-            //     transparent: false,
-            //     backfaces: true
-            // });
-
-            // When highlighting, causes this object to render after non-highlighted objects
-            // this.stage = this.create({
-            //     type: "xeogl.Stage",
-            //     priority: 0
-            // });
-
-            // When highlighting, we use this component to disable depth-testing so that this object
-            // appears to "float" over non-highlighted objects
-            // this.depthBuf = this.create({
-            //     type: "xeogl.DepthBuf",
-            //     active: true
-            // });
-
             // Create a xeogl.Entity for each xeogl.Geometry
             // Each xeogl.Entity shares the components defined above
 
@@ -127,16 +107,12 @@ define(["../../../lib/xeogl"], function () {
                     },
                     geometry: "geometry." + cfg.geometryIds[i],
                     transform: this.transform,
-                    // visibility: this.visibility,
                     visible: true,
                     material: this.material,
                     ghostMaterial: this.ghostMaterial,
                     ghosted: true,
                     highlightMaterial: this.highlightMaterial,
                     highlighted: false
-                    // modes: this.modes,
-                    // stage: this.stage,
-                    // depthBuf: this.depthBuf
                 });
 
                 this.entities.push(entity);
@@ -144,6 +120,7 @@ define(["../../../lib/xeogl"], function () {
         },
         
         add: function(geometryId){
+            // console.log(ddd,geometryId);
             var entity = this.create({ // http://xeoengine.org/docs/classes/Entity.html
                 type: "xeogl.Entity",
                 meta: {
@@ -151,17 +128,12 @@ define(["../../../lib/xeogl"], function () {
                 },
                 geometry: "geometry." + geometryId,
                 transform: this.transform,
-                // visibility: this.visibility,
                 visible: true,
                 material: this.material,
                 ghostMaterial: this.ghostMaterial,
                 ghosted: true,
                 highlightMaterial: this.highlightMaterial,
                 highlighted: false
-
-                // modes: this.modes,
-                // stage: this.stage,
-                // depthBuf: this.depthBuf
             });
 
             this.entities.push(entity);
@@ -177,29 +149,6 @@ define(["../../../lib/xeogl"], function () {
             //         return this.entities[0].worldBoundary
             //     }
             // },
-
-            // View-space bounding volume
-            // viewBoundary: {
-            //     get: function () {
-            //         return this.entities[0].viewBoundary
-            //     }
-            // },
-
-            // Canvas-space bounding volume
-            // canvasBoundary: {
-            //     get: function () {
-            //         return this.entities[0].viewBoundary
-            //     }
-            // },
-
-            // Whether or not this object is highlighted
-            // highlighted: {
-            //     set: function (highlight) {
-            //         this.depthBuf.active = !highlight;
-            //         this.stage.priority = highlight ? 2 : 0;
-            //         this.material.emissive = highlight ? [0.5, 0.5, 0.5] : [0, 0, 0];
-            //     }
-            // }
         }
     });
 });

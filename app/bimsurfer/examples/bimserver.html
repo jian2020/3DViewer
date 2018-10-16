@@ -430,6 +430,15 @@
 			return o.bimSurfer.getScene();
 		}
 
+		//Get selected material
+		window.getSelectedMaterial = function(){
+			return o.bimSurfer.getSelectedMaterial();
+		}
+		//Change selected material
+		window.changeSelectedMaterial = function(material){
+			o.bimSurfer.changeSelectedMaterial(material);
+		}
+
     </script>
 </head>
 <body>

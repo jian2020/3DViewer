@@ -1539,6 +1539,7 @@ textarea.white_block:focus{
 .bg_grey{
     background:#eaeaeb;
     height: 100%;
+    position: relative;
 }
 .issue_form,.bg_grey{
     padding: 30px;
@@ -2100,9 +2101,8 @@ textarea.white_block:focus{
   padding: 50px 0;
 }
 .modal-open .filemanager_section{
-  z-index: -9;
-
-position: relative;
+  z-index: -9; 
+  position: relative;
 }
 
 .filemanager_section #accordionExample{
@@ -3738,7 +3738,7 @@ position: relative;
 
 
 .popup2#check_modal .modal-dialog,
-.popup2#todo_modal .modal-dialog,
+// .popup2#todo_modal .modal-dialog,
 .popup2#check_item_modal .modal-dialog{
   max-width: 690px;
 }
@@ -3836,13 +3836,24 @@ position: relative;
   height: auto;
   padding: 22px 30px;
 }
-
+#add_Client textarea.form-control{
+  height: auto;
+  padding: 22px 30px;
+}
 #todo_modal .date-icon{
+  background: url(/assets/images/calendar-icon.png) no-repeat;
+  background-position: 92% !important;
+}
+#add_Client .date-icon{
   background: url(/assets/images/calendar-icon.png) no-repeat;
   background-position: 92% !important;
 }
 
 #todo_modal .clock-icon{
+  background: url(/assets/images/Clock-Icon.png) no-repeat;
+  background-position: 92% !important;
+}
+#add_Client .clock-icon{
   background: url(/assets/images/Clock-Icon.png) no-repeat;
   background-position: 92% !important;
 }
@@ -3859,6 +3870,8 @@ position: relative;
 
 .popup2#todo_modal .form-control.txt_box:focus,
 .popup2#todo_modal .form-control.txt_box1:focus,
+.popup2#add_Client .form-control.txt_box:focus,
+.popup2#add_Client .form-control.txt_box1:focus,
 .f_block .form-control:focus {
   border-color: #dc3545;
   box-shadow: none;
@@ -3871,7 +3884,17 @@ position: relative;
   background-color: #dc3545;
   color: #fff;
 }
-
+.popup2#add_Client .modal-header {
+  background-color: #dc3545;
+}
+.popup2#add_Client .modal-body {
+  height: 500px;
+  overflow-y: scroll;
+}
+.popup2#add_Client .modal-footer .btn_create_issue:hover {
+  background-color: #dc3545;
+  color: #fff;
+}
 
 #na-input{
   width: 0 !important;
@@ -3927,9 +3950,16 @@ position: relative;
     color: #fff;
 }
 
+#add_Client.popup2 .selectbox:focus {
+  border-color: #dc3545;
+}
+#add_Client.popup2 .taskdrop .dropdown-menu li:hover {
+    background-color: #dc3545;
+    color: #fff;
+}
 .material_modal .issue_form,
 .dcp_modal .issue_form{
-  box-shadow: inset -7px -10px 60px 0 rgba(169, 168, 168, 0.36);
+  /* box-shadow: inset -7px -10px 60px 0 rgba(169, 168, 168, 0.36); */
   min-height: 500px;
 }
 .add-material-block::-webkit-scrollbar {
@@ -4112,7 +4142,7 @@ position: relative;
 .table-bordered thead td, .table-bordered thead th {
   border-bottom-width: 0;
 }
-#dataTable_filter label{
+#dataTable_filter label, .dataTables_filter label{
   color: transparent;
   position: relative;
   display: inline-block;
@@ -4124,13 +4154,13 @@ table.dataTable thead .sorting::after{
   left: 9px;
   bottom: 10px !important;
 }
-#dataTable_filter input{
+#dataTable_filter input, .dataTables_filter input{
   height: 50px;
   margin-left: 0;
   width: 500px;
   margin-bottom: 15px;
 }
-#dataTable_filter label::after {
+#dataTable_filter label::after, .dataTables_filter label::after {
   content: url(/assets/images/Search-Icon.png);
   position: absolute;
   right: 0;
@@ -4142,7 +4172,7 @@ table.dataTable thead .sorting::after{
 div.dataTables_wrapper div.dataTables_filter {
   text-align: left !important;
 }
-#dataTable_length{
+#dataTable_length, .dataTables_length{
   margin-top: 15px !important;
   float: left;
   border: 1px solid #ddd;
@@ -4160,7 +4190,7 @@ div.dataTables_wrapper div.dataTables_length label{
 #dataTable_info{
   display: none !important;
 }
-#dataTable_paginate{
+#dataTable_paginate, .dataTables_paginate{
   float: right;
 }
 div.dataTables_wrapper div.dataTables_length select {
@@ -4175,10 +4205,12 @@ div.dataTables_wrapper div.dataTables_length select {
   color: #000;
   font-weight: 700;
 }
-#dataTable_previous a,#dataTable_next a{
+#dataTable_previous a,#dataTable_next a,
+.materialViewDataTable .dataTables_paginate a {
   font-size: 24px;
 }
-.pagination li a{
+.pagination li a,
+.materialViewDataTable .dataTables_paginate a {
   display: inline-block;
   width: 52px;
   height: 52px;
@@ -4191,7 +4223,8 @@ div.dataTables_wrapper div.dataTables_length select {
   font-size: 18px;
   color: #999999;
 }
-.pagination .paginate_button.active a{
+.pagination .paginate_button.active a, 
+.materialViewDataTable .dataTables_paginate span a.current {
   background: #dc3545;
   color: #fff;
 }
@@ -5512,6 +5545,10 @@ div.dataTables_wrapper div.dataTables_length select {
     margin-top: 5px;
     margin-left: 0 !important;
   }
+  #add_Client .selectbox{
+    margin-top: 5px;
+    margin-left: 0 !important;
+  }
   .txt_box1{
     height: 50px;
     font-size: 14px;
@@ -5706,8 +5743,25 @@ div.dataTables_wrapper div.dataTables_length select {
   .quantity-txtboxes p{
     font-size: 12px;
   }
-}
+} 
 
 #equipment_slider{
   overflow: hidden;
 }
+textarea.form-control {
+  height: auto;
+}
+
+/* custom dataTable styles */
+.materialViewDataTable .dataTables_filter {display: none}
+.materialViewDataTable .dataTables_length {margin-bottom: 15px !important}
+.img_box ul.list-unstyled {max-height: 300px; overflow-y: scroll;}
+.img_box ul.list-unstyled li {position: relative;}
+.img_box .img_height {position: relative;}
+.img_box .img_height .noteBtn {position: absolute; right: 15px; top: 10px;border-radius:4px}
+.img_height .btn-group.noteBtn .btn {border-radius:0 !important; padding: 4px 10px;}
+
+.addDescription .form-control { padding: 2px; }
+.addDescription .btn {padding: 2px;}
+.img_height .popover-body {padding-bottom: 0px; width:150px;}
+.hide {display: none;}

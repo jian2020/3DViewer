@@ -1,20 +1,19 @@
+<link href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i"
+  rel="stylesheet">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ"
+  crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
+<link rel="stylesheet" href="../bimsurfer/examples/css/newtheme.css">
+<link rel="stylesheet" href="../bimsurfer/examples/css/style.css">
+<link rel="stylesheet" href="../bimsurfer/examples/css/metadata.css">
+<link rel="stylesheet" href="../bimsurfer/examples/css/tree.css">
+<link rel="stylesheet" href="../bimsurfer/examples/css/newtree.css">
+<link rel="stylesheet" href="../bimsurfer/examples/css/annotation-style.css" />
+<nav class="navbar top-toolbar fixed-top navbar-expand-lg navbar-light px-2">
 
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
+  <a class="navbar-brand"><img src="../assets/images/logo.png" /></a>
 
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"/>
-    <link rel="stylesheet" href="../bimsurfer/examples/css/style.css">
-    <link rel="stylesheet" href="../bimsurfer/examples/css/metadata.css">
-    <link rel="stylesheet" href="../bimsurfer/examples/css/tree.css">
-    <link rel="stylesheet" href="../bimsurfer/examples/css/newtree.css">
-    <link rel="stylesheet" href="../bimsurfer/examples/css/annotation-style.css"/>
-
-    <nav class="navbar top-toolbar fixed-top navbar-expand-lg navbar-light px-2">
-        
-        <a class="navbar-brand"><img src="../assets/images/logo.png" /></a>
-        
-        <!-- <div class="mx-auto align-items-center d-flex">
+  <!-- <div class="mx-auto align-items-center d-flex">
           <div class="border-right border-dark pr-2">
             <button class="btn mr-2">
               <i class="fas fa-file text-green"></i>
@@ -85,8 +84,8 @@
           </div>
         </div> -->
 
-        <div class="ml-auto align-items-center d-flex">
-          <!-- <div class="slider-container mr-1">
+  <div class="ml-auto align-items-center d-flex">
+    <!-- <div class="slider-container mr-1">
               <div class="range-slide-container">
                    <input type="range" min="1" max="100" value="50" class="range-slider">
               </div>  
@@ -103,22 +102,25 @@
             <button class="btn">
               <i class="fas fa-redo text-warning"></i>
             </button>
-          </div>
-          <div class="windows mr-4">
-            <div class="dropdown">
-              <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
-                Windows
-              </button>
-              <div class="dropdown-menu">
-                <a class="dropdown-item small px-2" ><i class="fas fa-check fa-sm text-success"></i> Files</a>
-                <a class="dropdown-item small px-2" ><i class="fas fa-check fa-sm  text-success"></i>Tools</a>
-                <a class="dropdown-item small px-2" ><i class="fas fa-check  fa-sm text-success"></i>Layers</a>
-                <a class="dropdown-item small px-2" ><i class="fas fa-check fa-sm  text-success"></i>Properties</a>
-                <a class="dropdown-item small px-2" ><i class="fas text-success"></i>IFC Tools</a>
-              </div>
-            </div>
           </div> -->
-          <!-- <div class="ca m-0 bg-light row  rounded py-1 text-dark">
+    <div class="windows mr-4">
+      <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+          Windows
+        </button>
+        <div class="dropdown-menu" role="menu">
+          <a class="dropdown-item small px-2" onclick="if(getElementById('chk_components').classList.contains('fa-check')) { getElementById('chk_components').classList.remove('fa-check'); getElementById('dlg_components').style.display = 'none'; } else { getElementById('chk_components').classList.add('fa-check'); getElementById('dlg_components').style.display = 'block'; }"><i
+              id="chk_components" class="fas fa-check fa-sm text-success"></i> Components</a>
+          <a class="dropdown-item small px-2" onclick="if(getElementById('chk_materials').classList.contains('fa-check')) { getElementById('chk_materials').classList.remove('fa-check'); getElementById('dlg_materials').style.display = 'none'; } else { getElementById('chk_materials').classList.add('fa-check'); getElementById('dlg_materials').style.display = 'block'; }"><i
+              id="chk_materials" class="fas fa-check fa-sm  text-success"></i>Materials and colors</a>
+          <a class="dropdown-item small px-2" onclick="if(getElementById('chk_collision').classList.contains('fa-check')) { getElementById('chk_collision').classList.remove('fa-check'); getElementById('dlg_collision').style.display = 'none'; } else { getElementById('chk_collision').classList.add('fa-check'); getElementById('dlg_collision').style.display = 'block'; }"><i
+              id="chk_collision" class="fas fa-check fa-sm  text-success"></i>Collision check</a>
+          <a class="dropdown-item small px-2" onclick="if(getElementById('chk_story').classList.contains('fa-check')) { getElementById('chk_story').classList.remove('fa-check'); getElementById('dlg_story').style.display = 'none'; } else { getElementById('chk_story').classList.add('fa-check'); getElementById('dlg_story').style.display = 'block'; }"><i
+              id="chk_story" class="fas fa-check fa-sm  text-success"></i>Home Story</a>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="ca m-0 bg-light row  rounded py-1 text-dark">
             <div class="col px-2 border-right">
               Calibration <br> 1 unit = 0 units
             </div>
@@ -127,133 +129,134 @@
               <span>w: 100</span><span>h: 480</span>
             </div>
           </div> -->
-          <div class="header-right">
-	         
-              <ul class="notifications">
+    <div class="header-right">
+
+      <ul class="notifications">
+        <li>
+          <a class="notification-icon" data-toggle="dropdown">
+            <i class="faaa fa-envelope"></i>
+            <span class="badge">4</span>
+          </a>
+
+          <div class="dropdown-menu notification-menu">
+            <div class="notification-title">
+              <span class="float-right badge badge-default">230</span>
+              Messages
+            </div>
+
+            <div class="content">
+              <ul>
                 <li>
-                  <a  class="notification-icon" data-toggle="dropdown">
-                    <i class="faaa fa-envelope"></i>
-                    <span class="badge">4</span>
+                  <a class="clearfix">
+                    <figure class="image">
+                      <img src="../assets/images/user.jpg" alt="Harsh" class="rounded-circle" />
+                    </figure>
+                    <span class="title">Harsh</span>
+                    <span class="message">Lorem ipsum dolor sit.</span>
                   </a>
-          
-                  <div class="dropdown-menu notification-menu">
-                    <div class="notification-title">
-                      <span class="float-right badge badge-default">230</span>
-                      Messages
-                    </div>
-          
-                    <div class="content">
-                      <ul>
-                        <li>
-                          <a  class="clearfix">
-                            <figure class="image">
-                              <img src="../assets/images/user.jpg" alt="Harsh" class="rounded-circle" />
-                            </figure>
-                            <span class="title">Harsh</span>
-                            <span class="message">Lorem ipsum dolor sit.</span>
-                          </a>
-                        </li>
-                      </ul>
-          
-                      <hr />
-          
-                      <div class="text-right">
-                        <a  class="view-more">View All</a>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <a  class="notification-icon" data-toggle="dropdown">
-                    <i class="faaa fa-bell"></i>
-                    <span class="badge">3</span>
-                  </a>
-          
-                  <div class="dropdown-menu notification-menu">
-                    <div class="notification-title">
-                      <span class="float-right badge badge-default">3</span>
-                      Alerts
-                    </div>
-          
-                    <div class="content">
-                      <ul>
-                        <li>
-                          <a  class="clearfix">
-                            <div class="image">
-                              <i class="faaa fa-thumbs-down bg-danger text-light"></i>
-                            </div>
-                            <span class="title">Server is Down!</span>
-                            <span class="message">Just now</span>
-                          </a>
-                        </li>
-                        <li>
-                          <a  class="clearfix">
-                            <div class="image">
-                              <i class="faaa fa-lock bg-warning text-light"></i>
-                            </div>
-                            <span class="title">User Locked</span>
-                            <span class="message">15 minutes ago</span>
-                          </a>
-                        </li>
-                        <li>
-                          <a  class="clearfix">
-                            <div class="image">
-                              <i class="faaa fa-signal bg-success text-light"></i>
-                            </div>
-                            <span class="title">Connection Restaured</span>
-                            <span class="message">10/10/2017</span>
-                          </a>
-                        </li>
-                      </ul>
-          
-                      <hr />
-          
-                      <div class="text-right">
-                        <a  class="view-more">View All</a>
-                      </div>
-                    </div>
-                  </div>
                 </li>
               </ul>
-          
-              <span class="separator"></span>
-          
-              <div id="userbox" class="userbox">
-                  <a  data-toggle="dropdown" aria-expanded="false">
-                    <figure class="profile-picture">
-                      <img src="../assets/images/user.jpg" alt="Harsh" class="rounded-circle" data-lock-picture="../assets/images/user.jpg">
-                    </figure>
-                    <div class="profile-info" data-lock-name="Harsh" data-lock-email="Harsh@CloudES.com">
-                      <span class="name">Harsh</span>
-                      <span class="role">administrator</span>
-                    </div>
-            
-                    <i class="faaa custom-caret"></i>
-                  </a>
-            
-                  <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(-8px, 35px, 0px); top: 0px; left: 0px; will-change: transform;">
-                    <ul class="list-unstyled mb-2">
-                      <li class="divider"></li>
-                      <li>
-                        <a role="menuitem" tabindex="-1" href="pages-user-profile.html"><i class="faaa fa-user"></i> My Profile</a>
-                      </li>
-                      <li>
-                        <a role="menuitem" tabindex="-1"  data-lock-screen="true"><i class="faaa fa-lock"></i> Lock Screen</a>
-                      </li>
-                      <li>
-                        <a role="menuitem" tabindex="-1" href="pages-signin.html"><i class="faaa fa-power-off"></i> Logout</a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-            </div>
-        </div>
-    </nav>
 
-    <div class="viewContainer circle-toolbar-container" id="toolbarContainer">
-        <iframe src="../bimsurfer/bimsurfer.html" id = "bimviewer" style="width:-webkit-fill-available;height:-webkit-fill-available;margin-left:50px;" frameborder ="0" oncontextmenu="return false;"></iframe>
-        <!-- circle toolbar -->
-        <!-- <div class="circle-toolbar" id="toolbar"> 
+              <hr />
+
+              <div class="text-right">
+                <a class="view-more">View All</a>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <a class="notification-icon" data-toggle="dropdown">
+            <i class="faaa fa-bell"></i>
+            <span class="badge">3</span>
+          </a>
+
+          <div class="dropdown-menu notification-menu">
+            <div class="notification-title">
+              <span class="float-right badge badge-default">3</span>
+              Alerts
+            </div>
+
+            <div class="content">
+              <ul>
+                <li>
+                  <a class="clearfix">
+                    <div class="image">
+                      <i class="faaa fa-thumbs-down bg-danger text-light"></i>
+                    </div>
+                    <span class="title">Server is Down!</span>
+                    <span class="message">Just now</span>
+                  </a>
+                </li>
+                <li>
+                  <a class="clearfix">
+                    <div class="image">
+                      <i class="faaa fa-lock bg-warning text-light"></i>
+                    </div>
+                    <span class="title">User Locked</span>
+                    <span class="message">15 minutes ago</span>
+                  </a>
+                </li>
+                <li>
+                  <a class="clearfix">
+                    <div class="image">
+                      <i class="faaa fa-signal bg-success text-light"></i>
+                    </div>
+                    <span class="title">Connection Restaured</span>
+                    <span class="message">10/10/2017</span>
+                  </a>
+                </li>
+              </ul>
+
+              <hr />
+
+              <div class="text-right">
+                <a class="view-more">View All</a>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+
+      <span class="separator"></span>
+
+      <div id="userbox" class="userbox">
+        <a data-toggle="dropdown" aria-expanded="false">
+          <figure class="profile-picture">
+            <img src="../assets/images/user.jpg" alt="Harsh" class="rounded-circle" data-lock-picture="../assets/images/user.jpg">
+          </figure>
+          <div class="profile-info" data-lock-name="Harsh" data-lock-email="Harsh@CloudES.com">
+            <span class="name">Harsh</span>
+            <span class="role">administrator</span>
+          </div>
+
+          <i class="faaa custom-caret"></i>
+        </a>
+
+        <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(-8px, 35px, 0px); top: 0px; left: 0px; will-change: transform;">
+          <ul class="list-unstyled mb-2">
+            <li class="divider"></li>
+            <li>
+              <a role="menuitem" tabindex="-1" href="pages-user-profile.html"><i class="faaa fa-user"></i> My Profile</a>
+            </li>
+            <li>
+              <a role="menuitem" tabindex="-1" data-lock-screen="true"><i class="faaa fa-lock"></i> Lock Screen</a>
+            </li>
+            <li>
+              <a role="menuitem" tabindex="-1" href="pages-signin.html"><i class="faaa fa-power-off"></i> Logout</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="viewContainer circle-toolbar-container" id="toolbarContainer">
+  <iframe src="../bimsurfer/bimsurfer.html" id="bimviewer" style="width:-webkit-fill-available;height:-webkit-fill-available;margin-left:50px;"
+    frameborder="0" oncontextmenu="return false;"></iframe>
+  <!-- circle toolbar -->
+  <!-- <div class="circle-toolbar" id="toolbar"> 
             <div class="circle-toolbar-center" id="toolbar_center"></div>
             <div id = "btnfileload" class="toolbar-icon" onclick="onToolbarSelect('fileload');"><img class="circle-toolbar-icon" src="../assets/images/toolbar/fileload.png"/></div>
             <div id = "btnlayer" class="toolbar-icon" onclick="onToolbarSelect('layer');"><img class="circle-toolbar-icon" src="../assets/images/toolbar/layer.png"/></div>
@@ -269,364 +272,824 @@
               </div>
             </div>
         </div> -->
-        
-        <div class="rect-toolbar">
-          <div class="rect-toolbar-group">
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/1.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/2.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/3.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/4.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/5.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/6.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/7.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/8.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/9.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/10.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/11.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/12.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/13.png"/>
-            </div>
-          </div>
 
-          <div class="rect-toolbar-group">
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/14.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/15.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/16.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/17.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/18.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/19.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/20.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/21.png"/>
-            </div>
-            <div class="rect-toolbar-icon" onclick="onNewDimensions();">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/22.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/23.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/24.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/25.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/26.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/27.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/28.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/29.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/30.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/31.png"/>
-            </div>
-          </div>
-
-          <div class="rect-toolbar-group">
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/32.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/33.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/34.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/35.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/36.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/37.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/38.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/39.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/40.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/41.png"/>
-            </div>
-          </div>
-
-          <div class="rect-toolbar-group">
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/42.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/43.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/44.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/45.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/46.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/47.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/48.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/49.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/50.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/51.png"/>
-            </div>
-          </div>
-
-          <div class="rect-toolbar-group">
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/52.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/53.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/54.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/55.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/56.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/57.png"/>
-            </div>
-            <div class="rect-toolbar-icon" onclick="onSaveToGltf();">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/58.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/59.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/60.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/61.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/62.png"/>
-            </div>
-            <div class="rect-toolbar-icon">
-              <img class="rect-toolbar-img" src="../assets/images/toolbar/63.png"/>
-            </div>
-          </div>
-        </div>
-        <!-- top controller -->
-        <!-- camera view -->
-        <!-- view method -->
-        <div class="top-controller">
-          <div class="item">
-            <div class="dropdown">
-              <button class="dropdown-toggle top-toolbar-btn" type="button" data-toggle="dropdown" aria-expanded="false">
-                Cameras
-              </button>
-              <div class="dropdown-menu">
-                <a id = "chk_cam_persp" class="dropdown-item submenu px-2" onclick="onCheckCameras('perspective')"><i id="chk_persp" class="fas fa-check fa-sm text-success"></i>Perspective&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;P</a>
-                <a id = "chk_cam_ortho" class="dropdown-item submenu px-2" onclick="onCheckCameras('ortho')" ><i id="chk_ortho" class="fas fa-sm text-success"></i>Orthographic&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;O</a>
-                <a id = "chk_cam_top" class="dropdown-item submenu px-2" onclick="onCheckCameras('top')" ><i id ="chk_top" class="fas fa-sm text-success"></i>Top&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Num 1</a>
-                <a id = "chk_cam_bottom" class="dropdown-item submenu px-2" onclick="onCheckCameras('bottom')" ><i id = "chk_bottom" class="fas fa-sm text-success"></i>Bottom&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Num 2</a>
-                <a id = "chk_cam_front" class="dropdown-item submenu px-2" onclick="onCheckCameras('front')" ><i id="chk_front" class="fas fa-sm text-success"></i>Front&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Num 3</a>
-                <a id = "chk_cam_back" class="dropdown-item submenu px-2" onclick="onCheckCameras('back')" ><i id="chk_back" class="fas fa-sm text-success"></i>Back&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Num 4</a>
-                <a id = "chk_cam_left" class="dropdown-item submenu px-2" onclick="onCheckCameras('left')" ><i id="chk_left" class="fas fa-sm text-success"></i>Left&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Num 5</a>
-                <a id = "chk_cam_right" class="dropdown-item submenu px-2" onclick="onCheckCameras('right')" ><i id = "chk_right" class="fas fa-sm text-success"></i>Right&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Num 6</a>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="dropdown">
-              <button class="dropdown-toggle top-toolbar-btn" type="button" data-toggle="dropdown" aria-expanded="false">
-                Views
-              </button>
-              <div class="dropdown-menu">
-                <a id = "chk_view_shaded" class="dropdown-item submenu px-2" onclick="onCheckViews('shaded')"><i id = "chk_shaded" class="fas fa-check fa-sm text-success"></i>Shaded</a>
-                <a id = "chk_view_wire" class="dropdown-item submenu px-2" onclick="onCheckViews('wire')" ><i id = "chk_wire" class="fas fa-sm text-success"></i>Wireframe</a>
-                <a id = "chk_view_transp" class="dropdown-item submenu px-2" onclick="onCheckViews('transp')" ><i id = "chk_transp" class="fas fa-sm text-success"></i>Transparence</a>
-                <a id = "chk_view_edge" class="dropdown-item submenu px-2" onclick="onCheckViews('edge')" ><i id = "chk_edge" class="fas fa-sm text-success"></i>Edged Faces</a>
-                <a id = "chk_view_grid" class="dropdown-item submenu px-2" onclick="onCheckViews('grid')" ><i id = "chk_grid" class="fas fa-check fa-sm text-success"></i>Grid</a>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <!-- left toolbar -->
-        <div id="left_toolbar"class="left-toolbar" >
-          <div id = "btn_structures" class="left-toolbar-icon" onclick="onbtnStructures()">
-            <div class="left-toolbar-img">
-                <img src="../assets/images/lefttoolbar/structures_.png" style="width: 20px;"/>
-            </div>
-          </div>
-          <div id = "btn_layers" class="left-toolbar-icon" onclick="onbtnLayers()">
-            <div class="left-toolbar-img">
-                <img src="../assets/images/lefttoolbar/layers_.png" style="width: 20px;"/>
-            </div>
-          </div>
-          <div id = "btn_types" class="left-toolbar-icon" onclick="onbtnTypes()">
-            <div class="left-toolbar-img">
-                <img src="../assets/images/lefttoolbar/types.png" style="width: 20px;"/>
-            </div>
-          </div>
-          <div class="separator-horizontal"></div>
-          <div id = "btn_selector" class="left-toolbar-icon" onclick="onbtnSelector()">
-              <div class="left-toolbar-img">
-                  <img src="../assets/images/lefttoolbar/selector.png" style="width: 20px;"/>
-              </div>
-          </div>
-          <div id = "btn_pan" class="left-toolbar-icon" onclick="onbtnPanMove()">
-              <div class="left-toolbar-img">
-                  <img src="../assets/images/lefttoolbar/pan.png" style="width: 20px;"/>
-              </div>
-          </div>
-          <div id = "btn_orbit" class="left-toolbar-icon" onclick="onbtnOrbit()">
-              <div class="left-toolbar-img">
-                  <img src="../assets/images/lefttoolbar/orbit.png" style="width: 20px;"/>
-              </div>
-          </div>
-        </div>
-        <!-- structure dialog -->
-        <section id="dlg_structures" class="dialog dialog-structure">
-            <header class="dialog-header">
-              <div class="dialog-actions" onclick="getElementById('dlg_structures').style.display = 'none'; getElementById('btn_structures').classList.remove('select');">
-                <a  class="dialog-action dialog-action-dismiss" data-dialog-dismiss></a>
-              </div>
-              <h2 class="dialog-title">Structures</h2>
-            </header>
-            <div class="dialog-body">
-              <div class="scrollable" data-plugin-scrollable style="height: 100%;">
-                <div id = "dlg_structures_content" class="scrollable-content">  
-                </div>
-              </div>
-            </div>
-          </section>
-          <!-- layers dialog -->
-          <section id="dlg_layers" class="dialog dialog-structure">
-              <header class="dialog-header">
-                <div class="dialog-actions" onclick="getElementById('dlg_layers').style.display = 'none'; getElementById('btn_layers').classList.remove('select');">
-                  <a  class="dialog-action dialog-action-dismiss" data-dialog-dismiss></a>
-                </div>
-                <h2 class="dialog-title">Layers</h2>
-              </header>
-              <div class="dialog-body">
-                <div class="scrollable" data-plugin-scrollable style="height: 100%;">
-                  <div class="scrollable-content">  
-                      <table class="layertable">
-                          <thead class="text-dark">
-                             </thead>
-                             <tbody id="dlg_layers_content" >
-                          </tbody>
-                       </table>
-                  </div>
-                </div>
-              </div>
-            </section>
-            <!-- types dialog -->
-            <section id="dlg_types" class="dialog dialog-structure">
-              <header class="dialog-header">
-                <div class="dialog-actions" onclick="getElementById('dlg_types').style.display = 'none'; getElementById('btn_types').classList.remove('select');">
-                  <a  class="dialog-action dialog-action-dismiss" data-dialog-dismiss></a>
-                </div>
-                <h2 class="dialog-title">Types</h2>
-              </header>
-              <div class="dialog-body">
-                <div class="scrollable" data-plugin-scrollable style="height: 100%;">
-                  <div class="scrollable-content">  
-                      <table class="layertable">
-                          <thead class="text-dark">
-                             </thead>
-                             <tbody id="dlg_types_content" >
-                          </tbody>
-                       </table>
-                  </div>
-                </div>
-              </div>
-            </section>
-              <!-- Components dialog -->
-              <section id="dlg_components" class="dialog dialog-components">
-                <header id = "dlg_components_header" class="dialog-header">
-                  <div class="dialog-actions" onclick="getElementById('dlg_components').style.display = 'none'">
-                    <a  class="dialog-action dialog-action-dismiss" data-dialog-dismiss></a>
-                  </div>
-                  <h2 class="dialog-title">Components</h2>
-                </header>
-                <div class="dialog-body">
-                  <div class="scrollable" data-plugin-scrollable>
-                    <div class="scrollable-content">  
-                        <table class="layertable">
-                            <thead class="text-dark">
-                               </thead>
-                               <tbody id="dlg_components_content" >
-                            </tbody>
-                         </table>
-                    </div>
-                  </div>
-                </div>
-              </section>
+  <div class="rect-toolbar">
+    <div class="rect-toolbar-group">
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/1.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/2.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/3.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/4.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/5.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/6.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/7.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/8.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/9.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/10.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/11.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/12.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/13.png" />
+      </div>
     </div>
 
-    <!-- <div class="window-left window rounded bg-light border text-center"> 
+    <div class="rect-toolbar-group">
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/14.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/15.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/16.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/17.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/18.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/19.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/20.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/21.png" />
+      </div>
+      <div class="rect-toolbar-icon" onclick="onNewDimensions();">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/22.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/23.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/24.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/25.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/26.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/27.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/28.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/29.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/30.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/31.png" />
+      </div>
+    </div>
+
+    <div class="rect-toolbar-group">
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/32.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/33.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/34.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/35.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/36.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/37.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/38.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/39.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/40.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/41.png" />
+      </div>
+    </div>
+
+    <div class="rect-toolbar-group">
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/42.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/43.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/44.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/45.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/46.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/47.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/48.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/49.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/50.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/51.png" />
+      </div>
+    </div>
+
+    <div class="rect-toolbar-group">
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/52.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/53.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/54.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/55.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/56.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/57.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/58.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/59.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/60.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/61.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/62.png" />
+      </div>
+      <div class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/63.png" />
+      </div>
+    </div>
+  </div>
+  <!-- top controller -->
+  <!-- camera view -->
+  <!-- view method -->
+  <div class="top-controller">
+    <div class="item">
+      <div class="dropdown">
+        <button class="dropdown-toggle top-toolbar-btn" type="button" data-toggle="dropdown" aria-expanded="false">
+          Cameras
+        </button>
+        <div class="dropdown-menu">
+          <a id="chk_cam_persp" class="dropdown-item submenu px-2" onclick="onCheckCameras('perspective')"><i id="chk_persp"
+              class="fas fa-check fa-sm text-success"></i>Perspective&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;P</a>
+          <a id="chk_cam_ortho" class="dropdown-item submenu px-2" onclick="onCheckCameras('ortho')"><i id="chk_ortho"
+              class="fas fa-sm text-success"></i>Orthographic&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;O</a>
+          <a id="chk_cam_top" class="dropdown-item submenu px-2" onclick="onCheckCameras('top')"><i id="chk_top" class="fas fa-sm text-success"></i>Top&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Num
+            1</a>
+          <a id="chk_cam_bottom" class="dropdown-item submenu px-2" onclick="onCheckCameras('bottom')"><i id="chk_bottom"
+              class="fas fa-sm text-success"></i>Bottom&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Num
+            2</a>
+          <a id="chk_cam_front" class="dropdown-item submenu px-2" onclick="onCheckCameras('front')"><i id="chk_front"
+              class="fas fa-sm text-success"></i>Front&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Num
+            3</a>
+          <a id="chk_cam_back" class="dropdown-item submenu px-2" onclick="onCheckCameras('back')"><i id="chk_back"
+              class="fas fa-sm text-success"></i>Back&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Num
+            4</a>
+          <a id="chk_cam_left" class="dropdown-item submenu px-2" onclick="onCheckCameras('left')"><i id="chk_left"
+              class="fas fa-sm text-success"></i>Left&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Num
+            5</a>
+          <a id="chk_cam_right" class="dropdown-item submenu px-2" onclick="onCheckCameras('right')"><i id="chk_right"
+              class="fas fa-sm text-success"></i>Right&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Num
+            6</a>
+        </div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="dropdown">
+        <button class="dropdown-toggle top-toolbar-btn" type="button" data-toggle="dropdown" aria-expanded="false">
+          Views
+        </button>
+        <div class="dropdown-menu">
+          <a id="chk_view_shaded" class="dropdown-item submenu px-2" onclick="onCheckViews('shaded')"><i id="chk_shaded"
+              class="fas fa-check fa-sm text-success"></i>Shaded</a>
+          <a id="chk_view_wire" class="dropdown-item submenu px-2" onclick="onCheckViews('wire')"><i id="chk_wire"
+              class="fas fa-sm text-success"></i>Wireframe</a>
+          <a id="chk_view_transp" class="dropdown-item submenu px-2" onclick="onCheckViews('transp')"><i id="chk_transp"
+              class="fas fa-sm text-success"></i>Transparence</a>
+          <a id="chk_view_edge" class="dropdown-item submenu px-2" onclick="onCheckViews('edge')"><i id="chk_edge"
+              class="fas fa-sm text-success"></i>Edged Faces</a>
+          <a id="chk_view_grid" class="dropdown-item submenu px-2" onclick="onCheckViews('grid')"><i id="chk_grid"
+              class="fas fa-check fa-sm text-success"></i>Grid</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- left toolbar -->
+  <div id="left_toolbar" class="left-toolbar">
+    <div id="btn_structures" class="left-toolbar-icon" onclick="onbtnStructures()">
+      <div class="left-toolbar-img">
+        <img src="../assets/images/lefttoolbar/structures_.png" style="width: 20px;" />
+      </div>
+    </div>
+    <div id="btn_layers" class="left-toolbar-icon" onclick="onbtnLayers()">
+      <div class="left-toolbar-img">
+        <img src="../assets/images/lefttoolbar/layers_.png" style="width: 20px;" />
+      </div>
+    </div>
+    <div id="btn_types" class="left-toolbar-icon" onclick="onbtnTypes()">
+      <div class="left-toolbar-img">
+        <img src="../assets/images/lefttoolbar/types.png" style="width: 20px;" />
+      </div>
+    </div>
+    <div class="separator-horizontal"></div>
+    <div id="btn_selector" class="left-toolbar-icon" onclick="onbtnSelector()">
+      <div class="left-toolbar-img">
+        <img src="../assets/images/lefttoolbar/selector.png" style="width: 20px;" />
+      </div>
+    </div>
+    <div id="btn_pan" class="left-toolbar-icon" onclick="onbtnPanMove()">
+      <div class="left-toolbar-img">
+        <img src="../assets/images/lefttoolbar/pan.png" style="width: 20px;" />
+      </div>
+    </div>
+    <div id="btn_orbit" class="left-toolbar-icon" onclick="onbtnOrbit()">
+      <div class="left-toolbar-img">
+        <img src="../assets/images/lefttoolbar/orbit.png" style="width: 20px;" />
+      </div>
+    </div>
+  </div>
+  <!-- structure dialog -->
+  <section id="dlg_structures" class="dialog dialog-structure">
+    <header class="dialog-header">
+      <div class="dialog-actions" onclick="getElementById('dlg_structures').style.display = 'none'; getElementById('btn_structures').classList.remove('select');">
+        <a class="dialog-action dialog-action-dismiss" data-dialog-dismiss></a>
+      </div>
+      <h2 class="dialog-title">Structures</h2>
+    </header>
+    <div class="dialog-body">
+      <div class="scrollable" data-plugin-scrollable style="height: 100%;">
+        <div id="dlg_structures_content" class="scrollable-content">
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- layers dialog -->
+  <section id="dlg_layers" class="dialog dialog-structure">
+    <header class="dialog-header">
+      <div class="dialog-actions" onclick="getElementById('dlg_layers').style.display = 'none'; getElementById('btn_layers').classList.remove('select');">
+        <a class="dialog-action dialog-action-dismiss" data-dialog-dismiss></a>
+      </div>
+      <h2 class="dialog-title">Layers</h2>
+    </header>
+    <div class="dialog-body">
+      <div class="scrollable" data-plugin-scrollable style="height: 100%;">
+        <div class="scrollable-content">
+          <table class="layertable">
+            <thead class="text-dark">
+            </thead>
+            <tbody id="dlg_layers_content">
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- types dialog -->
+  <section id="dlg_types" class="dialog dialog-structure">
+    <header class="dialog-header">
+      <div class="dialog-actions" onclick="getElementById('dlg_types').style.display = 'none'; getElementById('btn_types').classList.remove('select');">
+        <a class="dialog-action dialog-action-dismiss" data-dialog-dismiss></a>
+      </div>
+      <h2 class="dialog-title">Types</h2>
+    </header>
+    <div class="dialog-body">
+      <div class="scrollable" data-plugin-scrollable style="height: 100%;">
+        <div class="scrollable-content">
+          <table class="layertable">
+            <thead class="text-dark">
+            </thead>
+            <tbody id="dlg_types_content">
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Components dialog -->
+  <section id="dlg_components" class="dialog dialog-components">
+    <header id="dlg_components_header" class="dialog-header">
+      <div class="dialog-actions" onclick="getElementById('dlg_components').style.display = 'none'; getElementById('chk_components').classList.remove('fa-check');">
+        <a class="dialog-action dialog-action-dismiss" data-dialog-dismiss></a>
+      </div>
+      <h2 id="drag_item" class="dialog-title">Components</h2>
+    </header>
+    <div class="dialog-body">
+      <div class="scrollable" data-plugin-scrollable>
+        <div class="scrollable-content">
+          <div class="top-part">
+            <table style="width:-webkit-fill-available;height:-webkit-fill-available;">
+              <tbody>
+                <tr>
+                  <td>
+                    <div style="width: 160px;text-align: center;left: 100px;margin-left: 80px;">
+                      <img src="../assets/images/dialog/sample.png">
+                    </div>
+                    <!-- <canvas id = "material_preview" class="material-preview"></canvas> -->
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="btn-group flex-wrap dropdown">
+                      <button type="button" class="mb-1 mt-1 mr-1 dropdown-btn btn-default" data-toggle="dropdown">Select<i
+                          class="caret"></i></button>
+                      <div class="dropdown-menu">
+                        <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> Component1</a>
+                        <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> Component2</a>
+                        <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> Component3</a>
+                        <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> Component4</a>
+                        <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> Component5</a>
+                        <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> Component6</a>
+                      </div>
+                    </div>
+                    <div class="btn-group flex-wrap">
+                      <button type="button" class="mb-1 mt-1 mr-1 dropdown-btn btn-default">Edit</button>
+                    </div>
+                    <div class="edit-icon"><img src="../assets/images/dialog/edit.png" /></div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="separator-horizontal" style="position:relative;top:-5px;"></div>
+          <div class="bottom-part">
+            <input type="text" class="search" placeholder="Search" id="inputComponentSearch">
+            <div class="component-list">
+              <div class="component-sample-icon"><img src="../assets/images/dialog/component.png"></div>
+              <div id="dlg_components_content" class="component-content"></div>
+            </div>
+            <div class="component-control">
+              <div class="view-3d">
+                <img src="../assets/images/dialog/3D.png" />
+              </div>
+              <div class="up-arrow">
+                <img src="../assets/images/dialog/up-arrow.png" />
+              </div>
+              <div class="down-arrow">
+                <img src="../assets/images/dialog/down-arrow.png" />
+              </div>
+              <div class="save">
+                <img src="../assets/images/dialog/save.png" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Materials and colors dialog -->
+  <section id="dlg_materials" class="dialog dialog-materials">
+    <header id="dlg_materials_header" class="dialog-header">
+      <div class="dialog-actions" onclick="getElementById('dlg_materials').style.display = 'none';getElementById('chk_materials').classList.remove('fa-check');">
+        <a class="dialog-action dialog-action-dismiss" data-dialog-dismiss></a>
+      </div>
+      <h2 id="dlg_materials_focus" class="dialog-title">Materials and colors</h2>
+    </header>
+    <div class="dialog-body">
+      <div class="scrollable" data-plugin-scrollable>
+        <div class="scrollable-content">
+          <div class="top-part">
+            <table style="width:-webkit-fill-available;height:-webkit-fill-available;">
+              <tbody>
+                <tr>
+                  <td id="td_material_preview">
+                    <div style="width: 160px;text-align: center;left: 100px;margin-left: 80px;">
+                      <img src="../assets/images/dialog/sample.png">
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="btn-group flex-wrap">
+                      <button id="btn_material_select" type="button" class="mb-1 mt-1 mr-1 dropdown-btn btn-default"
+                        data-toggle="dropdown">Select<i class="caret"></i></button>
+                      <div id="material_names" class="dropdown-menu" role="menu">
+                        <!-- <a class="dropdown-item small px-2 material-name"><i class="fas fa-sm text-success"></i> Material1</a> -->
+                      </div>
+                    </div>
+
+                    <div class="btn-group flex-wrap">
+                      <button type="button" class="mb-1 mt-1 mr-1 dropdown-btn btn-default">Edit</button>
+                    </div>
+                    <div id="btn_edit_material" class="edit-icon"><img
+                        src="../assets/images/dialog/edit.png" /></div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="separator-horizontal" style="position:relative;top:-5px;"></div>
+          <div class="bottom-part">
+            <input type="text" class="search" placeholder="Search" id="inputMaterialSearch">
+            <div id="material_list" class="material-list">
+              <div class="material-sample-icon"><img src="../assets/images/dialog/material.png"></div>
+              <div class="material-sample-icon"><img src="../assets/images/dialog/material.png"></div>
+              <div class="material-sample-icon"><img src="../assets/images/dialog/material.png"></div>
+              <div class="material-sample-icon"><img src="../assets/images/dialog/material.png"></div>
+              <div class="material-sample-icon"><img src="../assets/images/dialog/material.png"></div>
+              <div class="material-sample-icon"><img src="../assets/images/dialog/material.png"></div>
+              <div class="material-sample-icon"><img src="../assets/images/dialog/material.png"></div>
+              <div class="material-sample-icon"><img src="../assets/images/dialog/material.png"></div>
+              <div class="material-sample-icon"><img src="../assets/images/dialog/material.png"></div>
+              <div class="material-sample-icon"><img src="../assets/images/dialog/material.png"></div>
+              <div class="material-sample-icon"><img src="../assets/images/dialog/material.png"></div>
+              <div class="material-sample-icon"><img src="../assets/images/dialog/material.png"></div>
+
+            </div>
+            <div class="material-control">
+              <div class="up-arrow">
+                <img src="../assets/images/dialog/up-arrow.png" />
+              </div>
+              <div class="down-arrow">
+                <img src="../assets/images/dialog/down-arrow.png" />
+              </div>
+              <div class="save">
+                <img src="../assets/images/dialog/save.png" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <section id="dlg_edit_materials" class="dialog dialog-edit-materials" style="display:none">
+      <header class="edit-header">
+        <div class="dialog-actions" onclick="getElementById('dlg_edit_materials').style.display = 'none'">
+          <a class="dialog-action dialog-action-dismiss" data-dialog-dismiss></a>
+        </div>
+        <div id="edit_mat_name"></div>
+      </header>
+      <div class="dialog-body">
+        <div class="scrollable" data-plugin-scrollable>
+          <div class="scrollable-content">
+            <div>
+              <table class="table table-responsive-md mb-0">
+                <tbody id="edit_mat_values">
+                </tbody>
+              </table>
+              <!-- <div>
+                Fill Color
+                <div id="edit_mat_color" style="width:50px; height:30px; background:navy"></div>
+              </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <!-- Collision check -->
+  <section id="dlg_collision" class="dialog dialog-collision">
+    <header id="dlg_collision_header" class="dialog-header">
+      <div class="dialog-actions" onclick="getElementById('dlg_collision').style.display = 'none';getElementById('chk_collision').classList.remove('fa-check');">
+        <a class="dialog-action dialog-action-dismiss" data-dialog-dismiss></a>
+      </div>
+      <h2 id="dlg_collision_focus" class="dialog-title">Collision check</h2>
+    </header>
+    <div class="dialog-body">
+      <div class="scrollable" data-plugin-scrollable>
+        <div class="scrollable-content">
+          <div class="top-part">
+            <table style="width:-webkit-fill-available;height:-webkit-fill-available;">
+              <tbody>
+                <tr>
+                  <td>
+                    <div style="width: 160px;text-align: center;left: 100px;margin-left: 80px;">
+                      <img src="../assets/images/dialog/collision.png">
+                    </div>
+                    <!-- <canvas id = "material_preview" class="material-preview"></canvas> -->
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="btn-group flex-wrap">
+                      <button type="button" class="mb-1 mt-1 mr-1 dropdown-btn btn-default" data-toggle="dropdown">Select<i
+                          class="caret"></i></button>
+                      <div class="dropdown-menu" role="menu">
+                        <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> Collision</a>
+                        <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> Collision</a>
+                        <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> Collision</a>
+                        <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> Collision</a>
+                        <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> Collision</a>
+                      </div>
+                    </div>
+                    <div class="btn-group flex-wrap">
+                      <button type="button" class="mb-1 mt-1 mr-1 dropdown-btn btn-default">Edit</button>
+                    </div>
+                    <!-- <div class="edit-icon"><img src="../assets/images/dialog/edit.png"/></div> -->
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="separator-horizontal" style="position:relative;top:-5px;"></div>
+          <div class="collision-bottom">
+            <input type="text" class="search" placeholder="Search" id="inputCollisionSearch">
+            <div class="collision-list">
+              <div class="toggle toggle-primary" data-plugin-toggle>
+                <section class="toggle active">
+                  <label class="collision-sub">
+                    <div class="eye-small" style="display: none;"><img src="../assets/images/dialog/eye_small.png"></div>
+                    <div class="eye-large"><img src="../assets/images/dialog/eye_large.png"></div>
+                    <div class="subtitle">Collision1</div>
+                    <div class="preview"><img src="../assets/images/dialog/collision.png"></div>
+                  </label>
+                  <div class="separator-horizontal-light"></div>
+                  <div class="toggle-content">
+                    <div class="preview">
+                      <img src="../assets/images/dialog/collision_sample.png">
+                      <div class="edit-icon"><img src="../assets/images/dialog/edit.png"></div>
+                    </div>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget diam
+                      posuere porta. Quisque ut nulla at nunc lacinia. Proin adipiscing porta
+                      tellus, ut feugiat nibh adipiscing sit amet.</p>
+                  </div>
+                </section>
+                <section class="toggle">
+                  <label class="collision-sub">
+                    <div class="eye-small"><img src="../assets/images/dialog/eye_small.png"></div>
+                    <div class="eye-large" style="display: none;"><img src="../assets/images/dialog/eye_large.png"></div>
+                    <div class="subtitle">Collision2</div>
+                    <div class="preview"><img src="../assets/images/dialog/collision.png"></div>
+                  </label>
+                  <div class="separator-horizontal-light"></div>
+                  <div class="toggle-content">
+                    <div class="preview">
+                      <img src="../assets/images/dialog/collision_sample.png">
+                      <div class="edit-icon"><img src="../assets/images/dialog/edit.png"></div>
+                    </div>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget diam
+                      posuere porta. Quisque ut nulla at nunc lacinia. Proin adipiscing porta
+                      tellus, ut feugiat nibh adipiscing sit amet.</p>
+                  </div>
+                </section>
+                <section class="toggle">
+                  <label class="collision-sub">
+                    <div class="eye-small"><img src="../assets/images/dialog/eye_small.png"></div>
+                    <div class="eye-large" style="display: none;"><img src="../assets/images/dialog/eye_large.png"></div>
+                    <div class="subtitle">Collision3</div>
+                    <div class="preview"><img src="../assets/images/dialog/collision.png"></div>
+                  </label>
+                  <div class="separator-horizontal-light"></div>
+                  <div class="toggle-content">
+                    <div class="preview">
+                      <img src="../assets/images/dialog/collision_sample.png">
+                      <div class="edit-icon"><img src="../assets/images/dialog/edit.png"></div>
+                    </div>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget diam
+                      posuere porta. Quisque ut nulla at nunc lacinia. Proin adipiscing porta
+                      tellus, ut feugiat nibh adipiscing sit amet.</p>
+                  </div>
+                </section>
+                <section class="toggle">
+                  <label class="collision-sub">
+                    <div class="eye-small"><img src="../assets/images/dialog/eye_small.png"></div>
+                    <div class="eye-large" style="display: none;"><img src="../assets/images/dialog/eye_large.png"></div>
+                    <div class="subtitle">Collision4</div>
+                    <div class="preview"><img src="../assets/images/dialog/collision.png"></div>
+                  </label>
+                  <div class="separator-horizontal-light"></div>
+                  <div class="toggle-content">
+                    <div class="preview">
+                      <img src="../assets/images/dialog/collision_sample.png">
+                      <div class="edit-icon"><img src="../assets/images/dialog/edit.png"></div>
+                    </div>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget diam
+                      posuere porta. Quisque ut nulla at nunc lacinia. Proin adipiscing porta
+                      tellus, ut feugiat nibh adipiscing sit amet.</p>
+                  </div>
+                </section>
+                <section class="toggle">
+                  <label class="collision-sub">
+                    <div class="eye-small"><img src="../assets/images/dialog/eye_small.png"></div>
+                    <div class="eye-large" style="display: none;"><img src="../assets/images/dialog/eye_large.png"></div>
+                    <div class="subtitle">Collision5</div>
+                    <div class="preview"><img src="../assets/images/dialog/collision.png"></div>
+                  </label>
+                  <div class="separator-horizontal-light"></div>
+                  <div class="toggle-content">
+                    <div class="preview">
+                      <img src="../assets/images/dialog/collision_sample.png">
+                      <div class="edit-icon"><img src="../assets/images/dialog/edit.png"></div>
+                    </div>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget diam
+                      posuere porta. Quisque ut nulla at nunc lacinia. Proin adipiscing porta
+                      tellus, ut feugiat nibh adipiscing sit amet.</p>
+                  </div>
+                </section>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Home Story -->
+  <section id="dlg_story" class="dialog dialog-story">
+    <header id="dlg_story_header" class="dialog-header">
+      <div class="dialog-actions" onclick="getElementById('dlg_story').style.display = 'none';getElementById('chk_story').classList.remove('fa-check');">
+        <a class="dialog-action dialog-action-dismiss" data-dialog-dismiss></a>
+      </div>
+      <h2 id="dlg_story_focus" class="dialog-title">Home Story</h2>
+      <div class="dropdown story-select">
+        <button class="btn dropdown-toggle only-letter" type="button" data-toggle="dropdown">
+          Floor
+        </button>
+        <div class="dropdown-menu" role="menu">
+          <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> floor</a>
+          <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> beam</a>
+          <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> column</a>
+        </div>
+      </div>
+    </header>
+    <div class="dialog-body">
+      <div class="scrollable" data-plugin-scrollable>
+        <div class="scrollable-content">
+          <div class="story-left">
+            <div class="measure-item">
+              <div class="preview">
+                <img src="../assets/images/dialog/sample.png">
+              </div>
+              <div class="measure">
+                <label class="name">Connection surface</label>
+                <div class="btn-group flex-wrap dropdown value">
+                  <button type="button" class="mb-1 mt-1 mr-1 dropdown-btn btn-default border-none" data-toggle="dropdown">5000mm<i
+                      class="caret"></i></button>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> 5000mm</a>
+                    <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> 5000mm</a>
+                    <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> 5000mm</a>
+                    <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> 5000mm</a>
+                    <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> 5000mm</a>
+                    <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> 5000mm</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="measure-item">
+              <div class="preview">
+                <img src="../assets/images/dialog/sample.png">
+              </div>
+              <div class="measure">
+                <label class="name">Hight</label>
+                <div class="btn-group flex-wrap dropdown value">
+                  <button type="button" class="mb-1 mt-1 mr-1 dropdown-btn btn-default border-none" data-toggle="dropdown">5000mm<i
+                      class="caret"></i></button>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> 5000mm</a>
+                    <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> 5000mm</a>
+                    <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> 5000mm</a>
+                    <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> 5000mm</a>
+                    <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> 5000mm</a>
+                    <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> 5000mm</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="measure-item">
+              <div class="preview">
+                <img src="../assets/images/dialog/sample.png">
+              </div>
+              <div class="measure">
+                <label class="name">Wide</label>
+                <div class="btn-group flex-wrap dropdown value">
+                  <button type="button" class="mb-1 mt-1 mr-1 dropdown-btn btn-default border-none" data-toggle="dropdown">5000mm<i
+                      class="caret"></i></button>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> 5000mm</a>
+                    <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> 5000mm</a>
+                    <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> 5000mm</a>
+                    <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> 5000mm</a>
+                    <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> 5000mm</a>
+                    <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> 5000mm</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="measure-item">
+              <div class="preview">
+                <img src="../assets/images/dialog/sample.png">
+              </div>
+              <div class="measure">
+                <label class="name">Length</label>
+                <div class="btn-group flex-wrap dropdown value">
+                  <button type="button" class="mb-1 mt-1 mr-1 dropdown-btn btn-default border-none" data-toggle="dropdown">5000mm<i
+                      class="caret"></i></button>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> 5000mm</a>
+                    <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> 5000mm</a>
+                    <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> 5000mm</a>
+                    <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> 5000mm</a>
+                    <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> 5000mm</a>
+                    <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> 5000mm</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="story-right">
+            <div class="btn-3d">
+              <img src="../assets/images/dialog/3D.png">
+            </div>
+            <div class="top-btns">
+              <div class="btn-left">
+                <img src="../assets/images/dialog/left-arrow.png">
+              </div>
+              <div class="btn-right">
+                <img src="../assets/images/dialog/right-arrow.png">
+              </div>
+            </div>
+
+            <div class="middle">
+              <div class="left-btns">
+                <div class="btn-up">
+                  <img src="../assets/images/dialog/up-arrow.png">
+                </div>
+                <div class="btn-down">
+                  <img src="../assets/images/dialog/down-arrow.png">
+                </div>
+              </div>
+              <div class="preview">
+                <img src="../assets/images/dialog/story_sample.png" style="width:100%;height:70%;padding: 10px">
+              </div>
+
+            </div>
+            <div class="description">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget diam
+              posuere porta. Quisque ut nulla at nunc lacinia. Proin adipiscing porta
+              tellus, ut feugiat nibh adipiscing sit amet.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget diam
+              posuere porta. Quisque ut nulla at nunc lacinia. Proin adipiscing porta
+              tellus, ut feugiat nibh adipiscing sit amet.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- <div class="window-left window rounded bg-light border text-center"> 
       <div class="drag-space">
         <button class="btn m-0"><i class="fas fa-times fa-sm"></i></button>
       </div>
@@ -659,9 +1122,9 @@
       <button class="btn"><img src="../assets/images/text-tool.png"></button>
     </div> -->
 
-    
 
-    <!-- <div class="window-right-wrapper bg-white box-shadow p-1 window">   
+
+<!-- <div class="window-right-wrapper bg-white box-shadow p-1 window">   
 
       <button class="minimize btn m-0">
         <i class="fas fa-angle-double-right"></i>
@@ -815,7 +1278,7 @@
     </div> -->
 
 
-    <!-- <div class="window-float window rounded bg-light border text-center" id="properties"> 
+<!-- <div class="window-float window rounded bg-light border text-center" id="properties"> 
       <div class="drag-space d-flex justify-content-between px-2" id="properties-header">
         <a class="btn m-0" data-toggle="collapse" href="#properties-box" role="button"><i class="fas fa-caret-down"></i>Properties</a><button class="btn m-0"><i class="fas fa-times fa-sm"></i></button>
       </div>
@@ -830,485 +1293,18 @@
       </div>
     </div> -->
 
-    
-
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <!-- <script type="text/javascript" src="js/main.js" ></script> -->
-    <script src="../bimsurfer/lib/three.js"></script>
-    <script src="../bimsurfer/lib/WebGL.js"></script>
-    <script src="../bimsurfer/lib/GLTFExporter.js"></script>
-    
-    <!-- Vendor -->
-		<!-- <script src="../vendor/jquery/jquery.js"></script>
-		<script src="../vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
-		<script src="../vendor/popper/umd/popper.min.js"></script>
-		<script src="../vendor/bootstrap/js/bootstrap.js"></script>
-		<script src="../vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-		<script src="../vendor/common/common.js"></script>
-		<script src="../vendor/nanoscroller/nanoscroller.js"></script>
-		<script src="../vendor/magnific-popup/jquery.magnific-popup.js"></script>
-		<script src="../vendor/jquery-placeholder/jquery-placeholder.js"></script> -->
-		
-    <!-- Theme Base, Components and Settings -->
-    <!-- <script src="../bimsurfer/examples/js/jquery.js"></script> -->
-		<!-- <script src="../js/theme.js"></script> -->
-		
-		<!-- Theme Custom -->
-		<!-- <script src="../js/custom.js"></script> -->
-		
-		<!-- Theme Initialization Files -->
-		<!-- <script src="../js/theme.init.js"></script> -->
-
-
-    <script type="text/javascript">
-      // Circle Toolbar
-      //Make the DIV element draggagle:
-      // var dragItem = document.querySelector("#toolbar");
-      // var dragItem_center = document.querySelector("#toolbar_center");
-      // var container = document.querySelector("#toolbarContainer");
-
-      // var active = false;
-      // var currentX;
-      // var currentY;
-      // var initialX;
-      // var initialY;
-      // var xOffset = 0;
-      // var yOffset = 0;
-
-      // container.addEventListener("touchstart", dragStart, false);
-      // container.addEventListener("touchend", dragEnd, false);
-      // container.addEventListener("touchmove", drag, false);
-
-      // container.addEventListener("mousedown", dragStart, false);
-      // container.addEventListener("mouseup", dragEnd, false);
-      // container.addEventListener("mousemove", drag, false);
-
-      // function dragStart(e) {
-      //   if (e.type === "touchstart") {
-      //     initialX = e.touches[0].clientX - xOffset;
-      //     initialY = e.touches[0].clientY - yOffset;
-      //   } else {
-      //     initialX = e.clientX - xOffset;
-      //     initialY = e.clientY - yOffset;
-      //   }
-
-      //   if (e.target === dragItem || e.target === dragItem_center) {
-      //     active = true;
-      //   }
-      // }
-
-      // function dragEnd(e) {
-      //   initialX = currentX;
-      //   initialY = currentY;
-
-      //   active = false;
-      // }
-
-      // function drag(e) {
-      //   if (active) {
-        
-      //     e.preventDefault();
-        
-      //     if (e.type === "touchmove") {
-      //       currentX = e.touches[0].clientX - initialX;
-      //       currentY = e.touches[0].clientY - initialY;
-      //     } else {
-      //       currentX = e.clientX - initialX;
-      //       currentY = e.clientY - initialY;
-      //     }
-
-      //     xOffset = currentX;
-      //     yOffset = currentY;
-
-      //     setTranslate(currentX, currentY, dragItem);
-      //   }
-      // }
-
-      // function setTranslate(xPos, yPos, el) {
-      //   el.style.transform = "translate3d(" + xPos + "px, " + yPos + "px, 0)";
-      // }
-      // //position into circle for toolbar icon
-      // var circle = document.getElementById('toolbar'),
-      //   btnToolbars = document.getElementsByClassName('toolbar-icon'),
-      //   total = btnToolbars.length,
-      //   coords = {},
-      //   diam, radius1, radius2, imgW;
-      // var bigcirclediam = 110;
-      // var icondiam = 40;
-
-      // diam = parseInt( window.getComputedStyle(circle).getPropertyValue('width') ),
-      // radius = bigcirclediam,
-      // imgW = btnToolbars[0].getBoundingClientRect().width,
-      // radius2 = radius - icondiam;
-
-      // var i,
-      //     alpha = Math.PI / 2,
-      //     len = btnToolbars.length,
-      //     corner = 2 * Math.PI / total;
-
-      // for ( i = 0 ; i < total; i++ ){
-
-      //   btnToolbars[i].style.left = parseInt( ( radius - icondiam / 2-10) + ( radius2 * Math.cos( alpha ) ) ) + 'px'
-      //   btnToolbars[i].style.top =  parseInt( ( radius - icondiam / 2-10) - ( radius2 * Math.sin( alpha ) ) ) + 'px'
-
-      //   alpha = alpha - corner;
-      // }
-
-      // Toolbar
-      // var _isMeasure = false;
-      // function onToolbarSelect(type){
-      //   console.log(type);
-      //   switch(type){
-      //     case "measure":
-      //       document.getElementById('subMeasure').style.display === 'none' ? document.getElementById('subMeasure').style.display = 'block' : document.getElementById('subMeasure').style.display = 'none';
-      //       for(var i=0; i<btnToolbars.length; i++)
-      //       {
-      //         if(btnToolbars[7].classList.contains("select")){
-      //           btnToolbars[7].classList.remove("select");
-      //           _isMeasure = false;
-      //           continue;
-      //         }
-      //         if(!btnToolbars[7].classList.contains("select")){
-      //           btnToolbars[7].classList.add("select");
-      //           _isMeasure = true;
-      //           continue;
-      //         }
-      //         if(btnToolbars[i].classList.contains("select")){
-      //           btnToolbars[i].classList.remove("select");
-      //         }
-      //       }
-      //       if(_isMeasure){
-
-      //       }
-      //       break;
-      //   }
-      // }
-
-      //Measure
-      function onNewDimensions(){
-        if($('#bimviewer').contents().find('canvas').length !== 0){
-          var iframe = document.getElementById('bimviewer');
-          iframe.contentWindow.newDimensions();
-        }
-      }
-      function onDeleteDimensions(){
-        if($('#bimviewer').contents().find('canvas').length !== 0){
-          var iframe = document.getElementById('bimviewer');
-          iframe.contentWindow.deleteDimensions();
-        }
-      }
-      function getScene(){
-        if($('#bimviewer').contents().find('canvas').length !== 0){
-          var iframe = document.getElementById('bimviewer');
-          return iframe.contentWindow.getScene();
-        }
-        else
-          return false;
-      }
-      //Save
-      var link = document.createElement( 'a' );
-			link.style.display = 'none';
-			document.body.appendChild( link ); // Firefox workaround, see #6594
-
-			function save( blob, filename ) {
-
-				link.href = URL.createObjectURL( blob );
-				link.download = filename;
-				link.click();
-
-				// URL.revokeObjectURL( url ); breaks Firefox...
-
-			}
-
-			function saveString( text, filename ) {
-
-				save( new Blob( [ text ], { type: 'text/plain' } ), filename );
-
-			}
-
-
-			function saveArrayBuffer( buffer, filename ) {
-
-				save( new Blob( [ buffer ], { type: 'application/octet-stream' } ), filename );
-
-			}
-
-			if ( WEBGL.isWebGLAvailable() === false ) {
-
-				document.body.appendChild( WEBGL.getWebGLErrorMessage() );
-
-			}
-      function onSaveToGltf(){
-        var scene = getScene();
-        console.log(scene);
-        if(!scene)
-          return;
-        
-        exportGLTF( scene );
-      };
-
-      var exportGLTF = function( input ) {
-
-          var gltfExporter = new THREE.GLTFExporter();
-
-          var options = {
-              trs: false,
-              onlyVisible: true,
-              truncateDrawRange: true,
-              binary: false,
-              forceIndices: false,
-              forcePowerOfTwoTextures: false
-          };
-          gltfExporter.parse( input, function( result ) {
-
-              if ( result instanceof ArrayBuffer ) {
-
-                  saveArrayBuffer( result, 'scene.glb' );
-
-              } else {
-
-                  var output = JSON.stringify( result, null, 2 );
-                  console.log( output );
-                  saveString( output, 'scene.gltf' );
-
-              }
-
-          }, options );
-
-      }
-      //left toolbar 
-      var btnStructures = document.getElementById("btn_structures");
-      var btnLayers = document.getElementById("btn_layers");
-      var btnTypes = document.getElementById("btn_types");
-      var dlgStructures = document.getElementById("dlg_structures");
-      var dlgLayers = document.getElementById("dlg_layers");
-      var dlgTypes = document.getElementById("dlg_types");
-
-      var btnSelector = document.getElementById("btn_selector");
-      var btnPanMove = document.getElementById("btn_pan");
-      var btnOrbit = document.getElementById("btn_orbit");
-
-      var chkShaded = document.getElementById("chk_shaded");
-      var chkWire = document.getElementById("chk_wire");
-      var chkTransp = document.getElementById("chk_transp");
-      var chkEdge = document.getElementById("chk_edge");
-      var chkGrid = document.getElementById("chk_grid");
-
-      var chkCameras=[];
-      var camType = [];
-      camType.push("perspective");
-      camType.push("ortho");
-      camType.push("top");
-      camType.push("bottom");
-      camType.push("front");
-      camType.push("back");
-      camType.push("left");
-      camType.push("right");
-      chkCameras.push(document.getElementById("chk_persp"));
-      chkCameras.push(document.getElementById("chk_ortho"));
-      chkCameras.push(document.getElementById("chk_top"));
-      chkCameras.push(document.getElementById("chk_bottom"));
-      chkCameras.push(document.getElementById("chk_front"));
-      chkCameras.push(document.getElementById("chk_back"));
-      chkCameras.push(document.getElementById("chk_left"));
-      chkCameras.push(document.getElementById("chk_right"));
-      function initDialog(){
-        dlgStructures.style.display = "none";
-        dlgLayers.style.display = "none";
-        dlgTypes.style.display = "none";
-      };
-      function initLeftToolbar(){
-        btnSelector.classList.add("select");
-      };
-      initDialog();
-      initLeftToolbar();
-      function onbtnStructures(){
-        if(!btnStructures.classList.contains("select")){
-          btnStructures.classList.add("select");
-          dlgStructures.style.display = "block";
-        }
-        else{
-          btnStructures.classList.remove("select");
-          dlgStructures.style.display = "none";
-        }
-        if(btnLayers.classList.contains("select")){
-          btnLayers.classList.remove("select");
-        }
-        if(btnTypes.classList.contains("select")){
-          btnTypes.classList.remove("select");
-        }
-        
-        dlgLayers.style.display = "none";
-        dlgTypes.style.display = "none";
-      }
-      function onbtnLayers(){
-        if(btnStructures.classList.contains("select")){
-          btnStructures.classList.remove("select");
-        }
-        if(!btnLayers.classList.contains("select")){
-          btnLayers.classList.add("select");
-          dlgLayers.style.display = "block";
-        }
-        else{
-          btnLayers.classList.remove("select");
-          dlgLayers.style.display = "none";
-        }
-        if(btnTypes.classList.contains("select")){
-          btnTypes.classList.remove("select");
-        }
-        
-        dlgStructures.style.display = "none";
-        dlgTypes.style.display = "none";
-      }
-      function onbtnTypes(){
-        if(btnStructures.classList.contains("select")){
-          btnStructures.classList.remove("select");
-        }
-        if(btnLayers.classList.contains("select")){
-          btnLayers.classList.remove("select");
-        }
-        if(!btnTypes.classList.contains("select")){
-          btnTypes.classList.add("select");
-          dlgTypes.style.display = "block";
-        }
-        else{
-          btnTypes.classList.remove("select");
-          dlgTypes.style.display = "none";
-        }
-        
-        dlgStructures.style.display = "none";
-        dlgLayers.style.display = "none";
-      }
-      function onbtnSelector(){
-        if(!btnSelector.classList.contains("select")){
-          btnSelector.classList.add("select");
-        }
-        else{
-          btnSelector.classList.remove("select");
-        }
-        if(btnPanMove.classList.contains("select")){
-          btnPanMove.classList.remove("select");
-        }
-        if(btnOrbit.classList.contains("select")){
-          btnOrbit.classList.remove("select");
-        }
-        if($('#bimviewer').contents().find('canvas').length !== 0){
-          var iframe = document.getElementById('bimviewer');
-          iframe.contentWindow.setDefaultDragAction("selector");
-        }
-      }
-      function onbtnPanMove(){
-        if(btnSelector.classList.contains("select")){
-          btnSelector.classList.remove("select");
-        }
-        if(!btnPanMove.classList.contains("select")){
-          btnPanMove.classList.add("select");
-        }
-        else{
-          btnPanMove.classList.remove("select");
-        }
-        if(btnOrbit.classList.contains("select")){
-          btnOrbit.classList.remove("select");
-        }
-        if($('#bimviewer').contents().find('canvas').length !== 0){
-          var iframe = document.getElementById('bimviewer');
-          iframe.contentWindow.setDefaultDragAction("pan");
-        }
-      }
-      function onbtnOrbit(){
-        if(btnSelector.classList.contains("select")){
-          btnSelector.classList.remove("select");
-        }
-        if(btnPanMove.classList.contains("select")){
-          btnPanMove.classList.remove("select");
-        }
-        if(!btnOrbit.classList.contains("select")){
-          btnOrbit.classList.add("select");
-        }
-        else{
-          btnOrbit.classList.remove("select");
-        }
-        if($('#bimviewer').contents().find('canvas').length !== 0){
-          var iframe = document.getElementById('bimviewer');
-          iframe.contentWindow.setDefaultDragAction("orbit");
-        }
-      }
-      
-      // Control Camera View
-      function onCheckCameras(type) {
-        chkCameras.forEach(function(chkCam){
-          if(chkCam.classList.contains("fa-check")){
-            chkCam.classList.remove("fa-check");
-          }
-        });
-        chkCameras[camType.indexOf(type)].classList.add("fa-check");
-        
-        if($('#bimviewer').contents().find('canvas').length !== 0){
-          var iframe = document.getElementById('bimviewer');
-          iframe.contentWindow.setCameraView(type);
-        }
-      }
-      // Control view method
-      var isWire = false;
-      var isGrid = true;
-      function onCheckViews(type){
-        switch(type){
-          case "shaded":
-            isWire = false;
-            if(!chkShaded.classList.contains("fa-check")){
-              chkShaded.classList.add("fa-check");
-              chkWire.classList.remove("fa-check");
-            }
-            break;
-          case "wire":
-            isWire = true;
-            if(!chkWire.classList.contains("fa-check")){
-              chkWire.classList.add("fa-check");
-              chkShaded.classList.remove("fa-check");
-            }
-            break;
-          case "transp":
-            if(isWire)
-              return;
-            if(chkTransp.classList.contains("fa-check")){
-              chkTransp.classList.remove("fa-check");
-            }
-            else{
-              chkTransp.classList.add("fa-check");
-            }
-            break;
-          case "edge":
-            if(isWire)
-              return;
-            if(chkEdge.classList.contains("fa-check")){
-              chkEdge.classList.remove("fa-check");
-            }
-            else{
-              chkEdge.classList.add("fa-check");
-            }
-            break;
-          case "grid":
-            if(chkGrid.classList.contains("fa-check")){
-              chkGrid.classList.remove("fa-check");
-              isGrid = false;
-            }
-            else{
-              chkGrid.classList.add("fa-check");
-              isGrid = true;
-            }
-            break;
-        }
-        if($('#bimviewer').contents().find('canvas').length !== 0){
-          var iframe = document.getElementById('bimviewer');
-          iframe.contentWindow.setViewMethod(type);
-        }
-        if($('#bimviewer').contents().find('canvas').length !== 0){
-          var iframe = document.getElementById('bimviewer');
-          iframe.contentWindow.showGrid(isGrid);
-        }
-      }
-    </script>
+<!-- Theme Base, Components and Settings -->
+<script src="../bimsurfer/examples/js/modernizr.js"></script>
+<!-- <script src="../bimsurfer/examples/js/jquery.js"></script> -->
+<script src="../bimsurfer/examples/js/jquery.browser.mobile.js"></script>
+<script src="../bimsurfer/examples/js/popper.min.js"></script>
+<!-- <script src="../bimsurfer/examples/js/bootstrap.js"></script> -->
+<!-- <script src="../bimsurfer/examples/js/bootstrap-datepicker.js"></script> -->
+<script src="../bimsurfer/examples/js/common.js"></script>
+<script src="../bimsurfer/examples/js/nanoscroller.js"></script>
+<script src="../bimsurfer/examples/js/jquery.magnific-popup.js"></script>
+<script src="../bimsurfer/examples/js/jquery-placeholder.js"></script>
+<script src="../bimsurfer/examples/js/theme.js"></script>
+<script src="../bimsurfer/examples/js/theme.init.js"></script>
+<script src="../bimsurfer/examples/js/vanilla-picker.js"></script>
+<script src="../bimsurfer/src/3d-viewer.js"></script>

@@ -11,8 +11,9 @@
         Notification,
         NgMap,
         globals,
-        localStorageService
-        //FileSaver
+        localStorageService,
+        FileSaver
+        
       ) {
 
         let vm = this;
@@ -27,8 +28,9 @@
             logout();
           };
           vm.issueId = $stateParams.id;
-
-          
+          vm.ImageAssets=[];
+          vm.DocumentAssets=[];
+        
           $scope.currentPage = 1;
           $scope.itemsPerPage = 3;
           
@@ -38,6 +40,7 @@
               .getIssueById(vm.issueId)
               .then(resp => {
                 vm.issueData = resp.data;
+                console.log("issuedata: ",vm.issueData);
                vm.totalItems = vm.issueData.comments.length;
                $scope.ArrayComments=vm.issueData.comments.reverse();
                $scope.ArrayActivities=vm.issueData.issueActivity.reverse();
@@ -74,6 +77,16 @@
                   }
                 });
               });
+
+              vm.issueData.listAssets.map(x=>{
+                if(x.mimetype=="image/png"||x.mimetype=="image/jpg"){
+                  vm.ImageAssets.push(x);
+                }
+                else {
+                  vm.DocumentAssets.push(x);
+                }
+                
+              })
              
               })
             }
@@ -109,6 +122,10 @@
            
       //Add comments....
       vm.postComment = function(comment){
+        console.log("comment: ",comment);
+       let comment1 = comment.replace(/\n\r?/g, '<br />');
+       console.log("comment: ",comment1);
+
        if(comment==undefined){
          Notification.error("Please add comment.");
        }else{
@@ -116,7 +133,9 @@
          apiFactory
             .postCommentForIssue(vm.issueId,commentobj)
             .then(resp=>{
+              console.log("esp:",resp);
               vm.getIssueDetail();
+              $("#commentarea").val('');
               Notification.success("Comment added successfully..");
             }).catch(e=>{
               Notification.error("Couldn't update comment");
@@ -129,11 +148,14 @@
       };
 
       //download attachment file
-      $scope.downLoadAttachment = function(docs){
+      vm.downloadFile = function(docs){
         console.log("docs",docs);
-        var blob = new Blob([docs.secure_url], {type: docs.mimetype});
-        //FileSaver.saveAs(blob, 'docs.origional');
-       
+        
+        var blob = new Blob([docs], {type: docs.mimetype});
+         console.log("blob",blob);
+         saveAs(blob, docs.origionalname);
+        //window.location.href = window.URL.createObjectURL(blob);
+      
       }
 
 
@@ -150,8 +172,18 @@
            })
       }
 
-      $scope.markIssueAsComplete = function(){
-
+      $scope.markIssueAsComplete = function(comment,imageFiles){
+        console.log(comment);
+        console.log(imageFiles);
+        var editObject={comment:comment,Images:imageFiles};
+        apiFactory.saveIssueAsComplete(vm.issueId,editObject)
+          .then(resp=>{
+            vm.getIssueDetail();
+             $("#completionstatusmodal").modal("hide");
+             Notification.success("Issue is been marked as completed");
+          }).catch(e=>{
+            Notification.error("Something wrong happened. couldent update changes");
+          })
       }
           
       }
