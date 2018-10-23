@@ -9,31 +9,64 @@
     apiFactory,
     Notification,
     globals,
-    Upload
+    Upload,
+    SBcommon,
+    SBchannel
   ) {
     /* Requiring vars */
 
-    $scope.todo_list = [
-      { img: '/assets/images/To-Do-Icon.png', subtitle: '1.', title: 'Lorem ipsum dolor sit amet,consectetur adipisicing elit,sed do eiusmod tempor.', work: 'In 1 Hour', classname: 'red-color' },
-      { img: '/assets/images/To-Do-Icon.png', subtitle: '2.', title: 'Lorem ipsum dolor sit amet,consectetur adipisicing elit,sed do eiusmod tempor.', work: 'In 1 Day', classname: 'yellow-color' },
-      { img: '/assets/images/To-Do-Icon.png', subtitle: '3.', title: 'Lorem ipsum dolor sit amet,consectetur adipisicing elit,sed do eiusmod tempor.', work: 'In 1 Week', classname: 'green-color' },
-      { img: '/assets/images/To-Do-Icon.png', subtitle: '4.', title: 'Lorem ipsum dolor sit amet,consectetur adipisicing elit,sed do eiusmod tempor.', work: 'In 2 Weeks', classname: 'gray-color' },
-      { img: '/assets/images/To-Do-Icon.png', subtitle: '5.', title: 'Lorem ipsum dolor sit amet,consectetur adipisicing elit,sed do eiusmod tempor.', work: 'In 3 Weeks', classname: 'gray-color' },
-      { img: '/assets/images/To-Do-Icon.png', subtitle: '6.', title: 'Lorem ipsum dolor sit amet,consectetur adipisicing elit,sed do eiusmod tempor.', work: 'In 4 Weeks', classname: 'gray-color' }
-    ]
-
-    
     let vm = this;
     const { logout, userStore } = globals;
     if (!authFactory.checkUser()) {
       logout();
       return;
     }
-    vm.logout = () => {
-        logout();
-    };
-    /* Get project list */
+
     vm.userData = userStore.get();
-    
+    let room = SBcommon;
+    apiFactory
+      .getAccessMeetingRoomToken()
+      /* Step 1 - Obtain access token */
+      .then(resp => {
+        return resp.data.accessToken;
+      })
+      /* Step 2 - Login user */
+      .then(token => {
+        if (!token) throw new Error("Token unavailable");
+
+        return room.connect(
+          userStore.get().email,
+          token
+        );
+      })
+      /* Step 3 - Get channel list after successfull connection */
+      .then(connectedUser => {
+        Notification.success("Connected to meeting room");
+        return SBchannel.listChannels();
+      })
+      /* Step 4 - Bind initial view vars here */
+      .then(channelList => {
+        vm.newMeeting = {};
+        console.log("channeldata", channelList);
+        vm.channelList = channelList;
+      })
+      .catch(room.error);
+
+    /* Create a channel */
+
+    vm.createChannel = formData => {
+      SBchannel.createChannel(formData.name, "leo@askpundit.com")
+        .then(channel => {
+          console.log("CreatedChannel", channel);
+          SBchannel.listChannels().then(channelList => {
+            vm.channelList = channelList;
+          });
+        })
+        .catch(room.error);
+    };
+
+    vm.logout = () => {
+      logout();
+    };
   }
 })();

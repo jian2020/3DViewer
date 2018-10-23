@@ -610,6 +610,7 @@ body a, body a:focus, body a:hover, body a:active, body a:visited {
     user-select: none;
 }
 
+
 .story-left{
     float:left;width: 40%;height: 100%;
 }
@@ -2333,6 +2334,28 @@ img {
 .border-none{
     border: none;
 }
+.material_preview{
+    width: 100%;
+    height: 150px;
+}
+
+/* measure line button*/
+.only-icon{
+    padding: 0px;
+    background: transparent;
+}
+.only-icon::after{
+    content: none;
+}
+.measure-length-icon{
+    width: 35px;
+    height: 35px;
+}
+.measure-area-icon{
+    width: 35px;
+    height: 35px;
+}
+
 @media (max-width: 991px) {
 	.navbar .collapse.show, .navbar .collapsing{
 	    display: block;

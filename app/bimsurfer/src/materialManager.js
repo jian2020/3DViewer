@@ -39,7 +39,7 @@ define([
                 id: 'default',
                 edges: false,
                 edgeAlpha: 1.0,
-                edgeColor: [0.2, 0.8, 0.2],
+                edgeColor: [0.227451, 0.227451, 0.227451],
                 edgeWidth: 2,
                 vertices: false,
                 vertexAlpha: 1.0,
@@ -61,7 +61,7 @@ define([
                         id: types[i],
                         edges: false,
                         edgeAlpha: 1.0,
-                        edgeColor: [0.2, 0.8, 0.2],
+                        edgeColor: [0.227451, 0.227451, 0.227451],
                         edgeWidth: 2,
                         vertices: false,
                         vertexAlpha: 1.0,
@@ -90,7 +90,7 @@ define([
                     transparent: true,
                     backgroundcolor: [0, 0, 0],
                     webgl2: true,
-                    gammaFactor: 1.5
+                    gammaFactor: 1
                 });
 
                 // Redefine default light sources;
@@ -166,6 +166,8 @@ define([
 
             // Add new material in material dialog
             this.addMaterial = function (material) {
+                if(material===null)
+                    return;
                 var isLoaded = false;
                 for (var i = 0; i < loadedMaterials.length; i++) {
                     if (material.id === loadedMaterials[i].id) {
@@ -223,7 +225,7 @@ define([
                     transparent: true,
                     backgroundcolor: [0, 0, 0],
                     webgl2: true,
-                    gammaFactor: 1.5
+                    gammaFactor: 1
                 });
 
                 // Redefine default light sources;

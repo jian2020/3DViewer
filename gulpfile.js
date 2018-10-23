@@ -48,6 +48,21 @@ gulp.task("js", () => {
     .pipe(gulp.dest("app/js/dist"));
 });
 
+var uglify = require("gulp-uglify");
+const mainBowerFiles = require("gulp-main-bower-files");
+const filterJs = require("gulp-filter");
+
+gulp.task("bower", function() {
+  return (
+    gulp
+      .src("./app/libs/bower.json")
+      .pipe(mainBowerFiles())
+      .pipe(filterJS)
+      //.pipe(uglify())
+      .pipe(gulp.dest("./app/js/dist"))
+  );
+});
+
 gulp.task("browser-sync", () => {
   browserSync.init({
     server: {

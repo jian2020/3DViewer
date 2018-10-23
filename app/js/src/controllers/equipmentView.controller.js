@@ -30,8 +30,22 @@
     apiFactory.getEquipmentById(vm.equipmentId).then(resp => {
     console.log(resp)
     }).catch(e => {
-            console.log(e);
-        });
+      console.log(e);
+    });
+
+
+    $scope.slider2 = [
+      { img: '/assets/images/equipment2.jpg' },
+      { img: '/assets/images/equipment2.jpg' },
+      { img: '/assets/images/equipment2.jpg' }
+    ] 
+    $scope.equip_table = [
+      { unit: 'Currency', mt: 'Danish Krone' },
+      { unit: 'Conversion Factor', mt: '1' },
+      { unit: 'Equipment Cost (DKK)', mt: '---' },
+      { unit: 'Worker Cost (DKK)', mt: '---' },
+      { unit: 'Worker ID', mt: 'NNS1 - Kim Mosegaard' }
+    ]
 
 
 

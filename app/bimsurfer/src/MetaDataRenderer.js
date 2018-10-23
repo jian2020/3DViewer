@@ -64,6 +64,9 @@ define(["./EventHandler", "./Request", "./Utils"], function(EventHandler, Reques
                 var psets = Utils.FindNodeOfType(json, "properties")[0];
                 var project = Utils.FindNodeOfType(json, "decomposition")[0].children[0];
                 var types = Utils.FindNodeOfType(json, "types")[0];
+
+                console.log("dddd", psets);
+
                 
                 var objects = {};
                 var typeObjects = {};
@@ -130,7 +133,8 @@ define(["./EventHandler", "./Request", "./Utils"], function(EventHandler, Reques
         var renderAttributes = function(elem) {
             var s = new Section({domNode:domNode});
             s.setName(elem.type || elem.getType());
-            ["GlobalId", "Name", "OverallWidth", "OverallHeight", "Tag"].forEach(function(k) {
+            ["GlobalId", "Name", "OverallWidth", "OverallHeightAsString", "OverallHeight", "Tag"].forEach(function(k) {
+                console.log(elem, k);
                 var v = elem[k];
                 if (typeof(v) === 'undefined') {
                     var fn = elem["get"+k];
@@ -148,6 +152,7 @@ define(["./EventHandler", "./Request", "./Utils"], function(EventHandler, Reques
         };
         
         var renderPSet = function(pset) {
+            // console.log(pset);
             var s = new Section({domNode:domNode});
             if (pset.name && pset.children) {
                 s.setName(pset.name);
@@ -189,16 +194,19 @@ define(["./EventHandler", "./Request", "./Utils"], function(EventHandler, Reques
             
             domNode.innerHTML = "";
             
+            // console.log(oid);
             oid = oid[0];
             
             if (oid.indexOf(':') !== -1) {
                 oid = oid.split(':');
                 var model = models[oid[0]].model || models[oid[0]].apiModel;
                 var o = model.objects[oid[1]];
+                // console.log(o);
             
                 renderAttributes(o);
                 
                 o.getIsDefinedBy(function(isDefinedBy){
+                    // console.log(isDefinedBy);
                     if (isDefinedBy.getType() == "IfcRelDefinesByProperties") {
                         isDefinedBy.getRelatingPropertyDefinition(function(pset){
                             if (pset.getType() == "IfcPropertySet") {

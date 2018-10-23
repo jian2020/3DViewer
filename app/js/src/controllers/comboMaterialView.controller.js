@@ -27,15 +27,17 @@
     vm.comboId = $stateParams.id;
     vm.mUnits = globals.mUnits;
     vm.removedFiles = [];
+    vm.comboMaterialList = [];
     vm.materialTotal = 0;
     vm.rooferTotal = 0
-    
+
     function getComboMatDetail() {
       apiFactory.getComboMaterialById(vm.comboId).then(resp => {
         vm.comboData = resp.data.data;
         vm.comboMmatrialName = vm.comboData.name
         vm.description = vm.comboData.description
         vm.uom = vm.comboData.unit
+        
         console.log(vm.comboData)
         angular.forEach(vm.comboData.comboMaterialList, function (item) {
           vm.materialCost = item.materialId.currentRate.materialCost.value * item.quantity;
@@ -89,12 +91,48 @@
       let fileObj = event.target.files;
       vm.fileNames = Object.keys(fileObj).map(x => fileObj[x].name);
     };
+    
+    vm.tabChange = (val, flag) => {
+      if (val == 1) {
+        if (!vm.editComboMaterial.name) {
+          Notification.error("Please enter material name");
+        } else if (!vm.selectedUnit) {
+          Notification.error("Please select material unit");
+        /* } else if (!vm.editComboMaterial.description) {
+          Notification.error("Please enter description"); */
+        } else {
+          nextPrevTab(val)
+        }
+      } else if (val == 2) {
+        if (vm.comboMaterialList.length == 0 && vm.editComboMaterial.comboMaterialList.length == 0) {
+          Notification.error("Please add Combination list");
+        } else {
+          nextPrevTab(val)
+        }
+      } else {
+        nextPrevTab(val);
+      }
+      function nextPrevTab(val) {
+        $(".dcp_modal .nav-tabs li .nav-link").removeClass("active");
+        $(".dcp_modal .nav-tabs li .nav-link").eq(val).addClass("active");
+        
+        $(".dcp_modal .tab-content .tab-pane").removeClass("active");
+        $(".dcp_modal .tab-content .tab-pane").removeClass("show");
+        $(".dcp_modal .tab-content .tab-pane").eq(val).addClass("show");
+        $(".dcp_modal .tab-content .tab-pane").eq(val).addClass("active");
+      }
 
-    vm.editComboMaterial = (val) => {
+    };
+
+    vm.editCombo = (val) => {
       if (val == 1) { // edit Material
         vm.editFlag = true
-        $('.materialDetail textarea, .materialDetail input, .materialDetail select').attr('disabled', false)
-        console.log(vm.comboData.comboMaterialList)
+        vm.editComboMaterial = angular.copy(vm.comboData)
+        vm.selectedUnit = vm.editComboMaterial.unit
+        
+        $('#todo_modal.dcp_modal').modal('show')
+        /* $('.materialDetail textarea, .materialDetail input, .materialDetail select').attr('disabled', false)
+        console.log(vm.comboData.comboMaterialList) */
       } else if (val == 2) {
         $('.materialDetail textarea, .materialDetail input, .materialDetail select').attr('disabled', true)
         vm.editFlag = false
@@ -165,5 +203,50 @@
         sync: "#comboCarousel"
       });
     }
+
+    apiFactory
+      .listAllMaterials()
+      .then(resp => {
+        vm.allmaterilaList = resp.data.list;
+        vm.comboList = {
+          quantity: 1,
+          materialCost: 0,
+          rooferCost: 0
+        };
+      })
+      .catch(e => {
+        console.log(e);
+      });
+    // material on change function
+    vm.getMaterialInfo = material => {
+      let materialInfo = JSON.parse(material);
+      
+      if (material) {
+        vm.comboList.materialCost = parseFloat(
+          Math.round(
+            vm.comboList.quantity *
+            materialInfo.currentRate.materialCost.value *
+            100
+          ) / 100
+        );
+        vm.comboList.rooferCost = parseFloat(
+          Math.round(
+            vm.comboList.quantity *
+            materialInfo.currentRate.rooferCost.value *
+            100
+          ) / 100
+        );
+        $("a.item-selected span").removeClass("glyphicon glyphicon-remove");
+        $("a.item-selected span").addClass("fas fa-times mr-3");
+      }
+    };
+
+    vm.removeMateril = (item,flag) => {
+      if(flag == 'new') {
+        vm.comboMaterialList.splice(item, 1);
+      } else {
+        vm.editComboMaterial.comboMaterialList.splice(item, 1)
+      }
+    };
   }
 })();

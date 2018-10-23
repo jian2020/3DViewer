@@ -278,7 +278,7 @@
         return filesArray.reduce(
           (acc, x) => {
             if (
-              x.file.size < 20000000 &&
+              x.file.size < 50000000 &&
               (x.file.type === "application/pdf" || /image*/.test(x.file.type))
             ) {
               acc.cloudinary.push(x);

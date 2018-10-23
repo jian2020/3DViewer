@@ -177,10 +177,10 @@
 // }
 
 //Measure
-function onNewDimensions() {
+function onNewDimensions(actionName) {
     if ($('#bimviewer').contents().find('canvas').length !== 0) {
         var iframe = document.getElementById('bimviewer');
-        iframe.contentWindow.newDimensions();
+        iframe.contentWindow.newDimensions(actionName);
     }
 }
 function onDeleteDimensions() {
@@ -475,6 +475,36 @@ $('.collision-sub').click(function () {
         $(this).find('.eye-large').css('display', 'none');
     }
 
+});
+// measure length
+$('.chk-measure-length').click(function () {
+    $('#img_measure_length').attr('src', $(this).find('.measure-length-icon').attr('src'));
+
+    var actionName = $(this).text().trim();
+    onNewDimensions(actionName);
+});
+
+// measure area
+$('.chk-measure-area').click(function () {
+    $('#img_measure_area').attr('src', $(this).find('.measure-area-icon').attr('src'));
+
+    var actionName = $(this).text().trim();
+    onNewDimensions(actionName);
+});
+
+// measure area
+$('#btn_calc_volume').click(function () {
+    onNewDimensions("Volume");
+});
+
+// measure angle
+$('#btn_calc_angle').click(function () {
+    onNewDimensions("Angle");
+});
+
+// delete dimensions
+$('#btn_delete_dimension').click(function () {
+    onDeleteDimensions();
 });
 
 function convertFloat3ColorToString(color){

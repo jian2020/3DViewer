@@ -17,6 +17,7 @@
       uploadFactory,
     ) {
       let vm = this;
+      vm.backImg;
       const { logout, userStore,debounce } = globals;
       $scope.UploadedFiles=[];
       vm.issueData = {};
@@ -470,54 +471,54 @@
       
       
       vm.ADDISSUE = function(issueData){
-        console.log(issueData);
+      //   console.log(issueData);
         
-       $scope.filesArray=$scope.inputFiles;
-       vm.uploadViewFiles = fileManagerFactory.splitFileDest($scope.filesArray);
+      //  $scope.filesArray=$scope.inputFiles;
+      //  vm.uploadViewFiles = fileManagerFactory.splitFileDest($scope.filesArray);
 
-       var issueObject = {};
-       issueObject.assignedTo=[];
-       issueObject.title =  issueData.title;
-       issueObject.description =  issueData.description;
-       issueObject.projectId =  issueData.project._id;
-       issueObject.issueCategory =  issueData.category;
-       issueObject.ownerId = issueData.owner._id;
-       issueObject.deadLine = issueData.deadLine;
+      //  var issueObject = {};
+      //  issueObject.assignedTo=[];
+      //  issueObject.title =  issueData.title;
+      //  issueObject.description =  issueData.description;
+      //  issueObject.projectId =  issueData.project._id;
+      //  issueObject.issueCategory =  issueData.category;
+      //  issueObject.ownerId = issueData.owner._id;
+      //  issueObject.deadLine = issueData.deadLine;
       
-        issueObject.dependencyOn=issueData.dependencyOn._id;
+      //   issueObject.dependencyOn=issueData.dependencyOn._id;
        
        
-       issueData.assignedTo.map(x=>{
-        issueObject.assignedTo.push(x._id);
-       });
-       issueObject.issueStatus=issueData.issueStatus;
-       issueObject.files=vm.uploadViewFiles.cloudinary;
-       console.log("issueObject: ",issueObject);
-        apiFactory
-          .createIssue(issueObject)
-          .then(resp => {
-            Notification.success("Issue has been saved successfully");
-            console.log(resp);
-            if(vm.uploadViewFiles.s3){
-              vm.files3Update(vm.uploadViewFiles.s3,resp.data);
+      //  issueData.assignedTo.map(x=>{
+      //   issueObject.assignedTo.push(x._id);
+      //  });
+      //  issueObject.issueStatus=issueData.issueStatus;
+      //  issueObject.files=vm.uploadViewFiles.cloudinary;
+      //  console.log("issueObject: ",issueObject);
+      //   apiFactory
+      //     .createIssue(issueObject)
+      //     .then(resp => {
+      //       Notification.success("Issue has been saved successfully");
+      //       console.log(resp);
+      //       if(vm.uploadViewFiles.s3){
+      //         vm.files3Update(vm.uploadViewFiles.s3,resp.data);
 
-            }
-            else{
-            $scope.inputFiles = [];
+      //       }
+      //       else{
+      //       $scope.inputFiles = [];
            
-            vm.issueData ={};
-            $('#issue_modal').modal('hide');
-            $('#issue_marker').modal('show');
-             vm.sortissues("created", "toggleIssue");
-            }
-            //vm.savedIssueObject = resp.data;
+      //       vm.issueData ={};
+      //       $('#issue_modal').modal('hide');
+      //       $('#issue_marker').modal('show');
+      //        vm.sortissues("created", "toggleIssue");
+      //       }
            
-           // return resp;
-          })
-          .catch(e => {
-            console.log(e);
-            Notification.error("couldn't save issue");
-          });
+           $('#issue_modal').modal('hide');
+           $('#issue_marker').modal('show');
+         // })
+          // .catch(e => {
+          //   console.log(e);
+          //   Notification.error("couldn't save issue");
+          // });
 
       };
 
@@ -532,7 +533,9 @@
         console.log("after src called");
         $("#issue_marker").modal("hide");
         var firstCanvasImg=vm.planToMark.slice(-1);
-         $("#slideCanvas").css("background-image","url("+firstCanvasImg[0].url+")");
+        $("#carousellist").carousel("pause").removeData();
+        $("#carousellist").carousel(vm.planToMark);
+        // $("#slideCanvas").css("background-image","url("+firstCanvasImg[0].url+")");
           
        //  $("#localfilesmodel").modal("show");
        
@@ -596,27 +599,14 @@
         $("#chooseIssueRoofModal").modal("hide");
         $("#issue_marker").modal("show");
        console.log("vm.plan to mrk:", vm.planToMark);
-
-
         var firstCanvasImg=imgarray.slice(-1);
-        $("#slideCanvas").css("background-image","url("+firstCanvasImg[0].url+")");
-       
+        //$("#slideCanvas").css("background-image","url("+firstCanvasImg[0].url+")");
+        $("#carousellist").carousel("pause").removeData();
+        $("#carousellist").carousel(vm.planToMark);
       
       }
 
-      
-
-      //test get details
-      $scope.addToDetails1 = function(imgarray){
-        $("#localfilesmodel").modal("hide");
-        $("#issue_marker").modal("show");
-       
-        var firstCanvasImg=imgarray.slice(-1);
-         $("#slideCanvas").css("background-image","url("+firstCanvasImg[0].url+")");
-       
-      
-      }
-
+   
       $scope.getDetail = function(issue){
         $('#issuedetail').modal();
         $scope.issueModel = issue;
@@ -770,10 +760,28 @@
     
    
     $scope.openSliderImage =function(url,index){
-      console.log("url: ",url);
-     $("#slideCanvas").css("background-image","url("+url+")");
-    
-    }
+     // $scope.context.clearRect(0,0,$scope.canvas.width, $scope.canvas.height);
+      $scope.context=$scope.canvas.getContext('2d');
+     let base_image = new Image();
+      base_image.src = url;
+      base_image.crossOrigin = "Anonymous";
+      console.log(base_image.width);
+      console.log($scope.canvas.width);
+      console.log($scope.canvas.height);
+
+      console.log(base_image.height);
+    //  $scope.context.drawImage(base_image, 0,0);
+    //  console.log("url: ",url);
+    var canvas = $scope.canvas ;
+   var hRatio = $scope.canvas.width  / base_image.width    ;
+   var vRatio =  canvas.height / base_image.height  ;
+   var ratio  = Math.min ( hRatio, vRatio );
+   var centerShift_x = ( $scope.canvas.width - base_image.width*ratio ) / 2;
+   var centerShift_y = ( $scope.canvas.height - base_image.height*ratio ) / 2;  
+   $scope.context.clearRect(0,0,$scope.canvas.width, $scope.canvas.height);
+   $scope.context.drawImage(base_image, 0,0, base_image.width, base_image.height,
+                      centerShift_x,centerShift_y,base_image.width*ratio, base_image.height*ratio);  
+  }
 
     //CANVAS METHODS EVENTS
     $scope.isLine=false;
@@ -798,7 +806,7 @@
       $('#txtbtn').css("background-color","#D3D3D3");
        $('#circlebtn').css("background-color","#D3D3D3");
        $('#linebutton').css("background-color","#009ACD");
-      $scope.context=$scope.canvas.getContext('2d');
+       $scope.context1=$scope.canvas.getContext('2d');
     
       $scope.rect = $scope.canvas.getBoundingClientRect();
       if($scope.isCircle==true||$scope.isMarker==true||$scope.isText==true){
@@ -823,7 +831,7 @@
         var x= Math.floor( ( e.clientX - $scope.rect.left ) / ( $scope.rect.right - $scope.rect.left ) * $scope.canvas.width ),
          y=Math.floor( ( e.clientY - $scope.rect.top ) / ( $scope.rect.bottom - $scope.rect.top ) * $scope.canvas.height )
         $scope.dragStartLocation= {'X':x,'Y':y};
-        $scope.snapshot=$scope.context.getImageData(0,0,$scope.canvas.width,$scope.canvas.height);
+        $scope.snapshot=$scope.context1.getImageData(0,0,$scope.canvas.width,$scope.canvas.height);
      
     }
     function dragLine(e){
@@ -831,37 +839,227 @@
       var x=Math.floor( ( e.clientX - $scope.rect.left ) / ( $scope.rect.right - $scope.rect.left ) * $scope.canvas.width ),
       y=Math.floor( ( e.clientY - $scope.rect.top ) / ( $scope.rect.bottom - $scope.rect.top ) * $scope.canvas.height )
       if($scope.dragging===true){
-        $scope.context.putImageData($scope.snapshot,0,0);
+        $scope.context1.putImageData($scope.snapshot,0,0);
         position={'X':x,'Y':y};
-        $scope.context.beginPath();
-        $scope.context.moveTo($scope.dragStartLocation.X,$scope.dragStartLocation.Y);
-        $scope.context.lineTo(position.X,position.Y);
-        $scope.context.strokeStyle = $scope.colorpick;
-        $scope.context.lineWidth=2;
-        $scope.context.lineCap='round';
-        $scope.context.stroke();
+        $scope.context1.beginPath();
+        $scope.context1.moveTo($scope.dragStartLocation.X,$scope.dragStartLocation.Y);
+        $scope.context1.lineTo(position.X,position.Y);
+        $scope.context1.strokeStyle = $scope.colorpick;
+        $scope.context1.lineWidth=2;
+        $scope.context1.lineCap='round';
+        $scope.context1.stroke();
       }
     }
     function dragStopLine(e){
         $scope.dragging=false;
-        $scope.context.putImageData($scope.snapshot,0,0);
+        $scope.context1.putImageData($scope.snapshot,0,0);
         var position;
         var x=Math.floor( ( e.clientX - $scope.rect.left ) / ( $scope.rect.right - $scope.rect.left ) * $scope.canvas.width ),
         y=Math.floor( ( e.clientY - $scope.rect.top ) / ( $scope.rect.bottom - $scope.rect.top ) * $scope.canvas.height )
         position={'X':x,'Y':y};
        // console.log("drag location",position.X,position.Y);
-        $scope.context.beginPath();
-        $scope.context.moveTo($scope.dragStartLocation.X,$scope.dragStartLocation.Y);
-        $scope.context.lineTo(position.X,position.Y);
-        $scope.context.strokeStyle = $scope.colorpick;
-        $scope.context.lineWidth=2;
-        $scope.context.lineCap='round';
-        $scope.context.stroke();
-       var imageData = $scope.context.getImageData(0,0,$scope.canvas.width,$scope.canvas.height);
+        $scope.context1.beginPath();
+        $scope.context1.moveTo($scope.dragStartLocation.X,$scope.dragStartLocation.Y);
+        $scope.context1.lineTo(position.X,position.Y);
+        $scope.context1.strokeStyle = $scope.colorpick;
+        $scope.context1.lineWidth=2;
+        $scope.context1.lineCap='round';
+        $scope.context1.stroke();
+       var imageData = $scope.context1.getImageData(0,0,$scope.canvas.width,$scope.canvas.height);
        $scope.UndoArray.push(imageData);
        console.log("undoArray: ",$scope.UndoArray);
        
     }
+
+
+
+    //CIRCLE
+
+    $scope.drawCircleOnCanvas = function(){
+      $scope.openFillColor=true;
+      $scope.textForm=false;
+      $('#gpsbtn').css("background-color","#D3D3D3");
+
+      $scope.btnMarker="../assets/images/gps.png";
+      $scope.btnCircle="../assets/images/circlewhite.png";
+      $scope.btnLine="../assets/images/lineicon.png";
+      $scope.btnText="../assets/images/text-option-interface-symbol.png";
+
+      $('#linebutton').css("background-color","#D3D3D3");
+      $('#txtbtn').css("background-color","#D3D3D3");
+      $('#circlebtn').css("background-color","#009ACD");
+      $('#circlebtn').css("color","#ffffff");
+      
+      $scope.ctx = $scope.canvas.getContext('2d');
+      $scope.canvasx = $($scope.canvas).offset().left;
+      $scope.canvasy = $($scope.canvas).offset().top;
+      $scope.last_mousey,$scope.mousey;
+      $scope.last_mousex = $scope.last_mousey = 0;
+      $scope.mousex = $scope.mousey = 0;
+      $scope.mousedown = false;
+      $scope.rect1 = $scope.canvas.getBoundingClientRect();
+      if($scope.isLine==true||$scope.isMarker==true){
+        $scope.canvas.removeEventListener('mousedown',dragStartLine);
+        $scope.canvas.removeEventListener('mousemove',dragLine);
+        $scope.canvas.removeEventListener('mouseup',dragStopLine);
+        $scope.canvas.removeEventListener('mousedown',MarkWrite);
+        $scope.canvas.removeEventListener('mousedown',TextWrite);
+
+      }
+      $scope.canvas.addEventListener('mousedown',dragStart);
+      $scope.canvas.addEventListener('mousemove',drag);
+      $scope.canvas.addEventListener('mouseup',dragStop);
+    }
+
+    //circl functions
+    function dragStart(e){
+      $scope.isCircle=true;
+      // $scope.last_mousex = parseInt(e.clientX-$scope.canvasx);
+      // $scope.last_mousey = parseInt(e.clientY-$scope.canvasy);
+      $scope.last_mousex = parseInt( ( e.clientX - $scope.rect1.left ) / ( $scope.rect1.right - $scope.rect1.left ) * $scope.canvas.width);
+      $scope.last_mousey = parseInt(( e.clientY - $scope.rect1.top ) / ( $scope.rect1.bottom - $scope.rect1.top ) * $scope.canvas.height );
+      $scope.mousedown = true;
+      $scope.snapshotCircle= $scope.ctx.getImageData(0,0,$scope.canvas.width,$scope.canvas.height);
+    }
+    function drag(e){
+      // $scope.mousex = parseInt(e.clientX-$scope.canvasx);
+      // $scope.mousey = parseInt(e.clientY-$scope.canvasy);
+      $scope.mousex = parseInt( ( e.clientX - $scope.rect1.left ) / ( $scope.rect1.right - $scope.rect1.left ) * $scope.canvas.width);
+      $scope.mousey = parseInt(( e.clientY - $scope.rect1.top ) / ( $scope.rect1.bottom - $scope.rect1.top ) * $scope.canvas.height );
+    
+        if($scope.mousedown) {
+         
+        //  $scope.ctx.clearRect(0,0,$scope.canvas.width,$scope.canvas.height); //clear canvas
+            //Save
+            $scope.ctx.save();
+            $scope.ctx.putImageData($scope.snapshotCircle,0,0);
+            $scope.ctx.beginPath();
+            //Dynamic scaling
+            
+            var scalex = 1*(($scope.mousex-$scope.last_mousex)/2);
+            var scaley = 1*(($scope.mousey-$scope.last_mousey)/2);
+            $scope.ctx.scale(scalex,scaley);
+            //Create ellipse
+            $scope.centerx = ($scope.last_mousex/scalex)+1;
+            $scope.centery = ($scope.last_mousey/scaley)+1;
+           
+            $scope.ctx.arc($scope.centerx, $scope.centery, 1, 0, 2*Math.PI);
+            //Restore and draw
+             $scope.ctx.restore();
+             $scope.ctx.strokeStyle = $scope.colorpick;
+             $scope.ctx.fillStyle = $scope.fillColor;
+             $scope.ctx.fill();
+             $scope.ctx.lineWidth =2;
+             $scope.ctx.stroke();
+            
+        }
+     
+     
+    }
+    function dragStop(e){
+      $scope.mousedown = false;
+      var imageData = $scope.ctx.getImageData(0,0,$scope.canvas.width,$scope.canvas.height);
+      $scope.UndoArray.push(imageData);
+      
+    }
+
+    //MARKER
+    $scope.drawmarkerOnCanvas=function(){
+      
+      $scope.openFillColor=true;
+      $scope.textForm=false;
+      $scope.markercontext=$scope.canvas.getContext('2d');
+      if($scope.isCircle==true||$scope.isLine==true||$scope.isText==true){
+        $scope.canvas.removeEventListener('mousedown',dragStart);
+        $scope.canvas.removeEventListener('mousemove',drag);
+        $scope.canvas.removeEventListener('mouseup',dragStop);
+        $scope.canvas.removeEventListener('mousedown',dragStartLine);
+        $scope.canvas.removeEventListener('mousemove',dragLine);
+        $scope.canvas.removeEventListener('mouseup',dragStopLine);
+        $scope.canvas.removeEventListener('mousedown',TextWrite);
+
+
+    }
+      $('#gpsbtn').css("background-color","#009ACD");
+
+      $scope.btnMarker="../assets/images/gpswhite.png";
+      $scope.btnCircle="../assets/images/circle-shape-outline.png";
+      $scope.btnLine="../assets/images/lineicon.png";
+      $scope.btnText="../assets/images/text-option-interface-symbol.png";
+
+      $('#txtbtn').css("background-color","#D3D3D3");
+      $('#circlebtn').css("background-color","#D3D3D3");
+      $('#linebutton').css("background-color","#D3D3D3");
+      $scope.rectmarker = $scope.canvas.getBoundingClientRect();
+      $scope.canvas.addEventListener('mousedown',MarkWrite);
+     
+    }
+
+    function MarkWrite(e){
+      $scope.isMarker=true;
+      var mousex = parseInt(( e.clientX - $scope.rectmarker.left ) / ( $scope.rectmarker.right - $scope.rectmarker.left ) * $scope.canvas.width);
+      var mousey = parseInt(( e.clientY - $scope.rectmarker.top ) / ( $scope.rectmarker.bottom - $scope.rectmarker.top ) * $scope.canvas.height );
+      $scope.markercontext.beginPath();
+      $scope.markercontext.arc(mousex,mousey, 8, 0, 2 * Math.PI);
+      $scope.markercontext.strokeStyle = $scope.colorpick;
+      $scope.markercontext.fillStyle =  "blue";
+      $scope.markercontext.fill();
+      $scope.markercontext.stroke();
+      var imageData = $scope.markercontext.getImageData(0,0,$scope.canvas.width,$scope.canvas.height);
+       $scope.UndoArray.push(imageData);
+    }
+
+    //text writing
+    $scope.fillTextOnCanvas=function(){
+      $scope.openFillColor=false;
+      $scope.textForm=true;
+      $('#gpsbtn').css("background-color","#D3D3D3");
+
+      $scope.btnMarker="../assets/images/gps.png";
+      $scope.btnCircle="../assets/images/circle-shape-outline.png";
+      $scope.btnLine="../assets/images/lineicon.png";
+      $scope.btnText="../assets/images/textwhite.png";
+
+      $('#txtbtn').css("background-color","#009ACD");
+      $('#circlebtn').css("background-color","#D3D3D3");
+      $('#linebutton').css("background-color","#D3D3D3");
+      if($scope.isCircle==true||$scope.isLine==true||$scope.isMarker==true){
+        $scope.canvas.removeEventListener('mousedown',dragStart);
+        $scope.canvas.removeEventListener('mousemove',drag);
+        $scope.canvas.removeEventListener('mouseup',dragStop);
+        $scope.canvas.removeEventListener('mousedown',dragStartLine);
+        $scope.canvas.removeEventListener('mousemove',dragLine);
+        $scope.canvas.removeEventListener('mouseup',dragStopLine);
+        $scope.canvas.removeEventListener('mousedown',MarkWrite);
+
+    }
+      
+      
+       $scope.canvas.addEventListener('mousedown',TextWrite);
+      // $scope.canvas.addEventListener('mouseup',extUp);
+      
+    }
+    function TextWrite(e){
+      $scope.isText=true;
+      
+      $scope.cntxt = $scope.canvas.getContext("2d");
+      var coords = $scope.canvas.getBoundingClientRect();
+      var mousex = parseInt(( e.clientX - coords.left ) / ( coords.right - coords.left ) * $scope.canvas.width);
+      var mousey = parseInt(( e.clientY - coords.top ) / ( coords.bottom - coords.top ) * $scope.canvas.height );
+      $scope.cntxt.font      = "15px Times New Roman";
+      $scope.cntxt.fillStyle = $scope.colorpick;
+      $scope.cntxt.strokeText($scope.placeDataAtPixel,mousex,mousey);
+      var imageData = $scope.cntxt.getImageData(0,0,$scope.canvas.width,$scope.canvas.height);
+       $scope.UndoArray.push(imageData);
+       $scope.placeDataAtPixel="";
+      
+    }
+
+
+
+
+
+
 
    
 
@@ -891,10 +1089,27 @@
     }
 
     vm.saveMarkInfo=function(){
+      
+      var dataImage=$scope.canvas.toDataURL("image/png");
+      console.log(dataImage);
+      console.log(vm.backImg);
+      // mergeImages([
+      // { src: vm.backImg},
+      // { src: dataImage}
+      // ]).then(b64=>{
+      // var link = document.getElementById('link');
+      // link.setAttribute('download', 'MintyPaper.png');
+      // link.setAttribute('href', b64);
+      // link.click();
+
+      // })
       var link = document.getElementById('link');
-  link.setAttribute('download', 'MintyPaper.png');
-  link.setAttribute('href', $scope.canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
-  link.click();
+      link.setAttribute('download', 'MintyPaper.png');
+      let dataimage=link.setAttribute('href', $scope.canvas.toDataURL("image/jpg").replace("image/jpg", "image/octet-stream"));
+      link.click();
+     
+
+
     //   var image = new Image();
     //  var dt= $scope.canvas.toDataURL("image/png");
     //   console.log("vm.IMGSTORE in png: ",dt);
@@ -906,7 +1121,7 @@
       //    console.log(resp);
       //    console.log("CONVERTED FILE: ",file);
       // })
-  // })
+      // })
       
     }
 

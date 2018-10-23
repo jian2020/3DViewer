@@ -489,11 +489,11 @@ background: rgba(0, 0, 0, 0.50);
 }
 #issueslider .carousel-control-prev,
 #equipment_slider .carousel-control-prev {
-left: -4%;
+left: 4%;
 }
 #issueslider .carousel-control-next,
 #equipment_slider .carousel-control-next {
-right: -4%;
+right: 4%;
 }
 .btn_red,.btn_yellow{
 font-size: 18px;
@@ -1808,7 +1808,7 @@ box-shadow: 0 0 80px rgba(40, 54, 83, 0.2);
   width: auto;
   color: #2e1a43;
 }
-.f_block .form-control{
+.f_block .form-control {
   border: 2px solid #ddd;
   height: 70px;
   border-radius: 45px;
@@ -1822,6 +1822,12 @@ box-shadow: 0 0 80px rgba(40, 54, 83, 0.2);
 }
 .f_block .form-control:focus,.popup2 .selectbox:focus{
   border-color: #4ed1be;
+}
+.form-control.datepicker {
+  border-radius: 45px !important;
+  -webkit-border-radius: 45px !important;
+  -moz-border-radius: 45px !important;
+  padding: 10px 30px !important;
 }
 .popup2 .selectbox{
   width: 100%;
@@ -2109,6 +2115,9 @@ textarea.white_block:focus{
 .img_box  .img_height img{
   object-fit: contain;
   height: 100%; width: 100%;
+}
+.img_box .img_height.doc img {
+  object-fit: scale-down;
 }
 
 /*============Equipment Details=========================*/
@@ -3126,4 +3135,9 @@ body {
 }
 .client-section .yello_clr.btn_create_issue {
   background-color: #dc3545;
+}
+
+.selectedItem{
+  background-color:#2259E4;
+  opacity: 0.25;
 }

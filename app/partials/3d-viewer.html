@@ -341,13 +341,47 @@
       <div class="rect-toolbar-icon">
         <img class="rect-toolbar-img" src="../assets/images/toolbar/21.png" />
       </div>
-      <div class="rect-toolbar-icon" onclick="onNewDimensions();">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/22.png" />
+      <div class="rect-toolbar-icon">
+        <!-- <img class="rect-toolbar-img" src="../assets/images/toolbar/22.png" /> -->
+        <div class="dropdown">
+          <button class="btn dropdown-toggle only-icon" type="button" data-toggle="dropdown">
+            <img id="img_measure_length" class="rect-toolbar-img" src="../assets/images/toolbar/22.png" />
+          </button>
+          <div class="dropdown-menu" role="menu">
+            <a class="dropdown-item small px-2 chk-measure-length"><img class="measure-length-icon" src="../assets/images/toolbar/22.png" />
+              Common Length</a>
+            <a class="dropdown-item small px-2 chk-measure-length"><img class="measure-length-icon" src="../assets/images/toolbar/length_edge.png" />
+              Edge Calibrate</a>
+            <a class="dropdown-item small px-2 chk-measure-length"><img class="measure-length-icon" src="../assets/images/toolbar/length_vertex.png" />
+              Vertex Calibrate</a>
+          </div>
+        </div>
+      </div>
+      <div class="rect-toolbar-icon">
+        <div class="dropdown">
+          <button class="btn dropdown-toggle only-icon" type="button" data-toggle="dropdown">
+            <img id="img_measure_area" class="rect-toolbar-img" src="../assets/images/toolbar/area_sameplane.png" />
+          </button>
+          <div class="dropdown-menu" role="menu">
+            <!-- <a class="dropdown-item small px-2 chk-measure-area"><img class="measure-area-icon" src="../assets/images/toolbar/area_triangle.png" />
+              Triangle Area</a> -->
+            <a class="dropdown-item small px-2 chk-measure-area"><img class="measure-area-icon" src="../assets/images/toolbar/area_sameplane.png" />
+              Same Plane</a>
+            <a class="dropdown-item small px-2 chk-measure-area"><img class="measure-area-icon" src="../assets/images/toolbar/area_total.png" />
+              Total Area</a>
+          </div>
+        </div>
+      </div>
+      <div class="rect-toolbar-icon" id="btn_calc_volume">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/volume.png" />
+      </div>
+      <div class="rect-toolbar-icon" id="btn_delete_dimension">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/deleteDimensions.png" />
       </div>
       <div class="rect-toolbar-icon">
         <img class="rect-toolbar-img" src="../assets/images/toolbar/23.png" />
       </div>
-      <div class="rect-toolbar-icon">
+      <div class="rect-toolbar-icon" id="btn_calc_angle">
         <img class="rect-toolbar-img" src="../assets/images/toolbar/24.png" />
       </div>
       <div class="rect-toolbar-icon">
@@ -625,7 +659,7 @@
     </div>
   </section>
   <!-- Components dialog -->
-  <section id="dlg_components" class="dialog dialog-components">
+  <section id="dlg_components" class="dialog dialog-components" style="display: none">
     <header id="dlg_components_header" class="dialog-header">
       <div class="dialog-actions" onclick="getElementById('dlg_components').style.display = 'none'; getElementById('chk_components').classList.remove('fa-check');">
         <a class="dialog-action dialog-action-dismiss" data-dialog-dismiss></a>
@@ -696,7 +730,7 @@
     </div>
   </section>
   <!-- Materials and colors dialog -->
-  <section id="dlg_materials" class="dialog dialog-materials">
+  <section id="dlg_materials" class="dialog dialog-materials" style="display: none">
     <header id="dlg_materials_header" class="dialog-header">
       <div class="dialog-actions" onclick="getElementById('dlg_materials').style.display = 'none';getElementById('chk_materials').classList.remove('fa-check');">
         <a class="dialog-action dialog-action-dismiss" data-dialog-dismiss></a>
@@ -729,8 +763,7 @@
                     <div class="btn-group flex-wrap">
                       <button type="button" class="mb-1 mt-1 mr-1 dropdown-btn btn-default">Edit</button>
                     </div>
-                    <div id="btn_edit_material" class="edit-icon"><img
-                        src="../assets/images/dialog/edit.png" /></div>
+                    <div id="btn_edit_material" class="edit-icon"><img src="../assets/images/dialog/edit.png" /></div>
                   </td>
                 </tr>
               </tbody>
@@ -796,7 +829,7 @@
   </section>
 
   <!-- Collision check -->
-  <section id="dlg_collision" class="dialog dialog-collision">
+  <section id="dlg_collision" class="dialog dialog-collision" style="display: none">
     <header id="dlg_collision_header" class="dialog-header">
       <div class="dialog-actions" onclick="getElementById('dlg_collision').style.display = 'none';getElementById('chk_collision').classList.remove('fa-check');">
         <a class="dialog-action dialog-action-dismiss" data-dialog-dismiss></a>
@@ -944,7 +977,7 @@
   </section>
 
   <!-- Home Story -->
-  <section id="dlg_story" class="dialog dialog-story">
+  <section id="dlg_story" class="dialog dialog-story" style="display: none">
     <header id="dlg_story_header" class="dialog-header">
       <div class="dialog-actions" onclick="getElementById('dlg_story').style.display = 'none';getElementById('chk_story').classList.remove('fa-check');">
         <a class="dialog-action dialog-action-dismiss" data-dialog-dismiss></a>
@@ -1086,7 +1119,6 @@
       </div>
     </div>
   </section>
-
 </div>
 
 <!-- <div class="window-left window rounded bg-light border text-center"> 

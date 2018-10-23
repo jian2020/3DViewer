@@ -13,7 +13,7 @@
   ) {
     //const url = "http://192.168.10.188:1337",
     const url = "https://api.staging.cloudes.eu",
-      // const url = "http://localhost:4200",
+    //const url = "http://localhost:4200",
       //const url = "http://localhost:1337",
       headers = (method, token) => {
         return {
@@ -1071,6 +1071,15 @@
             headers: headers("PUT", true)
           })
         );
+        return promise;
+      },
+
+      getAccessMeetingRoomToken: function() {
+        const promise = $http({
+          url: url + "/api/getAccessMeetingRoomToken",
+          method: "GET",
+          headers: headers("GET", true)
+        });
         return promise;
       }
     };

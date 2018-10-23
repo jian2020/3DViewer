@@ -287,8 +287,8 @@ define(["./Notifier", "./BimServerModel", "./PreloadQuery", "./BimServerGeometry
             viewer.showGrid(show);
         };
 
-        this.newDimensions = function(){
-            viewer.newDimensions();
+        this.newDimensions = function(actionName){
+            viewer.newDimensions(actionName);
         };
         this.deleteDimensions = function(){
             viewer.deleteDimensions();

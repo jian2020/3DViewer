@@ -58,7 +58,7 @@
                             <small class="text-muted">{{dcps.currentRate.materialCost.currencyCode}}</small>
                           </h5>
 
-                          <p class="mb-0 mt-4 text-sm-left text-uppercase f700">Roofer Cost</p>
+                          <p class="mb-0 mt-4 text-sm-left text-uppercase f700">Worker Cost</p>
                           <h5 class="mb-0 text-sm-left price-txt text-center">{{dcps.currentRate.rooferCost.value | roundNum: 2}}
                             <small class="text-muted">{{dcps.currentRate.rooferCost.currencyCode}}</small>
                           </h5>
@@ -112,7 +112,7 @@
                             <!-- <small class="text-muted">{{dcps.currentRate.materialCost.currencyCode}}</small> -->
                           </h5>
 
-                          <p class="mb-0 mt-4 text-sm-left text-uppercase f700">Roofer Total</p>
+                          <p class="mb-0 mt-4 text-sm-left text-uppercase f700">Worker Total</p>
                           <h5 class="mb-0 text-sm-left price-txt text-center">{{dcps.rooferTotal.value | roundNum: 2}}
                             <!-- <small class="text-muted">{{dcps.currentRate.rooferCost.currencyCode}}</small> -->
                           </h5>
@@ -168,14 +168,14 @@
   </div>
 </div>
 
-
 <div class="modal fade popup2 material_modal" data-easein="slideUpBigIn" id="todo_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
+  aria-hidden="true" data-backdrop="static">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <div class="d-flex align-items-center justify-content-between w-100">
           <h5 class="modal-title f500 txtwhite">Add Material</h5>
+          <button type="button" class="close" ng-click="vm.clearData()" data-dismiss="modal">&times;</button>
         </div>
       </div>
       <div class="modal-body pad0">
@@ -198,10 +198,16 @@
                       required>
                   </div>
                   <div class="f_block">
-                    <p class="fsize18 f500 txtgrey c_space mb-2 mt-4">Currency</p>
-                    <select ui-select2 ng-model="vm.addMaterial.currency" class="form-control" ng-change="vm.showConversionRate(vm.companyData.currentCurrency.currencyCode, vm.addMaterial.currency)">
-                      <option ng-repeat="currency in vm.currencies" value="{{currency.cc}}">{{currency.cc}} - {{currency.name}}</option>
-                    </select>
+                    <p class="fsize18 f500 txtgrey c_space mb-2 mt-4">Unit</p>
+                    <div class="dropdown position-relative d-inline-block ml-auto taskdrop w-100">
+                      <button class="btn selectbox dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span ng-if="vm.selectedUnit">{{vm.selectedUnit}}</span>
+                        <span ng-if="!vm.selectedUnit">Please select Unit</span>
+                      </button>
+                      <ul class="dropdown-menu avail_option">
+                        <li ng-repeat="unit in vm.mUnits" ng-click="vm.unitSelect(unit)">{{unit.name}}</li>
+                      </ul>
+                    </div>
                   </div>
                   <div class="f_block">
                     <p class="fsize18 f500 txtgrey c_space mb-2 mt-4">Maintenance Period (Days)</p>
@@ -238,7 +244,7 @@
                           <div class="img_box white_block ">
                             <ul class="list-unstyled mb-0 uploaded_img">
                               <!-- ngRepeat: img in img_upload -->
-                              <li class="ng-scope" ng-repeat="f in vm.inputImg">
+                              <li ng-repeat="f in vm.inputImg">
                                 <div class="img_height">
                                   <img ngf-src="f" class="img-fluid animated zoomIn wow" data-wow-delay=".7s" alt="image">
                                   <div class="btn-group noteBtn" role="group" aria-label="Basic example">
@@ -265,16 +271,27 @@
                           <div class="img_box white_block ">
                             <ul class="mb-0 list-unstyled">
                               <!-- ngRepeat: doc in equipdocuments -->
-                              <li class="d-flex flex-column align-items-center justify-content-center doc_block animated zoomIn wow ng-scope"
-                                data-wow-delay=".7s" ng-repeat="f in vm.inputFiles">
-                                <img src="/assets/images/pdf.png" class="img-fluid" alt="doc-icon">
-                                <p class="mb-0 fsize18 f500 txtgrey mt-2 ng-binding">{{f.name}}</p>
+                              <li data-wow-delay=".7s" ng-repeat="f in vm.inputFiles">
+                                <div class="img_height doc">
+                                  <img src="/assets/images/pdf.png" alt="doc-icon">
+                                  <div class="btn-group noteBtn" role="group" aria-label="Basic example">
+                                    <button ng-click="vm.deleteFile($index, 'document')" type="button" class="btn btn-danger">
+                                      <i class="far fa-trash-alt"></i>
+                                    </button>
+                                    <button ng-click="vm.descriptionPopover($index, 'document')" uib-popover-template="'example.html'" popover-placement="bottom-right"
+                                      popover-trigger="click" type="button" class="btn popoverbtn btn-success">
+                                      <i class="far fa-edit"></i>
+                                    </button>
+                                  </div>
+                                </div>
+                                <span class="d-block">{{f.name}}</span>
+                                <span class="d-block">{{f.description}}</span>
                               </li>
                               <!-- end ngRepeat: doc in equipdocuments -->
                             </ul>
                             <hr class="">
                             <div class="btn btn_red btn_create_issue ripple my-1" ngf-select ng-model="vm.inputFiles" ngf-change="vm.fileUpdated($files, $event, vm.inputFiles)"
-                              name="file" ngf-pattern="'*/*'" ngf-multiple="true" ngf-accept="'*/*'">Browse</div>
+                              name="file" ngf-pattern="'.xlsx,.xls,.csv,.doc,.docx,.pdf'" ngf-multiple="true" ngf-accept="'.xlsx,.xls,.csv,.doc,.docx,.pdf'">Browse</div>
                           </div>
                         </div>
                       </div>
@@ -286,7 +303,7 @@
             <div class="modal-footer align-items-center">
               <div>
                 <button type="button" class="btn btn_create_issue ripple" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn_create_issue ripple" data-ng-click="vm.tabChange(1)">Next</button>
+                <button type="button" class="btn btn_create_issue ripple" data-ng-click="vm.tabChange(1, 'material')">Next</button>
               </div>
             </div>
           </div>
@@ -294,17 +311,12 @@
             <div class="d-md-flex">
               <div class="col-lg-12 pad0">
                 <div class="issue_form">
+                  {{vm.addMaterial.currency}}
                   <div class="f_block">
-                    <p class="fsize18 f500 txtgrey c_space mb-2 mt-4">Unit</p>
-                    <div class="dropdown position-relative d-inline-block ml-auto taskdrop w-100">
-                      <button class="btn selectbox dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span ng-if="vm.selectedUnit">{{vm.selectedUnit}}</span>
-                        <span ng-if="!vm.selectedUnit">Please select Unit</span>
-                      </button>
-                      <ul class="dropdown-menu avail_option">
-                        <li ng-repeat="unit in vm.mUnits" ng-click="vm.unitSelect(unit)">{{unit.name}}</li>
-                      </ul>
-                    </div>
+                    <p class="fsize18 f500 txtgrey c_space mb-2 mt-4">Currency</p>
+                    <select ui-select2 ng-model="vm.addMaterial.currency" class="form-control" ng-change="vm.showConversionRate(vm.companyData.currentCurrency.currencyCode, vm.addMaterial.currency)">
+                      <option selected="{{vm.addMaterial.currency == currency.cc}}" ng-repeat="currency in vm.currencies" value="{{currency.cc}}">{{currency.cc}} - {{currency.name}}</option>
+                    </select>
                   </div>
                   <div class="f_block">
                     <p class="fsize18 f500 txtgrey c_space mb-2 mt-4">Conversion Factor</p>
@@ -326,7 +338,7 @@
                     <span class="form-control animated zoomIn wow">{{vm.addMaterial.materialCostValue | convertCurrency:vm.addMaterial.conversionFactor | roundNum:2}}</span>
                   </div>
                   <div class="f_block">
-                    <p class="fsize18 f500 txtgrey c_space mb-2 mt-4">Actual Roofer Cost ({{vm.companyData.currentCurrency.currencyCode}})</p>
+                    <p class="fsize18 f500 txtgrey c_space mb-2 mt-4">Actual Worker Cost ({{vm.companyData.currentCurrency.currencyCode}})</p>
                     <span class="form-control animated zoomIn wow">{{vm.addMaterial.rooferCostValue | convertCurrency:vm.addMaterial.conversionFactor | roundNum:2}}</span>
                   </div> -->
                   <!-- <div class="f_block">
@@ -341,7 +353,7 @@
             </div>
             <div class="modal-footer align-items-center">
               <div>
-                <button type="button" class="btn btn_create_issue ripple" data-ng-click="vm.tabChange(0)">Previous</button>
+                <button type="button" class="btn btn_create_issue ripple" data-ng-click="vm.tabChange(0, 'material')">Previous</button>
                 <button type="button" class="btn btn_create_issue ripple" ng-click="vm.addMaterialDetails()">Create</button>
               </div>
             </div>
@@ -360,13 +372,14 @@
   </div>
 </div>
 
-<div class="modal fade popup2 dcp_modal" data-easein="slideUpBigIn" id="todo_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div class="modal fade popup2 dcp_modal"  data-backdrop="static" data-easein="slideUpBigIn" id="todo_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <div class="d-flex align-items-center justify-content-between w-100">
           <h5 class="modal-title f500 txtwhite">Add Combo Material</h5>
+          <button type="button" class="close" ng-click="vm.clearData('dcp')" data-dismiss="modal">&times;</button>
         </div>
       </div>
       <div class="modal-body pad0">
@@ -384,7 +397,7 @@
         <div class="tab-content" id="myTabContent">
           <div class="tab-pane fade show active" id="material2" role="tabpanel" aria-labelledby="home-tab">
             <div class="d-md-flex">
-              <div class="col-lg-12 pad0">
+              <div class="col-lg-6 col-md-6 pad0">
                 <div class="issue_form">
                   <div class="f_block">
                     <p class="fsize18 f500 txtgrey c_space mb-2">Combo Material Name</p>
@@ -407,22 +420,90 @@
                     <p class="fsize18 f500 txtgrey c_space mb-2 mt-4">Description</p>
                     <textarea ng-model="vm.addComboMaterialForm.description" class="form-control animated wow zoomIn" rows="5" placeholder="Enter description here..."></textarea>
                   </div>
-                  <!-- <div class="row">
-                    <div class="col-md-6">
-                      <h5 class="fsize18 f500 c_space animated fadeInUp space30 txtgrey">Next Maintenance Date</h5>
-                      <input type="text" class="form-control animated zoomIn wow date-icon datepicker txt_box1">
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 pad0">
+                <script type="text/ng-template" id="example.html">
+                  <div class="row m-0">
+                    <div class="form-group addDescription">
+                      <input type="text" class="form-control" ng-model="description" >
+                      <button class="mt-1 btn btn-success btn-sm" ng-click="vm.addDescription(fileIndex, description)">Save</button>
                     </div>
-                    <div class="col-md-6">
-                      <h5 class="fsize18 f500 c_space animated fadeInUp space30 txtgrey">Maintenance Interval</h5>
-                      <input type="text" class="form-control animated zoomIn wow txt_box1" value="90 Days" data-wow-delay="0.4s">
+                  </div>
+                </script>
+                <div class="bg_grey">
+                  <div class="d-lg-flex">
+                    <div class="col-lg-6 padleft0">
+                      <div class="blockOne d-block align-items-end">
+                        <div class="w_100">
+                          <p class="f500 txtgrey fsize18 c_space">Upload Images</p>
+                          <div class="img_box white_block ">
+                            <ul class="list-unstyled mb-0 uploaded_img" ng-if="vm.inputImg.length > 0">
+                              <!-- ngRepeat: img in img_upload -->
+                              <li ng-repeat="f in vm.inputImg">
+                                <div class="img_height">
+                                  <img ngf-src="f" class="img-fluid animated zoomIn wow" data-wow-delay=".7s" alt="image">
+                                  <div class="btn-group noteBtn" role="group" aria-label="Basic example">
+                                    <button ng-click="vm.deleteFile($index, 'image')" type="button" class="btn btn-danger">
+                                      <i class="far fa-trash-alt"></i>
+                                    </button>
+                                    <button ng-click="vm.descriptionPopover($index, 'image')" uib-popover-template="'example.html'" popover-placement="bottom-right"
+                                      popover-trigger="click" type="button" class="btn popoverbtn btn-success">
+                                      <i class="far fa-edit"></i>
+                                    </button>
+                                  </div>
+                                </div>
+                                <span class="d-block">{{f.name}}</span>
+                                <span class="d-block">{{f.description}}</span>
+                              </li>
+                              <!-- end ngRepeat: img in img_upload -->
+                            </ul>
+                            <hr>
+                            <div class="btn btn_red btn_create_issue ripple my-1" ngf-select ng-model="vm.inputImg" ngf-change="vm.fileUpdated($files, $event, vm.inputFiles)"
+                              name="file" ngf-pattern="'image/*'" ngf-multiple="true" ngf-accept="'image/*'">Browse</div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                  </div> -->
+                    <div class="col-lg-6 padright0">
+                      <div class="blockOne d-block align-items-end ">
+                        <div class="w_100">
+                          <p class="f500 txtgrey fsize18 c_space">Upload Documents</p>
+                          <div class="img_box white_block ">
+                            <ul class="mb-0 list-unstyled">
+                              <!-- ngRepeat: doc in equipdocuments -->
+                              <li data-wow-delay=".7s" ng-repeat="f in vm.inputFiles">
+                                <div class="img_height doc">
+                                  <img src="/assets/images/pdf.png" alt="doc-icon">
+                                  <div class="btn-group noteBtn" role="group" aria-label="Basic example">
+                                    <button ng-click="vm.deleteFile($index, 'document')" type="button" class="btn btn-danger">
+                                      <i class="far fa-trash-alt"></i>
+                                    </button>
+                                    <button ng-click="vm.descriptionPopover($index, 'document')" uib-popover-template="'example.html'" popover-placement="bottom-right"
+                                      popover-trigger="click" type="button" class="btn popoverbtn btn-success">
+                                      <i class="far fa-edit"></i>
+                                    </button>
+                                  </div>
+                                </div>
+                                <span class="d-block">{{f.name}}</span>
+                                <span class="d-block">{{f.description}}</span>
+                              </li>
+                              <!-- end ngRepeat: doc in equipdocuments -->
+                            </ul>
+                            <hr class="">
+                            <div class="btn btn_red btn_create_issue ripple my-1" ngf-select ng-model="vm.inputFiles" ngf-change="vm.fileUpdated($files, $event, vm.inputFiles)"
+                              name="file" ngf-pattern="'.xlsx,.xls,.csv,.doc,.docx,.pdf'" ngf-multiple="true" ngf-accept="'.xlsx,.xls,.csv,.doc,.docx,.pdf'">Browse</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
             <div class="modal-footer align-items-center">
               <div>
-                <button type="button" class="btn btn_create_issue ripple" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn_create_issue ripple" ng-click="vm.clearData('dcp')" data-dismiss="modal">Cancel</button>
                 <button type="button" class="btn btn_create_issue ripple" data-ng-click="vm.tabChange(1, 'combo')">Next</button>
               </div>
             </div>
@@ -522,7 +603,7 @@
                     </div>
                     <div class="col pr-0">
                       <div class="f_block">
-                        <p class="fsize18 f500 txtgrey c_space mb-0 mt-2 text-uppercase">Total Roofer Cost</p>
+                        <p class="fsize18 f500 txtgrey c_space mb-0 mt-2 text-uppercase">Total Worker Cost</p>
                         <input type="text" class="form-control animated zoomIn wow" ng-model="vm.TotalRC" disabled>
                       </div>
                     </div>
@@ -533,7 +614,7 @@
                       <thead>
                         <th>Material Name</th>
                         <th>Material Cost</th>
-                        <th>Roofer Cost</th>
+                        <th>Worker Cost</th>
                         <th>Qty</th>
                       </thead>
                       <tbody>
@@ -546,6 +627,16 @@
                       </tbody>
                     </table>
                   </div>
+
+                  <!-- <div class="row">
+                    <div class="form-group col">
+                      <div class="btn btn-success bg-success border-0" ngf-select ng-model="vm.inputFiles" ngf-change="vm.fileUpdated($files, $event)"
+                        name="file" ngf-pattern="'image/*'" ngf-multiple="true" ngf-accept="'image/*'">Upload Images</div>
+                    </div>
+                    <div class="w-100">
+                      <span ng-repeat="f in vm.fileNames ">{{f}}, </span>
+                    </div>
+                  </div> -->
                 </div>
               </div>
             </div>

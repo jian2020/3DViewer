@@ -28,6 +28,7 @@ define(["./BimServerModel", "./PreloadQuery", "./BimServerGeometryLoader", "./Bi
 						object.getRepresentation(function(productRepresentation){
 							if (productRepresentation !== null) {
 								productRepresentation.getRepresentations(function(representation){
+									// console.log(representation);
 									representation.getLayerAssignments(function(layer){
 										if(o.layerIds.indexOf(layer.oid)===-1){
 											//new Layer

@@ -146,10 +146,10 @@ role="dialog" aria-labelledby="exampleModalLabel" data-refresh="true" aria-hidde
         <div class="space15"></div>
         <div id="carousellist" class="flexslider"style="margin:0 0 0 0;">
                 <ul class="slides">
-                        <li class="img-box img-scale-rotate lightbox" ng-repeat="plan in vm.planToMark|orderBy: reverse:true">
-                                <img id="id1" class="slideImg"src="{{plan.url}}" style="height:190px;width:190px;padding: 10px;"
-                                  ng-click="openSliderImage(plan.url,$index)"/>
-                              </li>
+                        <li class="img-box img-scale-rotate lightbox"  ng-repeat="plan in vm.planToMark|orderBy: reverse:true">
+                             <img id="id1" class="slideImg "src="{{plan.url}}" style="height:190px;width:190px;padding: 10px;"
+                               ng-click="openSliderImage(plan.url,$index)"/>
+                         </li>
                    </ul>
               </div>
               

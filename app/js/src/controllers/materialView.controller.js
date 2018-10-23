@@ -26,6 +26,21 @@
     vm.logout = () => {
       logout();
     };
+    vm.inputImg=[];
+    vm.inputFiles =[];
+    vm.clearData = () => {
+      vm.inputImg = []
+      vm.inputFiles = []
+      vm.selectedUnit = ''
+    }
+    apiFactory
+      .getCompanyById(vm.userData.companyId)
+      .then(resp => {
+        vm.companyData = resp.data;
+      })
+      .then(e => {
+        console.log(e);
+      });
 
     vm.materialId = $stateParams.id;
     vm.mUnits = globals.mUnits;
@@ -61,22 +76,35 @@
     };
 
     vm.tabChange = (val) => {
-      if (!vm.editMaterial.name) {
-        Notification.error("Please enter material name");
-      } else if (!vm.selectedUnit) {
-        Notification.error("Please select material unit");
-      } else if (!vm.editMaterial.currency) {
-        Notification.error("Please select currency");
-      } else {
-        $(".material_modal .nav-tabs li .nav-link").removeClass("active");
-        $(".material_modal .nav-tabs li .nav-link").eq(val).addClass("active");
+      if (val == 0) {
 
-        $(".material_modal .tab-content .tab-pane").removeClass("active");
-        $(".material_modal .tab-content .tab-pane").removeClass("show");
-        $(".material_modal .tab-content .tab-pane").eq(val).addClass("show");
-        $(".material_modal .tab-content .tab-pane").eq(val).addClass("active");
+      } else if (val == 1) {
+        if (!vm.editMaterial.name) {
+          Notification.error("Please enter material name");
+        } else if (!vm.selectedUnit) {
+          Notification.error("Please select material unit");
+          /* } else if (!vm.editMaterial.currency) {
+            Notification.error("Please select currency"); */
+        } else {
+          $(".material_modal .nav-tabs li .nav-link").removeClass("active");
+          $(".material_modal .nav-tabs li .nav-link").eq(val).addClass("active");
+
+          $(".material_modal .tab-content .tab-pane").removeClass("active");
+          $(".material_modal .tab-content .tab-pane").removeClass("show");
+          $(".material_modal .tab-content .tab-pane").eq(val).addClass("show");
+          $(".material_modal .tab-content .tab-pane").eq(val).addClass("active");
+        }
       }
+      
     };
+    apiFactory
+      .getAllSuppliers()
+      .then(resp => {
+        vm.suppliers = resp.data.list;
+      })
+      .catch(e => {
+        console.log(e);
+      });
 
     vm.editFlag = false;
     vm.removedFiles = [];
@@ -85,9 +113,9 @@
         .getMaterialById(vm.materialId)
         .then(resp => {
           vm.matrialData = resp.data;
+          console.log(vm.matrialData)
           vm.matrialName = vm.matrialData.name;
           vm.matrialUnit = vm.matrialData.unit;
-          console.log(vm.matrialData)
           vm.matrialCost = Number(
             vm.matrialData.currentRate.materialCost.value
           ).toFixed(2);
@@ -106,48 +134,117 @@
             { 'img': '/assets/images/Dollar-Icon.png', 'title': 'Material Cost', 'value': vm.matrialCost, 'currencyCode': vm.matrialCurrencyCode },
             { 'img': '/assets/images/Dollar-Icon.png', 'title': 'Roofer Cost', 'value': vm.matrialRooferCost, 'currencyCode': vm.matrialRooferCurrencyCode }
           ]
+          $scope.nextMaintanceDateCalc(vm.matrialData.createdAt, vm.matrialData.maintenancePeriod);
+          
         })
         .catch(e => {
           console.log(e);
         });
     }
     $scope.getMatDetail();
+    $scope.nextMaintanceDateCalc = (createdAt, maintenancePeriod) => {
+      let createdDate = moment(createdAt).format("X");
+      let nextMaintanceDate = moment(createdAt).add(maintenancePeriod, "days").format("X");
+      if (createdDate < nextMaintanceDate) {
+        vm.nextMaintenanceDate = moment(createdAt).add(maintenancePeriod, "days").format("MMM DD, YYYY");
+      } else {
+        alert()
+        let createdDate1 = moment.utc(createdAt).add(maintenancePeriod, "days").format()
+        $scope.nextMaintanceDateCalc(createdDate1, maintenancePeriod)
+      }
+    }
 
-    vm.removeImg = img => {
-      vm.removedFiles.push(vm.matrialData.files[img]._id);
-      vm.editMaterial.files.splice(img, 1);
+    vm.removeImg = (indexVal, type) => {
+      if (type == 'materialImg') {
+        vm.removedFiles.push(vm.matrialData.files.images[indexVal]._id);
+        vm.materialImg.splice(indexVal, 1);
+      } else if (type == 'image') {
+        vm.inputImg.splice(indexVal, 1);
+      } else if (type == 'materialDocument') {
+        vm.removedFiles.push(vm.matrialData.files.docs[indexVal]._id);
+        vm.materialFiles.splice(indexVal, 1);
+      } else if (type == 'document') {
+        vm.inputFiles.splice(indexVal, 1);
+      }
     };
-    
+    vm.descriptionPopover = (indexVal, type) => {
+      $scope.fileType = type;
+      $scope.fileIndex = indexVal;
+    }
+    vm.addDescription = (index, data) => {
+      if ($scope.fileType == 'materialImg') {
+        vm.materialImg[index].description = data;
+        vm.materialImg[index].assetDescription = data;
+      } else if ($scope.fileType == 'image') {
+        vm.inputImg[index].description = data;
+      } else if ($scope.fileType == 'materialDocument') {
+        vm.materialFiles[index].description = data;
+        vm.materialFiles[index].assetDescription = data;
+      } else if ($scope.fileType == 'document') {
+        vm.inputFiles[index].description = data;
+      }
+    }
+    vm.changeMaintenancePeriod = days => {
+      vm.editMaterial.maintenanceDate = moment(vm.editMaterial.createdAt)
+        .add(days, "days")
+        .format();
+    };
+
     vm.editMaterialFunction = val => {
       if (val == 1) {
         // edit Material
         vm.editFlag = true;
         vm.editMaterial = angular.copy(vm.matrialData)
+        vm.changeMaintenancePeriod(vm.matrialData.maintenancePeriod)
         vm.selectedUnit = vm.editMaterial.unit
         vm.currentCurrency = vm.editMaterial.currentRate.rooferCost.currencyCode
         vm.editMaterial.currency = vm.editMaterial.currentRate.rooferCost.currencyCode
+        vm.materialImg = vm.editMaterial.files.images;
+        vm.materialFiles = vm.editMaterial.files.docs;
+        vm.materialCostValue = vm.editMaterial.currentRate.materialCost.value
+        vm.rooferCostValue = vm.editMaterial.currentRate.rooferCost.value
         vm.showConversionRate(vm.currentCurrency, vm.editMaterial.currency)
+        angular.forEach(vm.materialImg, function (x, index) {
+          x.description = ''
+        })
+        angular.forEach(vm.materialFiles, function (x, index) {
+          x.description = ''
+        })
         console.log(vm.editMaterial)
         $('#todo_modal.material_modal').modal('show')
         // $(".materialDetail input, .materialDetail select").attr("disabled", false );
       } else if (val == 2) {
+        console.log(vm.inputImg, vm.inputFiles)
+        $scope.uploadFiles = [].concat(vm.inputImg,vm.inputFiles);
+        $scope.uploadallFiles = [].concat(vm.inputImg, vm.inputFiles, vm.materialImg, vm.materialFiles);
+        console.log($scope.uploadallFiles)
         // update Material
         vm.editFlag = false;
+        let description = '';
+        if (vm.inputImg.length > 0 || vm.inputFiles.length > 0) {
+          description = $scope.uploadallFiles.map((x, i) => {
+            return {
+              assetDescription: x.description
+            }
+          })
+        }
         var materialupdatedata = {
           name: vm.editMaterial.name,
           unit: vm.selectedUnit,
           removedFiles: vm.removedFiles,
+          suppliers: vm.editMaterial.suppliers,
           currentRate: {
             materialCost: {
-              value: vm.editMaterial.currentRate.materialCost.value,
+              value: vm.materialCostValue,
               currencyCode: vm.editMaterial.currency //$scope.checkNull($scope.materialObj.materialCostcurrencyCode)["cc"]
             },
             rooferCost: {
-              value: vm.editMaterial.currentRate.rooferCost.value,
+              value: vm.rooferCostValue,
               currencyCode: vm.editMaterial.currency //$scope.checkNull($scope.materialObj.rooferCostcurrencyCode)["cc"]
             }
           },
-          file: vm.inputFiles
+          files: $scope.uploadFiles,
+          assetObj: description
         };
         apiFactory
           .updateMaterialById(vm.materialId, materialupdatedata)
@@ -166,6 +263,9 @@
     vm.fileUpdated = (files, event) => {
       let fileObj = event.target.files;
       vm.fileNames = Object.keys(fileObj).map(x => fileObj[x].name);
+      angular.forEach(files, function (x, index) {
+        x.description = ''
+      })
     };
 
     function imgSlider() {
@@ -188,26 +288,7 @@
       });
     }
 
-    $scope.mat_headers = [
-      { mat_head: 'S. No.' },
-      { mat_head: 'Date' },
-      { mat_head: 'Material Cost' },
-      { mat_head: 'Worker Cost' }
-    ]
-    $scope.mat_items = [
-      { s_no: '1', date: 'Sep 25, 2018', m_cost: '200 DKK', w_cost: '200 DKK' },
-      { s_no: '2', date: 'Sep 25, 2018', m_cost: '200 DKK', w_cost: '200 DKK' },
-      { s_no: '3', date: 'Sep 25, 2018', m_cost: '200 DKK', w_cost: '200 DKK' },
-      { s_no: '4', date: 'Sep 25, 2018', m_cost: '200 DKK', w_cost: '200 DKK' },
-      { s_no: '5', date: 'Sep 25, 2018', m_cost: '200 DKK', w_cost: '200 DKK' },
-      { s_no: '6', date: 'Sep 25, 2018', m_cost: '200 DKK', w_cost: '200 DKK' },
-      { s_no: '7', date: 'Sep 25, 2018', m_cost: '200 DKK', w_cost: '200 DKK' },
-      { s_no: '8', date: 'Sep 25, 2018', m_cost: '200 DKK', w_cost: '200 DKK' },
-      { s_no: '9', date: 'Sep 25, 2018', m_cost: '200 DKK', w_cost: '200 DKK' },
-      { s_no: '10', date: 'Sep 25, 2018', m_cost: '200 DKK', w_cost: '200 DKK' },
-      { s_no: '11', date: 'Sep 25, 2018', m_cost: '200 DKK', w_cost: '200 DKK' },
-      { s_no: '12', date: 'Sep 25, 2018', m_cost: '200 DKK', w_cost: '200 DKK' }
-    ]
+    
 
 
   }

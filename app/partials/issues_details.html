@@ -83,7 +83,7 @@
                           {{vm.issueData.completionStatus}}</span>
 
                         <span class="text-uppercase transition"ng-If="!vm.issueData.completionStatus"
-                          ng-click="markIssueAsComplete()">
+                        data-target="#completionstatusmodal" data-toggle="modal">
                         <img  src="assets/images/tick (4).png"> <a href="" style="color:#7EE635;"><u>Mark As Complete</u></a></span>
 
                         <span class="text-uppercase transition"ng-If="vm.issueData.completionStatus=='RESOLVED'"
@@ -98,12 +98,12 @@
                 
                  
                   <li>
-                     
-                          <p class="issue-number mb-0 f600">Admin</p>
-                          <span class="lbl_stat text-uppercase transition"
-                                style="border: 1px solid #dddddd;color:#000;">
-                               {{vm.issueData.ownerId}}
-                           </span>
+                   
+                     <p class="issue-number mb-0 f600">Admin</p>
+                    <span class="lbl_stat text-uppercase transition"
+                          style="border: 1px solid #dddddd;color:#000;">
+                         {{vm.issueData.ownerId.firstName}}&nbsp;&nbsp;{{vm.issueData.ownerId.lastName}}
+                     </span>
                       
                      <p class="issue-number mb-0 f600">Assigned To</p>
 
@@ -193,6 +193,7 @@
                         <p class="mb-0 txtblack fsize18" ng-If="activity.activity=='uploaded_new_file'"><span class="f700 ">{{activity.userName}}</span> uploaded new file.</p>
                         <p class="mb-0 txtblack fsize18" ng-If="activity.activity=='edited_issue'"><span class="f700 ">{{activity.userName}}</span> edited Issue.</p>
                         <p class="mb-0 txtblack fsize18" ng-If="activity.activity=='reopened_issue'"><span class="f700 ">{{activity.userName}}</span> reopened Issue.</p>
+                        <p class="mb-0 txtblack fsize18" ng-If="activity.activity=='closed_issue'"><span class="f700 ">{{activity.userName}}</span> closed Issue.</p>
                        
                         <p class="mb-0 txtgrey f500 fsize18 mt-1">{{activity.addedTime| date : 'HH:MM on MMM dd,yyyy' }}</p>
                       </div>
@@ -242,7 +243,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <div class="d-flex align-items-center justify-content-between w-100">
-                <h5 class="modal-title f500 txtwhite">New Issue</h5>            
+                <h5 class="modal-title f500 txtwhite">Mark Issue as Complete</h5>            
               </div>
             </div>
             <div class="modal-body pad0">
@@ -268,9 +269,10 @@
                                 aria-invalid="false" data-wow-delay="0.7s">upload</button><br>
                                 <!-- {{file.name}} -->
                              </div><br>
+                            </div>
                              <div ng-repeat="img in imageFiles">{{img.name}}</div><br>
     
-                          </div>
+                         
                           <div><br /></div>
                           
                           

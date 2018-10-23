@@ -54,7 +54,7 @@
                             </th>
                             <th class="secondary-text">
                                 <div class="table-header" ng-click="vm.sortEquipment('rooferCost')">
-                                    <span class="column-title">Roofer Cost</span>
+                                    <span class="column-title">Worker Cost</span>
                                     <span class="float-right">
                                         <i class="fa" ng-class="vm.toggleObj.rooferCost ? 'fa-angle-up' : 'fa-angle-down'"></i>
                                     </span>
@@ -189,7 +189,7 @@
                                 </div>
                                 <div class="col text-center">
                                     <p>
-                                        <strong>Actual Roofer Cost ({{vm.companyData.currentCurrency.currencyCode}})</strong>
+                                        <strong>Actual Worker Cost ({{vm.companyData.currentCurrency.currencyCode}})</strong>
                                     </p>
                                     <p>{{vm.addMaterial.rooferCostValue | convertCurrency:vm.addMaterial.conversionFactor}}</p>
                                 </div>
