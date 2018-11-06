@@ -263,7 +263,8 @@
     Promise.all([
       apiFactory.getCompanyById(vm.userData.companyId),
       apiFactory.listAllProjects(),
-      apiFactory.listAllClients()
+      apiFactory.listAllClients(),
+      apiFactory.listAllTodoList()
     ])
       .then(data => {
         /* Add companyData to store */
@@ -273,7 +274,8 @@
         vm.dashboardData = {
           company: data[0].data,
           projects: data[1].data.list,
-          clients: data[2].data.list
+          clients: data[2].data.list,
+          todoLists: data[3].data.data
         };
       })
       .catch(e => {
@@ -797,6 +799,28 @@
       } else if (val == "close") {
         $("#chooseFile, #selectFile, #selectFileCanvas").css("display", "none");
         $("#chooseRoofModal").css("visibility", "visible");
+      }
+    };
+
+    vm.goToMeetingRoom = () => {
+      if (projectStore.get()) {
+        $state.go("meetingroom");
+      } else {
+        Notification.warning("Please select a project");
+        $("html, body").animate(
+          {
+            scrollTop: $(".project").offset().top
+          },
+          500,
+          function() {
+            $("#selectProject")
+              .focus()
+              .addClass("blink");
+            setTimeout(() => {
+              $("#selectProject").removeClass("blink");
+            }, 1000);
+          }
+        );
       }
     };
   }

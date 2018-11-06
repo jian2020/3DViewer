@@ -7700,17 +7700,20 @@ xeogl.renderer.ArrayBuffer = function (gl, type, data, numItems, itemSize, usage
     this.length = 0;
     this.numItems = 0;
     this.itemSize = itemSize;
-
+    console.log(data);
     this._allocate(data);
 };
 
 xeogl.renderer.ArrayBuffer.prototype._allocate = function (data) {
     this.allocated = false;
     this._handle = this._gl.createBuffer();
+    
     if (!this._handle) {
+        console.log(this._gl,this._handle);
         throw "Failed to allocate WebGL ArrayBuffer";
     }
     if (this._handle) {
+        console.log(this._gl,this._handle);
         this._gl.bindBuffer(this.type, this._handle);
         this._gl.bufferData(this.type, data, this.usage);
         this._gl.bindBuffer(this.type, null);
@@ -8388,7 +8391,7 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
             var clip;
             var uClipPos;
             var uClipDir;
-            for (var i = 0, len = this._uClips.length; i < len; i++) {
+            for (var i = 0;i < this._uClips.length; i++) {
                 clipUniforms = this._uClips[i];
                 uClipActive = clipUniforms.active;
                 clip = clips[i];
@@ -8965,7 +8968,8 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
         }
     };
 })();
-;/**
+
+/**
  * @author xeolabs / https://github.com/xeolabs
  */
 
@@ -9063,7 +9067,7 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
         return "lowp";
     }
 
-    const TEXTURE_DECODE_FUNCS = {
+    var TEXTURE_DECODE_FUNCS = {
         "linear":   "linearToLinear",
         "sRGB":     "sRGBToLinear",
         "gamma":    "gammaToLinear"
@@ -9182,7 +9186,7 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
         src.push("mat4 modelMatrix2 = modelMatrix;");
 
         if (object.modes.stationary) {
-            src.push("viewMatrix2[3][0] = viewMatrix2[3][1] = viewMatrix2[3][2] = 0.0;")
+            src.push("viewMatrix2[3][0] = viewMatrix2[3][1] = viewMatrix2[3][2] = 0.0;");
         }
 
         if (billboard === "spherical" || billboard === "cylindrical") {

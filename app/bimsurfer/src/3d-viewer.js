@@ -466,6 +466,19 @@ function onCheckViews(type) {
     }
 }
 
+$('#btn_open_project').click(function () {
+    // var iframe = document.getElementById('bimviewer');
+    // var doc = iframe.contentDocument? iframe.contentDocument: iframe.contentWindow.document;
+    // if(doc.getElementById('dlg_openproject'))
+    //     doc.getElementById('dlg_openproject').style.display = 'block';
+    document.getElementById('dlg_openproject').style.display = 'block';
+});
+
+$('#btn_upload').click(function(){
+    var url = "http://localhost:8082/apps/bimviews/?page=Projects";
+    window.open(url);
+});
+
 $('.collision-sub').click(function () {
     if (!$(this).parent().hasClass("active")) {
         $(this).find('.eye-small').css("display", "none")
@@ -507,7 +520,7 @@ $('#btn_delete_dimension').click(function () {
     onDeleteDimensions();
 });
 
-function convertFloat3ColorToString(color){
+function convertFloat3ColorToString(color) {
     var r = color[0];
     var g = color[1];
     var b = color[2];
@@ -523,26 +536,26 @@ function convertFloat3ColorToString(color){
     return '#' + r__ + g__ + b__;
 }
 
-function convertStringToFloat3Color(str){
+function convertStringToFloat3Color(str) {
 
-    var r = str.substring(1,3);
-    var g = str.substring(3,5);
-    var b = str.substring(5,7);
-    
+    var r = str.substring(1, 3);
+    var g = str.substring(3, 5);
+    var b = str.substring(5, 7);
+
     // convert dex
     var r_ = parseInt(r, 16);
     var g_ = parseInt(g, 16);
     var b_ = parseInt(b, 16);
-    
-    var r__ = r_/255;
-    var g__ = g_/255;
-    var b__ = b_/255;
+
+    var r__ = r_ / 255;
+    var g__ = g_ / 255;
+    var b__ = b_ / 255;
 
     var color = [r__, g__, b__];
     return color;
 }
 
-$('#btn_edit_material').click(function(){
+$('#btn_edit_material').click(function () {
     if ($('#bimviewer').contents().find('canvas').length !== 0) {
         document.getElementById('dlg_edit_materials').style.display = document.getElementById('dlg_edit_materials').style.display === 'none' ? 'flex' : 'none';
         var iframe = document.getElementById('bimviewer');
@@ -550,10 +563,10 @@ $('#btn_edit_material').click(function(){
         var type = material._state.type;
         var edit_material_name = document.getElementById('edit_mat_name');
         edit_material_name.innerText = type + ' - ' + material.id;
-        
+
         var edit_values = document.getElementById('edit_mat_values');
-        edit_values.innerHTML ='';
-        switch(type){
+        edit_values.innerHTML = '';
+        switch (type) {
             case 'EmphasisMaterial':
                 var fill_tr = document.createElement('tr');
                 var fill_td_0 = document.createElement('td');
@@ -586,7 +599,7 @@ $('#btn_edit_material').click(function(){
                 fill_color_tr.appendChild(fill_color_td_0);
                 fill_color_tr.appendChild(fill_color_td_1);
 
-                
+
 
                 var fill_color_picker = new Picker({
                     parent: fill_color_div,
@@ -595,9 +608,9 @@ $('#btn_edit_material').click(function(){
                     color: fill_color_value
                 });
 
-                fill_color_picker.onChange = function(color) {
+                fill_color_picker.onChange = function (color) {
                     fill_color_div.style.background = color.rgbaString;
-                    material.fillColor = [color.rgba[0]/255, color.rgba[1]/255, color.rgba[2]/255]; 
+                    material.fillColor = [color.rgba[0] / 255, color.rgba[1] / 255, color.rgba[2] / 255];
                     iframe.contentWindow.changeSelectedMaterial(material);
                 };
                 //Open the popup manually:
@@ -630,7 +643,7 @@ $('#btn_edit_material').click(function(){
 //     var ctx= canv.getContext("2d");
 //     var img = new Image();
 //     img.src = "../../assets/images/dialog/sample.png";
-    
+
 //     var canv_w = ctx.canvas.clientWidth;
 //     var canv_h = ctx.canvas.clientHeight;
 //     var img_w = img.width;
@@ -654,19 +667,19 @@ $('#btn_edit_material').click(function(){
 
 // function initSampleMatDialog(){
 //     var canvs = document.getElementsByClassName("material-sample-icon")
-    
+
 //     for(var i=0; i<canvs.length; i++){
 //         var canv=canvs[i];
 //         var ctx= canv.getContext("2d");
 //         var img = new Image();
 //         img.src = "../../assets/images/dialog/material.png";
-        
+
 //         var canv_w = ctx.canvas.clientWidth;
 //         var canv_h = ctx.canvas.clientHeight;
 //         var img_w = img.width;
 //         var img_h = img.height;
 //         var img_ratio = img_w / img_h;
-    
+
 //         var dWidth = 0;
 //         var dHeight = 0;
 //         if(img_ratio >= 1){
@@ -688,3 +701,94 @@ $('#btn_edit_material').click(function(){
 //     initPreviewMatDialog();
 //     initSampleMatDialog();
 // };
+
+
+
+var projectUrls = {};
+var bimServerStatus = document.getElementById('bimserver_status');
+function loadFromBimserver(address, username, password, target) {
+    target.innerHTML = "";
+    var client = new BimServerClient(address);
+    if(client.user === null){
+        bimServerStatus.innerText = "BimServer not found";
+    }
+    client.init(function () {
+        var projectIndex = 0;
+        projectUrls = {};
+        bimServerStatus.textContent = "Logging in...";
+        client.login(username, password, function () {
+            bimServerStatus.textContent = "Getting all projects...";
+            client.call("ServiceInterface", "getAllProjects", {
+                onlyTopLevel: true,
+                onlyActive: true
+            }, function (projects) {
+                var totalFound = 0;
+                projects.forEach(function (project) {
+                    if (project.lastRevisionId != -1) {
+                        var pName = document.createElement("div");
+                        pName.textContent = project.name;
+                        pName.classList.add('project-name');
+                        var id = 'project'+ projectIndex;
+                        pName.id = id;
+                        projectUrls[id] = "../bimsurfer/examples/bimserver.html?address=" + encodeURIComponent(address) + "&token=" + client.token + "&poid=" + project.oid; 
+                        pName.addEventListener('click', function (event) {
+                            $('#bimviewer').attr('src', projectUrls[id]);
+                            $('#dlg_openproject').css('display', 'none');
+                        });
+                        target.appendChild(pName);
+                        totalFound++;
+                        projectIndex++;
+                    }
+                });
+                if (totalFound == 0) {
+                    bimServerStatus.textContent = "No projects with revisions found on this server";
+                } else {
+                    bimServerStatus.textContent = "";
+                }
+            });
+        }, function (error) {
+            console.error(error);
+            bimServerStatus.innerText = error.message;
+        });
+    });
+}
+
+function loadBimServerApi(apiAddress, loadUmd) {
+    //console.log(loadUmd);
+    var p = new Promise(function (resolve, reject) {
+        if (loadUmd) {
+            // TODO
+            LazyLoad.js([Settings.getBimServerApiAddress() + "/bimserverapi.umd.js?_v=" + apiVersion], function () {
+                window.BimServerClient = bimserverapi.default;
+                window.BimServerApiPromise = bimserverapi.BimServerApiPromise;
+
+                resolve(bimserverapi);
+            });
+        } else {
+            // Using eval here, so we don't trip the browsers that don't understand "import"
+            // The reason for using it this way is so we can develop this library and test it without having to transpile.
+            // Obviously developers need to have a browser that understands "import" (i.e. a recent version of Chrome, Firefox etc...)
+
+            // TODO One remaining problem here is that dependencies are not loaded with the "apiVersion" attached, so you need to have your browser on "clear cache" all the time
+
+            var apiVersion = new Date().getTime();
+            //console.log(apiVersion);
+
+            var str = "import(\"" + apiAddress + "\" + \"/bimserverclient.js?_v=" + apiVersion + "\").then((bimserverapi) => {	window.BimServerClient = bimserverapi.default; window.BimServerApiPromise = bimserverapi.BimServerApiPromise; resolve(bimserverapi);});";
+
+            eval(str);
+        }
+    });
+    return p;
+}
+
+loadBimServerApi("https://thisisanexperimentalserver.com/apps/bimserverjavascriptapi", false).then(() => {	
+    try {
+        //loadFromBimserver("http://localhost:8082", "admin@ifcserver.com", "admin", document.getElementById("project_list"));
+        loadFromBimserver("https://13.127.174.144:8082", "admin@ifcserver.com", "admin", document.getElementById("project_list"));
+    } catch (e) {
+        
+
+    }
+});
+

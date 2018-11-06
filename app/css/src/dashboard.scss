@@ -57,6 +57,12 @@
 .employee {
   max-height: 140px;
 }
+.supplier {
+  max-height: 140px;
+}
+.subcontractor {
+  max-height: 140px;
+}
 
 .grid-item.visual_editor {
   background: #2259e4;
@@ -72,11 +78,30 @@
 .grid-item.economic {
   background: #f4f4f4;
 }
+.grid-item.economic:hover {
+  background: #ddd;
+}
 
 .grid-item.employee {
   background: #1bdddb;
   transition: all 0.2s;
 }
+.grid-item.supplier {
+  background: #f2c242;
+  transition: all 0.2s;
+}
+
+.grid-item.subcontractor {
+  background: #1bdddb;
+  transition: all 0.2s;
+}
+.grid-item.supplier:hover {
+  background: #2d24b7;
+}
+.grid-item.subcontractor:hover {
+  background: #2d24b7;
+}
+
 
 .grid-item.employee:hover {
   background: #2d24b7;
@@ -387,6 +412,9 @@
   background: #1bdddb;
   color: #fff;
   transition: all 0.2s;
+}
+.grid-item.supplier:hover{
+  background: #2d24b7;
 }
 
 .grid-item.sales:hover {

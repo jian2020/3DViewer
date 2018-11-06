@@ -23,7 +23,8 @@ const app = angular.module("app", [
   "angular.chips",
   "ui.bootstrap.contextMenu",
   "cloudinary",
-  "FileSaver"
+  "FileSaver",
+  'moment-picker'
 ]);
 app.config(config);
 

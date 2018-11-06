@@ -387,6 +387,7 @@ a.bg-success:focus, a.bg-success:hover, button.bg-success:focus, button.bg-succe
     top: 3px;
 }
 .dialog-title {
+    text-align: left;
     color: rgb(0, 0, 0);
     font-size: 13px;
     font-weight: 400;
@@ -610,6 +611,37 @@ body a, body a:focus, body a:hover, body a:active, body a:visited {
     user-select: none;
 }
 
+.dialog-openproject{
+    position: absolute;
+    vertical-align: middle;
+    text-align: center;
+	z-index: 10000000;
+	height: 60%;
+    width: 40%;
+    transition: all .7s;
+    box-shadow: 0 4px 3px 0px rgba(0, 0, 0, 0.3);
+    touch-action: none;
+    user-select: none;
+}
+
+.project-open-status{
+    font-size: 1.7em;
+}
+
+.project-name {
+    font-family: 'Courier New', Courier, monospace;
+    color: #000;
+    font-style: normal;
+    font-size: 1.6em;
+    text-align: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #1d1d1d1c;
+    cursor: pointer;
+}
+.project-name:hover{
+    background: #0088cc7a;
+}
 
 .story-left{
     float:left;width: 40%;height: 100%;

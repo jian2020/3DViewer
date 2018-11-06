@@ -13,7 +13,7 @@
   ) {
     //const url = "http://192.168.10.188:1337",
     const url = "https://api.staging.cloudes.eu",
-    //const url = "http://localhost:4200",
+     // const url = "http://localhost:4200",
       //const url = "http://localhost:1337",
       headers = (method, token) => {
         return {
@@ -228,6 +228,16 @@
         );
         return promise;
       },
+      getClientById: function(clientID) {
+        const promise = this.progressify(
+          $http({
+            url: `${url}/api/getClientById/${clientID}`,
+            method: "GET",
+            headers: headers("GET", true)
+          })
+        );
+        return promise;
+      },
 
       updateIssue: function(issueobj, id) {
         const promise = this.progressify(
@@ -347,6 +357,18 @@
         const promise = this.progressify(
           Upload.upload({
             url: url + "/api/updateMaterialById/" + id,
+            method: "PUT",
+            headers: headers("PUT", true),
+            data: payload
+          })
+        );
+        return promise;
+      },
+
+      updateEquipmentById: function(id, payload) {
+        const promise = this.progressify(
+          Upload.upload({
+            url: url + "/api/updateEquipmentById/" + id,
             method: "PUT",
             headers: headers("PUT", true),
             data: payload
@@ -999,7 +1021,7 @@
       saveLocalIssueAsset: function(files) {
         const promise = this.progressify(
           Upload.upload({
-            url: `${url}/api/localFileImages`,
+            url: url + "/api/localFileImages",
             method: "POST",
             headers: headers("POST", true),
             data: files
@@ -1012,7 +1034,7 @@
         console.log("data: ", dt);
         const promise = this.progressify(
           Upload.upload({
-            url: `${url}/api/postmarkings`,
+            url: url + "/api/postmarkings",
             method: "POST",
             headers: headers("POST", true),
             data: dt
@@ -1074,12 +1096,225 @@
         return promise;
       },
 
+      addStaffMember: function(staff, id) {
+        const promise = this.progressify(
+          $http({
+            url: url + "/api/addstaffmember/" + id,
+            method: "PUT",
+            data: staff,
+            headers: headers("PUT", true)
+          })
+        );
+        return promise;
+      },
+
+      saveSystemTag: function(object) {
+        const promise = this.progressify(
+          $http({
+            url: url + "/api/createTag",
+            method: "POST",
+            data: object,
+            headers: headers("POST", true)
+          })
+        );
+        return promise;
+      },
+
+      getAllSystemTags: function() {
+        const promise = this.progressify(
+          $http({
+            url: url + "/api/getTagsList",
+            method: "GET",
+            headers: headers("GET", true)
+          })
+        );
+        return promise;
+      },
+
+      deleteSystemTag: function(id) {
+        const promise = this.progressify(
+          $http({
+            url: url + "/api/deletetag/" + id,
+            method: "DELETE",
+            headers: headers("DELETE", true)
+          })
+        );
+        return promise;
+      },
+
+      updateSubcontractor: function(subcontractor) {
+        const promise = this.progressify(
+          Upload.upload({
+            url: url + "/api/updatesubcontractor/" + subcontractor._id,
+            method: "PUT",
+            data: subcontractor,
+            headers: headers("PUT", true)
+          })
+        );
+        return promise;
+      },
+      updateSupplier: function(supplier) {
+        console.log(supplier);
+        const promise = this.progressify(
+          Upload.upload({
+            url: url + "/api/updatesupplier/" + supplier._id,
+            method: "PUT",
+            data: supplier,
+            headers: headers("PUT", true)
+          })
+        );
+        return promise;
+      },
+      //Create New Todo
+      createTodoList: function(input) {
+        console.log(input);
+        const promise = this.progressify(
+          $http({
+            url: url + "/api/createTodo",
+            method: "POST",
+            data: input,
+            headers: headers("POST", true)
+          })
+        );
+        return promise;
+      },
+      //lis all todo
+      listAllTodoList: function(id) {
+        let apiURL = !!id
+          ? "/api/getTodoList?todoId=" + id
+          : "/api/getTodoList";
+        const promise = this.progressify(
+          $http({
+            url: url + apiURL,
+
+            method: "GET",
+            headers: headers("GET", true)
+          })
+        );
+        return promise;
+      },
+      //update todo
+      updateTodoList: function(id, object) {
+        const promise = this.progressify(
+          $http({
+            url: url + "/api/updateTodoList/" + id,
+            method: "PUT",
+            data: object,
+            headers: headers("PUT", true)
+          })
+        );
+        return promise;
+      },
+      getAllMembersInCurrentCompany: function(companyId) {
+        const promise = this.progressify(
+          $http({
+            url: url + "/api/getCurrentCompanyMembers/" + companyId,
+            method: "GET",
+            headers: headers("GET", true)
+          })
+        );
+        return promise;
+      },
+      createEvent: function(input) {
+        console.log(input);
+        const promise = this.progressify(
+          Upload.upload({
+            url: url + "/api/createEvent",
+            method: "POST",
+            data: input,
+            headers: headers("POST", true)
+          })
+        );
+        return promise;
+      },
+
+      updateMyEvent: function(input, eventId) {
+        console.log(input);
+        const promise = this.progressify(
+          $http({
+            url: url + "/api/updateEvent/" + eventId,
+            method: "PUT",
+            data: input,
+            headers: headers("PUT", true)
+          })
+        );
+        return promise;
+      },
+
+      //list all events
+      getAllEvents: function(id) {
+        let apiURL = !!id
+          ? "/api/getAllEvents?eventId=" + id
+          : "/api/getAllEvents";
+        const promise = this.progressify(
+          $http({
+            url: url + apiURL,
+            method: "GET",
+            headers: headers("GET", true)
+          })
+        );
+        return promise;
+      },
+
       getAccessMeetingRoomToken: function() {
         const promise = $http({
           url: url + "/api/getAccessMeetingRoomToken",
           method: "GET",
           headers: headers("GET", true)
         });
+        return promise;
+      },
+      /* TODO: */
+      inviteUsersToMeeting: function(payload) {
+        const promise = this.progressify(
+          $http({
+            url: url + "/api/inviteUsersToMeeting",
+            method: "POST",
+            data: payload,
+            headers: headers("POST", true)
+          })
+        );
+        return promise;
+      },
+      newMeetingFileMessage: function(payload) {
+        const promise = this.progressify(
+          Upload.upload({
+            url: url + "/api/newMeetingFileMessage",
+            method: "POST",
+            data: payload,
+            headers: headers("POST", true)
+          })
+        );
+        return promise;
+      },
+      getMeetingTodo: function(payload) {
+        const promise = $http({
+          url: url + "/api/getMeetingTodo",
+          method: "POST",
+          data: payload,
+          headers: headers("POST", true)
+        });
+        return promise;
+      },
+      changeCompanyCurrency: function(payload) {
+        const promise = this.progressify(
+          $http({
+            url: url + "/api/changeCompanyCurrency",
+            method: "PUT",
+            data: payload,
+            headers: headers("PUT", true)
+          })
+        );
+        return promise;
+      },
+      getTwilioAccessToken: function() {
+        const promise = this.progressify(
+          $http({
+            url: url + "/api/getTwilioAccessToken",
+            method: "GET",
+            headers: headers("GET", true)
+          })
+        );
         return promise;
       }
     };

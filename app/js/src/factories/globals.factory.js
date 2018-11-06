@@ -135,10 +135,8 @@
             localStorageService.set("inventoryState", state);
           },
           text: text => {
-            if (text) {
-              state.searchText = text;
-              localStorageService.set("inventoryState", state);
-            }
+            state.searchText = text;
+            localStorageService.set("inventoryState", state);
           },
           get: () => {
             return state;

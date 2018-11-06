@@ -33,7 +33,7 @@ define(["./DataInputStreamReader"], function (DataInputStreamReader) {
             }
             stream.align8();
             return stream.remaining() > 0;
-        }
+        };
 
         this.process = function () {
             var data = o.todo.shift();
@@ -97,6 +97,8 @@ define(["./DataInputStreamReader"], function (DataInputStreamReader) {
             obj.forEach(function (wrapper) {
                 oids.push(wrapper.object.object._rgeometry._i);
             });
+
+            // console.log(obj);
 
             var serializerName = "org.bimserver.serializers.binarygeometry.BinaryGeometryMessagingStreamingSerializerPlugin";
 
@@ -354,6 +356,7 @@ define(["./DataInputStreamReader"], function (DataInputStreamReader) {
                 }
 
                 o.geometryIds[geometryId] = [geometryId];
+                // console.log("aaaa");
                 this.viewer.createGeometry(geometryId, positions, normals, colors, indices);
 
                 if (o.dataToInfo[geometryId] != null) {
@@ -410,6 +413,7 @@ define(["./DataInputStreamReader"], function (DataInputStreamReader) {
 
                     geometryIds.push(geometryId);
                     o.geometryIds[geometryDataOid].push(geometryId);
+                    // console.log("bbbb");
                     this.viewer.createGeometry(geometryId, positions, normals, colors, indices);
                 }
                 if (o.dataToInfo[geometryDataOid] != null) {

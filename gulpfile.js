@@ -50,17 +50,17 @@ gulp.task("js", () => {
 
 var uglify = require("gulp-uglify");
 const mainBowerFiles = require("gulp-main-bower-files");
-const filterJs = require("gulp-filter");
+const filter = require("gulp-filter");
+const jsFilter = filter("**/*.js", { restore: true });
 
 gulp.task("bower", function() {
-  return (
-    gulp
-      .src("./app/libs/bower.json")
-      .pipe(mainBowerFiles())
-      .pipe(filterJS)
-      //.pipe(uglify())
-      .pipe(gulp.dest("./app/js/dist"))
-  );
+  return gulp
+    .src("./app/libs/bower.json")
+    .pipe(mainBowerFiles())
+    .pipe(jsFilter)
+    .pipe(concat_js("vendor.js"))
+    .pipe(uglify())
+    .pipe(gulp.dest("./app/js/dist"));
 });
 
 gulp.task("browser-sync", () => {

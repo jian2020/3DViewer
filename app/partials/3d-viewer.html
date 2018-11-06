@@ -254,7 +254,9 @@
 
 <div class="viewContainer circle-toolbar-container" id="toolbarContainer">
   <iframe src="../bimsurfer/bimsurfer.html" id="bimviewer" style="width:-webkit-fill-available;height:-webkit-fill-available;margin-left:50px;"
-    frameborder="0" oncontextmenu="return false;"></iframe>
+    frameborder="0" oncontextmenu="return false;">
+    <div id="localhost8082"></div>
+  </iframe>
   <!-- circle toolbar -->
   <!-- <div class="circle-toolbar" id="toolbar"> 
             <div class="circle-toolbar-center" id="toolbar_center"></div>
@@ -489,8 +491,11 @@
       <div class="rect-toolbar-icon">
         <img class="rect-toolbar-img" src="../assets/images/toolbar/56.png" />
       </div>
-      <div class="rect-toolbar-icon">
+      <div id="btn_open_project" class="rect-toolbar-icon">
         <img class="rect-toolbar-img" src="../assets/images/toolbar/57.png" />
+      </div>
+      <div id = "btn_upload" class="rect-toolbar-icon">
+        <img class="rect-toolbar-img" src="../assets/images/toolbar/upload.png" />
       </div>
       <div class="rect-toolbar-icon">
         <img class="rect-toolbar-img" src="../assets/images/toolbar/58.png" />
@@ -1119,8 +1124,27 @@
       </div>
     </div>
   </section>
-</div>
 
+  <!-- Project Open Dialog -->
+  <section id="dlg_openproject" class="dialog dialog-openproject" style="display: none">
+    <header id="dlg_openproject_header" class="dialog-header">
+      <div class="dialog-actions" onclick="getElementById('dlg_openproject').style.display = 'none';">
+        <a class="dialog-action dialog-action-dismiss" data-dialog-dismiss></a>
+      </div>
+      <h2 id="dlg_openproject_focus" class="dialog-title">Open Projects</h2>
+    </header>
+    <div class="dialog-body">
+      <div class="scrollable" data-plugin-scrollable>
+        <div class="scrollable-content">
+          <div id="open_project_content">
+            <div id = "bimserver_status" class="project-open-status"></div>
+            <div id = "project_list"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
 <!-- <div class="window-left window rounded bg-light border text-center"> 
       <div class="drag-space">
         <button class="btn m-0"><i class="fas fa-times fa-sm"></i></button>
@@ -1340,3 +1364,5 @@
 <script src="../bimsurfer/examples/js/theme.init.js"></script>
 <script src="../bimsurfer/examples/js/vanilla-picker.js"></script>
 <script src="../bimsurfer/src/3d-viewer.js"></script>
+<script src="../bimsurfer/lib/three.js"></script>
+

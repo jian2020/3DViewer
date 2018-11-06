@@ -12,8 +12,8 @@
                         <div class="col-lg-5 pad0 animated fadeIn wow" data-wow-delay="0.6s">
                             <div id="equipment_slider" class="carousel slide " data-ride="carousel">
                                 <div class="carousel-inner">
-                                    <div class="carousel-item" ng-repeat="slide in vm.comboData.files" ng-class="{active:!$index}">
-                                        <img class="d-block w-100" src="{{slide.secure_url}}" alt="First slide">
+                                    <div class="carousel-item" ng-repeat="slide in vm.comboData.files.images" ng-class="{active:!$index}">
+                                        <img class="d-block w-100" ng-src="{{slide.secure_url}}" alt="First slide">
                                     </div>
                                 </div>
                                 <a class="carousel-control-prev" data-target="#equipment_slider" role="button" data-slide="prev">
@@ -44,7 +44,7 @@
                                         </div>
                                         <ul class="list-inline mat-btn-list">
                                             <li class="list-inline-item">
-                                                <a ng-click="vm.editCombo(1)" href="JavaScript:Void(0);">Edit Material</a>
+                                                <a ng-click="vm.editCombo(1)" href="JavaScript:Void(0);">Edit DCP</a>
                                             </li>
                                             <li class="list-inline-item">
                                                 <a href="JavaScript:Void(0);">3D Viewer</a>
@@ -53,17 +53,17 @@
                                     </div>
                                     <div class="row align-items-center mx-4" ng-if="vm.fileNames.length > 0">
                                         <div class="col-9">
-                                            <span ng-repeat="f in vm.fileNames ">{{f}}, </span>
+                                            <span ng-repeat="f in vm.fileNames">{{f}}, </span>
                                         </div>
                                         <div class="form-group col-3">
                                             <div ng-click="vm.editMaterialFunction(2)" class="btn btn_create_issue ripple">Update Image</div>
                                         </div>
                                     </div>
 
-                                    <div class="gray-part">
+                                    <div class="gray-part" ng-if="gray_box.length > 0">
                                         <div class="row justify-content-md-center">
                                             <div class="col-md-3" ng-repeat="gray_one in gray_box">
-                                                <img class="d-block m-auto img-fluid" src="{{gray_one.img}}" alt="First slide">
+                                                <img class="d-block m-auto img-fluid" ng-src="{{gray_one.img}}" alt="First slide">
                                                 <h4 class="text-center">{{gray_one.title}}</h4>
                                                 <p class="text-center">{{gray_one.value}}
                                                     <small class="text-muted" ng-if="gray_one.currencyCode">{{gray_one.currencyCode}}</small>
@@ -72,35 +72,35 @@
                                         </div>
                                     </div>
 
-                                    <table id="dataTable" class="table table-striped table-bordered nowrap" cellspacing="0" width="100%">
-                                        <thead>
-                                            <tr>
-                                                <th>M.Name</th>
-                                                <th style="width: 100px;">Qty</th>
-                                                <th style="width: 150px;">M.Cost</th>
-                                                <th style="width: 150px;">R.Cost</th>
-                                                <!-- <th style="width: 120px;"> Action</th> -->
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr ng-repeat="materialList in vm.comboData.comboMaterialList">
-                                                <td> {{materialList.materialId.name}} </td>
-                                                <td> {{materialList.quantity}} </td>
-                                                <td> {{materialList.materialId.currentRate.materialCost.value | roundNum:2}}</td>
-                                                <td> {{materialList.materialId.currentRate.rooferCost.value | roundNum:2}} </td>
-                                                <!-- <td>
-                                                    <small class="btn btn-secondary px-3 py-1" ng-if="vm.editFlag" ng-click="vm.editComboMaterialList($index)">Edit</small>
-                                                    <small class="btn btn-secondary px-3 py-1" ng-if="!vm.editFlag" ng-click="vm.viewComboMaterialList($index)">View</small>
-                                                </td> -->
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                    <div class="row mx-2 my-3">
+                                        <div class="col-12">
+                                            <table id="" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>M.Name</th>
+                                                        <th style="width: 100px;">Qty</th>
+                                                        <th style="width: 160px;">M.Cost ({{vm.companyCurrency}})</th>
+                                                        <th style="width: 160px;">W.Cost ({{vm.companyCurrency}})</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="materialList in vm.comboData.comboMaterialList">
+                                                        <td> {{materialList.materialId.name}} </td>
+                                                        <td> {{materialList.quantity}} </td>
+                                                        <td> {{materialList.materialId.currentRate.materialCost.value | roundNum:2}}</td>
+                                                        <td> {{materialList.materialId.currentRate.rooferCost.value | roundNum:2}}
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                     <div class="clearfix"></div>
 
                                     <div class="row align-items-center pl-5 pr-5">
                                         <div class="col-md-6">
-                                            <p class="red-box-txt f700 ng-binding">{{vm.comboData.systemTag}}</p>
-                                            <p class="next-maint">Next Maintenance On Dec 25, 2017</p>
+                                            <!-- <p class="red-box-txt f700 ng-binding">{{vm.comboData.systemTag}}</p>
+                                            <p class="next-maint">Next Maintenance On Dec 25, 2017</p> -->
                                         </div>
                                         <div class="col-md-6 text-right">
                                             <h4 class="simon-txt">Added by {{vm.comboData.providerData.updatedBy.name}}</h4>
@@ -195,13 +195,13 @@
                             </div>
                             <div class="col-lg-6 col-md-6 pad0">
                                 <script type="text/ng-template" id="example.html">
-                  <div class="row m-0">
-                    <div class="form-group addDescription">
-                      <input type="text" class="form-control" ng-model="description" >
-                      <button class="mt-1 btn btn-success btn-sm" ng-click="vm.addDescription(fileIndex, description)">Save</button>
-                    </div>
-                  </div>
-                </script>
+                                    <div class="row m-0">
+                                        <div class="form-group addDescription">
+                                        <input type="text" class="form-control" ng-model="description" >
+                                        <button class="mt-1 btn btn-success btn-sm" ng-click="vm.addDescription(fileIndex, description)">Save</button>
+                                        </div>
+                                    </div>
+                                </script>
                                 <div class="bg_grey">
                                     <div class="d-lg-flex">
                                         <div class="col-lg-6 padleft0">
@@ -209,8 +209,24 @@
                                                 <div class="w_100">
                                                     <p class="f500 txtgrey fsize18 c_space">Upload Images</p>
                                                     <div class="img_box white_block ">
-                                                        <ul class="list-unstyled mb-0 uploaded_img" ng-if="vm.inputImg.length > 0">
+                                                        <ul class="list-unstyled mb-0 uploaded_img">
                                                             <!-- ngRepeat: img in img_upload -->
+                                                            <li data-wow-delay=".7s" ng-repeat="f in vm.materialImg">
+                                                                <div class="img_height doc">
+                                                                    <img src="/assets/images/pdf.png" alt="doc-icon">
+                                                                    <div class="btn-group noteBtn" role="group" aria-label="Basic example">
+                                                                        <button ng-click="vm.removeImg($index, 'materialDocument')" type="button" class="btn btn-danger">
+                                                                            <i class="far fa-trash-alt"></i>
+                                                                        </button>
+                                                                        <button ng-click="vm.descriptionPopover($index, 'materialDocument')" uib-popover-template="'example.html'" popover-placement="bottom-right"
+                                                                            popover-trigger="click" type="button" class="btn popoverbtn btn-success">
+                                                                            <i class="far fa-edit"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                                <span class="d-block">{{f.originalname}}</span>
+                                                                <span class="d-block">{{f.assetDescription}}</span>
+                                                            </li>
                                                             <li ng-repeat="f in vm.inputImg">
                                                                 <div class="img_height">
                                                                     <img ngf-src="f" class="img-fluid animated zoomIn wow" data-wow-delay=".7s" alt="image">
@@ -228,9 +244,9 @@
                                                                 <span class="d-block">{{f.description}}</span>
                                                             </li>
                                                             <!-- end ngRepeat: img in img_upload -->
+                                                            <hr>
                                                         </ul>
-                                                        <hr>
-                                                        <div class="btn btn_red btn_create_issue ripple my-1" ngf-select ng-model="vm.inputImg" ngf-change="vm.fileUpdated($files, $event, vm.inputFiles)"
+                                                        <div class="btn btn_red btn_create_issue ripple my-1" ngf-select ng-model="vm.inputImg" ngf-change="vm.fileUpdated($files, $event, 'image')"
                                                             name="file" ngf-pattern="'image/*'" ngf-multiple="true" ngf-accept="'image/*'">Browse</div>
                                                     </div>
                                                 </div>
@@ -243,11 +259,27 @@
                                                     <div class="img_box white_block ">
                                                         <ul class="mb-0 list-unstyled">
                                                             <!-- ngRepeat: doc in equipdocuments -->
+                                                            <li data-wow-delay=".7s" ng-repeat="f in vm.materialFiles">
+                                                                <div class="img_height doc">
+                                                                    <img src="/assets/images/pdf.png" alt="doc-icon">
+                                                                    <div class="btn-group noteBtn" role="group" aria-label="Basic example">
+                                                                        <button ng-click="vm.removeImg($index, 'materialDocument')" type="button" class="btn btn-danger">
+                                                                            <i class="far fa-trash-alt"></i>
+                                                                        </button>
+                                                                        <button ng-click="vm.descriptionPopover($index, 'materialDocument')" uib-popover-template="'example.html'" popover-placement="bottom-right"
+                                                                            popover-trigger="click" type="button" class="btn popoverbtn btn-success">
+                                                                            <i class="far fa-edit"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                                <span class="d-block">{{f.originalname}}</span>
+                                                                <span class="d-block">{{f.assetDescription}}</span>
+                                                            </li>
                                                             <li data-wow-delay=".7s" ng-repeat="f in vm.inputFiles">
                                                                 <div class="img_height doc">
                                                                     <img src="/assets/images/pdf.png" alt="doc-icon">
                                                                     <div class="btn-group noteBtn" role="group" aria-label="Basic example">
-                                                                        <button ng-click="vm.deleteFile($index, 'document')" type="button" class="btn btn-danger">
+                                                                        <button ng-click="vm.deleteFile($index, 'document', 'new')" type="button" class="btn btn-danger">
                                                                             <i class="far fa-trash-alt"></i>
                                                                         </button>
                                                                         <button ng-click="vm.descriptionPopover($index, 'document')" uib-popover-template="'example.html'" popover-placement="bottom-right"
@@ -260,8 +292,8 @@
                                                                 <span class="d-block">{{f.description}}</span>
                                                             </li>
                                                             <!-- end ngRepeat: doc in equipdocuments -->
+                                                            <hr>
                                                         </ul>
-                                                        <hr class="">
                                                         <div class="btn btn_red btn_create_issue ripple my-1" ngf-select ng-model="vm.inputFiles" ngf-change="vm.fileUpdated($files, $event, vm.inputFiles)"
                                                             name="file" ngf-pattern="'*/*'" ngf-multiple="true" ngf-accept="'*/*'">Browse</div>
                                                     </div>
@@ -306,6 +338,7 @@
                                     </div>
                                     <div class="f_block mb-2 clearfix">
                                         <span class="fsize18 f500 add-perc-calc animated wow zoomIn" ng-click="vm.addPercentageValue()">Add Percentage Calculation</span>
+                                        <span class="btn mt-4 float-right task_tag ripple ripplePurple red-one animated wow zoomIn" ng-click="vm.materialCombination(vm.editComboMaterial.comboMaterial)">+ &nbsp; Insert</span>
                                     </div>
 
                                     <div class="f_block mb-2" ng-if="vm.percentageAddition.length > 0">
@@ -324,7 +357,7 @@
                                                             <input type="text" class="form-control animated zoomIn wow" ng-model="percent.percentageType">
                                                         </td>
                                                         <td>
-                                                            <input type="text" class="form-control animated zoomIn wow" ng-model="percent.percentageValue">
+                                                            <input type="text" class="form-control animated zoomIn wow" ng-model="percent.value">
                                                         </td>
                                                         <td>
                                                             <button class="btn-danger btn remove" ng-click="vm.removePercentageAddition($index)">X</button>
@@ -333,7 +366,6 @@
                                                 </tbody>
                                             </table>
                                         </div>
-                                        <button class="btn mt-2 task_tag ripple ripplePurple red-one animated wow zoomIn" ng-click="vm.materialCombination(vm.editComboMaterial.comboMaterial)">+ &nbsp; Insert</button>
                                     </div>
                                     <ul ng-if="vm.comboMaterialList.length > 0 || vm.editComboMaterial.comboMaterialList.length > 0" class="p-0">
                                         <li class="chip mr-3" ng-repeat="chip in vm.comboMaterialList">{{chip.name}}
@@ -394,6 +426,12 @@
                                                 <th>Qty</th>
                                             </thead>
                                             <tbody>
+                                                <tr ng-repeat="item in vm.editComboMaterial.comboMaterialList">
+                                                    <td>{{ item.materialId.name }}</td>
+                                                    <td>{{ item.currentRate.materialCost.value }}</td>
+                                                    <td>{{ item.currentRate.rooferCost.value }}</td>
+                                                    <td>{{ item.quantity }}</td>
+                                                </tr>
                                                 <tr ng-repeat="item in vm.comboMaterialList">
                                                     <td>{{ item.name }}</td>
                                                     <td>{{ item.materialCost }}</td>
@@ -419,7 +457,7 @@
                         <div class="modal-footer align-items-center">
                             <div>
                                 <button type="button" class="btn btn_create_issue ripple" ng-click="vm.tabChange(1, 'combo')">Previous</button>
-                                <button type="button" class="btn btn_create_issue ripple" data-ng-click="vm.createComboMaterialList()">Create</button>
+                                <button type="button" class="btn btn_create_issue ripple" data-ng-click="vm.editCombo(2)">Update</button>
                             </div>
                         </div>
                     </div>
@@ -440,9 +478,7 @@
             "paging": true,
             "info": true,
             "lengthChange": true,
-            "sDom": 'Rfrtlip',
             "pageLength": 4,
-            "oLanguage": { "sSearch": "" },
         });
     });
 </script>

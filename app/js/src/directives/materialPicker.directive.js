@@ -103,6 +103,7 @@
         $scope.assignMaterial = (shapeId, entityId, type) => {
           $("#loadMaterial").modal("hide");
           $scope.associations.createAssociation(shapeId, entityId, type);
+         
         };
       }
     };

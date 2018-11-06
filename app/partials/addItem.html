@@ -1,0 +1,457 @@
+<link rel="stylesheet" href="/css/src/economicStyle.css" crossorigin="anonymous">
+
+<div class="wrapper add_item2">
+<div class="sidebar">
+    <div class="mylogo">
+        <a href="#">
+            <img src="/assets/images/logos/cloud-es.png" class="img-fluid center-block logo" alt="...">
+        </a>
+    </div>
+
+    <ul class="left_menu_items">
+        <li>
+            <a href="#!economic" ng-class="activeClass('/economic')">
+                <img src="/assets/images/economicDashboard.png" class="img-fluid center-block" alt="...">
+                <small>Dashboard</small>
+            </a>
+        </li>
+        <li>
+            <a href="#!addItem" ng-class="activeClass('/addItem')">
+                <img src="/assets/images/invoice.png" class="img-fluid center-block" alt="...">
+                <small>Create Invoice</small>
+            </a>
+        </li>
+        <li>
+            <a href="#!createVariationsOrder" ng-class="activeClass('/createVariationsOrder')">
+                <img src="/assets/images/createVariationsOrder.png" class="img-fluid center-block" alt="...">
+                <small>Create Variations Order</small>
+            </a>
+        </li>
+        <li>
+            <a href="#!invoice" ng-class="activeClass('/invoice')">
+                <img src="/assets/images/approveBill.png" class="img-fluid center-block" alt="...">
+                <small>Approve Bill</small>
+            </a>
+        </li>
+        <li>
+            <a href="#!supplierDetails" ng-class="activeClass('/supplierDetails')">
+                <img src="/assets/images/variationsorderList.png" class="img-fluid center-block" alt="...">
+                <small>Variations order List</small>
+            </a>
+        </li>
+        <li>
+            <a href="#!workingHours" ng-class="activeClass('/workingHours')">
+                <img src="/assets/images/billingArc.png" class="img-fluid center-block" alt="...">
+                <small>Billing Arc</small>
+            </a>
+        </li>
+        <li>
+            <a href="#!workingHours" ng-class="activeClass('/workingHours')">
+                <img src="/assets/images/payroll.png" class="img-fluid center-block" alt="...">
+                <small>Payroll</small>
+            </a>
+        </li>
+    </ul>
+</div>
+    <div class="wrapper_body">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padleft0">
+                    <header class="header1">
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12">
+                                <ul class="search_roofing">
+                                    <li>
+                                        <input type="text" class="searchbox" name="" placeholder="Search">
+                                    </li>
+                                    <li class="float-right">
+                                        <div class="dropdown save_approve">
+                                            <button class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                Roofing
+                                                <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+                                                <li>
+                                                    <a href="#">Action</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Another</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Something</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </header>
+
+                    <div class="supplier_details_sec">
+                        <div class="bordered_div">
+                            <div class="table-responsive">
+                                <table class="table details_sup details1">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Supplier</th>
+                                            <th>Name of Supplier</th>
+                                            <th>Invoice No</th>
+                                            <th>Value Amount</th>
+                                            <th>Amount With Tax</th>
+                                            <th>Vat 25%</th>
+                                            <th>See Invoice</th>
+                                            <th>Decline Invoice</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>163</td>
+                                            <td>163</td>
+                                            <td>Lorem ipsum</td>
+                                            <td>163</td>
+                                            <td>163 kr.</td>
+                                            <td>163 kr.</td>
+                                            <td>163 kr.</td>
+                                            <td>
+                                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                            </td>
+                                            <td>
+                                                <i class="fa fa-times-circle-o" aria-hidden="true"></i>
+                                            </td>
+                                            <td class="paidclr">paid</td>
+                                        </tr>
+                                        <tr>
+                                            <td>163</td>
+                                            <td>163</td>
+                                            <td>Lorem ipsum</td>
+                                            <td>163</td>
+                                            <td>163 kr.</td>
+                                            <td>163 kr.</td>
+                                            <td>163 kr.</td>
+                                            <td>
+                                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                            </td>
+                                            <td>
+                                                <i class="fa fa-times-circle-o" aria-hidden="true"></i>
+                                            </td>
+                                            <td class="paidclr">paid</td>
+                                        </tr>
+                                        <tr>
+                                            <td>163</td>
+                                            <td>163</td>
+                                            <td>Lorem ipsum</td>
+                                            <td>163</td>
+                                            <td>163 kr.</td>
+                                            <td>163 kr.</td>
+                                            <td>163 kr.</td>
+                                            <td>
+                                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                            </td>
+                                            <td>
+                                                <i class="fa fa-times-circle-o" aria-hidden="true"></i>
+                                            </td>
+                                            <td class="unpaidclr">unpaid</td>
+                                        </tr>
+                                        <tr>
+                                            <td>163</td>
+                                            <td>163</td>
+                                            <td>Lorem ipsum</td>
+                                            <td>163</td>
+                                            <td>163 kr.</td>
+                                            <td>163 kr.</td>
+                                            <td>163 kr.</td>
+                                            <td>
+                                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                            </td>
+                                            <td>
+                                                <i class="fa fa-times-circle-o" aria-hidden="true"></i>
+                                            </td>
+                                            <td class="unpaidclr">unpaid</td>
+                                        </tr>
+                                        <tr>
+                                            <td>163</td>
+                                            <td>163</td>
+                                            <td>Lorem ipsum</td>
+                                            <td>163</td>
+                                            <td>163 kr.</td>
+                                            <td>163 kr.</td>
+                                            <td>163 kr.</td>
+                                            <td>
+                                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                            </td>
+                                            <td>
+                                                <i class="fa fa-times-circle-o" aria-hidden="true"></i>
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td>163</td>
+                                            <td>163</td>
+                                            <td>Lorem ipsum</td>
+                                            <td>163</td>
+                                            <td>163 kr.</td>
+                                            <td>163 kr.</td>
+                                            <td>163 kr.</td>
+                                            <td>
+                                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                            </td>
+                                            <td>
+                                                <i class="fa fa-times-circle-o" aria-hidden="true"></i>
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td>163</td>
+                                            <td>163</td>
+                                            <td>Lorem ipsum</td>
+                                            <td>163</td>
+                                            <td>163 kr.</td>
+                                            <td>163 kr.</td>
+                                            <td>163 kr.</td>
+                                            <td>
+                                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                            </td>
+                                            <td>
+                                                <i class="fa fa-times-circle-o" aria-hidden="true"></i>
+                                            </td>
+                                            <td class="paidclr">paid</td>
+                                        </tr>
+                                        <tr>
+                                            <td>163</td>
+                                            <td>163</td>
+                                            <td>Lorem ipsum</td>
+                                            <td>163</td>
+                                            <td>163 kr.</td>
+                                            <td>163 kr.</td>
+                                            <td>163 kr.</td>
+                                            <td>
+                                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                            </td>
+                                            <td>
+                                                <i class="fa fa-times-circle-o" aria-hidden="true"></i>
+                                            </td>
+                                            <td class="unpaidclr">unpaid</td>
+                                        </tr>
+                                        <tr>
+                                            <td>163</td>
+                                            <td>163</td>
+                                            <td>Lorem ipsum</td>
+                                            <td>163</td>
+                                            <td>163 kr.</td>
+                                            <td>163 kr.</td>
+                                            <td>163 kr.</td>
+                                            <td>
+                                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                            </td>
+                                            <td>
+                                                <i class="fa fa-times-circle-o" aria-hidden="true"></i>
+                                            </td>
+                                            <td class="unpaidclr">unpaid</td>
+                                        </tr>
+                                        <tr>
+                                            <td>163</td>
+                                            <td>163</td>
+                                            <td>Lorem ipsum</td>
+                                            <td>163</td>
+                                            <td>163 kr.</td>
+                                            <td>163 kr.</td>
+                                            <td>163 kr.</td>
+                                            <td>
+                                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                            </td>
+                                            <td>
+                                                <i class="fa fa-times-circle-o" aria-hidden="true"></i>
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td>163</td>
+                                            <td>163</td>
+                                            <td>Lorem ipsum</td>
+                                            <td>163</td>
+                                            <td>163 kr.</td>
+                                            <td>163 kr.</td>
+                                            <td>163 kr.</td>
+                                            <td>
+                                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                            </td>
+                                            <td>
+                                                <i class="fa fa-times-circle-o" aria-hidden="true"></i>
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td>163</td>
+                                            <td>163</td>
+                                            <td>Lorem ipsum</td>
+                                            <td>163</td>
+                                            <td>163 kr.</td>
+                                            <td>163 kr.</td>
+                                            <td>163 kr.</td>
+                                            <td>
+                                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                            </td>
+                                            <td>
+                                                <i class="fa fa-times-circle-o" aria-hidden="true"></i>
+                                            </td>
+                                            <td class="paidclr">paid</td>
+                                        </tr>
+                                        <tr>
+                                            <td>163</td>
+                                            <td>163</td>
+                                            <td>Lorem ipsum</td>
+                                            <td>163</td>
+                                            <td>163 kr.</td>
+                                            <td>163 kr.</td>
+                                            <td>163 kr.</td>
+                                            <td>
+                                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                            </td>
+                                            <td>
+                                                <i class="fa fa-times-circle-o" aria-hidden="true"></i>
+                                            </td>
+                                            <td class="paidclr">paid</td>
+                                        </tr>
+                                        <tr>
+                                            <td>163</td>
+                                            <td>163</td>
+                                            <td>Lorem ipsum</td>
+                                            <td>163</td>
+                                            <td>163 kr.</td>
+                                            <td>163 kr.</td>
+                                            <td>163 kr.</td>
+                                            <td>
+                                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                            </td>
+                                            <td>
+                                                <i class="fa fa-times-circle-o" aria-hidden="true"></i>
+                                            </td>
+                                            <td class="unpaidclr">unpaid</td>
+                                        </tr>
+                                        <tr>
+                                            <td>163</td>
+                                            <td>163</td>
+                                            <td>Lorem ipsum</td>
+                                            <td>163</td>
+                                            <td>163 kr.</td>
+                                            <td>163 kr.</td>
+                                            <td>163 kr.</td>
+                                            <td>
+                                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                            </td>
+                                            <td>
+                                                <i class="fa fa-times-circle-o" aria-hidden="true"></i>
+                                            </td>
+                                            <td class="unpaidclr">unpaid</td>
+                                        </tr>
+                                        <tr>
+                                            <td>163</td>
+                                            <td>163</td>
+                                            <td>Lorem ipsum</td>
+                                            <td>163</td>
+                                            <td>163 kr.</td>
+                                            <td>163 kr.</td>
+                                            <td>163 kr.</td>
+                                            <td>
+                                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                            </td>
+                                            <td>
+                                                <i class="fa fa-times-circle-o" aria-hidden="true"></i>
+                                            </td>
+                                            <td class="unpaidclr">unpaid</td>
+                                        </tr>
+                                        <tr>
+                                            <td>163</td>
+                                            <td>163</td>
+                                            <td>Lorem ipsum</td>
+                                            <td>163</td>
+                                            <td>163 kr.</td>
+                                            <td>163 kr.</td>
+                                            <td>163 kr.</td>
+                                            <td>
+                                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                            </td>
+                                            <td>
+                                                <i class="fa fa-times-circle-o" aria-hidden="true"></i>
+                                            </td>
+                                            <td class="unpaidclr">unpaid</td>
+                                        </tr>
+                                        <tr>
+                                            <td>163</td>
+                                            <td>163</td>
+                                            <td>Lorem ipsum</td>
+                                            <td>163</td>
+                                            <td>163 kr.</td>
+                                            <td>163 kr.</td>
+                                            <td>163 kr.</td>
+                                            <td>
+                                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                            </td>
+                                            <td>
+                                                <i class="fa fa-times-circle-o" aria-hidden="true"></i>
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td>163</td>
+                                            <td>163</td>
+                                            <td>Lorem ipsum</td>
+                                            <td>163</td>
+                                            <td>163 kr.</td>
+                                            <td>163 kr.</td>
+                                            <td>163 kr.</td>
+                                            <td>
+                                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                            </td>
+                                            <td>
+                                                <i class="fa fa-times-circle-o" aria-hidden="true"></i>
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.3/owl.carousel.min.js"></script>   
+<script>
+    $('.add_row_items').click(function () {
+        $('.mytbl1 > tbody tr:last').after("<tr class='rpt_row'><td><a href='#'><img src='/assets/images/icon8.png' alt='...'></a></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><a href='#'>x</a></td></tr>");
+    })
+
+    (function ($) {
+        $('.owl-carousel').owlCarousel({
+            loop: true,
+            margin: 10,
+            nav: true,
+            navText: [
+                "<img src='/assets/images/icon_left.png' alt='...'>",
+                "<img src='/assets/images/icon_right.png' alt='...'>"
+            ],
+            autoplay: true,
+            autoplayHoverPause: true,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                600: {
+                    items: 2
+                },
+                1000: {
+                    items: 3
+                }
+            }
+        });
+    })(jQuery)
+</script>

@@ -8,25 +8,27 @@
                     <div class="d-md-flex">
                         <div class="col-lg-4 col-md-5 pad0 text-center left_part">
                             <img src="/assets/images/To-Do-Icon-big.png" class="img-fluid d-block m-auto">
-                            <h4 class="todo-title">Complete In</h4>
-                            <ul class="list-unstyled issue_list todo_deatil">
-                                <li class="red-color d-block m-auto">
-                                    <p class="mb-0 f700 text-uppercase">In 1 Hour</p>
-                                </li>
-                            </ul>
+                                <h4 class="todo-title">{{(todo.durationTime > 0) ? 'Complete In': 'Expired'}}</h4>
+                                <ul class="list-unstyled issue_list todo_deatil" ng-if="todo.durationTime > 0">
+                                    <li class="red-color d-block m-auto">
+                                        <p class="mb-0 f700 text-uppercase">{{todo.durationTime}} hours</p>
+                                    </li>
+                                </ul>
                         </div>
                         <div class="col-lg-8 col-md-7 pad0">
+                            
                             <div class="all-todo-detail">
-                                <h2 class="f900">1.</h2>
-                                <h2 class="f500 space40">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
-                                    ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                                    ullamco laboris nisi.</h2>
-                                <h3 class="space40">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
-                                    ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                                    ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet,
-                                    consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-                                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                                    ex ea commodo consequat.</h3>
+                                <h5 class="f900">
+                                    <div class="d-md-flex justify-content-between align-items-center py-1">
+                                        <span>{{todo.markAsDone ? 'Re Open' : 'Mark As Done'}}</span>
+                                        <label class="switch switch-xs mb-0">
+                                            <input type="checkbox" ng-model="todo.markAsDone" ng-change="vm.updateTodo(todo)">
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </div>
+                                </h5>
+                                <h2 class="f500 space40">{{todo.title}}</h2>
+                                <h3 class="space40">{{todo.description}}</h3>
                             </div>
                         </div>
                     </div>

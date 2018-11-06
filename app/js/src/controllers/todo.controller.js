@@ -9,20 +9,11 @@
     apiFactory,
     Notification,
     globals,
-    Upload
+    Upload,
+    moment
   ) {
     /* Requiring vars */
 
-    $scope.todo_list = [
-      { img: '/assets/images/To-Do-Icon.png', subtitle: '1.', title: 'Lorem ipsum dolor sit amet,consectetur adipisicing elit,sed do eiusmod tempor.', work: 'In 1 Hour', classname: 'red-color' },
-      { img: '/assets/images/To-Do-Icon.png', subtitle: '2.', title: 'Lorem ipsum dolor sit amet,consectetur adipisicing elit,sed do eiusmod tempor.', work: 'In 1 Day', classname: 'yellow-color' },
-      { img: '/assets/images/To-Do-Icon.png', subtitle: '3.', title: 'Lorem ipsum dolor sit amet,consectetur adipisicing elit,sed do eiusmod tempor.', work: 'In 1 Week', classname: 'green-color' },
-      { img: '/assets/images/To-Do-Icon.png', subtitle: '4.', title: 'Lorem ipsum dolor sit amet,consectetur adipisicing elit,sed do eiusmod tempor.', work: 'In 2 Weeks', classname: 'gray-color' },
-      { img: '/assets/images/To-Do-Icon.png', subtitle: '5.', title: 'Lorem ipsum dolor sit amet,consectetur adipisicing elit,sed do eiusmod tempor.', work: 'In 3 Weeks', classname: 'gray-color' },
-      { img: '/assets/images/To-Do-Icon.png', subtitle: '6.', title: 'Lorem ipsum dolor sit amet,consectetur adipisicing elit,sed do eiusmod tempor.', work: 'In 4 Weeks', classname: 'gray-color' }
-    ]
-
-    
     let vm = this;
     const { logout, userStore } = globals;
     if (!authFactory.checkUser()) {
@@ -30,10 +21,66 @@
       return;
     }
     vm.logout = () => {
-        logout();
+      logout();
     };
     /* Get project list */
     vm.userData = userStore.get();
+    vm.dummy = [
+      { name: "select 1." },
+      { name: "select 2." },
+      { name: "select 3." },
+      { name: "select 4." },
+      { name: "select 5." }
+    ];
+
+    vm.todayDate = moment()
+    vm.dateFormat = 'YYYY/MM/DD hh:mm:ss';
     
+    vm.createTodoList = (formData, valid) => {
+      if (valid) {
+        $("#todo_modal").modal("hide");
+        var data = formData;
+        data.date = moment(data.date).format('YYYY/MM/DD hh:mm:ss')
+        apiFactory
+          .createTodoList(data)
+          .then(resp => {
+            return apiFactory.listAllTodoList();
+          })
+          .then(listTodos)
+          .catch(err => {
+            Notification.error(err.data.message);
+          });
+      } else {
+        Notification.error("Please fill all the details");
+      }
+    };
+    
+    vm.todayDate = new Date()
+
+    vm.resetForm = (res)=>{
+      vm.todoData = {};
+    }
+    
+    apiFactory
+      .getAllMembersInCurrentCompany(userStore.get().companyId)
+      .then(resp => {
+        vm.companyUsers = resp.data.data;
+        console.log(vm.companyUsers);
+      })
+      .catch(err => {
+        Notification.error(err.data.message);
+      });
+
+    apiFactory
+      .listAllTodoList()
+      .then(listTodos)
+      .catch(err => {
+        Notification.error(err.data.message);
+      });
+
+    /* Load todos */
+    function listTodos(resp) {
+      $scope.todo_list = resp.data.data;
+    }
   }
 })();

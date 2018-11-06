@@ -15,7 +15,7 @@
                   <a href="#!issues_details/{{issue._id}}">
                     <div class="issue-box position-relative transition animated fadeInUp wow">
                       <div class="image-holder1">
-                        <img src="{{issue.listAssets[0].secure_url || 'assets/images/bulb.png'}}" class="img-fluid animated zoomIn wow img_center" 
+                        <img src="{{issue.listAssets[0].secure_url || issue.listAssets.images[0].secure_url ||'assets/images/bulb.png'}}" class="img-fluid animated zoomIn wow img_center" 
                         data-wow-delay=".8s" alt="issue-image">
                       </div>
                      
@@ -147,8 +147,8 @@ role="dialog" aria-labelledby="exampleModalLabel" data-refresh="true" aria-hidde
         <div id="carousellist" class="flexslider"style="margin:0 0 0 0;">
                 <ul class="slides">
                         <li class="img-box img-scale-rotate lightbox"  ng-repeat="plan in vm.planToMark|orderBy: reverse:true">
-                             <img id="id1" class="slideImg "src="{{plan.url}}" style="height:190px;width:190px;padding: 10px;"
-                               ng-click="openSliderImage(plan.url,$index)"/>
+                             <img id="id1" class="slideImg "src="{{plan.secure_url}}" style="height:190px;width:190px;padding: 10px;"
+                               ng-click="openSliderImage(plan,$index,count=count+1)"ng-init="count=0"/>
                          </li>
                    </ul>
               </div>
@@ -156,6 +156,8 @@ role="dialog" aria-labelledby="exampleModalLabel" data-refresh="true" aria-hidde
               <div style="float:right">
                     <button type="button" class="btn btn-default"ng-click="UndoDrawing()"><img src="/assets/images/undo-arrow.png"></button>
                     <button type="button" class="btn btn-primary"ng-click="RedoDrawing()"><img src="/assets/images/redo-arrow.png"></button>
+                    <button class="mt-1 btn btn-success" ng-click="vm.addMarkedImgData()"><img src="/assets/images/save-file.png" alt="" /></button>
+
                    </div>
                    <div><br></div>
                    <div><br></div>

@@ -9,31 +9,86 @@
     apiFactory,
     Notification,
     globals,
-    Upload
+    Upload,
+    NgMap
   ) {
     /* Requiring vars */
 
     $scope.equipment = [
-      { img: '/assets/images/equipment.png', title: 'Equipment ABC', subtitle: 'EQ - 1234', work: 'Worker ID', tag: 'NNS1 - Kim Mosegaard' },
-      { img: '/assets/images/equipment.png', title: 'Equipment ABC', subtitle: 'EQ - 1234', work: 'Car', tag: 'NR. 99' },
-      { img: '/assets/images/equipment.png', title: 'Equipment ABC', subtitle: 'EQ - 1234', work: 'Worker ID', tag: 'NNS1 - Kim Mosegaard' },
-      { img: '/assets/images/equipment.png', title: 'Equipment ABC', subtitle: 'EQ - 1234', work: 'Worker ID', tag: 'NNS1 - Kim Mosegaard' },
-      { img: '/assets/images/equipment.png', title: 'Equipment ABC', subtitle: 'EQ - 1234', work: 'Car', tag: 'NR. 99' },
-      { img: '/assets/images/equipment.png', title: 'Equipment ABC', subtitle: 'EQ - 1234', work: 'Worker ID', tag: 'NNS1 - Kim Mosegaard' },
-      { img: '/assets/images/equipment.png', title: 'Equipment ABC', subtitle: 'EQ - 1234', work: 'Worker ID', tag: 'NNS1 - Kim Mosegaard' },
-      { img: '/assets/images/equipment.png', title: 'Equipment ABC', subtitle: 'EQ - 1234', work: 'Car', tag: 'NR. 99' },
-      { img: '/assets/images/equipment.png', title: 'Equipment ABC', subtitle: 'EQ - 1234', work: 'Worker ID', tag: 'NNS1 - Kim Mosegaard' }
-    ]
+      {
+        img: "/assets/images/equipment.png",
+        title: "Equipment ABC",
+        subtitle: "EQ - 1234",
+        work: "Worker ID",
+        tag: "NNS1 - Kim Mosegaard"
+      },
+      {
+        img: "/assets/images/equipment.png",
+        title: "Equipment ABC",
+        subtitle: "EQ - 1234",
+        work: "Car",
+        tag: "NR. 99"
+      },
+      {
+        img: "/assets/images/equipment.png",
+        title: "Equipment ABC",
+        subtitle: "EQ - 1234",
+        work: "Worker ID",
+        tag: "NNS1 - Kim Mosegaard"
+      },
+      {
+        img: "/assets/images/equipment.png",
+        title: "Equipment ABC",
+        subtitle: "EQ - 1234",
+        work: "Worker ID",
+        tag: "NNS1 - Kim Mosegaard"
+      },
+      {
+        img: "/assets/images/equipment.png",
+        title: "Equipment ABC",
+        subtitle: "EQ - 1234",
+        work: "Car",
+        tag: "NR. 99"
+      },
+      {
+        img: "/assets/images/equipment.png",
+        title: "Equipment ABC",
+        subtitle: "EQ - 1234",
+        work: "Worker ID",
+        tag: "NNS1 - Kim Mosegaard"
+      },
+      {
+        img: "/assets/images/equipment.png",
+        title: "Equipment ABC",
+        subtitle: "EQ - 1234",
+        work: "Worker ID",
+        tag: "NNS1 - Kim Mosegaard"
+      },
+      {
+        img: "/assets/images/equipment.png",
+        title: "Equipment ABC",
+        subtitle: "EQ - 1234",
+        work: "Car",
+        tag: "NR. 99"
+      },
+      {
+        img: "/assets/images/equipment.png",
+        title: "Equipment ABC",
+        subtitle: "EQ - 1234",
+        work: "Worker ID",
+        tag: "NNS1 - Kim Mosegaard"
+      }
+    ];
     $scope.img_upload = [
-      { img: '/assets/images/equipment3.png' },
-      { img: '/assets/images/equipment3.png' },
-      { img: '/assets/images/equipment3.png' }
-    ]
+      { img: "/assets/images/equipment3.png" },
+      { img: "/assets/images/equipment3.png" },
+      { img: "/assets/images/equipment3.png" }
+    ];
     $scope.equipdocuments = [
-      { img: '/assets/images/pdf.png', type: 'Document_1.pdf' },
-      { img: '/assets/images/pdf.png', type: 'Document_2.pdf' },
-      { img: '/assets/images/pdf.png', type: 'Document_3.pdf' }
-    ]
+      { img: "/assets/images/pdf.png", type: "Document_1.pdf" },
+      { img: "/assets/images/pdf.png", type: "Document_2.pdf" },
+      { img: "/assets/images/pdf.png", type: "Document_3.pdf" }
+    ];
 
     let vm = this;
     const { logout, userStore } = globals;
@@ -41,6 +96,10 @@
       logout();
       return;
     }
+
+    vm.inputFiles = [];
+    vm.uploadFiles = [];
+
     $(".payrollMenu").hide();
     /* Get project list */
 
@@ -49,6 +108,39 @@
     vm.logout = () => {
       logout();
     };
+
+    /**Google Map */
+    vm.gmap = {
+      url:
+        "https://maps.googleapis.com/maps/api/js?key=AIzaSyA3MIA-mKWq_60q1K0zOHguraxT-1QPxNU&libraries=places",
+      markers: [],
+      styles: [],
+      center: "41,-87",
+      zoom: 3
+    };
+    let gAryLocation = [];
+
+    vm.placeMarker = function(map) {
+      const placeData = this.getPlace().geometry.location;
+      vm.gmap.markers = [[placeData.lat(), placeData.lng()]];
+      vm.gmap.zoom = 15;
+      vm.gmap.center = `${placeData.lat()},${placeData.lng()}`;
+      // vm.event.location =  [placeData.lat(), placeData.lng()]
+      gAryLocation = [placeData.lat(), placeData.lng()];
+    };
+    NgMap.getMap().then(map => {
+      vm.map = map;
+      map.setOptions({
+        styles: vm.gmap.styles,
+        disableDefaultUI: true,
+        zoomControl: true,
+        zoom: 1,
+        center: {
+          lat: 0,
+          lng: 0
+        }
+      });
+    });
 
     $(".materialList").DataTable();
     apiFactory
@@ -96,6 +188,7 @@
         })
         .then(resp => {
           vm.equipment = resp.data.list;
+          console.log(vm.equipment);
           vm.equipmentCount = resp.data.total;
           $timeout(() => {
             $("#equipmentPagination").pagination({
@@ -179,37 +272,53 @@
 
     /* Add material functionality */
 
-    vm.addMaterial = {
+    vm.addEquipment = {
       conversionFactor: 1
     };
 
     vm.tabSettings = {
       disable: true
     };
-
     apiFactory
       .getCompanyById(vm.userData.companyId)
       .then(resp => {
         vm.companyData = resp.data;
-        vm.addMaterial.currency = vm.companyData.currentCurrency.currencyCode;
+        vm.addEquipment.currency = angular.copy(
+          vm.companyData.currentCurrency.currencyCode
+        );
+        vm.companyCurrency = angular.copy(
+          vm.companyData.currentCurrency.currencyCode
+        );
+        console.log(vm.addEquipment.currency);
+        $("#currency")
+          .val(vm.addEquipment.currency)
+          .trigger("change.select2");
       })
       .then(e => {
         console.log(e);
       });
 
+    vm.Equipment = {};
     vm.showConversionRate = (from, to) => {
+      $(".loader").show();
       let currencyData = {
         from,
         to
       };
-      apiFactory
-        .showConversionRate(currencyData)
-        .then(resp => {
-          vm.addMaterial.conversionFactor = resp.data.conversionFactor;
-        })
-        .catch(e => {
-          console.log(e);
-        });
+      if (from && to) {
+        apiFactory
+          .showConversionRate(currencyData)
+          .then(resp => {
+            vm.Equipment.conversionFactor = resp.data.conversionFactor;
+
+            $timeout(function() {
+              $(".loader").hide();
+            }, 500);
+          })
+          .catch(e => {
+            console.log(e);
+          });
+      }
     };
 
     vm.mUnits = globals.mUnits;
@@ -307,6 +416,14 @@
       return cost * conversionRate;
     };
 
+    vm.fileUpdated = (files, event, model) => {
+      let fileObj = event.target.files;
+      vm.fileNames = Object.keys(fileObj).map(x => fileObj[x].name);
+      angular.forEach(files, function(x, index) {
+        x.description = "";
+      });
+    };
+
     vm.addMaterialDetails = () => {
       var formData = {
         name: vm.addMaterial.materialName,
@@ -343,5 +460,138 @@
           console.log(e);
         });
     };
+
+    // image and file upload funtion -start
+    vm.uploadImg = [];
+    vm.uploadFiles = [];
+    vm.fileUpdated = (files, event, modal) => {
+      console.log(vm.inputImg);
+      let fileObj = event.target.files;
+      vm.fileNames = Object.keys(fileObj).map(x => fileObj[x].name);
+      angular.forEach(files, function(x, index) {
+        x.description = "";
+        if (modal == "image") {
+          if (vm.uploadImg.length == 0) {
+            vm.uploadImg.push(x);
+          } else {
+            let duplicateImg = false;
+            angular.forEach(vm.uploadImg, function(y) {
+              if (x.name == y.name) {
+                duplicateImg = true;
+                return;
+              }
+            });
+            if (!duplicateImg) {
+              vm.uploadImg.push(x);
+            } else {
+              Notification.error("File name already exist");
+            }
+          }
+        } else {
+          if (vm.uploadFiles.length == 0) {
+            if (/image/.test(x.type)) {
+              vm.uploadImg.push(x);
+            } else {
+              vm.uploadFiles.push(x);
+            }
+          } else {
+            let duplicateImg = false;
+            angular.forEach([].concat(vm.uploadFiles, vm.uploadImg), function(
+              y
+            ) {
+              if (x.name == y.name) {
+                duplicateImg = true;
+                return;
+              }
+            });
+            if (!duplicateImg) {
+              if (/image/.test(x.type)) {
+                vm.uploadImg.push(x);
+              } else {
+                vm.uploadFiles.push(x);
+              }
+            } else {
+              Notification.error("File name already exist");
+            }
+          }
+        }
+      });
+      console.log(vm.uploadImg);
+    };
+    vm.descriptionPopover = (indexVal, type) => {
+      $scope.fileType = type;
+      $scope.fileIndex = indexVal;
+    };
+    vm.addDescription = (index, data) => {
+      if ($scope.fileType == "image") {
+        vm.uploadImg[index].description = data;
+        $("#closePopoverImg_" + index).trigger("click");
+      } else {
+        vm.uploadFiles[index].description = data;
+        $("#closePopoverFile_" + index).trigger("click");
+      }
+    };
+    vm.deleteFile = (indexVal, type) => {
+      if (type == "image") {
+        vm.uploadImg.splice(indexVal, 1);
+      } else {
+        vm.uploadFiles.splice(indexVal, 1);
+      }
+    };
+    // image and file upload function -end
+
+    // Add Equpment -start
+    vm.addNewEquipment = function(Equipments) {
+      let files = ($scope.imgAndFiles = [].concat(
+        vm.uploadImg,
+        vm.uploadFiles
+      ));
+      console.log("Equipments: ", Equipments);
+      var formData = {
+        name: Equipments.name,
+        unit: Equipments.unit,
+        files: files,
+        equipmentCost: {
+          value: vm.changeCost(
+            Equipments.equipmentCost,
+            Equipments.conversionFactor
+          ),
+          currencyCode: vm.companyData.currentCurrency.currencyCode
+        },
+        workers: Equipments.workers,
+        rooferCost: {
+          value: vm.changeCost(
+            Equipments.rooferCost,
+            Equipments.conversionFactor
+          ),
+          currencyCode: vm.companyData.currentCurrency.currencyCode
+        },
+        location: gAryLocation
+      };
+      console.log(formData);
+      $("#equipment_modal").modal("hide");
+      apiFactory
+        .updateEquipmentById(formData)
+        .then(resp => {
+          Notification.success(resp.data.message);
+          vm.sortEquipment("createdAt");
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    };
+    // add equipment -end
+    let gAryCompanyMembers = [];
+    apiFactory
+      .getAllMembersInCurrentCompany(vm.userData.companyId)
+      .then(data1 => {
+        console.log(data1);
+        gAryCompanyMembers = data1.data.data;
+        vm.companyMembers = gAryCompanyMembers;
+      })
+      .catch(err => {
+        console.log(err);
+        Notification.error(err.data.message);
+      });
   }
 })();

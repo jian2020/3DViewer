@@ -7,6 +7,7 @@
     authFactory,
     $state,
     apiFactory,
+    $stateParams,
     Notification,
     globals,
     Upload
@@ -34,6 +35,27 @@
     };
     /* Get project list */
     vm.userData = userStore.get();
-    
+
+    let todoListId = $stateParams.id;
+    apiFactory.listAllTodoList(todoListId).then(resp => {
+      $scope.todo  = resp.data.data;
+    }).catch(err => {
+      Notification.error(err.data.message);
+    });
+
+    vm.updateTodo = (formData) => {
+      var data = formData;
+      console.log(data);
+      apiFactory
+        .updateTodoList(todoListId,data)
+        .then(resp => {
+          $scope.todo  = resp.data.data;
+          Notification.success("Updated successfully");
+        })
+        .catch(err => {
+          Notification.error(err.data.message);
+        });
+    };
+
   }
 })();

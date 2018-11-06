@@ -134,7 +134,7 @@ define(["./EventHandler", "./Request", "./Utils"], function(EventHandler, Reques
             var s = new Section({domNode:domNode});
             s.setName(elem.type || elem.getType());
             ["GlobalId", "Name", "OverallWidth", "OverallHeightAsString", "OverallHeight", "Tag"].forEach(function(k) {
-                console.log(elem, k);
+                // console.log(elem, k);
                 var v = elem[k];
                 if (typeof(v) === 'undefined') {
                     var fn = elem["get"+k];

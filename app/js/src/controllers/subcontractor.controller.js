@@ -55,7 +55,7 @@
                         .getAllSubcontractors({
                           page: page,
                           chunk: 10,
-                          // sort: type,
+                           sort: type,
                           // sortType: vm.toggleObj[type]
                         })
                         .then(resp => {
@@ -75,17 +75,33 @@
           /* Initially sort issue in descending order */
          vm.getSubcontractors("created");
 
+         //get all list of system tags
+         vm.getTags =function(){
+          apiFactory
+               .getAllSystemTags().then(resp=>{
+                  vm.AllTags = resp.data.list;
+                  console.log(vm.AllTags);
+               }).catch(e=>{
+
+               });
+         
+        };
+        vm.getTags();
+
          //next and previous button functions
          vm.addSubcontractorNext = () => {
           if($('#home').hasClass('active')){
             console.log("home");
            $('#navigation ul li a.active').removeClass("active");
            $('#profile-tab').addClass("active");
+         
            $('#home').removeClass("show");
            $('#home').removeClass("active");
+          
            $('#profile').addClass("show");
            $('#profile').addClass("active");
-          }else if($('#profile-tab').hasClass('active')){
+          }
+          else if($('#profile-tab').hasClass('active')){
             console.log("profile");
             $('#navigation ul li a.active').removeClass("active");
             $('#contact-tab').addClass("active");
@@ -102,22 +118,50 @@
           if($('#profile-tab').hasClass('active')){
             console.log("home");
            $('#navigation ul li a.active').removeClass("active");
-           $('#home').addClass("active");
+           $('#home-tab').addClass("active");
            $('#profile').removeClass("show");
            $('#profile').removeClass("active");
            $('#home').addClass("show");
            $('#home').addClass("active");
-          }else if($('#contact-tab').hasClass('active')){
+          }else 
+          if($('#contact-tab').hasClass('active')){
             console.log("profile");
             $('#navigation ul li a.active').removeClass("active");
             $('#profile-tab').addClass("active");
+          
             $('#contact').removeClass("show");
             $('#contact').removeClass("active");
             $('#profile').addClass("show");
             $('#profile').addClass("active");
+          
           }
          
         };
+
+        vm.openPopup=()=>{
+          if($('#profile-tab').hasClass('active')){
+            console.log("home");
+           $('#navigation ul li a.active').removeClass("active");
+           $('#home-tab').addClass("active");
+           $('#profile').removeClass("show");
+           $('#profile-tab').removeClass("active");
+           $('#profile').removeClass("active");
+           $('#home').addClass("show");
+           $('#home').addClass("active");
+          }else 
+          if($('#contact-tab').hasClass('active')){
+            console.log("profile");
+            $('#navigation ul li a.active').removeClass("active");
+            $('#home-tab').addClass("active");
+            $('#contact-tab').removeClass("show");
+            $('#contact').removeClass("show");
+            $('#contact').removeClass("active");
+            $('#home').addClass("show");
+            $('#home').addClass("active");
+          
+          }
+        };
+
         //delete material from list
         $scope.deleteMaterial = function(index,array){
         array.splice(index, 1);
@@ -153,23 +197,24 @@
           
         });
 
-        vm.addMaterial = function(item){
-          vm.selectedMaterials.push(item);
+        vm.addMember = function(name,mail,code,phno){
+          vm.members2.push({name:name,email:mail,contact:{dialCode:code,phoneNumber:phno}});
+        }
+
+     
+        vm.addnewtagmodel=function(){
+          $('#sub-contractor_modal').modal('hide');
+          $('#tagadd_modal').modal('show');
+        }
         
-        }
-
-        vm.addMember = function(name){
-          vm.members2.push(name);
-         
-        }
 
 
-        $scope.createSubcontractor = function(subcontractor){
-          subcontractor.supplies=[];subcontractor.staff=[];
-          console.log("subcontractor",subcontractor);
-          if(vm.selectedMaterials.length>0){
-            vm.selectedMaterials.forEach(element=>{
-              subcontractor.supplies.push(element._id);
+        $scope.createSubcontractor = function(subcontractor,attribute){
+          subcontractor.attributes=[];
+          subcontractor.staff=[];
+          if(attribute.length>0){
+            attribute.forEach(element=>{
+              subcontractor.attributes.push(element._id);
             });
           }
           if(vm.members2.length>0){
@@ -181,29 +226,57 @@
           apiFactory
           .createNewSubcontractor(subcontractor)
           .then(resp => {
-            Notification.success("Sub-contractor has been saved successfully");
-            vm.supplier={};
-            vm.selectedMaterials=[];
-            vm.mambers2=[];
-            $scope.inputFiles = [];
-            subcontractor.supplies=[];
-            subcontractor.staff=[];
-            
+            Notification.success("Sub-contractor saved successfully");
+            vm.resetFields();
+            vm.openPopup();
+           
+            subcontractor.attributes=[];
             $('#sub-contractor_modal').modal('hide');
             vm.getSubcontractors("created");
           })
           .catch(e => {
             console.log(e);
-            // vm.supplier={};
-            // vm.selectedMaterials=[];
-            // vm.mambers2=[];
-            // $scope.inputFiles = [];
-            // supplier.supplies=[];
-            // supplier.staff=[];
             Notification.error("Something went wrong");
           });
           
+        },
+        vm.resetFields=()=>{
+          vm.subcontractor={};
+          if(vm.members2.length>0){
+          while(vm.members2.length > 0) {
+            vm.members2.pop();
+          }
         }
+          
+          $('#tagselect').val('');
+          $('#tagselect').trigger('change');
+          $scope.FILEIMG=undefined;
+          $('#tagselect').val('[]');
+          $('#membername').val('');
+          $('#memberemail').val('');
+          $('#memberdialCode').val('');
+          $('#memberphoneNumber').val('');
+        }
+
+        vm.createSystemTag=function(systemTag){
+          console.log(systemTag);
+         if(systemTag==undefined){
+            Notification.error("please enter Tag name"); 
+         }
+         else{
+             apiFactory.saveSystemTag(systemTag)
+              .then(resp=>{
+                 $('#tagadd_modal').modal('hide');
+                 $('#sub-contractor_modal').modal('show');
+                 vm.systemTag={};
+                 Notification.success("new system tag added.");
+                 vm.getTags();
+                 
+              }).catch(e=>{
+                 Notification.error("something went wrong");
+              });
+         }
+       };
 
         $scope.contracts=[
           {title:'Subcontractor A',time:'Sep 25, 2018 at 4:00 PM',img:'assets/images/suppliers/tree_logo.png'},

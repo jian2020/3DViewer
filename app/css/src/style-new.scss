@@ -1,20 +1,4 @@
-html {
-    width: 100%;
-    height: 100%;
-}
-
-body {
-    width: 100%;
-    height: 100%;
-    padding: 0;
-    margin: 0;
-    color: #82839c;
-    font-family: 'Poppins', sans-serif;
-}
-
-
 /*------Spacing Class------------*/
-
 .space5 {
     margin-top: 5px !important;
 }
@@ -1905,9 +1889,11 @@ textarea.white_block:focus{
   margin-top: auto;
   margin-bottom: 50px;
 }
+#accordionExample1 .card,
 #accordionExample .card {
   border: 0;
 }
+#accordionExample1 .card-header,
 #accordionExample .card-header{
   background-color: #e7e7ec;
   border-bottom-color:#cfcfd4;
@@ -1917,23 +1903,28 @@ textarea.white_block:focus{
   padding: 26px 20px;
   position: relative;
 }
+#accordionExample1 .card-header:after,
 #accordionExample .card-header:after{
   content: '\f068';
-  font-family: 'FontAwesome';
+  font-family: 'Font Awesome\ 5 Free';
   font-size: 14px;
   color: #8e8d93;
   position: absolute;
   right: 15px;
 }
+#accordionExample1 .card-header.collapsed:after,
 #accordionExample .card-header.collapsed:after{
   content: '\f067';
 }
+#accordionExample1 .card-header:first-child,
 #accordionExample .card-header:first-child {
   border-radius: 0;
 }
+#accordionExample1 .card-body,
 #accordionExample .card-body{
   padding: 0;
 }
+#accordionExample1 .card-header img,.subfoldertab .nav-link img
 #accordionExample .card-header img,.subfoldertab .nav-link img{
   margin-right: 20px;
 }
@@ -2258,21 +2249,17 @@ textarea.white_block:focus{
 }
 
 
-
-
-
-
 .fc-event {
   background-color: #fec52e !important;
   border: 1px solid #fec52e !important;
   position: absolute;
   border: 1px solid #3a87ad;
-  top: -66px;
-  height: 67px;
+  top: -20px;
+  height: auto;
   width: 92%;
   left: -2px;
   border-radius: 20px !important;
-  padding-top: 60px !important;
+  padding-top: 20px !important;
   padding-left: 20px !important;
   color: #2e1a43 !important;
   font-weight: 700;
@@ -2320,9 +2307,9 @@ textarea.white_block:focus{
   font-weight: 500 !important;
   padding: 18px 0 !important;
 }
-.fc button .fc-icon{
-  font-family: fontAwesome !important;
-}
+// .fc button .fc-icon {
+//   font-family:"Font Awesome\ 5 Brands" !important;
+// }
 .fc-center{
   position: relative;
   float: right;
@@ -2393,7 +2380,7 @@ textarea.white_block:focus{
 }
 .fc-event:after{
   content: '\f105';
-  font-family: fontAwesome;
+  font-family: Font Awesome\ 5 Free;
   position: absolute;
   right: 20px;
   bottom: 15px;
@@ -2453,7 +2440,6 @@ textarea.white_block:focus{
 }
 .tab-section img{
   display: inline-block;
-  float: left;
 }
 .tab-section .nav-pills{
   float: right;
@@ -3679,7 +3665,8 @@ textarea.white_block:focus{
 .marker-img{
   position: absolute;
   right: 10px;
-  top: 10px;
+  top: 7px;
+  width: 42px;
 }
 .map-input{
   position: relative;
@@ -4018,7 +4005,6 @@ textarea.white_block:focus{
   border-radius: 5px;
   display: inline-block;
   vertical-align: middle;
-  float: right;
 }
 .task_tag.red-one{
   color: #dc3545;
@@ -5765,3 +5751,10 @@ textarea.form-control {
 .addDescription .btn {padding: 2px;}
 .img_height .popover-body {padding-bottom: 0px; width:150px;}
 .hide {display: none;}
+
+/*custom img css*/
+.media.align-items-center.spaceleft img{width:60px}
+
+/* Fix location autocomplete issue */
+.pac-container { z-index: 10000 !important; }
+

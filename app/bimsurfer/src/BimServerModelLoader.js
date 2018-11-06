@@ -143,9 +143,10 @@ define(["./BimServerModel", "./PreloadQuery", "./BimServerGeometryLoader", "./Bi
 	        // viewer.clear(); // For now, until we support multiple models through the API
 	
 	        viewer.on("tick", function () { // TODO: Fire "tick" event from xeoViewer
-	            loader.process();
+				loader.process();
+				// console.log('tick');
 	        });
-	
+			// console.log('start');
 	        loader.start();
     	}
     	

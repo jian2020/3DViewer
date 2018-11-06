@@ -75,6 +75,12 @@ function routeConfig($stateProvider, $urlRouterProvider) {
     controller: "fileManagerCtrl as vm"
   });
 
+  $stateProvider.state("fileManagerOld", {
+    url: "/file_manager_old",
+    templateUrl: "/partials/fileManager-old.html",
+    controller: "fileManagerCtrl as vm"
+  });
+
   $stateProvider.state("payroll", {
     url: "/payroll",
     templateUrl: "/partials/payroll.html",
@@ -203,4 +209,59 @@ function routeConfig($stateProvider, $urlRouterProvider) {
     templateUrl: "/partials/todoView.html",
     controller: "todoViewCtrl as vm"
   });
+
+  $stateProvider.state("clientsDetail",{
+    url: "/clients_detail/:id",
+    templateUrl: "partials/clientsdetail.html",
+    controller:"clientsDetailCtrl as vm"
+  });
+  
+  $stateProvider.state("systemtags",{
+    url: "/systemtags",
+    templateUrl: "partials/systemtags.html",
+    controller:"systemTagsCtrl as vm"
+  });
+
+  $stateProvider.state("economic", {
+    url: "/economic",
+    templateUrl: "/partials/economic.html",
+    controller: "economicCtrl as vm"
+  });
+
+  $stateProvider.state("addItem", {
+    url: "/addItem",
+    templateUrl: "/partials/addItem.html",
+    controller: "addItemCtrl as vm"
+  });
+
+  $stateProvider.state("createVariationsOrder", {
+    url: "/createVariationsOrder",
+    templateUrl: "/partials/createVariationsOrder.html",
+    controller: "createVariationsOrderCtrl as vm"
+  });
+
+  $stateProvider.state("invoice", {
+    url: "/invoice",
+    templateUrl: "/partials/invoice.html",
+    controller: "invoiceCtrl as vm"
+  });
+
+  $stateProvider.state("supplierDetails", {
+    url: "/supplierDetails",
+    templateUrl: "/partials/supplierDetails3.html",
+    controller: "supplierDetailsCtrl as vm"
+  });
+
+  $stateProvider.state("workingHours", {
+    url: "/workingHours",
+    templateUrl: "/partials/supplierDetails3.html",
+    controller: "workingHoursCtrl as vm"
+  });
+
+  $stateProvider.state("economicPayroll", {
+    url: "/economicPayroll",
+    templateUrl: "/partials/supplierDetails2.html",
+    controller: "economicPayrollCtrl as vm"
+  });
+  
 }

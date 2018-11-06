@@ -1,262 +1,634 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" crossorigin="anonymous">
-<div ng-include="'/partials/header.html'"></div>
-<div id="calculation" class="page-content pt-4 page-layout simple fullwidth">
-    <section class="container-fluid">
-        <div class="row" id="calculationList">
-            <div class="col-3">
-                <select class="custom-select mb-2 rounded-30 bg-success text-white">
-                    <option selected>Select project</option>
-                    <option value="1">Project 1</option>
-                    <option value="2">Project 2</option>
-                    <option value="3">Project 3</option>
-                </select>
+<div ng-include="'/partials/calc_header.html'"></div>
+
+      <section class="calc-section">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12">        
+              <div class="row align-items-center">
+                 
+                <div class="col-md-6 animated wow fadeInLeft">
+                   
+                  <div class="dropdown position-relative d-inline-block ml-auto taskdrop space30">
+                     
+                    <button class="btn selectbox dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Project Name
+                    </button>
+                    <ul class="dropdown-menu avail_option">
+                      <li>Project 1</li>
+                      <li>Project 1</li>
+                      <li>Project 1</li>
+                    </ul>
+                  </div>
+      
+                  <div class="dropdown position-relative d-inline-block ml-auto taskdrop space30">
+                    <button class="btn selectbox dropdown-toggle ml-2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Roof-calculations
+                    </button>
+                    <ul class="dropdown-menu avail_option">
+                      <li>Roof-calculations 1</li>
+                      <li>Roof-calculations 1</li>
+                      <li>Roof-calculations 1</li>
+                    </ul>
+                  </div>
+                </div>
+      
+                <div class="col-md-6 animated wow fadeInRight text-right">
+                  <div class="d-inline-block align-middle space30">
+                    <input type="text" class="form-control" placeholder="Search" name="">
+                  </div>
+      
+                  <div class="dropdown ml-auto taskdrop space30 d-inline-block align-middle">
+                    <button class="btn selectbox dropdown-toggle ml-2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Roof-calculations
+                    </button>
+                    <ul class="dropdown-menu avail_option">
+                      <li>Roof-calculations 1</li>
+                      <li>Roof-calculations 1</li>
+                      <li>Roof-calculations 1</li>
+                    </ul>
+                  </div>
+                </div>
+              </div><br />
+              <button class="btn" type="button" data-toggle="modal" data-target="#loadInventories">
+                  Add Inventory
+               </button>
+               <button class="btn" type="button btn-primary" ng-click="addProjectPlan();">
+                Add Projet Plan
+             </button>
+              <div class="tab-content space30" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="resource" role="tabpanel" aria-labelledby="pills-home-tab">
+                  <div class="table-responsive animated wow zoomIn"ng-repeat="material in tableInventory">
+                    <table id="calc-table">
+                      <thead id="calc-table-header">
+                        <th ng-repeat="heading in headers">{{heading.name}}</th>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="item in material">
+                          <td>{{ $index + 1 }}</td>
+                          <td>{{ item.name }}</td>
+                          <td>{{ item.adon1 }}</td>
+                          <td>{{ item.adon2 }}</td>
+                          <td>{{ item.unit }}</td>
+                          <td ng-If="isEdit==false">{{ item.Quantity }}</td>
+                          <td ng-If="isEdit==true"><input type="number" ng-modal="{{item.Quantity}}"></td>
+                          <td>{{ item.materialCost.value }}</td>
+                          <td>{{ item.materialCost.value*item.Quantity }}</td>
+                          <td>{{ item.t_cost }}</td>
+                          <td>{{ item.profit }}</td>
+                          <td>{{ item.perc }}</td>
+                          <td>{{ item.s_price }}</td>
+                          <td>{{ item.rooferCost.value*item.Quantity }}</td>
+                          <td>{{ item.l_sum }}</td>
+                          <td> 
+                            <div class="row">
+                                <button ng-click="vm.editInventory($index,item)" class="btn-primary"><i class="far fa-edit"></i></button>&nbsp;&nbsp;
+                                <button ng-click="vm.deleteInventory($index,Inventory)" class="btn-danger"><i class="far fa-trash-alt"></i></button>
+                            </div>
+                         
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <!-- <table id="calc-table">
+                      <thead>
+                        <th ng-repeat="heading in headers">{{heading.name}}</th>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="item in items">
+                          <td>{{ item.no }}</td>
+                          <td>{{ item.location }}</td>
+                          <td>{{ item.adon1 }}</td>
+                          <td>{{ item.adon2 }}</td>
+                          <td>{{ item.unit }}</td>
+                          <td>{{ item.quantity }}</td>
+                          <td>{{ item.cost }}</td>
+                          <td>{{ item.m_cost }}</td>
+                          <td>{{ item.t_cost }}</td>
+                          <td>{{ item.profit }}</td>
+                          <td>{{ item.perc }}</td>
+                          <td>{{ item.s_price }}</td>
+                          <td>{{ item.l_cost }}</td>
+                          <td>{{ item.l_sum }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <table id="calc-table">
+                      <thead>
+                        <th ng-repeat="heading in headers">{{heading.name}}</th>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="item in items">
+                          <td>{{ item.no }}</td>
+                          <td>{{ item.location }}</td>
+                          <td>{{ item.adon1 }}</td>
+                          <td>{{ item.adon2 }}</td>
+                          <td>{{ item.unit }}</td>
+                          <td>{{ item.quantity }}</td>
+                          <td>{{ item.cost }}</td>
+                          <td>{{ item.m_cost }}</td>
+                          <td>{{ item.t_cost }}</td>
+                          <td>{{ item.profit }}</td>
+                          <td>{{ item.perc }}</td>
+                          <td>{{ item.s_price }}</td>
+                          <td>{{ item.l_cost }}</td>
+                          <td>{{ item.l_sum }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <table id="calc-table">
+                      <thead>
+                        <th ng-repeat="heading in headers">{{heading.name}}</th>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="item in items">
+                          <td>{{ item.no }}</td>
+                          <td>{{ item.location }}</td>
+                          <td>{{ item.adon1 }}</td>
+                          <td>{{ item.adon2 }}</td>
+                          <td>{{ item.unit }}</td>
+                          <td>{{ item.quantity }}</td>
+                          <td>{{ item.cost }}</td>
+                          <td>{{ item.m_cost }}</td>
+                          <td>{{ item.t_cost }}</td>
+                          <td>{{ item.profit }}</td>
+                          <td>{{ item.perc }}</td>
+                          <td>{{ item.s_price }}</td>
+                          <td>{{ item.l_cost }}</td>
+                          <td>{{ item.l_sum }}</td>
+                        </tr>
+                      </tbody>
+                    </table> -->
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="equment" role="tabpanel" aria-labelledby="pills-profile-tab">
+                  <div class="row issue-row">
+                    <div class="col-xl-4 col-12" ng-repeat="equip in equipment">
+                      <a href="#">
+                        <div class="issue-box position-relative transition animated fadeInUp wow" >
+                          <div class="image-holder">
+                            <img src="{{equip.img}}" class="img-fluid animated zoomIn wow" data-wow-delay=".8s" alt="issue-image" >
+                          </div>
+                          <div class="issue-info w-100 d-flex justify-content-center flex-column animated fadeIn wow" data-wow-delay="1.2s">
+                            <h6 class="f600 headTwo txtblack mb-0 text-sm-left text-center">{{equip.title}}</h6>
+                            <p class="issue-number mb-0 f600 text-sm-left text-center">{{equip.subtitle}}</p>
+                            <ul class="list-unstyled d-flex flex-wrap issue_list">
+                              <li class=" w-100">
+                                <p class="mb-0 issue-number f700 text-uppercase">{{equip.work}}</p>
+                                <p class="mb-0 fsize18 txtblack">{{equip.tag}}</p>
+                              </li>
+                            </ul>
+                            <div class="map_box">
+                              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3024.7495687246947!2d-73.93633378420931!3d40.70151277933304!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25c0774baeeed%3A0xc0adcb482ea22b5b!2s930+Flushing+Ave%2C+Brooklyn%2C+NY+11206%2C+USA!5e0!3m2!1sen!2sin!4v1536382198710" 
+                              width="100%" height="100%" frameborder="0" style="border:0" allowfullscreen></iframe>
+                            </div>                                  
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane fade out-line-radius" id="m_dcp" role="tabpanel" aria-labelledby="pills-profile-tab">
+                  <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                      <a class="nav-link active" id="home-tab" data-toggle="tab" data-target="#material" role="tab" aria-controls="home" aria-selected="true">Materials</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="profile-tab" data-toggle="tab" data-target="#dcp" role="tab" aria-controls="profile" aria-selected="false">DCP</a>
+                    </li>
+                  </ul>
+                  <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active pl-5 pr-5 pb-5" id="material" role="tabpanel" aria-labelledby="home-tab">
+                      <div class="row issue-row">
+                        <div class="col-xl-4 col-12" ng-repeat="dcps in material_dcp">
+                          <a data-toggle="modal" data-target="#dcp_modal">
+                            <div class="issue-box position-relative transition animated fadeInUp wow" >
+                              <div class="image-holder">
+                                <img src="{{dcps.img}}" class="img-fluid animated zoomIn wow" data-wow-delay=".8s" alt="issue-image" >
+                              </div>
+                              <div class="issue-info w-100 d-flex justify-content-center flex-column animated fadeIn wow" data-wow-delay="1.2s">
+                                <h6 class="headTwo txtblack mb-0 text-sm-left text-center">{{dcps.title}}</h6>
+                                <p class="issue-number mb-0 text-sm-left text-center">{{dcps.date}}</p>
+                                
+                                <p class="issue-number mb-0 space30 text-sm-left text-center text-uppercase">{{dcps.m_cost}}</p>
+                                <h5 class="mb-0 text-sm-left price-txt text-center">{{dcps.m_price}}</h5>  
+      
+                                <p class="issue-number mb-0 space30 text-sm-left text-center text-uppercase">{{dcps.w_cost}}</p>
+                                <h5 class="mb-0 text-sm-left price-txt text-center">{{dcps.w_price}}</h5> 
+      
+                                <p class="red-box-txt">{{dcps.red_txt}}</p>                             
+                              </div>
+                            </div>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="tab-pane fade pl-5 pr-5 pb-5" id="dcp" role="tabpanel" aria-labelledby="profile-tab">
+                      <div class="row issue-row">
+                        <div class="col-xl-4 col-12" ng-repeat="dcps in material_dcp">
+                          <a data-toggle="modal" data-target="#dcp_modal">
+                            <div class="issue-box position-relative transition animated fadeInUp wow" >
+                              <div class="image-holder">
+                                <img src="{{dcps.img}}" class="img-fluid animated zoomIn wow" data-wow-delay=".8s" alt="issue-image" >
+                              </div>
+                              <div class="issue-info w-100 d-flex justify-content-center flex-column animated fadeIn wow" data-wow-delay="1.2s">
+                                <h6 class="headTwo txtblack mb-0 text-sm-left text-center">{{dcps.title}}</h6>
+                                <p class="issue-number mb-0 text-sm-left text-center">{{dcps.date}}</p>
+                                
+                                <p class="issue-number mb-0 space30 text-sm-left text-center text-uppercase">{{dcps.m_cost}}</p>
+                                <h5 class="mb-0 text-sm-left price-txt text-center">{{dcps.m_price}}</h5>  
+      
+                                <p class="issue-number mb-0 space30 text-sm-left text-center text-uppercase">{{dcps.w_cost}}</p>
+                                <h5 class="mb-0 text-sm-left price-txt text-center">{{dcps.w_price}}</h5> 
+      
+                                <p class="red-box-txt">{{dcps.red_txt}}</p>                             
+                              </div>
+                            </div>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="supply" role="tabpanel" aria-labelledby="pills-contact-tab">
+                  <div class="row issue-row sub-contractor">
+                    <div class="col-xl-4 col-12" ng-repeat="contract in contracts">
+                      <div class="issue-box position-relative transition flex-column  animated fadeInUp wow" data-wow-delay=".4s">
+                        <div class="media align-items-end spaceup2">
+                          <div class="tree_logo d-flex align-items-center justify-content-center transition animated zoomIn wow" data-wow-delay=".8s">
+                            <div class="inner_circle d-flex align-items-center justify-content-center animated zoomIn wow" data-wow-delay="1.3s">
+                              <img src="{{contract.img}}" class="img-fluid animated zoomIn wow" data-wow-delay="1.7s" alt="logo">
+                            </div>
+                          </div>
+                          <div class="media-body animated fadeIn wow" data-wow-delay="1.3s">
+                            <h2 class="headThree">{{contract.title}}</h2>
+                            <p class="f500 txtgrey mb-0 small_tag">{{contract.time}}</p>
+                          </div>
+                        </div>
+                        <div class="space30"></div>
+                        <div class="input-group input_form animated fadeIn wow" data-wow-delay="1.3s">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <img src="img/call.png" class="img-fluid" alt="call">
+                            </div>
+                          </div>
+                          <input type="text" class="form-control " placeholder="+24 111 222 3333">
+                        </div>
+                        <div class="input-group input_form spaceup animated fadeIn wow" data-wow-delay="1.3s">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <img src="img/mail.png" class="img-fluid" alt="mail">
+                            </div>
+                          </div>
+                          <input type="text" class="form-control" placeholder="subcontractor.a@examplemail.com">
+                        </div>
+                        <div class="input-group input_form spaceup animated fadeIn wow" data-wow-delay="1.3s">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <img src="img/building.png" class="img-fluid" alt="building">
+                            </div>
+                          </div>
+                          <input type="text" class="form-control" placeholder="1775 Benson Park Drive, Oklahoma City">
+                        </div>
+                        <div class="space20"></div>                    
+                        <div class="d-md-flex justify-content-between">
+                          <span class="lbl_stat complete transition mt-0  animated fadeIn wow" data-wow-delay="1.3s">2 staff members</span>
+                          <a href="#" class="txtyellow f500 d-flex align-items-center view_tag  animated fadeIn wow" data-wow-delay="1.3s">View Detail <i class="fa fa-angle-right ml-3"></i></a>
+                        </div>                  
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="contract" role="tabpanel" aria-labelledby="pills-contact-tab">
+                  <div class="row issue-row sub-contractor">
+                    <div class="col-xl-4 col-12" ng-repeat="contract in contracts">
+                      <div class="issue-box position-relative transition flex-column  animated fadeInUp wow" data-wow-delay=".4s">
+                        <div class="media align-items-end spaceup2">
+                          <div class="tree_logo d-flex align-items-center justify-content-center transition animated zoomIn wow" data-wow-delay=".8s">
+                            <div class="inner_circle d-flex align-items-center justify-content-center animated zoomIn wow" data-wow-delay="1.3s">
+                              <img src="{{contract.img}}" class="img-fluid animated zoomIn wow" data-wow-delay="1.7s" alt="logo">
+                            </div>
+                          </div>
+                          <div class="media-body animated fadeIn wow" data-wow-delay="1.3s">
+                            <h2 class="headThree">{{contract.title}}</h2>
+                            <p class="f500 txtgrey mb-0 small_tag">{{contract.time}}</p>
+                          </div>
+                        </div>
+                        <div class="space30"></div>
+                        <div class="input-group input_form animated fadeIn wow" data-wow-delay="1.3s">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <img src="img/call.png" class="img-fluid" alt="call">
+                            </div>
+                          </div>
+                          <input type="text" class="form-control " placeholder="+24 111 222 3333">
+                        </div>
+                        <div class="input-group input_form spaceup animated fadeIn wow" data-wow-delay="1.3s">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <img src="img/mail.png" class="img-fluid" alt="mail">
+                            </div>
+                          </div>
+                          <input type="text" class="form-control" placeholder="subcontractor.a@examplemail.com">
+                        </div>
+                        <div class="input-group input_form spaceup animated fadeIn wow" data-wow-delay="1.3s">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <img src="img/building.png" class="img-fluid" alt="building">
+                            </div>
+                          </div>
+                          <input type="text" class="form-control" placeholder="1775 Benson Park Drive, Oklahoma City">
+                        </div>
+                        <div class="space20"></div>                    
+                        <div class="d-md-flex justify-content-between">
+                          <span class="lbl_stat complete transition mt-0  animated fadeIn wow" data-wow-delay="1.3s">2 staff members</span>
+                          <a href="#" class="txtyellow f500 d-flex align-items-center view_tag  animated fadeIn wow" data-wow-delay="1.3s">View Detail <i class="fa fa-angle-right ml-3"></i></a>
+                        </div>                  
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="offers">
+                  <ul class="list-inline nav-justified text-center">
+                    <li class="list-inline-item nav-item" ng-repeat="off_img in offers"><a href="#"><img src="{{off_img.img}}" class="img-fluid animated zoomIn wow" data-wow-delay=".8s" alt="issue-image" ></a></li>
+                  </ul>
+                </div>
+                <div class="tab-pane fade" id="vp">
+                  ....
+                </div>
+                <div class="tab-pane fade" id="profit-cost">
+                  <div class="row">
+                    <div class="col-lg-4 animated wow fadeInDown">
+                      <img src="img/risk-manage.png" class="img-fluid m-auto d-block w-100">
+                      <div id="issueslider" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                          <div class="carousel-item" ng-repeat="slides in slider1" ng-class="{active:!$index}">
+                            <img class="d-block w-100" src="{{slides.img}}" alt="slide">
+                            <div class="p-3">
+                              <h5 class="slider-title">{{slides.slider_title}}</h5>
+                              <p class="slider-desc">{{slides.slider_desc}}</p>
+      
+                              <ul class="list-inline space30">
+                                <li class="list-inline-item">
+                                  <h6 class="risk-txt">{{slides.risk_txt}}</h6>
+                                  <a href="#" class="high-btn">HIGH</a>
+                                </li>
+                                <li class="list-inline-item float-right">
+                                  <a href="#"><img src="img/edit_icon.png" class="img-fluid edit-icon-img"></a>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>                  
+                        </div>
+                        <a class="carousel-control-prev " data-target="#issueslider" role="button" data-slide="prev">
+                          <img class="img-fluid wobble-horizontal" src="img/arrow_left.png" alt="arrow_left">
+                        </a>
+                        <a class="carousel-control-next " data-target="#issueslider" role="button" data-slide="next">
+                          <img class="img-fluid wobble-horizontal" src="img/arrow_right.png" alt="arrow_right">
+                        </a>
+                      </div>
+                    </div>
+                    <div class="col-lg-8">
+                      <div class="row">
+                        <div class="col-xl-6 col-12" ng-repeat="profit_data in profits">
+                          <a href="#">
+                            <div class="issue-box position-relative transition animated fadeInUp wow" >
+                              <a href="#"><img src="img/plus-icon.png" class="plus-icon"></a>
+                              <div class="image-holder">
+                                <img src="{{profit_data.img}}" class="img-fluid animated zoomIn wow" data-wow-delay=".8s" alt="issue-image" >
+                              </div>
+                              <div class="issue-info w-100 d-flex justify-content-center flex-column animated fadeIn wow" data-wow-delay="1.2s">
+                                <h6 class="f600 headTwo txtblack mb-0 text-sm-left text-center">{{profit_data.title}}</h6>
+                                <ul class="list-unstyled d-flex flex-wrap issue_list">
+                                  <li class=" w-100">
+                                    <p class="mb-0 issue-number text-left">{{profit_data.work}}</p>
+                                  </li>
+                                </ul> 
+                                <ul class="list-unstyled d-flex flex-wrap issue_list">
+                                  <li class="mt-0 w-100">
+                                    <p class="mb-0 issue-number text-left">{{profit_data.l_cost}}</p>
+                                    <p class="mb-0 fsize18 txtblack text-left" ng-repeat="list_item in lists">{{list_item.tag}}<span class="float-right">{{list_item.perc}}</span></p>
+                                  </li>
+                                </ul>                                 
+                              </div>
+                            </div>
+                          </a>
+                        </div>
+                      </div>
+      
+                      <div class="row">
+                        <div class="col-xl-6 col-12" ng-repeat="profit_data1 in profits1">
+                          <a href="#">
+                            <div class="issue-box position-relative transition animated fadeInUp wow" >
+                              <a href="#"><img src="img/plus-icon.png" class="plus-icon"></a>
+                              <div class="image-holder">
+                                <img src="{{profit_data1.img}}" class="img-fluid animated zoomIn wow" data-wow-delay=".8s" alt="issue-image" >
+                              </div>
+                              <div class="issue-info w-100 d-flex justify-content-center flex-column animated fadeIn wow" data-wow-delay="1.2s">
+                                <h6 class="f600 headTwo txtblack mb-0 text-sm-left text-center">{{profit_data1.title}}</h6>
+                                <ul class="list-unstyled d-flex flex-wrap issue_list">
+                                  <li class=" w-100">
+                                    <p class="mb-0 issue-number text-left">{{profit_data1.work}}</p>
+                                  </li>
+                                </ul> 
+                                <ul class="list-unstyled d-flex flex-wrap issue_list">
+                                  <li class="mt-0 w-100">
+                                    <p class="mb-0 fsize18 txtblack text-left" ng-repeat="list_item1 in lists1">{{list_item1.tag}}<span class="float-right">{{list_item1.perc}}</span></p>
+                                  </li>
+                                </ul>                                 
+                              </div>
+                            </div>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="keyfigure">
+                  ....
+                </div>
+                <div class="tab-pane fade" id="budget">
+                  ....
+                </div>
+              </div>  
+              <div class="space30"></div>      
             </div>
-            <div class="w-100"></div>
-            <div class="col-12">
-                <table class="table table-bordered calculationList">
-                    <div>
-                        <thead class="bg-success text-white"> 
-                            <tr>
-                                <th style="width: 2%">1</th>
-                                <th style="width: 10%">Location, Haller</th>
-                                <th style="width: 6%">Add on</th>
-                                <th style="width: 4%">unit</th>
-                                <th style="width: 3%">Quanity</th>
-                                <th style="width: 6%">Cost</th>
-                                <th style="width: 9%">Materials cost</th>
-                                <th style="width: 7%">Total cost </th>
-                                <th style="width: 7%">Profit </th>
-                                <th style="width: 3%">%</th>
-                                <th style="width: 8%">Sales price </th>
-                                <th style="width: 8%">Labor cost </th>
-                                <th style="width: 8%">Labor sum</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1.1</td>
-                                <td>Safety staircase</td>
-                                <td> </td>
-                                <td>psc</td>
-                                <td>4</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                                <td>70%</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                            </tr>
-                            <tr>
-                                <td>1.1</td>
-                                <td>Safety staircase</td>
-                                <td> </td>
-                                <td>psc</td>
-                                <td>4</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                                <td>70%</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                            </tr>
-                            <tr>
-                                <td>1.1</td>
-                                <td>Safety staircase</td>
-                                <td> </td>
-                                <td>psc</td>
-                                <td>4</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                                <td>70%</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                            </tr>
-                        </tbody>
-                        <tfooter>
-                            <tr>
-                                <td colspan="4" class="text-right">Total</td>
-                                <td>4</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                                <td>70%</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                            </tr>
-                        </tfooter>
+          </div>
+        </div>
+      </section>
+      
+      
+      
+      <div class="modal fade eventmodal" data-easein="pulse" id="dcp_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-body pad0">
+              <div class="row issue-row">
+                <div class="col-xl-6 col-12" ng-repeat="dcps in popup_dcp">
+                  <a data-toggle="modal" data-target="#new_event">
+                    <div class="issue-box position-relative transition animated fadeInUp wow" >
+                      <div class="image-holder">
+                        <img src="{{dcps.img}}" class="img-fluid animated zoomIn wow" data-wow-delay=".8s" alt="issue-image" >
+                      </div>
+                      <div class="issue-info w-100 d-flex justify-content-center flex-column animated fadeIn wow" data-wow-delay="1.2s">
+                        <h6 class="headTwo txtblack mb-0 text-sm-left text-center">{{dcps.title}}</h6>
+                        <p class="issue-number mb-0 text-sm-left text-center">{{dcps.date}}</p>
+                        
+                        <p class="issue-number mb-0 space30 text-sm-left text-center text-uppercase">{{dcps.m_cost}}</p>
+                        <h5 class="mb-0 text-sm-left price-txt text-center">{{dcps.m_price}}</h5>  
+      
+                        <p class="issue-number mb-0 space30 text-sm-left text-center text-uppercase">{{dcps.w_cost}}</p>
+                        <h5 class="mb-0 text-sm-left price-txt text-center">{{dcps.w_price}}</h5> 
+      
+                        <p class="red-box-txt">{{dcps.red_txt}}</p>                             
+                      </div>
                     </div>
-                    <div>
-                        <thead class="bg-success text-white">
-                            <tr>
-                                <th style="width: 2%">1</th>
-                                <th style="width: 10%">Location, Haller</th>
-                                <th style="width: 6%">Add on</th>
-                                <th style="width: 4%">unit</th>
-                                <th style="width: 3%">Quanity</th>
-                                <th style="width: 6%">Cost</th>
-                                <th style="width: 9%">Materials cost</th>
-                                <th style="width: 7%">Total cost </th>
-                                <th style="width: 7%">Profit </th>
-                                <th style="width: 3%">%</th>
-                                <th style="width: 8%">Sales price </th>
-                                <th style="width: 8%">Labor cost </th>
-                                <th style="width: 8%">Labor sum</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1.1</td>
-                                <td>Safety staircase</td>
-                                <td> </td>
-                                <td>psc</td>
-                                <td>4</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                                <td>70%</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                            </tr>
-                            <tr>
-                                <td>1.1</td>
-                                <td>Safety staircase</td>
-                                <td> </td>
-                                <td>psc</td>
-                                <td>4</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                                <td>70%</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                            </tr>
-                            <tr>
-                                <td>1.1</td>
-                                <td>Safety staircase</td>
-                                <td> </td>
-                                <td>psc</td>
-                                <td>4</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                                <td>70%</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                            </tr>
-                        </tbody>
-                        <tfooter>
-                            <tr>
-                                <td colspan="4" class="text-right">Total</td>
-                                <td>4</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                                <td>70%</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                            </tr>
-                        </tfooter>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.2/velocity.min.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.2/velocity.ui.min.js"></script>
+  
+<!--Load inventory pop up-->
+
+      <div class="modal fade p-0 m-0" id="loadInventories" tabindex="-1" role="dialog">
+          <div class="modal-dialog modal-lg">
+              <div class="modal-content modal-content-one">
+                  <div class="modal-header">
+                      <h5>Load Material</h5>
+                      <button type="button" class="close">
+                          <span class="btn btn-primary mb-0 mr-3" ng-click="assignInventory()">Add inventory</span>
+                          <span data-dismiss="modal">×</span>
+                          <span class="sr-only">Close</span>
+                      </button>
+                  </div>
+                  <div class="modal-body">
+                      <div class="row justify-content-center mb-2" ng-if="selectedMaterial != ''">
+                          <div class="col-3">
+                              <div class="card materialItem">
+                                  <img class="card-img-top" src="{{selectedMaterial.files[0].secure_url}}" ng-hide="selectedMaterial.files.length == 0 || !selectedMaterial.files">
+                                  <img class="card-img-top" src="/assets/images/loadMaterialIcon.jpg" ng-show="selectedMaterial.files.length == 0 || !selectedMaterial.files"
+                                      alt="No Image">
+                                  <div class="card-body">
+                                      <h5 class="card-title m-0 text-center">{{selectedMaterial.name}}</h5>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+      
+                      <uib-tabset>
+                          <uib-tab index="0" select="resetSelectedMaterial(0)">
+                              <uib-tab-heading class="costItem"> Materials </uib-tab-heading>
+                              <section class="container-fluid pt-0">
+                                  <div class="form-group searchMaterial">
+                                      <label for="">Search Material</label>
+                                      <input type="text" ng-model="searchMaterial" class="form-control" id="" placeholder="search material">
+                                  </div>
+                                  <div class="row materialList">
+                                      <div class="col-4 mb-2" ng-repeat="item in materialList | filter: {name: searchMaterial}">
+                                          <div class="card materialItem" ng-click="materialSelection(item)">
+                                              <img class="card-img-top" src="{{item.files[0].secure_url}}" ng-hide="item.files.length == 0 || !item.files">
+                                              <img class="card-img-top" src="/assets/images/loadMaterialIcon.jpg" ng-show="item.files.length == 0 || !item.files" alt="No Image">
+                                              <div class="card-body">
+                                                  <h5 class="card-title m-0 text-center">{{item.name}}</h5>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </section>
+                          </uib-tab>
+                          <uib-tab index="1" select="resetSelectedMaterial(1)">
+                              <uib-tab-heading class="costItem"> DCP </uib-tab-heading>
+                              <section class="container-fluid pt-0">
+                                  <div class="form-group searchMaterial">
+                                      <label for="">Search DCP</label>
+                                      <input type="text" ng-model="searchDcp" class="form-control" id="" placeholder="search material">
+                                  </div>
+                                  <div class="row materialList">
+                                      <div class="col-4  mb-2" ng-repeat="item in dcpList | filter: {name: searchDcp}">
+                                          <div class="card materialItem" ng-click="materialSelection(item)">
+                                              <img class="card-img-top" src="{{item.files[0].secure_url}}" ng-hide="item.files.length == 0 || !item.files">
+                                              <img class="card-img-top" src="/assets/images/loadMaterialIcon.jpg" ng-show="item.files.length == 0 || !item.files" alt="No Image">
+                                              <div class="card-body">
+                                                  <h5 class="card-title m-0 text-center">{{item.name}}</h5>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </section>
+                          </uib-tab>
+                          <uib-tab index="2" select="resetSelectedMaterial(2)">
+                              <uib-tab-heading class="costItem"> Equipment </uib-tab-heading>
+                              <section class="container-fluid pt-0">
+                                  <div class="form-group  searchMaterial">
+                                      <label for="">Search Equipment</label>
+                                      <input type="text" ng-model="searchEquipment" class="form-control" id="" placeholder="search material">
+                                  </div>
+                                  <div class="row materialList">
+                                      <div class="col-4 text-center mb-2" ng-repeat="item in equipmentList | filter: {name: searchEquipment}">
+                                          <div class="card materialItem" ng-click="materialSelection(item)">
+                                              <img class="card-img-top" src="{{item.files[0].secure_url}}" ng-hide="item.files.length == 0 || !item.files">
+                                              <img class="card-img-top" src="/assets/images/loadMaterialIcon.jpg" ng-show="item.files.length == 0 || !item.files" alt="No Image">
+                                              <div class="card-body">
+                                                  <h5 class="card-title m-0 text-center">{{item.name}}</h5>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </section>
+                          </uib-tab>
+                      </uib-tabset>
+      
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <!--Pop up to add quantity-->
+      <div class="modal fade p-0 m-0" id="addquantity" tabindex="-1" role="dialog">
+          <div class="modal-dialog modal-lg">
+              <div class="modal-content modal-content-one">
+                  <div class="modal-header">
+                      <h5>Add Quantity</h5>
                     </div>
-                    <div>
-                        <thead class="bg-success text-white">
-                            <tr>
-                                <th style="width: 2%">1</th>
-                                <th style="width: 10%">Location, Haller</th>
-                                <th style="width: 6%">Add on</th>
-                                <th style="width: 4%">unit</th>
-                                <th style="width: 3%">Quanity</th>
-                                <th style="width: 6%">Cost</th>
-                                <th style="width: 9%">Materials cost</th>
-                                <th style="width: 7%">Total cost </th>
-                                <th style="width: 7%">Profit </th>
-                                <th style="width: 3%">%</th>
-                                <th style="width: 8%">Sales price </th>
-                                <th style="width: 8%">Labor cost </th>
-                                <th style="width: 8%">Labor sum</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1.1</td>
-                                <td>Safety staircase</td>
-                                <td> </td>
-                                <td>psc</td>
-                                <td>4</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                                <td>70%</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                            </tr>
-                            <tr>
-                                <td>1.1</td>
-                                <td>Safety staircase</td>
-                                <td> </td>
-                                <td>psc</td>
-                                <td>4</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                                <td>70%</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                            </tr>
-                            <tr>
-                                <td>1.1</td>
-                                <td>Safety staircase</td>
-                                <td> </td>
-                                <td>psc</td>
-                                <td>4</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                                <td>70%</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                            </tr>
-                        </tbody>
-                        <tfooter>
-                            <tr>
-                                <td colspan="4" class="text-right">Total</td>
-                                <td>4</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                                <td>70%</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                                <td>6,500.00 kr.</td>
-                            </tr>
-                        </tfooter>
-                    </div>
-                </table>
+                  <div class="modal-body">
+                      <div class="f_block">
+                          <p class="fsize18 f500 txtgrey c_space space15">Add Quantity</p>
+                          <input type="number" ng-model="quantity" class="form-control animated zoomIn wow" data-wow-delay="0.7s" required>
+                        </div>
+                       
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn_create_issue ripple" data-dismiss="modal">Cancel</button>
+                      <button type="button" class="btn btn_create_issue ripple" ng-click="vm.addQuantity(quantity)">Add</button>
+                  </div>
+              </div>
             </div>
         </div>
-    </section>
-    
-</div>
+
+        <!--Pop up to add quantity-->
+      <div class="modal fade p-0 m-0" id="updatequantity" tabindex="-1" role="dialog">
+          <div class="modal-dialog modal-lg">
+              <div class="modal-content modal-content-one">
+                  <div class="modal-header">
+                      <h5>Update Quantity</h5>
+                    </div>
+                  <div class="modal-body">
+                      <div class="f_block">
+                          <p class="fsize18 f500 txtgrey c_space space15">Update Quantity</p>
+                          <input type="number" ng-model="updateToInventory.Quantity" class="form-control animated zoomIn wow" data-wow-delay="0.7s" required>
+                        </div>
+                       
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn_create_issue ripple" data-dismiss="modal">Cancel</button>
+                      <button type="button" class="btn btn_create_issue ripple" ng-click="vm.updateQuantity(updateToInventory.Quantity)">Add</button>
+                  </div>
+              </div>
+            </div>
+        </div>

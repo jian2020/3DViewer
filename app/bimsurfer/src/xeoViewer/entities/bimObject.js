@@ -98,8 +98,8 @@ define(["../../../lib/xeogl"], function () {
             this.entities = [];
             var entity;
 
+            // console.log("ddd",cfg.geometryIds);
             for (var i = 0, len = cfg.geometryIds.length; i < len; i++) {
-
                 entity = this.create({ // http://xeoengine.org/docs/classes/Entity.html
                     type: "xeogl.Entity",
                     meta: {

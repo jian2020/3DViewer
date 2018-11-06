@@ -18,7 +18,7 @@
               </div>
               <div id="issueslider" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
-                  <div class="carousel-item" ng-repeat="asset in vm.issueData.listAssets" ng-class="{active:!$index}">
+                  <div class="carousel-item" ng-repeat="asset in vm.issueData.listAssets.images" ng-class="{active:!$index}">
                     <img class="d-block w-100 img_center" src="{{asset.secure_url || 'assets/images/bulb.png'}}" alt="slide" style="height:250px;width:200px;">
                     </div>
                   </div> 
@@ -157,26 +157,25 @@
                 <div class="tab-pane fade " id="profile" role="tabpanel" aria-labelledby="profile-tab">
                   <div class="filname">
                     <h5 class="fsize18 dark f500">Images</h5>
-                    <div class="filname_block " ng-repeat="filename in vm.ImageAssets">
+                    <div class="filname_block " ng-repeat="filename in vm.issueData.listAssets.images">
                       <div class="d-flex align-items-center justify-content-between" >
                         <p class="fsize18 f500 mb-0 animated fadeInUp wow">{{filename.originalname}}</p>
-                        <button class="btn download_btn animated fadeInUp wow" ng-click="vm.downloadFile(filename)">
-                            <img src="assets/images/download2.png" class="img-fluid" alt="download-icon" >
-                        </button>
+                        <a href="{{filename.secure_url}}" download class="btn download_btn animated fadeInUp wow">
+                          <img src="/assets/images/download2.png" class="img-fluid" alt="download-icon">
+                        </a>
                       </div>
                     </div>
                   </div>
                   <div><br></div>
                   <div class="filname">
                     <h5 class="fsize18 dark f500">Documents</h5>
-                    <div class="filname_block " ng-repeat="filename in vm.DocumentAssets">
+                    <div class="filname_block " ng-repeat="filename in vm.issueData.listAssets.docs">
                       <div class="d-flex align-items-center justify-content-between">
                         <p class="fsize18 f500 mb-0 animated fadeInUp wow" ng-If="filename.assetName||filename.originalname=='untitled'">{{filename.assetName}}</p>
                         <p class="fsize18 f500 mb-0 animated fadeInUp wow"ng-If="filename.originalname">{{filename.originalname}}</p>
-
-                        <button class="btn download_btn animated fadeInUp wow"  ng-click="downLoadAttachment(filename)">
-                         <a ng-href="docs.secure_url" download><img src="assets/images/download2.png" class="img-fluid" alt="download-icon" ></a>
-                        </button>
+                        <a href="{{filename.secure_url}}" download class="btn download_btn animated fadeInUp wow">
+                          <img src="/assets/images/download2.png" class="img-fluid" alt="download-icon">
+                        </a>
                       </div>
                     </div>
                   </div>

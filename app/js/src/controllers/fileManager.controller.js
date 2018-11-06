@@ -15,6 +15,13 @@
     uploadFactory
   ) {
     /* Requiring vars */
+    $scope.navtab = [
+      { title: 'Sub Folder A', target: 'tabpane1' },
+      { title: 'Sub Folder B', target: 'tabpane2' },
+      { title: 'Sub Folder C', target: 'tabpane3' },
+      { title: 'Sub Folder D', target: 'tabpane4' },
+      { title: 'Sub Folder E', target: 'tabpane5' }
+    ]
 
     let vm = this;
     const {

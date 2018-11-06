@@ -89,7 +89,7 @@
                         <img class="d-block m-auto img-fluid" ng-src="{{gray_one.img}}" alt="First slide">
                         <h4 class="text-center">{{gray_one.title}}</h4>
                         <p class="text-center">{{gray_one.value}}
-                          <small class="text-muted" ng-if="gray_one.currencyCode">{{gray_one.currencyCode}}</small>
+                          <small class="text-muted" ng-if="gray_one.title !== 'Unit'">{{vm.currentCurrency}} </small>
                         </p>
                       </div>
                     </div>
@@ -110,8 +110,8 @@
                           <tr ng-repeat="rate in vm.matrialData.rateLog">
                             <td>{{$index + 1}}</td>
                             <td>{{rate.date | date}} </td>
-                            <td>{{rate.materialCost.value | roundNum: 2}} ({{vm.matrialData.currentRate.materialCost.currencyCode}}) </td>
-                            <td>{{rate.rooferCost.value | roundNum: 2}} ({{vm.matrialData.currentRate.rooferCost.currencyCode}}) </td>
+                            <td>{{rate.materialCost.value | roundNum: 2}} <small>({{vm.currentCurrency}})</small> </td>
+                            <td>{{rate.rooferCost.value | roundNum: 2}} <small>({{vm.currentCurrency}})</small> </td>
                           </tr>
                         </tbody>
                       </table>
@@ -122,7 +122,8 @@
                   <div class="row align-items-center pl-5 pr-5">
                     <div class="col-md-6">
                       <p class="red-box-txt f700 ng-binding">{{vm.matrialData.systemTag}}</p>
-                      <p class="next-maint">Next Maintenance On {{vm.nextMaintenanceDate}}</p>
+                      <p ng-if="vm.nextMaintenanceDate" class="next-maint">Next Maintenance On {{vm.nextMaintenanceDate}}</p>
+                      <p ng-if="!vm.nextMaintenanceDate" class="next-maint">Maintenance Date not available</p>
                     </div>
                     <div class="col-md-6 text-right">
                       <h4 class="simon-txt">Added by {{vm.matrialData.providerData.updatedBy.name}}</h4>
@@ -137,7 +138,7 @@
                     <div class="filname_block " ng-repeat="docs in vm.matrialData.files.docs" ng-if="vm.matrialData.files.docs.length > 0 || vm.matrialData.files.docs">
                       <div class="d-flex align-items-center justify-content-between">
                         <p class="fsize18 f500 mb-0 animated fadeInUp wow">{{docs.originalname}}</p>
-                        <a href="{{docs.secure_url}}" target="_blank" class="btn download_btn animated fadeInUp wow">
+                        <a href="{{docs.secure_url}}" download class="btn download_btn animated fadeInUp wow">
                           <img src="/assets/images/download2.png" class="img-fluid" alt="download-icon">
                         </a>
                       </div>
@@ -212,7 +213,7 @@
                   </div>
                   <div class="f_block">
                     <p class="fsize18 f500 txtgrey c_space mb-2 mt-4">Suppliers</p>
-                    <select ui-select2 ng-model="vm.editMaterial.suppliers" placeholder="Suppliers" class="form-control" ng-options="s._id as s.name for s in vm.suppliers track by s._id"
+                    <select ui-select2 ng-model="vm.editMaterial.suppliers" id="suppliers" class="form-control" ng-options="s._id as s.name for s in vm.suppliers track by s._id"
                       multiple></select>
                   </div>
                 </div>
@@ -268,8 +269,8 @@
                                 <span class="d-block">{{f.description}}</span>
                               </li>
                               <!-- end ngRepeat: img in img_upload -->
+                              <hr>
                             </ul>
-                            <hr>
                             <div class="btn btn_red btn_create_issue ripple my-1" ngf-select ng-model="vm.inputImg" ngf-change="vm.fileUpdated($files, $event, vm.inputFiles)"
                               name="file" ngf-pattern="'image/*'" ngf-multiple="true" ngf-accept="'image/*'">Browse</div>
                           </div>
@@ -316,10 +317,10 @@
                                 <span class="d-block">{{f.description}}</span>
                               </li>
                               <!-- end ngRepeat: doc in equipdocuments -->
+                              <hr>
                             </ul>
-                            <hr class="">
                             <div class="btn btn_red btn_create_issue ripple my-1" ngf-select ng-model="vm.inputFiles" ngf-change="vm.fileUpdated($files, $event, vm.inputFiles)"
-                              name="file" ngf-pattern="'*/*'" ngf-multiple="true" ngf-accept="'*/*'">Browse</div>
+                              name="file" ngf-pattern="'.xlsx,.xls,.csv,.doc,.docx,.pdf'" ngf-multiple="true" ngf-accept="'.xlsx,.xls,.csv,.doc,.docx,.pdf'">Browse</div>
                           </div>
                         </div>
                       </div>
@@ -339,24 +340,24 @@
                 <div class="issue_form">
                   <div class="f_block">
                     <p class="fsize18 f500 txtgrey c_space mb-2 mt-4">Currency</p>
-                    <select ui-select2 id="currencySelect" ng-model="vm.editMaterial.currency" class="form-control" ng-change="vm.showConversionRate(vm.companyData.currentCurrency.currencyCode, vm.editMaterial.currency)">
+                    <select ui-select2 id="currency" ng-model="vm.editMaterial.currency" class="form-control" ng-change="vm.showConversionRate(vm.companyData.currentCurrency.currencyCode, vm.editMaterial.currency)">
                       <option ng-selected="{{vm.editMaterial.currency == currency.cc}}" ng-repeat="currency in vm.currencies" value="{{currency.cc}}">{{currency.cc}} - {{currency.name}}</option>
                     </select>
                   </div>
                   <div class="f_block">
                     <p class="fsize18 f500 txtgrey c_space mb-2 mt-4">Conversion Factor</p>
-                    <input type="number" class="form-control animated zoomIn wow" ng-model="vm.editMaterial.conversionFactor" ng-value="vm.editMaterial.conversionFactor | roundNum:2"
-                      required />
+                    <input type="number" class="form-control animated zoomIn wow" ng-model="vm.editMaterial.conversionFactor" ng-value="vm.editMaterial.conversionFactor | roundNum:2" 
+                      required  />
                   </div>
                   <div class="f_block">
-                    <p class="fsize18 f500 txtgrey c_space mb-2 mt-4">Material Cost ({{vm.editMaterial.currency}})</p>
-                    <input type="number" class="form-control animated zoomIn wow" ng-change="vm.changeCost(vm.materialCostValue)"
+                    <p class="fsize18 f500 txtgrey c_space mb-2 mt-4">Material Cost ({{vm.editMaterial.currency || vm.currentCurrency}})</p>
+                    <input type="number" class="form-control animated zoomIn wow" ng-value="vm.materialCostValue | roundNum:2"
                       ng-model="vm.materialCostValue" required />
                   </div>
                   <div class="f_block">
-                    <p class="fsize18 f500 txtgrey c_space mb-2 mt-4">Worker Cost ({{vm.editMaterial.currency}})</p>
-                    <input type="number" class="form-control animated zoomIn wow" ng-change="vm.changeCost(vm.rooferCostValue)" ng-model="vm.rooferCostValue"
-                      required />
+                    <p class="fsize18 f500 txtgrey c_space mb-2 mt-4">Worker Cost ({{vm.editMaterial.currency || vm.currentCurrency}})</p>
+                    <input type="number" class="form-control animated zoomIn wow" ng-value="vm.rooferCostValue | roundNum:2"
+                      ng-model="vm.rooferCostValue" required />
                   </div>
                 </div>
               </div>

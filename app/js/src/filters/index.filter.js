@@ -15,7 +15,6 @@
   /* Round number */
 
   angular.module("app").filter("roundNum", roundNum);
-  
 
   function roundNum() {
     return function(input, place) {
@@ -37,6 +36,23 @@
       return /cloudinary/.test(input.secure_url)
         ? input.secure_url.replace(/\.pdf/, ".png")
         : input.thumbnail;
+    };
+  }
+
+  /* Parse typing members */
+
+  angular.module("app").filter("parseTypingMembers", parseTypingMembers);
+
+  function parseTypingMembers() {
+    return function(input) {
+      if (!input || !input.length) {
+        return;
+      }
+      if (input.length > 1) {
+        return `${input.length} people are typing..`;
+      } else {
+        return `${input[0].nickname} is typing..`;
+      }
     };
   }
 })();

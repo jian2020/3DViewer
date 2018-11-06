@@ -107,9 +107,8 @@
         
         }
 
-        vm.addMember = function(name){
-          vm.members2.push(name);
-         
+        vm.addMember = function(name,mail,code,phno){
+          vm.members2.push({name:name,email:mail,contact:{dialCode:code,phoneNumber:phno}});
         }
 
        
@@ -119,11 +118,14 @@
             console.log("home");
            $('#navigation ul li a.active').removeClass("active");
            $('#profile-tab').addClass("active");
+         
            $('#home').removeClass("show");
            $('#home').removeClass("active");
+          
            $('#profile').addClass("show");
            $('#profile').addClass("active");
-          }else if($('#profile-tab').hasClass('active')){
+          }
+          else if($('#profile-tab').hasClass('active')){
             console.log("profile");
             $('#navigation ul li a.active').removeClass("active");
             $('#contact-tab').addClass("active");
@@ -139,19 +141,47 @@
           if($('#profile-tab').hasClass('active')){
             console.log("home");
            $('#navigation ul li a.active').removeClass("active");
-           $('#home').addClass("active");
+           $('#home-tab').addClass("active");
            $('#profile').removeClass("show");
            $('#profile').removeClass("active");
            $('#home').addClass("show");
            $('#home').addClass("active");
-          }else if($('#contact-tab').hasClass('active')){
+          }else 
+          if($('#contact-tab').hasClass('active')){
             console.log("profile");
             $('#navigation ul li a.active').removeClass("active");
             $('#profile-tab').addClass("active");
+          
             $('#contact').removeClass("show");
             $('#contact').removeClass("active");
             $('#profile').addClass("show");
             $('#profile').addClass("active");
+          
+          }
+         
+        };
+
+        vm.openPopup=()=>{
+          if($('#profile-tab').hasClass('active')){
+            console.log("home");
+           $('#navigation ul li a.active').removeClass("active");
+           $('#home-tab').addClass("active");
+           $('#profile').removeClass("show");
+           $('#profile-tab').removeClass("active");
+           $('#profile').removeClass("active");
+           $('#home').addClass("show");
+           $('#home').addClass("active");
+          }else 
+          if($('#contact-tab').hasClass('active')){
+            console.log("profile");
+            $('#navigation ul li a.active').removeClass("active");
+            $('#home-tab').addClass("active");
+            $('#contact-tab').removeClass("show");
+            $('#contact').removeClass("show");
+            $('#contact').removeClass("active");
+            $('#home').addClass("show");
+            $('#home').addClass("active");
+          
           }
          
         };
@@ -165,11 +195,12 @@
           array.splice(index, 1);
          }
 
-        $scope.createSupplier = function(supplier){
-          supplier.supplies=[];supplier.staff=[];
-          console.log("supplier",supplier);
-          if(vm.selectedMaterials.length>0){
-            vm.selectedMaterials.forEach(element=>{
+        $scope.createSupplier = function(supplier,materials){
+          supplier.supplies=[];
+          supplier.staff=[];
+         
+          if(materials.length>0){
+          materials.forEach(element=>{
               supplier.supplies.push(element._id);
             });
           }
@@ -178,33 +209,44 @@
               supplier.staff.push(element);
             });
           }
-          console.log("supplier",supplier);
+          
+           console.log("supplier",supplier);
           apiFactory
           .createNewSupplier(supplier)
           .then(resp => {
             Notification.success("Supplier has been saved successfully");
-            vm.supplier={};
-            vm.selectedMaterials=[];
-            vm.mambers2=[];
-            $scope.inputFiles = [];
+            vm.resetFields();
+            vm.openPopup();
             supplier.supplies=[];
             supplier.staff=[];
-            
+           
             $('#supplier_modal').modal('hide');
             vm.getSuppliers("created");
           })
           .catch(e => {
             console.log(e);
-            // vm.supplier={};
-            // vm.selectedMaterials=[];
-            // vm.mambers2=[];
-            // $scope.inputFiles = [];
-            // supplier.supplies=[];
-            // supplier.staff=[];
             Notification.error("Something went wrong");
           });
           
+        };
+        vm.resetFields=()=>{
+          vm.supplier={};
+          if(vm.members2.length>0){
+          while(vm.members2.length > 0) {
+            vm.members2.pop();
+          }
         }
+        vm.selectedMaterials=[];
+        $('#materialselect').val('');
+        $('#materialselect').trigger('change');
+          $scope.FILEIMG=undefined;
+          $('#tagselect').val('[]');
+          $('#membername').val('');
+          $('#memberemail').val('');
+          $('#memberdialCode').val('');
+          $('#memberphoneNumber').val('');
+        }
+        
 
         $scope.contracts=[
           {title:'Subcontractor A',time:'Sep 25, 2018 at 4:00 PM',img:'assets/images/suppliers/tree_logo.png'},

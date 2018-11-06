@@ -10,18 +10,18 @@ $(document).ready(function(){
 		})
 
 	  	$(".datepicker").datepicker({ 
-	        autoclose: true, 
-	        todayHighlight: true
-	  	}).datepicker('update', new Date());
+			autoclose: true, 
+			todayHighlight: true
+		}).datepicker('update', new Date());
+		
 
 	  	// $('.card-header').click(function(){
 	  	// 	$(this).children('img').attr('src','img/folderopen.png');
 	  	// })
 
 	  	$(".card-header").click(function(){
-
 		    var src = $(this).children('img').attr('src');		    
-		    var newsrc = (src=='img/folder.png') ? 'img/folderopen.png' : 'img/folder.png';
+				var newsrc = (src == '/assets/images/folder.png') ? '/assets/images/folderopen.png' : '/assets/images/folder.png';
 		    $(this).children('img').attr('src', newsrc );
 		 });
 

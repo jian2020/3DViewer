@@ -17,18 +17,20 @@
       },
       connect: (id, token) => {
         return new Promise((resolve, reject) => {
-          sb.connect(
-            id,
-            token,
-            (user, err) => {
-              if (err) {
-                console.log(err);
-                reject(err);
-              } else {
-                resolve(user);
+          // Disconnect before connecting to avoid cached data behaviour
+          sb.disconnect(() => {
+            sb.connect(
+              id,
+              token,
+              (user, err) => {
+                if (err) {
+                  reject(err);
+                } else {
+                  resolve(user);
+                }
               }
-            }
-          );
+            );
+          });
         });
       },
       disconnect: () => {
@@ -37,6 +39,26 @@
             resolve("Disconnected successfully");
           });
         });
+      },
+      store: () => {
+        let data = {
+          user: null,
+          currentMeeting: null
+        };
+        return {
+          get: (prop = null) => {
+            return prop ? data[prop] : data;
+          },
+          set: (prop, val) => {
+            data[prop] = val;
+          },
+          reset: () => {
+            data = Object.keys(data).reduce((acc, x) => {
+              acc[x] = null;
+              return acc;
+            }, {});
+          }
+        };
       },
       error: e => {
         Notification.error("Something went wrong");

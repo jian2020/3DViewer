@@ -1,5 +1,6 @@
 define([
     "../DefaultMaterials",
+    "../../lib/three",
     "../EventHandler",
     "../Utils",
     "../../lib/xeogl",
@@ -11,7 +12,7 @@ define([
     "./utils/collection",
     "../materialManager",
     "../MeasureController"
-], function (DefaultMaterials, EventHandler, Utils) {
+], function (DefaultMaterials, THREE, EventHandler, Utils) {
 
     "use strict";
 
@@ -79,6 +80,10 @@ define([
                 }
             }
         ];
+
+        var t_scene = new THREE.Scene();
+        console.log(t_scene);
+        
         scene.lights.lights = buildLights(lights);
 
         // Attached to all objects to fit the model inside the view volume
@@ -297,7 +302,7 @@ define([
                          * @event camera-changed
                          * @params New camera state, same as that got with #getCamera.
                          */
-                        self.fire("camera-changed", [self.getCamera()]);
+                        // self.fire("camera-changed", [self.getCamera()]);
                         cameraUpdated = false;
                     }
                 });
