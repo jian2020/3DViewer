@@ -475,7 +475,7 @@ $('#btn_open_project').click(function () {
 });
 
 $('#btn_upload').click(function(){
-    var url = "https://13.127.174.144:8082/apps/bimviews/?page=Projects";
+    var url = "https://13.233.123.29:8082/apps/bimviews/?page=Projects";
     window.open(url);
 });
 
@@ -785,7 +785,7 @@ function loadBimServerApi(apiAddress, loadUmd) {
 loadBimServerApi("https://thisisanexperimentalserver.com/apps/bimserverjavascriptapi", false).then(() => {	
     try {
         //loadFromBimserver("http://localhost:8082", "admin@ifcserver.com", "admin", document.getElementById("project_list"));
-        loadFromBimserver("https://13.127.174.144:8082", "admin@ifcserver.com", "admin", document.getElementById("project_list"));
+        loadFromBimserver("https://13.233.123.29:8082", "admin@ifcserver.com", "admin", document.getElementById("project_list"));
     } catch (e) {
         
 
