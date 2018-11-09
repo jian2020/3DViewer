@@ -475,7 +475,7 @@ $('#btn_open_project').click(function () {
 });
 
 $('#btn_upload').click(function(){
-    var url = "http://localhost:8082/apps/bimviews/?page=Projects";
+    var url = "https://13.127.174.144:8082/apps/bimviews/?page=Projects";
     window.open(url);
 });
 
