@@ -784,7 +784,6 @@ function loadBimServerApi(apiAddress, loadUmd) {
 
 loadBimServerApi("https://thisisanexperimentalserver.com/apps/bimserverjavascriptapi", false).then(() => {	
     try {
-        //loadFromBimserver("http://localhost:8082", "admin@ifcserver.com", "admin", document.getElementById("project_list"));
         loadFromBimserver("https://13.233.123.29:8082", "admin@ifcserver.com", "admin", document.getElementById("project_list"));
     } catch (e) {
         
