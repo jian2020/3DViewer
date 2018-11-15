@@ -1368,10 +1368,10 @@ define([
             circleDrawer.newCommonCircle();
         };
 
-        self.newText = function (action) {
+        self.newText = function (action, txt, size) {
             if (currentDrawAction !== drawActions.TEXT)
                 return;
-            textDrawer.newText(action);
+            textDrawer.newText(action, txt, size);
         };
 
         self.setDrawAction = function (action) {
@@ -1399,6 +1399,7 @@ define([
             lineDrawer.cancelDrawLine();
             circleDrawer.cancelDrawCircle();
             textDrawer.cancelDrawText();
+            mover.cancelPushPull();
             currentDrawAction = drawActions.NONE;
             cameraControl.toolbarDragAction = 'selector';
         };

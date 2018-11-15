@@ -99,9 +99,12 @@ chkCameras.push(document.getElementById("cam_left"));
 chkCameras.push(document.getElementById("cam_right"));
 
 var modalDlgContainer = document.getElementById("modal_dlg_container");
+var dlgEditText = document.getElementById("dlg_edittext");
+var dlgOpenProject = document.getElementById("dlg_openproject");
 
 function initDialog() {
-    modalDlgContainer.style.display = "none";
+    closeDlgEditText();
+    closeDlgProject();
 }
 
 
@@ -216,9 +219,17 @@ function onCheckViews(type) {
     }
 }
 
+function openDlgProject(){
+    dlgOpenProject.style.display = "flex";
+    modalDlgContainer.style.display = "flex";
+}
+function closeDlgProject(){
+    dlgOpenProject.style.display = "none";
+    modalDlgContainer.style.display = "none";
+}
+
 $('#btn_open_project').click(function () {
-    modalDlgContainer.style.display = 'flex';
-    document.getElementById('dlg_openproject').style.display = 'flex';
+    openDlgProject();
     initDomElements();
     openProject();
 });
@@ -376,6 +387,26 @@ $('#btn_draw_circle').click(function () {
     iframe.contentWindow.newCircle();
 });
 
+var actionText;
+function setValueForText(){
+    closeDlgEditText();
+    var iframe = document.getElementById('bimviewer');
+    iframe.contentWindow.initDrawingTools();
+    iframe.contentWindow.setDrawAction('text');
+
+    var textContent = document.getElementById("text_content").value;
+    var textSize = document.getElementById("text_size").value;
+    iframe.contentWindow.newText(actionText, textContent, textSize);
+}
+
+function openDlgEditText(){
+    dlgEditText.style.display = "flex";
+    modalDlgContainer.style.display = "flex";
+}
+function closeDlgEditText(){
+    dlgEditText.style.display = "none";
+    modalDlgContainer.style.display = "none";
+}
 // draw texts
 $('#btn_draw_text').click(function () {
     if ($('#bimviewer').contents().find('canvas').length === 0)
@@ -384,11 +415,11 @@ $('#btn_draw_text').click(function () {
     initDrawingToolbar();
     btnText.classList.add("toolbar-select");
 
-    var iframe = document.getElementById('bimviewer');
-    iframe.contentWindow.initDrawingTools();
-    iframe.contentWindow.setDrawAction('text');
-    iframe.contentWindow.newText('text');
+    openDlgEditText();
+    actionText = "text";
 });
+
+
 
 // draw location texts
 $('#btn_draw_locationtext').click(function () {
@@ -398,10 +429,8 @@ $('#btn_draw_locationtext').click(function () {
     initDrawingToolbar();
     btnLocationText.classList.add("toolbar-select");
 
-    var iframe = document.getElementById('bimviewer');
-    iframe.contentWindow.initDrawingTools();
-    iframe.contentWindow.setDrawAction('text');
-    iframe.contentWindow.newText('locationtext');
+    openDlgEditText();
+    actionText = "locationtext";
 });
 
 //push pull

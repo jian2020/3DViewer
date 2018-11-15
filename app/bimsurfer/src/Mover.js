@@ -24,7 +24,9 @@ define([
                 PUSHPULL: 0,
             };
 
-
+            this.cancelPushPull = function () {
+                isStart = false;
+            };
 
             var currentAction = actions.NONE;
 
@@ -211,7 +213,7 @@ define([
                     return;
 
                 if (isSelect) {
-
+                    isSelect = false;
                 } else {
                     isSelect = true;
                     selectedEntity = hit.entity;

@@ -486,8 +486,8 @@
 			o.bimSurfer.newCircle();
 		}
 
-		window.newText = function (action) {
-			o.bimSurfer.newText(action);
+		window.newText = function (action, txt, size) {
+			o.bimSurfer.newText(action, txt, size);
 		}
 
 		window.setDrawAction = function (action) {
@@ -519,22 +519,6 @@
 
 <body>
 	<div id="maincontainer">
-		<!-- Project Open Dialog -->
-		<section id="dlg_openproject" class="dialog dialog-openproject" style="display: none">
-			<header id="dlg_openproject_header" class="dialog-header">
-				<div class="dialog-actions" onclick="getElementById('dlg_openproject').style.display = 'none';">
-					<a class="dialog-action dialog-action-dismiss" data-dialog-dismiss></a>
-				</div>
-				<h2 id="dlg_openproject_focus" class="dialog-title">Projects</h2>
-			</header>
-			<div class="dialog-body">
-				<div class="scrollable" data-plugin-scrollable>
-					<div class="scrollable-content">
-						<div id="open_project_content"></div>
-					</div>
-				</div>
-			</div>
-		</section>
 		<div id="topsection">
 			<!-- <div id="typeSelector">
             <div>&nbsp;</div>

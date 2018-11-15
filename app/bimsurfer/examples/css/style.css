@@ -594,6 +594,15 @@ body a, body a:focus, body a:hover, body a:active, body a:visited {
     user-select: none;
 }
 
+.dialog-edittext{
+	height: 40%;
+    width: 30%;
+    transition: all .7s;
+    box-shadow: 0 4px 3px 0px rgba(0, 0, 0, 0.3);
+    touch-action: none;
+    user-select: none;
+}
+
 .project-open-status{
     font-size: 1.7em;
 }

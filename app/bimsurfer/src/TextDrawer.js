@@ -22,6 +22,9 @@ define([
             var text;
             var texts = [];
 
+            var txtContent;
+            var txtSize;
+
             var actions = {
                 NONE: -1,
                 TEXT: 0,
@@ -29,6 +32,8 @@ define([
             };
 
             var currentAction = actions.NONE;
+
+
 
             var matText = new xeogl.PhongMaterial(scene, {
                 diffuse: [0, 0, 0],
@@ -92,7 +97,9 @@ define([
                 isNew = false;
             };
 
-            this.newText = function (action) {
+            this.newText = function (action, txt, size) {
+                txtContent = txt;
+                txtSize = size;
                 isNew = true;
                 switch (action) {
                     case 'text':
@@ -116,8 +123,8 @@ define([
                         // TODO: This should be somehow hit.viewPos.z, but doesn't seem to be
                         text = new xeogl.Entity(scene, { // Label
                             geometry: new xeogl.VectorTextGeometry(scene, {
-                                text: "New Text",
-                                size: 5
+                                text: txtContent,
+                                size: txtSize
                             }),
                             material: matText,
                             pickable: true,
@@ -145,8 +152,8 @@ define([
                         // TODO: This should be somehow hit.viewPos.z, but doesn't seem to be
                         text = new xeogl.Entity(scene, { // Label
                             geometry: new xeogl.VectorTextGeometry(scene, {
-                                text: "New LocationText",
-                                size: 3
+                                text: txtContent,
+                                size: txtSize
                             }),
                             material: matLocationText,
                             pickable: false,

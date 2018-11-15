@@ -307,8 +307,8 @@ define(["./Notifier", "./BimServerModel", "./PreloadQuery", "./BimServerGeometry
         this.newCircle = function () {
             viewer.newCircle();
         };
-        this.newText = function (action) {
-            viewer.newText(action);
+        this.newText = function (action, txt, size) {
+            viewer.newText(action, txt, size);
         };
         this.setDrawAction = function (action) {
             viewer.setDrawAction(action);

@@ -12,9 +12,9 @@
 <div class="mainContainer">
   <div id="modal_dlg_container" class="modalDlgContainer">
     <!-- Project Open Dialog -->
-    <section id="dlg_openproject" class="dialog dialog-openproject" style="display: none">
+    <section id="dlg_openproject" class="dialog dialog-openproject">
       <header id="dlg_openproject_header" class="dialog-header">
-        <div class="dialog-actions" onclick="getElementById('dlg_openproject').style.display = 'none';getElementById('modal_dlg_container').style.display = 'none';">
+        <div class="dialog-actions" onclick="closeDlgProject()">
           <a class="dialog-action dialog-action-dismiss" data-dialog-dismiss></a>
         </div>
         <h2 id="dlg_openproject_focus" class="dialog-title">Open Projects</h2>
@@ -25,6 +25,29 @@
             <div id="open_project_content">
               <div id="bimserver_status" class="project-open-status"></div>
               <div id="project_list"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="dlg_edittext" class="dialog dialog-edittext">
+      <header class="dialog-header">
+        <div class="dialog-actions" onclick="closeDlgEditText()">
+          <a class="dialog-action dialog-action-dismiss" data-dialog-dismiss></a>
+        </div>
+        <h2 class="dialog-title">Edit Text</h2>
+      </header>
+      <div class="dialog-body">
+        <div class="scrollable" data-plugin-scrollable>
+          <div class="scrollable-content">
+            <label style="font-size:1.2em">Text:</label><br>
+            <input id="text_content" class="form-control form-control-lg" type="text" name="text" value="New Text"><br>
+            <label style="font-size:1.2em">Size</label><br>
+            <input id="text_size" class="form-control form-control-lg" type="number" name="quantity" min="0" max="100" step="1" value="10"><br>
+            <div style="display:inline-flex">
+              <button type="button" class="btn btn_create ripple" data-dismiss="modal" onclick="setValueForText()">Ok</button>
+              <button type="button" class="btn btn_create ripple" data-dismiss="modal" onclick="closeDlgEditText()">Cancel</button>
             </div>
           </div>
         </div>
@@ -150,7 +173,8 @@
       </div>
     </div>
     <div class="separator"></div>
-    <div id="btn_picker" class="toolbar-icon" onclick="onbtnPicker()" data-toggle="tooltip" data-placement="bottom" title="Picker">
+    <div id="btn_picker" class="toolbar-icon" onclick="onbtnPicker()" data-toggle="tooltip" data-placement="bottom"
+      title="Picker">
       <div class="toolbar-icon-img">
         <img src="../assets/images/toolbar/new_toolbar/-_Delete copy 65.png" />
       </div>
@@ -166,68 +190,81 @@
       </div>
     </div>
     <div class="separator"></div>
-    <div id="cam_persp" class="toolbar-icon" onclick="onCheckCameras('perspective')" data-toggle="tooltip" data-placement="bottom" title="Perspective">
+    <div id="cam_persp" class="toolbar-icon" onclick="onCheckCameras('perspective')" data-toggle="tooltip"
+      data-placement="bottom" title="Perspective">
       <div class="toolbar-icon-img">
         <img src="../assets/images/toolbar/cam_persp.png" />
       </div>
     </div>
-    <div id="cam_ortho" class="toolbar-icon" onclick="onCheckCameras('ortho')" data-toggle="tooltip" data-placement="bottom" title="Orthographic">
+    <div id="cam_ortho" class="toolbar-icon" onclick="onCheckCameras('ortho')" data-toggle="tooltip" data-placement="bottom"
+      title="Orthographic">
       <div class="toolbar-icon-img">
         <img src="../assets/images/toolbar/cam_ortho.png" />
       </div>
     </div>
-    <div id="cam_top" class="toolbar-icon" onclick="onCheckCameras('top')" data-toggle="tooltip" data-placement="bottom" title="Top">
+    <div id="cam_top" class="toolbar-icon" onclick="onCheckCameras('top')" data-toggle="tooltip" data-placement="bottom"
+      title="Top">
       <div class="toolbar-icon-img">
         <img src="../assets/images/toolbar/cam_top.png" />
       </div>
     </div>
-    <div id="cam_bottom" class="toolbar-icon" onclick="onCheckCameras('bottom')" data-toggle="tooltip" data-placement="bottom" title="Bottom">
+    <div id="cam_bottom" class="toolbar-icon" onclick="onCheckCameras('bottom')" data-toggle="tooltip" data-placement="bottom"
+      title="Bottom">
       <div class="toolbar-icon-img">
         <img src="../assets/images/toolbar/cam_bottom.png" />
       </div>
     </div>
-    <div id="cam_front" class="toolbar-icon" onclick="onCheckCameras('front')" data-toggle="tooltip" data-placement="bottom" title="Front">
+    <div id="cam_front" class="toolbar-icon" onclick="onCheckCameras('front')" data-toggle="tooltip" data-placement="bottom"
+      title="Front">
       <div class="toolbar-icon-img">
         <img src="../assets/images/toolbar/cam_front.png" />
       </div>
     </div>
-    <div id="cam_back" class="toolbar-icon" onclick="onCheckCameras('back')" data-toggle="tooltip" data-placement="bottom" title="Back">
+    <div id="cam_back" class="toolbar-icon" onclick="onCheckCameras('back')" data-toggle="tooltip" data-placement="bottom"
+      title="Back">
       <div class="toolbar-icon-img">
         <img src="../assets/images/toolbar/cam_back.png" />
       </div>
     </div>
-    <div id="cam_left" class="toolbar-icon" onclick="onCheckCameras('left')" data-toggle="tooltip" data-placement="bottom" title="Left">
+    <div id="cam_left" class="toolbar-icon" onclick="onCheckCameras('left')" data-toggle="tooltip" data-placement="bottom"
+      title="Left">
       <div class="toolbar-icon-img">
         <img src="../assets/images/toolbar/cam_left.png" />
       </div>
     </div>
-    <div id="cam_right" class="toolbar-icon" onclick="onCheckCameras('right')" data-toggle="tooltip" data-placement="bottom" title="Right">
+    <div id="cam_right" class="toolbar-icon" onclick="onCheckCameras('right')" data-toggle="tooltip" data-placement="bottom"
+      title="Right">
       <div class="toolbar-icon-img">
         <img src="../assets/images/toolbar/cam_right.png" />
       </div>
     </div>
     <div class="separator"></div>
-    <div id="view_shaded" class="toolbar-icon" onclick="onCheckViews('shaded')" data-toggle="tooltip" data-placement="bottom" title="Shaded">
+    <div id="view_shaded" class="toolbar-icon" onclick="onCheckViews('shaded')" data-toggle="tooltip" data-placement="bottom"
+      title="Shaded">
       <div class="toolbar-icon-img">
         <img src="../assets/images/toolbar/view_shaded.png" />
       </div>
     </div>
-    <div id="view_edge" class="toolbar-icon" onclick="onCheckViews('edge')" data-toggle="tooltip" data-placement="bottom" title="Edge">
+    <div id="view_edge" class="toolbar-icon" onclick="onCheckViews('edge')" data-toggle="tooltip" data-placement="bottom"
+      title="Edge">
       <div class="toolbar-icon-img">
         <img src="../assets/images/toolbar/view_edge.png" />
       </div>
     </div>
-    <div id="view_transp" class="toolbar-icon" onclick="onCheckViews('transp')" data-toggle="tooltip" data-placement="bottom" title="Transparency">
+    <div id="view_transp" class="toolbar-icon" onclick="onCheckViews('transp')" data-toggle="tooltip" data-placement="bottom"
+      title="Transparency">
       <div class="toolbar-icon-img">
         <img src="../assets/images/toolbar/view_transp.png" />
       </div>
     </div>
-    <div id="view_wire" class="toolbar-icon" onclick="onCheckViews('wire')" data-toggle="tooltip" data-placement="bottom" title="Wireframe">
+    <div id="view_wire" class="toolbar-icon" onclick="onCheckViews('wire')" data-toggle="tooltip" data-placement="bottom"
+      title="Wireframe">
       <div class="toolbar-icon-img">
         <img src="../assets/images/toolbar/view_wire.png" />
       </div>
     </div>
-    <div id="view_grid" class="toolbar-icon" onclick="onCheckViews('grid')" data-toggle="tooltip" data-placement="bottom" title="Grid">
+    <div id="view_grid" class="toolbar-icon" onclick="onCheckViews('grid')" data-toggle="tooltip" data-placement="bottom"
+      title="Grid">
       <div class="toolbar-icon-img">
         <img src="../assets/images/toolbar/view_grid.png" />
       </div>
@@ -248,39 +285,39 @@
             <img src="../assets/images/toolbar/new_toolbar/-_Delete copy 66.png" />
           </div>
         </div>
-        <div id="btn_draw_freeline" class="toolbar-icon"  data-toggle="tooltip" data-placement="right" title="Free Hand">
+        <div id="btn_draw_freeline" class="toolbar-icon" data-toggle="tooltip" data-placement="right" title="Free Hand">
           <div class="toolbar-icon-img">
             <img src="../assets/images/toolbar/new_toolbar/-_Delete copy 67.png" />
           </div>
         </div>
-        <div id="btn_draw_severalline" class="toolbar-icon"  data-toggle="tooltip" data-placement="right" title="Several Points">
+        <div id="btn_draw_severalline" class="toolbar-icon" data-toggle="tooltip" data-placement="right" title="Several Points">
           <div class="toolbar-icon-img">
             <img src="../assets/images/toolbar/new_toolbar/-_Delete copy 68.png" />
           </div>
         </div>
-        <div class="toolbar-icon" id="btn_draw_circle"  data-toggle="tooltip" data-placement="right" title="Circle">
+        <div class="toolbar-icon" id="btn_draw_circle" data-toggle="tooltip" data-placement="right" title="Circle">
           <div class="toolbar-icon-img">
             <img src="../assets/images/toolbar/drawCircle.png" />
           </div>
         </div>
-        <div id="btn_draw_text" class="toolbar-icon"  data-toggle="tooltip" data-placement="right" title="Text">
+        <div id="btn_draw_text" class="toolbar-icon" data-toggle="tooltip" data-placement="right" title="Text">
           <div class="toolbar-icon-img">
             <img src="../assets/images/toolbar/new_toolbar/-_Delete copy 78.png" />
           </div>
         </div>
-        <div id="btn_draw_locationtext" class="toolbar-icon"  data-toggle="tooltip" data-placement="right" title="Locations Text">
+        <div id="btn_draw_locationtext" class="toolbar-icon" data-toggle="tooltip" data-placement="right" title="Locations Text">
           <div class="toolbar-icon-img">
             <img src="../assets/images/toolbar/new_toolbar/-_Delete copy 77.png" />
           </div>
         </div>
-        <div class="toolbar-icon"  data-toggle="tooltip" data-placement="right" title="Color">
+        <div class="toolbar-icon" data-toggle="tooltip" data-placement="right" title="Color">
           <div class="toolbar-icon-img">
             <img src="../assets/images/toolbar/new_toolbar/-_Delete copy 79.png" />
           </div>
         </div>
         <div class="separator-horizontal"></div>
-        
-        <div id="btn_calc_angle" class="toolbar-icon"  data-toggle="tooltip" data-placement="right" title="Angle Measure">
+
+        <div id="btn_calc_angle" class="toolbar-icon" data-toggle="tooltip" data-placement="right" title="Angle Measure">
           <div class="toolbar-icon-img">
             <img src="../assets/images/toolbar/new_toolbar/-_Delete copy 69.png" />
           </div>
@@ -295,12 +332,12 @@
             <img src="../assets/images/toolbar/new_toolbar/-_Delete copy 71.png" />
           </div>
         </div>
-        <div id="btn_calc_circle_diameter" class="toolbar-icon"  data-toggle="tooltip" data-placement="right" title="Diameter">
+        <div id="btn_calc_circle_diameter" class="toolbar-icon" data-toggle="tooltip" data-placement="right" title="Diameter">
           <div class="toolbar-icon-img">
             <img src="../assets/images/toolbar/new_toolbar/-_Delete copy 72.png" />
           </div>
         </div>
-        <div id="btn_calc_area" class="toolbar-icon"  data-toggle="tooltip" data-placement="right" title="Area Measure">
+        <div id="btn_calc_area" class="toolbar-icon" data-toggle="tooltip" data-placement="right" title="Area Measure">
           <div class="dropdown">
             <button class="btn dropdown-toggle only-icon" type="button" data-toggle="dropdown">
               <img id="img_measure_area" class="toolbar-icon-img" src="../assets/images/toolbar/area_sameplane.png" />
@@ -315,7 +352,7 @@
             </div>
           </div>
         </div>
-        <div id="btn_calc_length" class="toolbar-icon"  data-toggle="tooltip" data-placement="right" title="Length Measure">
+        <div id="btn_calc_length" class="toolbar-icon" data-toggle="tooltip" data-placement="right" title="Length Measure">
           <!-- <img class="rect-toolbar-img" src="../assets/images/toolbar/22.png" /> -->
           <div class="dropdown">
             <button class="btn dropdown-toggle only-icon" type="button" data-toggle="dropdown">
@@ -331,15 +368,15 @@
             </div>
           </div>
         </div>
-        <div class="toolbar-icon" id="btn_calc_volume"  data-toggle="tooltip" data-placement="right" title="Volume">
+        <div class="toolbar-icon" id="btn_calc_volume" data-toggle="tooltip" data-placement="right" title="Volume">
           <img class="rect-toolbar-img" src="../assets/images/toolbar/volume.png" />
         </div>
-        <div id="btn_delete_dimension" class="toolbar-icon"  data-toggle="tooltip" data-placement="right" title="Delete All Dimensions">
+        <div id="btn_delete_dimension" class="toolbar-icon" data-toggle="tooltip" data-placement="right" title="Delete All Dimensions">
           <div class="toolbar-icon-img">
             <img src="../assets/images/toolbar/new_toolbar/-_Delete copy 75.png" />
           </div>
         </div>
-      
+
       </div>
 
     </div>
