@@ -87,7 +87,7 @@ define([
                 //Create 3d scene in canvas
                 xeogl.scene = new xeogl.Scene({
                     canvas: parent.document.getElementById(canvas.id),
-                    transparent: true,
+                    transparent: false,
                     backgroundcolor: [0, 0, 0],
                     webgl2: true,
                     gammaFactor: 1
@@ -222,7 +222,7 @@ define([
                 //Create 3d scene in canvas
                 xeogl.scene = new xeogl.Scene({
                     canvas: parent.document.getElementById(canvas_id),
-                    transparent: true,
+                    transparent: false,
                     backgroundcolor: [0, 0, 0],
                     webgl2: true,
                     gammaFactor: 1
@@ -247,6 +247,7 @@ define([
                         }
                     }
                 ];
+
                 xeogl.scene.lights.lights = buildLights(lights);
 
                 var entity = new xeogl.Entity({

@@ -1,15 +1,15 @@
 window.BIMSERVER_VERSION = "1.5";
 
 define(["./Notifier", "./BimServerModel", "./PreloadQuery", "./BimServerGeometryLoader", "./xeoViewer/xeoViewer", "./EventHandler"], function (Notifier, Model, PreloadQuery, GeometryLoader, xeoViewer, EventHandler, _BimServerApi) {
-	
+
     // Backwards compatibility
     var BimServerApi;
     if (_BimServerApi) {
-		BimServerApi = _BimServerApi;
-	} else {
+        BimServerApi = _BimServerApi;
+    } else {
         BimServerApi = window.BimServerClient;
-	}
-    
+    }
+
     function BimSurfer(cfg) {
 
         var self = this;
@@ -24,22 +24,22 @@ define(["./Notifier", "./BimServerModel", "./PreloadQuery", "./BimServerGeometry
          * Fired whenever this BIMSurfer's camera changes.
          * @event camera-changed
          */
-        viewer.on("camera-changed", function() {
-           self.fire("camera-changed", arguments);
+        viewer.on("camera-changed", function () {
+            self.fire("camera-changed", arguments);
         });
 
         /**
          * Fired whenever this BIMSurfer's selection changes.
          * @event selection-changed
          */
-        viewer.on("selection-changed", function() {
+        viewer.on("selection-changed", function () {
             self.fire("selection-changed", arguments);
         });
-        
+
         // This are arrays as multiple models might be loaded or unloaded.
         this._idMapping = {
             'toGuid': [],
-            'toId'  : []
+            'toId': []
         };
 
         /**
@@ -67,46 +67,48 @@ define(["./Notifier", "./BimServerModel", "./PreloadQuery", "./BimServerGeometry
 
             var notifier = new Notifier();
             var bimServerApi = new BimServerApi(params.bimserver, notifier);
-			
-			params.api = bimServerApi; // TODO: Make copy of params
+
+            params.api = bimServerApi; // TODO: Make copy of params
 
             return self._initApi(params)
-				.then(self._loginToServer)
-				.then(self._getRevisionFromServer)
-				.then(self._loadFromAPI);
+                .then(self._loginToServer)
+                .then(self._getRevisionFromServer)
+                .then(self._loadFromAPI);
         };
-		
-		this._initApi = function(params) {
-			return new Promise(function(resolve, reject) {
-				params.api.init(function () {
-					resolve(params);
-				});
-			});
-		};
-		
-		this._loginToServer = function (params) {
-			return new Promise(function(resolve, reject) {
-				if (params.token) {
-					params.api.setToken(params.token, function() {
-						resolve(params)
-					}, reject);
-				} else {
-					params.api.login(params.username, params.password, function() {
-						resolve(params)
-					}, reject);
-				}
-			});
-		};
-		
-		this._getRevisionFromServer = function (params) {
-			return new Promise(function(resolve, reject) {
-				if (params.roid) {
-					resolve(params);
-				} else {
-					params.api.call("ServiceInterface", "getAllRelatedProjects", {poid: params.poid}, function(data) {
+
+        this._initApi = function (params) {
+            return new Promise(function (resolve, reject) {
+                params.api.init(function () {
+                    resolve(params);
+                });
+            });
+        };
+
+        this._loginToServer = function (params) {
+            return new Promise(function (resolve, reject) {
+                if (params.token) {
+                    params.api.setToken(params.token, function () {
+                        resolve(params)
+                    }, reject);
+                } else {
+                    params.api.login(params.username, params.password, function () {
+                        resolve(params)
+                    }, reject);
+                }
+            });
+        };
+
+        this._getRevisionFromServer = function (params) {
+            return new Promise(function (resolve, reject) {
+                if (params.roid) {
+                    resolve(params);
+                } else {
+                    params.api.call("ServiceInterface", "getAllRelatedProjects", {
+                        poid: params.poid
+                    }, function (data) {
                         var resolved = false;
-                        
-                        data.forEach(function(projectData) {
+
+                        data.forEach(function (projectData) {
                             if (projectData.oid == params.poid) {
                                 params.roid = projectData.lastRevisionId;
                                 params.schema = projectData.schema;
@@ -118,14 +120,14 @@ define(["./Notifier", "./BimServerModel", "./PreloadQuery", "./BimServerGeometry
                                 resolve(params);
                             }
                         });
-                        
+
                         if (!resolved) {
-							reject();
-						}
-					}, reject);
-				}
-			});
-		};
+                            reject();
+                        }
+                    }, reject);
+                }
+            });
+        };
 
         this._loadFrom_glTF = function (params) {
             if (params.src) {
@@ -133,9 +135,9 @@ define(["./Notifier", "./BimServerModel", "./PreloadQuery", "./BimServerGeometry
                 var oldProgress = 0;
                 return new Promise(function (resolve, reject) {
                     var m = viewer.loadglTF(params.src);
-                    m.on("loaded", function() {						
-						viewer.scene.canvas.spinner.on('processes', function(n) {
-							if (n === 0) {
+                    m.on("loaded", function () {
+                        viewer.scene.canvas.spinner.on('processes', function (n) {
+                            if (n === 0) {
                                 viewer.viewFit({});
                                 resolve(m);
                             }
@@ -147,7 +149,7 @@ define(["./Notifier", "./BimServerModel", "./PreloadQuery", "./BimServerGeometry
                                 self.fire("progress", [progress]);
                             }
                             oldProgress = progress;
-						});                        
+                        });
                     });
                 });
             }
@@ -179,7 +181,7 @@ define(["./Notifier", "./BimServerModel", "./PreloadQuery", "./BimServerGeometry
         };
 
         this._loadModel = function (model) {
-        
+
             model.getTree().then(function (tree) {
 
                 var oids = [];
@@ -194,17 +196,17 @@ define(["./Notifier", "./BimServerModel", "./PreloadQuery", "./BimServerGeometry
                     }
                     oidToGuid[n.id] = n.guid;
                     guidToOid[n.guid] = n.id;
-                    
+
                     for (var i = 0; i < (n.children || []).length; ++i) {
                         visit(n.children[i]);
                     }
                 };
 
                 visit(tree);
-                
+
                 self._idMapping.toGuid.push(oidToGuid);
                 self._idMapping.toId.push(guidToOid);
-                
+
                 var models = {};
 
                 // TODO: Ugh. Undecorate some of the newly created classes
@@ -219,14 +221,14 @@ define(["./Notifier", "./BimServerModel", "./PreloadQuery", "./BimServerGeometry
                 var loader = new GeometryLoader(model.api, models, viewer);
 
                 loader.addProgressListener(function (progress, nrObjectsRead, totalNrObjects) {
-					if (progress == "start") {
-						console.log("Started loading geometries");
-						self.fire("loading-started");
-					} else if (progress == "done") {
-						console.log("Finished loading geometries (" + totalNrObjects + " objects received)");
-						self.fire("loading-finished");
+                    if (progress == "start") {
+                        console.log("Started loading geometries");
+                        self.fire("loading-started");
+                    } else if (progress == "done") {
+                        console.log("Finished loading geometries (" + totalNrObjects + " objects received)");
+                        self.fire("loading-finished");
                         viewer.taskFinished();
-					}
+                    }
                 });
 
                 loader.setLoadOids([model.model.roid], oids);
@@ -241,10 +243,10 @@ define(["./Notifier", "./BimServerModel", "./PreloadQuery", "./BimServerGeometry
             });
         };
 
-        
+
         // Helper function to traverse over the mappings for individually loaded models
-        var _traverseMappings = function(mappings) {
-            return function(k) {
+        var _traverseMappings = function (mappings) {
+            return function (k) {
                 for (var i = 0; i < mappings.length; ++i) {
                     var v = mappings[i][k];
                     if (v) return v;
@@ -258,7 +260,7 @@ define(["./Notifier", "./BimServerModel", "./PreloadQuery", "./BimServerGeometry
          *
          * @param guids List of globally unique identifiers from the IFC model
          */
-        this.toId = function(guids) {
+        this.toId = function (guids) {
             return guids.map(_traverseMappings(self._idMapping.toId));
         };
 
@@ -267,7 +269,7 @@ define(["./Notifier", "./BimServerModel", "./PreloadQuery", "./BimServerGeometry
          *
          * @param ids List of internal object ids from the BIMserver / glTF file
          */
-        this.toGuid = function(ids) {
+        this.toGuid = function (ids) {
             return ids.map(_traverseMappings(self._idMapping.toGuid));
         };
 
@@ -287,21 +289,42 @@ define(["./Notifier", "./BimServerModel", "./PreloadQuery", "./BimServerGeometry
             viewer.showGrid(show);
         };
 
-        this.newDimensions = function(actionName){
+        this.newDimensions = function (actionName) {
             viewer.newDimensions(actionName);
         };
-        this.deleteDimensions = function(){
+        this.deleteDimensions = function () {
             viewer.deleteDimensions();
         };
-        this.getScene = function(){
+        this.newStraightLine = function () {
+            viewer.newStraightLine();
+        };
+        this.newFreeLine = function () {
+            viewer.newFreeLine();
+        };
+        this.newSeveralLine = function () {
+            viewer.newSeveralLine();
+        };
+        this.newCircle = function () {
+            viewer.newCircle();
+        };
+        this.newText = function (action) {
+            viewer.newText(action);
+        };
+        this.setDrawAction = function (action) {
+            viewer.setDrawAction(action);
+        };
+        this.onPushPull = function () {
+            viewer.onPushPull();
+        };
+        this.getScene = function () {
             return viewer.getScene();
         };
 
-        this.getSelectedMaterial = function(){
+        this.getSelectedMaterial = function () {
             return viewer.getSelectedMaterial();
         };
 
-        this.changeSelectedMaterial = function(material){
+        this.changeSelectedMaterial = function (material) {
             viewer.changeSelectedMaterial(material);
         };
 
@@ -329,8 +352,8 @@ define(["./Notifier", "./BimServerModel", "./PreloadQuery", "./BimServerGeometry
         this.setColor = function (params) {
             viewer.setColor(params);
         };
-		
-		/**
+
+        /**
          * Sets opacity of objects specified by ids or entity type, e.g IfcWall.
          **
          * @param params
@@ -384,30 +407,35 @@ define(["./Notifier", "./BimServerModel", "./PreloadQuery", "./BimServerGeometry
             viewer.setCamera(params);
         };
 
-        this.setCameraView = function(type){
+        this.setCameraView = function (type) {
             //console.log(type);
             viewer.setCameraView(type);
         }
-		
-		/**
+
+        this.initDrawingTools = function () {
+            //console.log(type);
+            viewer.initDrawingTools();
+        }
+
+        /**
          * Redefines light sources.
          * 
          * @param params Array of lights {type: "ambient"|"dir"|"point", params: {[...]}}
-		 * See http://xeoengine.org/docs/classes/Lights.html for possible params for each light type
+         * See http://xeoengine.org/docs/classes/Lights.html for possible params for each light type
          */
-		this.setLights = function (params) {
-			viewer.setLights(params);
-		};
-		
-		
+        this.setLights = function (params) {
+            viewer.setLights(params);
+        };
+
+
         /**
          * Returns light sources.
          * 
          * @returns Array of lights {type: "ambient"|"dir"|"point", params: {[...]}}
          */
-		this.getLights = function () {
-			return viewer.getLights;
-		};
+        this.getLights = function () {
+            return viewer.getLights;
+        };
 
         /**
          *
@@ -416,18 +444,18 @@ define(["./Notifier", "./BimServerModel", "./PreloadQuery", "./BimServerGeometry
         this.reset = function (params) {
             viewer.reset(params);
         }
-        
-         /**
-          * Returns a list of loaded IFC entity types in the model.
-          * 
-          * @method getTypes
-          * @returns {Array} List of loaded IFC entity types, with visibility flag
-          */
-        this.getTypes = function() {
+
+        /**
+         * Returns a list of loaded IFC entity types in the model.
+         * 
+         * @method getTypes
+         * @returns {Array} List of loaded IFC entity types, with visibility flag
+         */
+        this.getTypes = function () {
             return viewer.getTypes();
         };
 
-        this.getObjectsByType = function(){
+        this.getObjectsByType = function () {
             return viewer.objects_by_type;
         };
 
@@ -449,14 +477,14 @@ define(["./Notifier", "./BimServerModel", "./PreloadQuery", "./BimServerGeometry
          * @param {Object} result Existing boundary object
          * @returns {Object} World boundary of object, containing {obb, aabb, center, sphere} properties. See xeogl.Boundary3D
          */
-        this.getWorldBoundary = function(objectId, result) {
+        this.getWorldBoundary = function (objectId, result) {
             return viewer.getWorldBoundary(objectId, result);
         };
 
-       /**
+        /**
          * Destroys the BIMSurfer
          */
-        this.destroy = function() {
+        this.destroy = function () {
             viewer.destroy();
         };
     }

@@ -49,8 +49,7 @@
             var value = head[index];
             if (index < 0) {
                 delete head[index++];
-            }
-            else {
+            } else {
                 head[index++] = undefined;
             }
             this.length--;
@@ -99,7 +98,11 @@
                 return info;
             }
 
-            var gl = canvas.getContext("webgl", {antialias: true}) || canvas.getContext("experimental-webgl", {antialias: true});
+            var gl = canvas.getContext("webgl", {
+                antialias: true
+            }) || canvas.getContext("experimental-webgl", {
+                antialias: true
+            });
 
             info.WEBGL = !!gl;
 
@@ -396,8 +399,8 @@
             // to register itself on xeogl
 
             return this._scene || (this._scene = new window.xeogl.Scene({
-                    id: "default.scene"
-                }));
+                id: "default.scene"
+            }));
         },
 
         set scene(value) {
@@ -744,7 +747,55 @@
 
 })
 ();
-;/*
+var getSceneAABB = function (scene) {
+    var newAABB = new Float32Array(6);
+    // console.log(scene);
+    for (var index in scene.entities) {
+        if (scene.entities[index].id !== "DEFAULTBASEPLANE_XY" && scene.entities[index].id !== "DEFAULTGRIDPLANE_1" && scene.entities[index].id !== "DEFAULTGRIDPLANE_2") {
+            if (scene.entities[index].geometry !== undefined) {
+                if(index === 0)
+                {
+                    newAABB[0] = scene.entities[index].aabb[0]; //x min
+                    newAABB[1] = scene.entities[index].aabb[1]; //y min
+                    newAABB[2] = scene.entities[index].aabb[2]; //z min
+                    newAABB[3] = scene.entities[index].aabb[3];
+                    newAABB[4] = scene.entities[index].aabb[4];
+                    newAABB[5] = scene.entities[index].aabb[5];
+                    continue;
+                }
+                if (scene.entities[index].aabb[0] < newAABB[0]) {
+                    newAABB[0] = scene.entities[index].aabb[0];
+                }
+
+                if (scene.entities[index].aabb[1] < newAABB[1]) {
+                    newAABB[1] = scene.entities[index].aabb[1];
+                }
+
+                if (scene.entities[index].aabb[0] < newAABB[2]) {
+                    newAABB[2] = scene.entities[index].aabb[2];
+                }
+
+                if (scene.entities[index].aabb[3] > newAABB[3]) {
+                    newAABB[3] = scene.entities[index].aabb[3];
+                }
+
+                if (scene.entities[index].aabb[4] > newAABB[4]) {
+                    newAABB[4] = scene.entities[index].aabb[4];
+                }
+
+                if (scene.entities[index].aabb[5] > newAABB[5]) {
+                    newAABB[5] = scene.entities[index].aabb[5];
+                }
+            }
+        }
+    }
+
+    return newAABB;
+}
+
+
+;
+/*
  * Canvas2Image v0.1
  * Copyright (c) 2008 Jacob Seidelin, cupboy@gmail.com
  * MIT License [http://www.opensource.org/licenses/mit-license.php]
@@ -760,12 +811,9 @@ var Canvas2Image = (function () {
     // no canvas, bail out.
     if (!oCanvas.getContext) {
         return {
-            saveAsBMP: function () {
-            },
-            saveAsPNG: function () {
-            },
-            saveAsJPEG: function () {
-            }
+            saveAsBMP: function () {},
+            saveAsPNG: function () {},
+            saveAsJPEG: function () {}
         }
     }
 
@@ -860,8 +908,8 @@ var Canvas2Image = (function () {
                 strPixelRow += sc(
                     aImgData[iOffsetY + iOffsetX + 2], // B
                     aImgData[iOffsetY + iOffsetX + 1], // G
-                    aImgData[iOffsetY + iOffsetX],     // R
-                    aImgData[iOffsetY + iOffsetX + 3]  // A
+                    aImgData[iOffsetY + iOffsetX], // R
+                    aImgData[iOffsetY + iOffsetX + 3] // A
                 );
             }
             strPixelData += strPixelRow;
@@ -956,7 +1004,8 @@ var Canvas2Image = (function () {
             return true;
         }
     };
-})();;/*
+})();;
+/*
  Based on Simple JavaScript Inheritance
  By John Resig http://ejohn.org/
  MIT Licensed.
@@ -966,11 +1015,12 @@ var Canvas2Image = (function () {
 
     var initializing = false;
 
-    var fnTest = /xyz/.test(function () {xyz;}) ? /\b_super\b/ : /.*/;
+    var fnTest = /xyz/.test(function () {
+        xyz;
+    }) ? /\b_super\b/ : /.*/;
 
     // The base Class implementation (does nothing)
-    this.Class = function () {
-    };
+    this.Class = function () {};
 
     // Create a new Class that inherits from this class
     Class.extend = function (prop) {
@@ -1090,7 +1140,8 @@ var Canvas2Image = (function () {
         // http://www.broofa.com/Tools/Math.uuid.htm
         var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
         var uuid = new Array(36);
-        var rnd = 0, r;
+        var rnd = 0,
+            r;
         return function () {
             for (var i = 0; i < 36; i++) {
                 if (i === 8 || i === 13 || i === 18 || i === 23) {
@@ -1099,11 +1150,11 @@ var Canvas2Image = (function () {
                     uuid[i] = '4';
                 } else {
                     if (rnd <= 0x02) {
-                        rnd = 0x2000000 + ( Math.random() * 0x1000000 ) | 0;
+                        rnd = 0x2000000 + (Math.random() * 0x1000000) | 0;
                     }
                     r = rnd & 0xf;
                     rnd = rnd >> 4;
-                    uuid[i] = chars[( i === 19 ) ? ( r & 0x3 ) | 0x8 : r];
+                    uuid[i] = chars[(i === 19) ? (r & 0x3) | 0x8 : r];
                 }
             }
             return uuid.join('');
@@ -1111,7 +1162,8 @@ var Canvas2Image = (function () {
     })();
 })();
 
-;xeogl.utils = xeogl.utils || {};
+;
+xeogl.utils = xeogl.utils || {};
 
 /**
  * Generic map of IDs to items - can generate own IDs or accept given IDs. IDs should be strings in order to not
@@ -1158,13 +1210,15 @@ xeogl.utils.Map = function (items, baseId) {
         delete this.items[id];
         return item;
     };
-};
-;/**
+};;
+/**
  * Math utilities.
  *
  * @module xeogl
  * @submodule math
- */;(function () {
+ */
+;
+(function () {
 
     "use strict";
 
@@ -1763,13 +1817,18 @@ xeogl.utils.Map = function (items, baseId) {
          * @return The cross product
          */
         cross3Vec4: function (u, v) {
-            var u0 = u[0], u1 = u[1], u2 = u[2];
-            var v0 = v[0], v1 = v[1], v2 = v[2];
+            var u0 = u[0],
+                u1 = u[1],
+                u2 = u[2];
+            var v0 = v[0],
+                v1 = v[1],
+                v2 = v[2];
             return [
                 u1 * v2 - u2 * v1,
                 u2 * v0 - u0 * v2,
                 u0 * v1 - u1 * v0,
-                0.0];
+                0.0
+            ];
         },
 
         /**
@@ -1784,8 +1843,12 @@ xeogl.utils.Map = function (items, baseId) {
             if (!dest) {
                 dest = u;
             }
-            var x = u[0], y = u[1], z = u[2];
-            var x2 = v[0], y2 = v[1], z2 = v[2];
+            var x = u[0],
+                y = u[1],
+                z = u[2];
+            var x2 = v[0],
+                y2 = v[1],
+                z2 = v[2];
             dest[0] = y * z2 - z * y2;
             dest[1] = z * x2 - x * z2;
             dest[2] = x * y2 - y * x2;
@@ -1932,8 +1995,8 @@ xeogl.utils.Map = function (items, baseId) {
          * @returns {number}
          */
         angleVec3: function (v, w) {
-            var theta = xeogl.math.dotVec3(v, w) / ( Math.sqrt(xeogl.math.sqLenVec3(v) * xeogl.math.sqLenVec3(w)) );
-            theta = theta < -1 ? -1 : (theta > 1 ? 1 : theta);  // Clamp to handle numerical problems
+            var theta = xeogl.math.dotVec3(v, w) / (Math.sqrt(xeogl.math.sqLenVec3(v) * xeogl.math.sqLenVec3(w)));
+            theta = theta < -1 ? -1 : (theta > 1 ? 1 : theta); // Clamp to handle numerical problems
             return Math.acos(theta);
         },
 
@@ -2333,15 +2396,39 @@ xeogl.utils.Map = function (items, baseId) {
             }
 
             // Cache the matrix values (makes for huge speed increases!)
-            var a00 = a[0], a01 = a[1], a02 = a[2], a03 = a[3];
-            var a10 = a[4], a11 = a[5], a12 = a[6], a13 = a[7];
-            var a20 = a[8], a21 = a[9], a22 = a[10], a23 = a[11];
-            var a30 = a[12], a31 = a[13], a32 = a[14], a33 = a[15];
+            var a00 = a[0],
+                a01 = a[1],
+                a02 = a[2],
+                a03 = a[3];
+            var a10 = a[4],
+                a11 = a[5],
+                a12 = a[6],
+                a13 = a[7];
+            var a20 = a[8],
+                a21 = a[9],
+                a22 = a[10],
+                a23 = a[11];
+            var a30 = a[12],
+                a31 = a[13],
+                a32 = a[14],
+                a33 = a[15];
 
-            var b00 = b[0], b01 = b[1], b02 = b[2], b03 = b[3];
-            var b10 = b[4], b11 = b[5], b12 = b[6], b13 = b[7];
-            var b20 = b[8], b21 = b[9], b22 = b[10], b23 = b[11];
-            var b30 = b[12], b31 = b[13], b32 = b[14], b33 = b[15];
+            var b00 = b[0],
+                b01 = b[1],
+                b02 = b[2],
+                b03 = b[3];
+            var b10 = b[4],
+                b11 = b[5],
+                b12 = b[6],
+                b13 = b[7];
+            var b20 = b[8],
+                b21 = b[9],
+                b22 = b[10],
+                b23 = b[11];
+            var b30 = b[12],
+                b31 = b[13],
+                b32 = b[14],
+                b33 = b[15];
 
             dest[0] = b00 * a00 + b01 * a10 + b02 * a20 + b03 * a30;
             dest[1] = b00 * a01 + b01 * a11 + b02 * a21 + b03 * a31;
@@ -2374,13 +2461,25 @@ xeogl.utils.Map = function (items, baseId) {
                 dest = new Float32Array(9);
             }
 
-            var a11 = a[0], a12 = a[3], a13 = a[6];
-            var a21 = a[1], a22 = a[4], a23 = a[7];
-            var a31 = a[2], a32 = a[5], a33 = a[8];
+            var a11 = a[0],
+                a12 = a[3],
+                a13 = a[6];
+            var a21 = a[1],
+                a22 = a[4],
+                a23 = a[7];
+            var a31 = a[2],
+                a32 = a[5],
+                a33 = a[8];
 
-            var b11 = b[0], b12 = b[3], b13 = b[6];
-            var b21 = b[1], b22 = b[4], b23 = b[7];
-            var b31 = b[2], b32 = b[5], b33 = b[8];
+            var b11 = b[0],
+                b12 = b[3],
+                b13 = b[6];
+            var b21 = b[1],
+                b22 = b[4],
+                b23 = b[7];
+            var b31 = b[2],
+                b32 = b[5],
+                b33 = b[8];
 
             dest[0] = a11 * b11 + a12 * b21 + a13 * b31;
             dest[3] = a11 * b12 + a12 * b22 + a13 * b32;
@@ -2432,8 +2531,11 @@ xeogl.utils.Map = function (items, baseId) {
          */
         mulMat4v4: function (m, v, dest) {
             dest = dest || math.vec4();
-            var v0 = v[0], v1 = v[1], v2 = v[2], v3 = v[3];
-            dest[0] =  m[0] * v0 + m[4] * v1 + m[8] * v2 + m[12] * v3;
+            var v0 = v[0],
+                v1 = v[1],
+                v2 = v[2],
+                v3 = v[3];
+            dest[0] = m[0] * v0 + m[4] * v1 + m[8] * v2 + m[12] * v3;
             dest[1] = m[1] * v0 + m[5] * v1 + m[9] * v2 + m[13] * v3;
             dest[2] = m[2] * v0 + m[6] * v1 + m[10] * v2 + m[14] * v3;
             dest[3] = m[3] * v0 + m[7] * v1 + m[11] * v2 + m[15] * v3;
@@ -2447,11 +2549,18 @@ xeogl.utils.Map = function (items, baseId) {
          */
         transposeMat4: function (mat, dest) {
             // If we are transposing ourselves we can skip a few steps but have to cache some values
-            var m4 = mat[4], m14 = mat[14], m8 = mat[8];
-            var m13 = mat[13], m12 = mat[12], m9 = mat[9];
+            var m4 = mat[4],
+                m14 = mat[14],
+                m8 = mat[8];
+            var m13 = mat[13],
+                m12 = mat[12],
+                m9 = mat[9];
             if (!dest || mat === dest) {
-                var a01 = mat[1], a02 = mat[2], a03 = mat[3];
-                var a12 = mat[6], a13 = mat[7];
+                var a01 = mat[1],
+                    a02 = mat[2],
+                    a03 = mat[3];
+                var a12 = mat[6],
+                    a13 = mat[7];
                 var a23 = mat[11];
                 mat[1] = m4;
                 mat[2] = m8;
@@ -2493,10 +2602,22 @@ xeogl.utils.Map = function (items, baseId) {
          */
         determinantMat4: function (mat) {
             // Cache the matrix values (makes for huge speed increases!)
-            var a00 = mat[0], a01 = mat[1], a02 = mat[2], a03 = mat[3];
-            var a10 = mat[4], a11 = mat[5], a12 = mat[6], a13 = mat[7];
-            var a20 = mat[8], a21 = mat[9], a22 = mat[10], a23 = mat[11];
-            var a30 = mat[12], a31 = mat[13], a32 = mat[14], a33 = mat[15];
+            var a00 = mat[0],
+                a01 = mat[1],
+                a02 = mat[2],
+                a03 = mat[3];
+            var a10 = mat[4],
+                a11 = mat[5],
+                a12 = mat[6],
+                a13 = mat[7];
+            var a20 = mat[8],
+                a21 = mat[9],
+                a22 = mat[10],
+                a23 = mat[11];
+            var a30 = mat[12],
+                a31 = mat[13],
+                a32 = mat[14],
+                a33 = mat[15];
             return a30 * a21 * a12 * a03 - a20 * a31 * a12 * a03 - a30 * a11 * a22 * a03 + a10 * a31 * a22 * a03 +
                 a20 * a11 * a32 * a03 - a10 * a21 * a32 * a03 - a30 * a21 * a02 * a13 + a20 * a31 * a02 * a13 +
                 a30 * a01 * a22 * a13 - a00 * a31 * a22 * a13 - a20 * a01 * a32 * a13 + a00 * a21 * a32 * a13 +
@@ -2515,10 +2636,22 @@ xeogl.utils.Map = function (items, baseId) {
                 dest = mat;
             }
             // Cache the matrix values (makes for huge speed increases!)
-            var a00 = mat[0], a01 = mat[1], a02 = mat[2], a03 = mat[3];
-            var a10 = mat[4], a11 = mat[5], a12 = mat[6], a13 = mat[7];
-            var a20 = mat[8], a21 = mat[9], a22 = mat[10], a23 = mat[11];
-            var a30 = mat[12], a31 = mat[13], a32 = mat[14], a33 = mat[15];
+            var a00 = mat[0],
+                a01 = mat[1],
+                a02 = mat[2],
+                a03 = mat[3];
+            var a10 = mat[4],
+                a11 = mat[5],
+                a12 = mat[6],
+                a13 = mat[7];
+            var a20 = mat[8],
+                a21 = mat[9],
+                a22 = mat[10],
+                a23 = mat[11];
+            var a30 = mat[12],
+                a31 = mat[13],
+                a32 = mat[14],
+                a33 = mat[15];
             var b00 = a00 * a11 - a01 * a10;
             var b01 = a00 * a12 - a02 * a10;
             var b02 = a00 * a13 - a03 * a10;
@@ -2910,9 +3043,15 @@ xeogl.utils.Map = function (items, baseId) {
 
             // Assumes the upper 3x3 of m is a pure rotation matrix (i.e, unscaled)
 
-            var m11 = mat[0], m12 = mat[4], m13 = mat[8];
-            var m21 = mat[1], m22 = mat[5], m23 = mat[9];
-            var m31 = mat[2], m32 = mat[6], m33 = mat[10];
+            var m11 = mat[0],
+                m12 = mat[4],
+                m13 = mat[8];
+            var m21 = mat[1],
+                m22 = mat[5],
+                m23 = mat[9];
+            var m31 = mat[2],
+                m32 = mat[6],
+                m33 = mat[10];
 
             if (order === 'XYZ') {
 
@@ -3150,7 +3289,9 @@ xeogl.utils.Map = function (items, baseId) {
 
             var t = 2.0 * fmin4[2];
 
-            var tempMat20 = tempMat2[0], tempMat21 = tempMat2[1], tempMat22 = tempMat2[2];
+            var tempMat20 = tempMat2[0],
+                tempMat21 = tempMat2[1],
+                tempMat22 = tempMat2[2];
 
             m[0] = t / tempMat20;
             m[1] = 0.0;
@@ -3273,10 +3414,22 @@ xeogl.utils.Map = function (items, baseId) {
             var pi;
 
             // cache values
-            var m0 = m[0], m1 = m[1], m2 = m[2], m3 = m[3];
-            var m4 = m[4], m5 = m[5], m6 = m[6], m7 = m[7];
-            var m8 = m[8], m9 = m[9], m10 = m[10], m11 = m[11];
-            var m12 = m[12], m13 = m[13], m14 = m[14], m15 = m[15];
+            var m0 = m[0],
+                m1 = m[1],
+                m2 = m[2],
+                m3 = m[3];
+            var m4 = m[4],
+                m5 = m[5],
+                m6 = m[6],
+                m7 = m[7];
+            var m8 = m[8],
+                m9 = m[9],
+                m10 = m[10],
+                m11 = m[11];
+            var m12 = m[12],
+                m13 = m[13],
+                m14 = m[14],
+                m15 = m[15];
 
             var r;
 
@@ -3404,7 +3557,9 @@ xeogl.utils.Map = function (items, baseId) {
          * @static
          */
         transformVec3: function (m, v, dest) {
-            var v0 = v[0], v1 = v[1], v2 = v[2];
+            var v0 = v[0],
+                v1 = v[1],
+                v2 = v[2];
             dest = dest || this.vec3();
             dest[0] = (m[0] * v0) + (m[4] * v1) + (m[8] * v2);
             dest[1] = (m[1] * v0) + (m[5] * v1) + (m[9] * v2);
@@ -3418,7 +3573,10 @@ xeogl.utils.Map = function (items, baseId) {
          * @static
          */
         transformVec4: function (m, v, dest) {
-            var v0 = v[0], v1 = v[1], v2 = v[2], v3 = v[3];
+            var v0 = v[0],
+                v1 = v[1],
+                v2 = v[2],
+                v3 = v[3];
             dest = dest || math.vec4();
             dest[0] = m[0] * v0 + m[4] * v1 + m[8] * v2 + m[12] * v3;
             dest[1] = m[1] * v0 + m[5] * v1 + m[9] * v2 + m[13] * v3;
@@ -3440,7 +3598,8 @@ xeogl.utils.Map = function (items, baseId) {
          */
         rotateVec3X: function (a, b, c, dest) {
 
-            var p = [], r = [];
+            var p = [],
+                r = [];
 
             //Translate point to the origin
             p[0] = a[0] - b[0];
@@ -3473,7 +3632,8 @@ xeogl.utils.Map = function (items, baseId) {
          */
         rotateVec3Y: function (a, b, c, dest) {
 
-            var p = [], r = [];
+            var p = [],
+                r = [];
 
             //Translate point to the origin
             p[0] = a[0] - b[0];
@@ -3506,7 +3666,8 @@ xeogl.utils.Map = function (items, baseId) {
          */
         rotateVec3Z: function (a, b, c, dest) {
 
-            var p = [], r = [];
+            var p = [],
+                r = [];
 
             //Translate point to the origin
             p[0] = a[0] - b[0];
@@ -3713,35 +3874,35 @@ xeogl.utils.Map = function (items, baseId) {
                 s = 0.5 / Math.sqrt(trace + 1.0);
 
                 dest[3] = 0.25 / s;
-                dest[0] = ( m32 - m23 ) * s;
-                dest[1] = ( m13 - m31 ) * s;
-                dest[2] = ( m21 - m12 ) * s;
+                dest[0] = (m32 - m23) * s;
+                dest[1] = (m13 - m31) * s;
+                dest[2] = (m21 - m12) * s;
 
             } else if (m11 > m22 && m11 > m33) {
 
                 s = 2.0 * Math.sqrt(1.0 + m11 - m22 - m33);
 
-                dest[3] = ( m32 - m23 ) / s;
+                dest[3] = (m32 - m23) / s;
                 dest[0] = 0.25 * s;
-                dest[1] = ( m12 + m21 ) / s;
-                dest[2] = ( m13 + m31 ) / s;
+                dest[1] = (m12 + m21) / s;
+                dest[2] = (m13 + m31) / s;
 
             } else if (m22 > m33) {
 
                 s = 2.0 * Math.sqrt(1.0 + m22 - m11 - m33);
 
-                dest[3] = ( m13 - m31 ) / s;
-                dest[0] = ( m12 + m21 ) / s;
+                dest[3] = (m13 - m31) / s;
+                dest[0] = (m12 + m21) / s;
                 dest[1] = 0.25 * s;
-                dest[2] = ( m23 + m32 ) / s;
+                dest[2] = (m23 + m32) / s;
 
             } else {
 
                 s = 2.0 * Math.sqrt(1.0 + m33 - m11 - m22);
 
-                dest[3] = ( m21 - m12 ) / s;
-                dest[0] = ( m13 + m31 ) / s;
-                dest[1] = ( m23 + m32 ) / s;
+                dest[3] = (m21 - m12) / s;
+                dest[0] = (m13 + m31) / s;
+                dest[1] = (m23 + m32) / s;
                 dest[2] = 0.25 * s;
             }
 
@@ -3810,8 +3971,14 @@ xeogl.utils.Map = function (items, baseId) {
 
         mulQuaternions: function (p, q, dest) {
             dest = dest || math.vec4();
-            var p0 = p[0], p1 = p[1], p2 = p[2], p3 = p[3];
-            var q0 = q[0], q1 = q[1], q2 = q[2], q3 = q[3];
+            var p0 = p[0],
+                p1 = p[1],
+                p2 = p[2],
+                p3 = p[3];
+            var q0 = q[0],
+                q1 = q[1],
+                q2 = q[2],
+                q3 = q[3];
             dest[0] = p3 * q0 + p0 * q3 + p1 * q2 - p2 * q1;
             dest[1] = p3 * q1 + p1 * q3 + p2 * q0 - p0 * q2;
             dest[2] = p3 * q2 + p2 * q3 + p0 * q1 - p1 * q0;
@@ -3852,10 +4019,10 @@ xeogl.utils.Map = function (items, baseId) {
 
             dest = math.identityMat4(dest);
 
-            var q0 = q[0];  //x
-            var q1 = q[1];  //y
-            var q2 = q[2];  //z
-            var q3 = q[3];  //w
+            var q0 = q[0]; //x
+            var q1 = q[1]; //y
+            var q2 = q[2]; //z
+            var q3 = q[3]; //w
 
             var tx = 2.0 * q0;
             var ty = 2.0 * q1;
@@ -3896,22 +4063,30 @@ xeogl.utils.Map = function (items, baseId) {
             var z = q[2];
             var w = q[3];
 
-            var x2 = x + x, y2 = y + y, z2 = z + z;
-            var xx = x * x2, xy = x * y2, xz = x * z2;
-            var yy = y * y2, yz = y * z2, zz = z * z2;
-            var wx = w * x2, wy = w * y2, wz = w * z2;
+            var x2 = x + x,
+                y2 = y + y,
+                z2 = z + z;
+            var xx = x * x2,
+                xy = x * y2,
+                xz = x * z2;
+            var yy = y * y2,
+                yz = y * z2,
+                zz = z * z2;
+            var wx = w * x2,
+                wy = w * y2,
+                wz = w * z2;
 
-            m[0] = 1 - ( yy + zz );
+            m[0] = 1 - (yy + zz);
             m[4] = xy - wz;
             m[8] = xz + wy;
 
             m[1] = xy + wz;
-            m[5] = 1 - ( xx + zz );
+            m[5] = 1 - (xx + zz);
             m[9] = yz - wx;
 
             m[2] = xz - wy;
             m[6] = yz + wx;
-            m[10] = 1 - ( xx + yy );
+            m[10] = 1 - (xx + yy);
 
             // last column
             m[3] = 0;
@@ -4037,7 +4212,8 @@ xeogl.utils.Map = function (items, baseId) {
         }
     };
 
-})();;/**
+})();;
+/**
  * Boundary math functions.
  */
 (function () {
@@ -4204,9 +4380,9 @@ xeogl.utils.Map = function (items, baseId) {
     math.getAABB3Center = function (aabb, dest) {
         var r = dest || math.vec3();
 
-        r[0] = (aabb[0] + aabb[3] ) / 2;
-        r[1] = (aabb[1] + aabb[4] ) / 2;
-        r[2] = (aabb[2] + aabb[5] ) / 2;
+        r[0] = (aabb[0] + aabb[3]) / 2;
+        r[1] = (aabb[1] + aabb[4]) / 2;
+        r[2] = (aabb[2] + aabb[5]) / 2;
 
         return r;
     };
@@ -4219,8 +4395,8 @@ xeogl.utils.Map = function (items, baseId) {
     math.getAABB2Center = function (aabb, dest) {
         var r = dest || math.vec2();
 
-        r[0] = (aabb[2] + aabb[0] ) / 2;
-        r[1] = (aabb[3] + aabb[1] ) / 2;
+        r[0] = (aabb[2] + aabb[0]) / 2;
+        r[1] = (aabb[3] + aabb[1]) / 2;
 
         return r;
     };
@@ -4303,7 +4479,7 @@ xeogl.utils.Map = function (items, baseId) {
      *
      * @private
      */
-    math.positions3ToAABB3 = (function() {
+    math.positions3ToAABB3 = (function () {
 
         var p = new Float32Array(3);
 
@@ -4821,7 +4997,8 @@ xeogl.utils.Map = function (items, baseId) {
         return aabb2;
     };
 
-})();;/**
+})();;
+/**
  * Geometry math functions.
  */
 (function () {
@@ -4870,7 +5047,7 @@ xeogl.utils.Map = function (items, baseId) {
      *
      * @private
      */
-    math.rayTriangleIntersect = (function() {
+    math.rayTriangleIntersect = (function () {
 
         var tempVec3 = new Float32Array(3);
         var tempVec3b = new Float32Array(3);
@@ -4919,7 +5096,7 @@ xeogl.utils.Map = function (items, baseId) {
      *
      * @private
      */
-    math.rayPlaneIntersect = (function() {
+    math.rayPlaneIntersect = (function () {
 
         var tempVec3 = new Float32Array(3);
         var tempVec3b = new Float32Array(3);
@@ -4956,7 +5133,7 @@ xeogl.utils.Map = function (items, baseId) {
      *
      * @private
      */
-    math.cartesianToBarycentric = (function() {
+    math.cartesianToBarycentric = (function () {
 
         var tempVec3 = new Float32Array(3);
         var tempVec3b = new Float32Array(3);
@@ -4974,7 +5151,7 @@ xeogl.utils.Map = function (items, baseId) {
             var dot11 = math.dotVec3(v1, v1);
             var dot12 = math.dotVec3(v1, v2);
 
-            var denom = ( dot00 * dot11 - dot01 * dot01 );
+            var denom = (dot00 * dot11 - dot01 * dot01);
 
             // Colinear or singular triangle
 
@@ -4987,8 +5164,8 @@ xeogl.utils.Map = function (items, baseId) {
 
             var invDenom = 1 / denom;
 
-            var u = ( dot11 * dot02 - dot01 * dot12 ) * invDenom;
-            var v = ( dot00 * dot12 - dot01 * dot02 ) * invDenom;
+            var u = (dot11 * dot02 - dot01 * dot12) * invDenom;
+            var v = (dot00 * dot12 - dot01 * dot02) * invDenom;
 
             dest[0] = 1 - u - v;
             dest[1] = v;
@@ -5031,7 +5208,8 @@ xeogl.utils.Map = function (items, baseId) {
         return cartesian;
     };
 
-})();;/**
+})();;
+/**
  * Boundary math functions.
  */
 (function () {
@@ -5110,7 +5288,7 @@ xeogl.utils.Map = function (items, baseId) {
             var y;
             var z;
 
-            for (i = 0, len = nvecs.length; i < len; i++) {  // Now go through and average out everything
+            for (i = 0, len = nvecs.length; i < len; i++) { // Now go through and average out everything
 
                 count = nvecs[i].length;
 
@@ -5219,8 +5397,8 @@ xeogl.utils.Map = function (items, baseId) {
         var pickPositions = quantized ? new Uint16Array(numIndices * 30) : new Float32Array(numIndices * 30); // FIXME: Why do we need to extend size like this to make large meshes pickable?
         var pickColors = new Uint8Array(numIndices * 40);
         var primIndex = 0;
-        var vi;// Positions array index
-        var pvi;// Picking positions array index
+        var vi; // Positions array index
+        var pvi; // Picking positions array index
         var pci; // Picking color array index
 
         // Triangle indices
@@ -5360,7 +5538,7 @@ xeogl.utils.Map = function (items, baseId) {
             var indicesDup = [indices[i + 0], indices[i + 1], indices[i + 2]];
 
             for (var n = 0; n < 3; n++) {
-                if (indicesDup[n] === indicesDup[( n + 1 ) % 3]) {
+                if (indicesDup[n] === indicesDup[(n + 1) % 3]) {
                     faceIndicesToRemove.push(i);
                     break;
                 }
@@ -5492,7 +5670,8 @@ xeogl.utils.Map = function (items, baseId) {
 
         }
     };
-}());;/**
+}());;
+/**
  * Curve math functions.
  */
 (function () {
@@ -5502,7 +5681,7 @@ xeogl.utils.Map = function (items, baseId) {
     var math = xeogl.math;
 
     math.tangentQuadraticBezier = function (t, p0, p1, p2) {
-        return 2 * ( 1 - t ) * ( p1 - p0 ) + 2 * t * ( p2 - p1 );
+        return 2 * (1 - t) * (p1 - p0) + 2 * t * (p2 - p1);
     };
 
     math.tangentQuadraticBezier = function (t, p0, p1, p2, p3) {
@@ -5521,11 +5700,11 @@ xeogl.utils.Map = function (items, baseId) {
     };
 
     math.catmullRomInterpolate = function (p0, p1, p2, p3, t) {
-        var v0 = ( p2 - p0 ) * 0.5;
-        var v1 = ( p3 - p1 ) * 0.5;
+        var v0 = (p2 - p0) * 0.5;
+        var v1 = (p3 - p1) * 0.5;
         var t2 = t * t;
         var t3 = t * t2;
-        return ( 2 * p1 - 2 * p2 + v0 + v1 ) * t3 + ( -3 * p1 + 3 * p2 - 2 * v0 - v1 ) * t2 + v0 * t + p1;
+        return (2 * p1 - 2 * p2 + v0 + v1) * t3 + (-3 * p1 + 3 * p2 - 2 * v0 - v1) * t2 + v0 * t + p1;
     };
 
     // Bezier Curve formulii from http://en.wikipedia.org/wiki/B%C3%A9zier_curve
@@ -5539,7 +5718,7 @@ xeogl.utils.Map = function (items, baseId) {
     };
 
     math.b2p1 = function (t, p) {
-        return 2 * ( 1 - t ) * t * p;
+        return 2 * (1 - t) * t * p;
     };
 
     math.b2p2 = function (t, p) {
@@ -5574,7 +5753,8 @@ xeogl.utils.Map = function (items, baseId) {
     math.b3 = function (t, p0, p1, p2, p3) {
         return this.b3p0(t, p0) + this.b3p1(t, p1) + this.b3p2(t, p2) + this.b3p3(t, p3);
     };
-})();;/**
+})();;
+/**
  * Ray casting support functions.
  */
 (function () {
@@ -5617,7 +5797,7 @@ xeogl.utils.Map = function (items, baseId) {
             var canvasWidth = canvas.width;
             var canvasHeight = canvas.height;
 
-            var clipX = (canvasPos[0] - canvasWidth / 2) / (canvasWidth / 2);  // Calculate clip space coordinates
+            var clipX = (canvasPos[0] - canvasWidth / 2) / (canvasWidth / 2); // Calculate clip space coordinates
             var clipY = -(canvasPos[1] - canvasHeight / 2) / (canvasHeight / 2);
 
             tempVec4a[0] = clipX;
@@ -5702,7 +5882,8 @@ xeogl.utils.Map = function (items, baseId) {
             math.transformVec3(modelMatInverse, worldRayDir, localRayDir);
         };
     })();
-})();;/**
+})();;
+/**
  * KD-tree functions
  */
 (function () {
@@ -5828,7 +6009,8 @@ xeogl.utils.Map = function (items, baseId) {
         return node;
     }
 
-})();;/**
+})();;
+/**
  * @author xeolabs / https://github.com/xeolabs
  */
 
@@ -6769,7 +6951,10 @@ xeogl.renderer.Renderer = function (stats, canvas, gl, options) {
         readPixelBuf.bind();
         readPixelBuf.clear();
 
-        this.render({force: true, opaqueOnly: opaqueOnly});
+        this.render({
+            force: true,
+            opaqueOnly: opaqueOnly
+        });
 
         var color;
         var i;
@@ -6798,8 +6983,8 @@ xeogl.renderer.Renderer = function (stats, canvas, gl, options) {
             readPixelBuf.destroy();
         }
     };
-};
-;/**
+};;
+/**
  * @author xeolabs / https://github.com/xeolabs
  */
 
@@ -6855,8 +7040,8 @@ xeogl.renderer.webgl = {
         compareRToTexture: "COMPARE_R_TO_TEXTURE", // Hardware Shadowing Z-depth,
         unsignedByte: "UNSIGNED_BYTE"
     }
-};
-;/**
+};;
+/**
  * @author xeolabs / https://github.com/xeolabs
  */
 
@@ -6891,7 +7076,8 @@ xeogl.renderer.Object = function (id, entityId, gl, scene, material, ghostMateri
     this._pickVertex = null;
 
     this._draw = xeogl.renderer.DrawRenderer.create(this.gl, [this.gl.canvas.id, (this.scene.gammaOutput ? "gam" : ""), this.scene.lights.hash,
-        this.scene.clips.hash, this.geometry.hash, this.material.hash, this.modes.hash].join(";"), this.scene, this);
+        this.scene.clips.hash, this.geometry.hash, this.material.hash, this.modes.hash
+    ].join(";"), this.scene, this);
     if (this._draw.errors) {
         this.errors = (this.errors || []).concat(this._draw.errors);
         console.error(this._draw.errors.join("\n"));
@@ -6899,11 +7085,12 @@ xeogl.renderer.Object = function (id, entityId, gl, scene, material, ghostMateri
 };
 
 xeogl.renderer.Object.compareState = function (a, b) {
-    return (a.modes.layer - b.modes.layer)
-        || (a._draw.id - b._draw.id)
-        || (a.material.id - b.material.id)  // TODO: verify which of material and vertexBufs should be highest order
-        || (a.vertexBufs.id - b.vertexBufs.id)
-        || (a.geometry.id - b.geometry.id);
+    return (a.modes.layer - b.modes.layer) ||
+        (a._draw.id - b._draw.id) ||
+        (a.material.id - b.material.id) // TODO: verify which of material and vertexBufs should be highest order
+        ||
+        (a.vertexBufs.id - b.vertexBufs.id) ||
+        (a.geometry.id - b.geometry.id);
 };
 
 xeogl.renderer.Object.prototype._getSceneHash = function () {
@@ -7126,7 +7313,8 @@ xeogl.renderer.Object.prototype.destroy = function () {
         this._pickVertex.destroy();
         this._pickVertex = null;
     }
-};;/**
+};;
+/**
  * @author xeolabs / https://github.com/xeolabs
  */
 
@@ -7156,7 +7344,8 @@ xeogl.renderer.Frame.prototype.reset = function () {
     this.pickViewMatrix = null;
     this.pickProjMatrix = null;
     this.pickObjectIndex = 1;
-};;/**
+};;
+/**
  * @author xeolabs / https://github.com/xeolabs
  */
 
@@ -7335,8 +7524,8 @@ xeogl.renderer.Frame.prototype.reset = function () {
         this.samplers = null;
         this.allocated = false;
     };
-})();
-;/**
+})();;
+/**
  * @author xeolabs / https://github.com/xeolabs
  */
 
@@ -7348,7 +7537,8 @@ xeogl.renderer.Sampler = function (gl, location) {
         }
         return false;
     };
-};;/**
+};;
+/**
  * @author xeolabs / https://github.com/xeolabs
  */
 
@@ -7391,7 +7581,8 @@ xeogl.renderer.Shader = function (gl, type, source) {
 
 xeogl.renderer.Shader.prototype.destroy = function () {
 
-};;/**
+};;
+/**
  * @author xeolabs / https://github.com/xeolabs
  */
 
@@ -7410,30 +7601,76 @@ xeogl.renderer.State = Class.extend({
     }
 });
 
-xeogl.renderer.Visibility = xeogl.renderer.State.extend({_ids: new xeogl.utils.Map({})});
-xeogl.renderer.Cull = xeogl.renderer.State.extend({_ids: new xeogl.utils.Map({})});
-xeogl.renderer.Modes = xeogl.renderer.State.extend({_ids: new xeogl.utils.Map({})});
-xeogl.renderer.Lights = xeogl.renderer.State.extend({_ids: new xeogl.utils.Map({})});
-xeogl.renderer.Light = xeogl.renderer.State.extend({_ids: new xeogl.utils.Map({})});
-xeogl.renderer.LambertMaterial = xeogl.renderer.State.extend({_ids: new xeogl.utils.Map({})});
-xeogl.renderer.PhongMaterial = xeogl.renderer.State.extend({_ids: new xeogl.utils.Map({})});
-xeogl.renderer.SpecularMaterial = xeogl.renderer.State.extend({_ids: new xeogl.utils.Map({})});
-xeogl.renderer.MetallicMaterial = xeogl.renderer.State.extend({_ids: new xeogl.utils.Map({})});
-xeogl.renderer.VerticesMaterial = xeogl.renderer.State.extend({_ids: new xeogl.utils.Map({})});
-xeogl.renderer.EmphasisMaterial = xeogl.renderer.State.extend({_ids: new xeogl.utils.Map({})});
-xeogl.renderer.OutlineMaterial = xeogl.renderer.State.extend({_ids: new xeogl.utils.Map({})});
-xeogl.renderer.HighlightMaterial = xeogl.renderer.State.extend({_ids: new xeogl.utils.Map({})});
-xeogl.renderer.ViewTransform = xeogl.renderer.State.extend({_ids: new xeogl.utils.Map({})});
-xeogl.renderer.ProjTransform = xeogl.renderer.State.extend({_ids: new xeogl.utils.Map({})});
-xeogl.renderer.Transform = xeogl.renderer.State.extend({_ids: new xeogl.utils.Map({})});
-xeogl.renderer.Clips = xeogl.renderer.State.extend({_ids: new xeogl.utils.Map({})});
-xeogl.renderer.Texture = xeogl.renderer.State.extend({_ids: new xeogl.utils.Map({})});
-xeogl.renderer.CubeTexture = xeogl.renderer.State.extend({_ids: new xeogl.utils.Map({})});
-xeogl.renderer.Fresnel = xeogl.renderer.State.extend({_ids: new xeogl.utils.Map({})});
-xeogl.renderer.VertexBufs = xeogl.renderer.State.extend({_ids: new xeogl.utils.Map({})});
-xeogl.renderer.Geometry = xeogl.renderer.State.extend({_ids: new xeogl.utils.Map({})});
-xeogl.renderer.Viewport = xeogl.renderer.State.extend({_ids: new xeogl.utils.Map({})});
-;/**
+xeogl.renderer.Visibility = xeogl.renderer.State.extend({
+    _ids: new xeogl.utils.Map({})
+});
+xeogl.renderer.Cull = xeogl.renderer.State.extend({
+    _ids: new xeogl.utils.Map({})
+});
+xeogl.renderer.Modes = xeogl.renderer.State.extend({
+    _ids: new xeogl.utils.Map({})
+});
+xeogl.renderer.Lights = xeogl.renderer.State.extend({
+    _ids: new xeogl.utils.Map({})
+});
+xeogl.renderer.Light = xeogl.renderer.State.extend({
+    _ids: new xeogl.utils.Map({})
+});
+xeogl.renderer.LambertMaterial = xeogl.renderer.State.extend({
+    _ids: new xeogl.utils.Map({})
+});
+xeogl.renderer.PhongMaterial = xeogl.renderer.State.extend({
+    _ids: new xeogl.utils.Map({})
+});
+xeogl.renderer.SpecularMaterial = xeogl.renderer.State.extend({
+    _ids: new xeogl.utils.Map({})
+});
+xeogl.renderer.MetallicMaterial = xeogl.renderer.State.extend({
+    _ids: new xeogl.utils.Map({})
+});
+xeogl.renderer.VerticesMaterial = xeogl.renderer.State.extend({
+    _ids: new xeogl.utils.Map({})
+});
+xeogl.renderer.EmphasisMaterial = xeogl.renderer.State.extend({
+    _ids: new xeogl.utils.Map({})
+});
+xeogl.renderer.OutlineMaterial = xeogl.renderer.State.extend({
+    _ids: new xeogl.utils.Map({})
+});
+xeogl.renderer.HighlightMaterial = xeogl.renderer.State.extend({
+    _ids: new xeogl.utils.Map({})
+});
+xeogl.renderer.ViewTransform = xeogl.renderer.State.extend({
+    _ids: new xeogl.utils.Map({})
+});
+xeogl.renderer.ProjTransform = xeogl.renderer.State.extend({
+    _ids: new xeogl.utils.Map({})
+});
+xeogl.renderer.Transform = xeogl.renderer.State.extend({
+    _ids: new xeogl.utils.Map({})
+});
+xeogl.renderer.Clips = xeogl.renderer.State.extend({
+    _ids: new xeogl.utils.Map({})
+});
+xeogl.renderer.Texture = xeogl.renderer.State.extend({
+    _ids: new xeogl.utils.Map({})
+});
+xeogl.renderer.CubeTexture = xeogl.renderer.State.extend({
+    _ids: new xeogl.utils.Map({})
+});
+xeogl.renderer.Fresnel = xeogl.renderer.State.extend({
+    _ids: new xeogl.utils.Map({})
+});
+xeogl.renderer.VertexBufs = xeogl.renderer.State.extend({
+    _ids: new xeogl.utils.Map({})
+});
+xeogl.renderer.Geometry = xeogl.renderer.State.extend({
+    _ids: new xeogl.utils.Map({})
+});
+xeogl.renderer.Viewport = xeogl.renderer.State.extend({
+    _ids: new xeogl.utils.Map({})
+});;
+/**
  * @author xeolabs / https://github.com/xeolabs
  */
 
@@ -7441,7 +7678,7 @@ xeogl.renderer.Texture2D = function (gl, target) {
     this.gl = gl;
     this.target = target || gl.TEXTURE_2D;
     this.texture = gl.createTexture();
-    this.setPreloadColor([0,0,0,0]); // Prevents "there is no texture bound to the unit 0" error
+    this.setPreloadColor([0, 0, 0, 0]); // Prevents "there is no texture bound to the unit 0" error
     this.allocated = true;
 };
 
@@ -7644,8 +7881,8 @@ xeogl.renderer.nextHighestPowerOfTwo = function (x) {
         x = x | x >> i;
     }
     return x + 1;
-};
-;/**
+};;
+/**
  * @author xeolabs / https://github.com/xeolabs
  */
 
@@ -7671,12 +7908,12 @@ xeogl.renderer.ArrayBuffer = function (gl, type, data, numItems, itemSize, usage
             this.itemByteSize = 1;
             break;
 
-        case  Uint16Array:
+        case Uint16Array:
             this.itemType = gl.UNSIGNED_SHORT;
             this.itemByteSize = 2;
             break;
 
-        case  Int16Array:
+        case Int16Array:
             this.itemType = gl.SHORT;
             this.itemByteSize = 2;
             break;
@@ -7700,20 +7937,20 @@ xeogl.renderer.ArrayBuffer = function (gl, type, data, numItems, itemSize, usage
     this.length = 0;
     this.numItems = 0;
     this.itemSize = itemSize;
-    console.log(data);
+    // console.log(data);
     this._allocate(data);
 };
 
 xeogl.renderer.ArrayBuffer.prototype._allocate = function (data) {
     this.allocated = false;
     this._handle = this._gl.createBuffer();
-    
+
     if (!this._handle) {
-        console.log(this._gl,this._handle);
+        // console.log(this._gl,this._handle);
         throw "Failed to allocate WebGL ArrayBuffer";
     }
     if (this._handle) {
-        console.log(this._gl,this._handle);
+        // console.log(this._gl,this._handle);
         this._gl.bindBuffer(this.type, this._handle);
         this._gl.bufferData(this.type, data, this.usage);
         this._gl.bindBuffer(this.type, null);
@@ -7727,10 +7964,10 @@ xeogl.renderer.ArrayBuffer.prototype.setData = function (data, offset) {
     if (!this.allocated) {
         return;
     }
-    if (data.length > this.length) {            // Needs reallocation
+    if (data.length > this.length) { // Needs reallocation
         this.destroy();
         this._allocate(data, data.length);
-    } else {            // No reallocation needed
+    } else { // No reallocation needed
         this._gl.bindBuffer(this.type, this._handle);
         if (offset || offset === 0) {
             this._gl.bufferSubData(this.type, offset * this.itemByteSize, data);
@@ -7762,8 +7999,8 @@ xeogl.renderer.ArrayBuffer.prototype.destroy = function () {
     this._gl.deleteBuffer(this._handle);
     this._handle = null;
     this.allocated = false;
-};
-;/**
+};;
+/**
  * @author xeolabs / https://github.com/xeolabs
  */
 
@@ -7788,8 +8025,8 @@ xeogl.renderer.Attribute.prototype.bindArrayBuffer = function (buffer, type) {
         type || this._gl.FLOAT,
         type === this._gl.BYTE,
         0, 0);
-};
-;/**
+};;
+/**
  * @author xeolabs / https://github.com/xeolabs
  */
 
@@ -7977,8 +8214,8 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
         this.buffer = null;
         this.bound = false;
     }
-};
-;/**
+};;
+/**
  * @author xeolabs / https://github.com/xeolabs
  */
 
@@ -8391,7 +8628,7 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
             var clip;
             var uClipPos;
             var uClipDir;
-            for (var i = 0;i < this._uClips.length; i++) {
+            for (var i = 0; i < this._uClips.length; i++) {
                 clipUniforms = this._uClips[i];
                 uClipActive = clipUniforms.active;
                 clip = clips[i];
@@ -9020,19 +9257,19 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
         }
         var material = object.material;
         return !!(material.ambientMap ||
-        material.occlusionMap ||
-        material.baseColorMap ||
-        material.diffuseMap ||
-        material.alphaMap ||
-        material.specularMap ||
-        material.glossinessMap ||
-        material.specularGlossinessMap ||
-        material.emissiveMap ||
-        material.metallicMap ||
-        material.roughnessMap ||
-        material.metallicRoughnessMap ||
-        material.reflectivityMap ||
-        object.material.normalMap);
+            material.occlusionMap ||
+            material.baseColorMap ||
+            material.diffuseMap ||
+            material.alphaMap ||
+            material.specularMap ||
+            material.glossinessMap ||
+            material.specularGlossinessMap ||
+            material.emissiveMap ||
+            material.metallicMap ||
+            material.roughnessMap ||
+            material.metallicRoughnessMap ||
+            material.reflectivityMap ||
+            object.material.normalMap);
     }
 
     function hasReflection(scene) {
@@ -9068,9 +9305,9 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
     }
 
     var TEXTURE_DECODE_FUNCS = {
-        "linear":   "linearToLinear",
-        "sRGB":     "sRGBToLinear",
-        "gamma":    "gammaToLinear"
+        "linear": "linearToLinear",
+        "sRGB": "sRGBToLinear",
+        "gamma": "gammaToLinear"
     };
 
     function buildVertexLambert(gl, cfg, scene, object) {
@@ -9887,19 +10124,19 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
             src.push("varying vec4 vColor;");
         }
 
-        if (geometry.uv && ((geometry.normals && material.normalMap)
-            || material.ambientMap
-            || material.baseColorMap
-            || material.diffuseMap
-            || material.emissiveMap
-            || material.metallicMap
-            || material.roughnessMap
-            || material.metallicRoughnessMap
-            || material.specularMap
-            || material.glossinessMap
-            || material.specularGlossinessMap
-            || material.occlusionMap
-            || material.alphaMap)) {
+        if (geometry.uv && ((geometry.normals && material.normalMap) ||
+                material.ambientMap ||
+                material.baseColorMap ||
+                material.diffuseMap ||
+                material.emissiveMap ||
+                material.metallicMap ||
+                material.roughnessMap ||
+                material.metallicRoughnessMap ||
+                material.specularMap ||
+                material.glossinessMap ||
+                material.specularGlossinessMap ||
+                material.occlusionMap ||
+                material.alphaMap)) {
             src.push("varying vec2 vUV;");
         }
 
@@ -9939,7 +10176,7 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
         }
 
         if (material.shininess !== undefined && material.shininess !== null) {
-            src.push("uniform float materialShininess;");  // Phong channel
+            src.push("uniform float materialShininess;"); // Phong channel
         }
 
         if (material.specular) {
@@ -10072,10 +10309,10 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
         //--------------------------------------------------------------------------------
 
         if (geometry.normals && (material.diffuseFresnel ||
-            material.specularFresnel ||
-            material.alphaFresnel ||
-            material.emissiveFresnel ||
-            material.reflectivityFresnel)) {
+                material.specularFresnel ||
+                material.alphaFresnel ||
+                material.emissiveFresnel ||
+                material.reflectivityFresnel)) {
 
             src.push("float fresnel(vec3 eyeDir, vec3 normal, float edgeBias, float centerBias, float power) {");
             src.push("    float fr = abs(dot(eyeDir, normal));");
@@ -10285,20 +10522,20 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
         // TEXTURING
         //--------------------------------------------------------------------------------
 
-        if (geometry.uv
-            && ((geometry.normals && material.normalMap)
-            || material.ambientMap
-            || material.baseColorMap
-            || material.diffuseMap
-            || material.occlusionMap
-            || material.emissiveMap
-            || material.metallicMap
-            || material.roughnessMap
-            || material.metallicRoughnessMap
-            || material.specularMap
-            || material.glossinessMap
-            || material.specularGlossinessMap
-            || material.alphaMap)) {
+        if (geometry.uv &&
+            ((geometry.normals && material.normalMap) ||
+                material.ambientMap ||
+                material.baseColorMap ||
+                material.diffuseMap ||
+                material.occlusionMap ||
+                material.emissiveMap ||
+                material.metallicMap ||
+                material.roughnessMap ||
+                material.metallicRoughnessMap ||
+                material.specularMap ||
+                material.glossinessMap ||
+                material.specularGlossinessMap ||
+                material.alphaMap)) {
             src.push("vec4 texturePos = vec4(vUV.s, vUV.t, 1.0, 1.0);");
             src.push("vec2 textureCoord;");
         }
@@ -10626,9 +10863,7 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
                 src.push("vec3 outgoingLight = (occlusion * (reflectedLight.diffuse)) + (shadow * occlusion * reflectedLight.specular) + emissiveColor;");
             }
 
-        }
-
-        else {
+        } else {
 
             //--------------------------------------------------------------------------------
             // NO SHADING - EMISSIVE and AMBIENT ONLY
@@ -10649,7 +10884,8 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
 
         return src;
     }
-})();;/**
+})();;
+/**
  * @author xeolabs / https://github.com/xeolabs
  */
 
@@ -10895,8 +11131,8 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
             }
         }
     };
-})();
-;/**
+})();;
+/**
  * @author xeolabs / https://github.com/xeolabs
  */
 
@@ -11069,7 +11305,8 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
         return "lowp";
     }
 
-})();;/**
+})();;
+/**
  * @author xeolabs / https://github.com/xeolabs
  */
 
@@ -11303,8 +11540,8 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
             }
         }
     };
-})();
-;/**
+})();;
+/**
  * @author xeolabs / https://github.com/xeolabs
  */
 
@@ -11320,7 +11557,7 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
         this.vertex = buildVertex(gl, cfg, object);
         this.fragment = buildFragment(gl, cfg, scene);
     };
-    
+
     function buildVertex(gl, cfg, object) {
         var src = [];
 
@@ -11435,7 +11672,8 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
         return "lowp";
     }
 
-})();;/**
+})();;
+/**
  * @author xeolabs / https://github.com/xeolabs
  */
 
@@ -11592,7 +11830,8 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
 
 
 
-;/**
+;
+/**
  * @author xeolabs / https://github.com/xeolabs
  */
 
@@ -11706,7 +11945,8 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
         return "lowp";
     }
 
-})();;/**
+})();;
+/**
  * @author xeolabs / https://github.com/xeolabs
  */
 
@@ -11718,7 +11958,7 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
 
         this._gl = gl;
         this._hash = hash;
-        this._shaderSource = new xeogl.renderer.ShadowShaderSource(gl, scene,  object);
+        this._shaderSource = new xeogl.renderer.ShadowShaderSource(gl, scene, object);
         this._program = new xeogl.renderer.Program(gl, this._shaderSource);
         this._scene = scene;
         this._useCount = 0;
@@ -11935,7 +12175,8 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
 
 
 
-;/**
+;
+/**
  * @author xeolabs / https://github.com/xeolabs
  */
 
@@ -11959,7 +12200,7 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
         var material = object.material;
         return material.alphaMap;
     }
-    
+
     function buildVertex(gl, cfg, scene, object) {
 
         var i;
@@ -12128,7 +12369,8 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
         return "lowp";
     }
 
-})();;/**
+})();;
+/**
  * @author xeolabs / https://github.com/xeolabs
  */
 
@@ -12432,8 +12674,8 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
             }
         }
     };
-})();
-;/**
+})();;
+/**
  * @author xeolabs / https://github.com/xeolabs
  */
 
@@ -12459,7 +12701,7 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
         }
         return false;
     }
-    
+
     function getFragmentFloatPrecision(gl) {
         if (!gl.getShaderPrecisionFormat) {
             return "mediump";
@@ -12724,7 +12966,8 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
         return src;
     }
 
-})();;/**
+})();;
+/**
  * @author xeolabs / https://github.com/xeolabs
  */
 
@@ -12967,8 +13210,8 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
             }
         }
     };
-})();
-;/**
+})();;
+/**
  * @author xeolabs / https://github.com/xeolabs
  */
 
@@ -13065,7 +13308,7 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
             } else {
                 src.push("vec3 localNormal = normal; ");
             }
-       //     src.push("localPosition.xyz +=  localNormal * 0.09; ");
+            //     src.push("localPosition.xyz +=  localNormal * 0.09; ");
         }
 
         src.push("mat4 viewMatrix2 = viewMatrix;");
@@ -13158,7 +13401,8 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
         return src;
     }
 
-})();;/**
+})();;
+/**
  * @author xeolabs / https://github.com/xeolabs
  */
 
@@ -13385,8 +13629,8 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
             frame.drawElements++;
         }
     };
-})();
-;/**
+})();;
+/**
  * @author xeolabs / https://github.com/xeolabs
  */
 
@@ -13401,7 +13645,7 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
             quantizedGeometry: !!object.geometry.quantized,
             gammaOutput: scene.gammaOutput
         };
-        this.vertex =  buildVertex(gl, cfg, scene, object);
+        this.vertex = buildVertex(gl, cfg, scene, object);
         this.fragment = buildFragment(gl, cfg, scene, object);
     };
 
@@ -13512,7 +13756,7 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
         if (cfg.clipping) {
             src.push("vWorldPosition = worldPosition;");
         }
-        
+
         src.push("   gl_Position = projMatrix * viewPosition;");
 
         src.push("}");
@@ -13571,7 +13815,8 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
         return src;
     }
 
-})();;/**
+})();;
+/**
  The **Component** class is the base class for all xeogl components.
 
  ## Usage
@@ -13992,8 +14237,7 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
          * @param cfg
          * @private
          */
-        _init: function (cfg) {
-        },
+        _init: function (cfg) {},
 
         /**
          * Fires an event on this component.
@@ -14634,11 +14878,10 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
          *
          * @protected
          */
-        _destroy: function () {
-        }
+        _destroy: function () {}
     });
-})();
-;/**
+})();;
+/**
  A Scene represents a 3D world.
 
  ## Usage
@@ -15089,7 +15332,6 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
         type: "xeogl.Scene",
 
         _init: function (cfg) {
-
             var self = this;
 
             var transparent = !!cfg.transparent;
@@ -15511,7 +15753,11 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
 
                     clear = clearEachPass || (pass === 0);
 
-                    this._renderer.render({pass: pass, clear: clear, force: forceRender});
+                    this._renderer.render({
+                        pass: pass,
+                        clear: clear,
+                        force: forceRender
+                    });
 
                     /**
                      * Fired when we have just rendered a frame for a Scene.
@@ -15988,9 +16234,9 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
 
                         var aabb = this.aabb;
 
-                        this._center[0] = (aabb[0] + aabb[3] ) / 2;
-                        this._center[1] = (aabb[1] + aabb[4] ) / 2;
-                        this._center[2] = (aabb[2] + aabb[5] ) / 2;
+                        this._center[0] = (aabb[0] + aabb[3]) / 2;
+                        this._center[1] = (aabb[1] + aabb[4]) / 2;
+                        this._center[2] = (aabb[2] + aabb[5]) / 2;
                     }
 
                     return this._center;
@@ -16425,8 +16671,8 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
                                     }
 
                                     var normal = math.addVec3(math.addVec3(
-                                        math.mulVec3Scalar(na, bary[0], tempVec3),
-                                        math.mulVec3Scalar(nb, bary[1], tempVec3b), tempVec3c),
+                                            math.mulVec3Scalar(na, bary[0], tempVec3),
+                                            math.mulVec3Scalar(nb, bary[1], tempVec3b), tempVec3c),
                                         math.mulVec3Scalar(nc, bary[2], tempVec3d), tempVec3e);
 
                                     hit.normal = math.transformVec3(entity.transform.leafNormalMatrix, normal, tempVec3f);
@@ -16581,7 +16827,7 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
 
          @method clear
          */
-        clear: function () {  // FIXME: should only clear user-created components
+        clear: function () { // FIXME: should only clear user-created components
 
             for (var id in this.components) {
                 if (this.components.hasOwnProperty(id)) {
@@ -16605,13 +16851,15 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
         }
     });
 
-})();
-;/**
+})();;
+/**
  * Components for animating state within Scenes.
  *
  * @module xeogl
  * @submodule animation
- */;/**
+ */
+;
+/**
  A **CameraFlightAnimation** jumps or flies the {{#crossLink "Scene"}}Scene's{{/crossLink}} {{#crossLink "Camera"}}{{/crossLink}} to look at a given target.
 
  <a href="../../examples/#animation_camera_flight"><img src="http://i.giphy.com/3o7TKP0jN800EQ99EQ.gif"></img></a>
@@ -16894,7 +17142,7 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
                         }
                     }
 
-                    aabb = component.aabb || this.scene.aabb;
+                    aabb = component.aabb || getSceneAABB(this.scene);
                 }
 
                 var offset = params.offset;
@@ -17065,7 +17313,7 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
                         }
                     }
 
-                    aabb = component.aabb || this.scene.aabb;
+                    aabb = component.aabb || getSceneAABB(this.scene);
                 }
 
                 var offset = params.offset;
@@ -17161,7 +17409,7 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
 
                     } else if (this._flyingLook) {
                         camera.look = math.lerpVec3(t, 0, 1, this._look1, this._look2, newLook);
-                    //    camera.eye = math.addVec3(newLook, newLookEyeVec, newEye);
+                        //    camera.eye = math.addVec3(newLook, newLookEyeVec, newEye);
                         camera.up = math.lerpVec3(t, 0, 1, this._up1, this._up2, newUp);
                     }
 
@@ -17361,8 +17609,8 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
         }
     });
 
-})();
-;/**
+})();;
+/**
  A **Canvas** manages a {{#crossLink "Scene"}}Scene{{/crossLink}}'s HTML canvas and its WebGL context.
 
  ## Overview
@@ -17483,7 +17731,6 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
         ],
 
         _init: function (cfg) {
-
             /**
              * The HTML canvas. When the {{#crossLink "Viewer"}}{{/crossLink}} was configured with the ID of an existing canvas within the DOM,
              * then this property will be that element, otherwise it will be a full-page canvas that this Canvas has
@@ -17543,7 +17790,6 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
             if (!cfg.canvas) {
 
                 // Canvas not supplied, create one automatically
-
                 this._createCanvas();
 
             } else {
@@ -17560,8 +17806,8 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
 
                         // Canvas not found - create one automatically
 
-                        this.error("Canvas element not found: " + xeogl._inQuotes(cfg.canvas)
-                            + " - creating default canvas instead.");
+                        this.error("Canvas element not found: " + xeogl._inQuotes(cfg.canvas) +
+                            " - creating default canvas instead.");
 
                         this._createCanvas();
                     }
@@ -17796,13 +18042,17 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
         },
 
         _getElementXY: function (e) {
-            var x = 0, y = 0;
+            var x = 0,
+                y = 0;
             while (e) {
                 x += (e.offsetLeft - e.scrollLeft);
                 y += (e.offsetTop - e.scrollTop);
                 e = e.offsetParent;
             }
-            return {x: x, y: y};
+            return {
+                x: x,
+                y: y
+            };
         },
 
         /**
@@ -17928,8 +18178,8 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
                     image = Canvas2Image.saveAsBMP(this.canvas, true, width, height);
                     break;
                 default:
-                    this.error("Unsupported snapshot format: '" + format
-                        + "' - supported types are 'jpeg', 'bmp' and 'png' - defaulting to 'jpeg'");
+                    this.error("Unsupported snapshot format: '" + format +
+                        "' - supported types are 'jpeg', 'bmp' and 'png' - defaulting to 'jpeg'");
                     image = Canvas2Image.saveAsJPEG(this.canvas, true, width, height);
             }
             return image.src;
@@ -18055,8 +18305,8 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
         }
     });
 
-})();
-;/**
+})();;
+/**
  A Progress displays a progress animation at the center of its {{#crossLink "Canvas"}}{{/crossLink}} while things are loading or otherwise busy.
 
  ## Overview
@@ -18391,13 +18641,15 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
         40% { opacity: 1; }\
     }"
     });
-})();
-;/**
+})();;
+/**
  * Components for cross-section views of Entities.
  *
  * @module xeogl
  * @submodule clipping
- */;/**
+ */
+;
+/**
  A **Clip** is an arbitrarily-aligned World-space clipping plane.
 
  <a href="../../examples/#effects_clipping"><img src="../../../assets/images/screenshots/Clips.png"></img></a>
@@ -18591,8 +18843,8 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
             }
         }
     });
-})();
-;/**
+})();;
+/**
  A **Clips** applies a set of {{#crossLink "Clip"}}{{/crossLink}} planes to the
  clippable {{#crossLink "Entity"}}Entities{{/crossLink}} within its {{#crossLink "Scene"}}{{/crossLink}}.
 
@@ -18781,13 +19033,15 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
         }
     });
 
-})();
-;/**
+})();;
+/**
  * Components for controlling things with user input.
  *
  * @module xeogl
  * @submodule controls
- */;/**
+ */
+;
+/**
  * Rotates, pans and zooms the {{#crossLink "Scene"}}{{/crossLink}}'s {{#crossLink "Camera"}}{{/crossLink}} with keyboard, mouse and touch input.
 
  CameraControl fires these events:
@@ -19089,7 +19343,7 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
                 set: function (value) {
                     this._toolbarCamCtrlMode = value;
                 }
-			}
+            }
         },
 
         _destroy: function () {
@@ -19120,6 +19374,56 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
             canvas.oncontextmenu = function (e) {
                 e.preventDefault();
             };
+
+            var selectedEntity = null;
+
+            var lastEntity = null;
+            var lastColorize = null;
+            var lastGFillColor = null;
+            var lastGEdgeColor = null;
+            input.on("mousemove", function (coords) {
+                if (self._toolbarCamCtrlMode !== "picker")
+                    return;
+
+                var hit = scene.pick({
+                    canvasPos: coords
+                });
+                
+
+                if (hit) {
+                    if(hit.entity.id === "DEFAULTBASEPLANE_XY"){
+                        if(lastEntity){
+                            lastEntity.highlighted = false;
+                        }
+                        return;
+                    }
+
+                    if (!lastEntity || hit.entity.id !== lastEntity.id) {
+                        if (lastEntity) {
+                            lastEntity.highlighted = false;
+                        }
+                        lastEntity = hit.entity;
+                        hit.entity.highlighted = true;
+                    }
+                } else {
+                    if (lastEntity) {
+                        lastEntity.highlighted = false;
+                        lastEntity = null;
+                    }
+                }
+            });
+
+            input.on("mouseup", function (coords) {
+                if (self._toolbarCamCtrlMode !== "picker")
+                    return;
+
+                if(lastEntity){
+                    selectedEntity = lastEntity;
+                    selectedEntity.highlighted = true;
+                }
+                
+            });
+
 
             var getCanvasPosFromEvent = function (event, canvasPos) {
                 if (!event) {
@@ -19220,7 +19524,7 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
                     });
                     return function () {
                         if (sceneSizeDirty) {
-                            diag = math.getAABB3Diag(scene.aabb);
+                            diag = math.getAABB3Diag(getSceneAABB(scene));
                         }
                         return diag;
                     };
@@ -19233,7 +19537,7 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
                     var worldPos = math.vec4();
                     var eyeCursorVec = math.vec3();
 
-                    var unproject = function (inverseProjMat, inverseViewMat, mousePos, z,  viewPos, worldPos) {
+                    var unproject = function (inverseProjMat, inverseViewMat, mousePos, z, viewPos, worldPos) {
                         var canvas = scene.canvas.canvas;
                         var halfCanvasWidth = canvas.offsetWidth / 2.0;
                         var halfCanvasHeight = canvas.offsetHeight / 2.0;
@@ -19370,13 +19674,14 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
                 });
 
                 function getZoomRate() {
-                    var aabb = scene.aabb;
+                    var aabb = getSceneAABB(scene);
                     var xsize = aabb[3] - aabb[0];
                     var ysize = aabb[4] - aabb[1];
                     var zsize = aabb[5] - aabb[2];
                     var max = (xsize > ysize ? xsize : ysize);
                     max = (zsize > max ? zsize : max);
-                    return max / 30;
+                    console.log(max/10);
+                    return max / 10;
                 }
 
                 document.addEventListener("keyDown", function (e) {
@@ -19528,10 +19833,10 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
 
                         var panning = shiftDown || mouseDownRight;
 
-                        if(self._toolbarCamCtrlMode === "pan")
+                        if (self._toolbarCamCtrlMode === "pan")
                             panning = true;
-                        
-                        if(self._toolbarCamCtrlMode === "orbit")
+
+                        if (self._toolbarCamCtrlMode === "orbit")
                             panning = false;
 
                         if (panning) {
@@ -19710,7 +20015,9 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
                         numTouches = touches.length;
 
                         event.stopPropagation();
-                    }, {passive: true});
+                    }, {
+                        passive: true
+                    });
 
                     canvas.addEventListener("touchmove", function (event) {
                         if (!self._active) {
@@ -19760,7 +20067,9 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
                         }
 
                         event.stopPropagation();
-                    }, {passive: true});
+                    }, {
+                        passive: true
+                    });
 
                 })();
 
@@ -20044,7 +20353,7 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
                                     }
 
                                     clicks = 0;
-                                }, 250);  // FIXME: Too short for track pads
+                                }, 250); // FIXME: Too short for track pads
 
                             } else {
 
@@ -20142,7 +20451,9 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
                         activeTouches.length = touches.length;
 
                         event.stopPropagation();
-                    }, {passive: true});
+                    }, {
+                        passive: true
+                    });
 
                     //canvas.addEventListener("touchmove", function (event) {
                     //    event.preventDefault();
@@ -20228,12 +20539,14 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
                         }
 
                         event.stopPropagation();
-                    }, {passive: true});
+                    }, {
+                        passive: true
+                    });
                 })();
             })();
 
             //Control viewport
-            self.on("cameraview", function(type){
+            self.on("cameraview", function (type) {
                 var center = new math.vec3();
                 var tempVec3a = new math.vec3();
                 var tempVec3b = new math.vec3();
@@ -20253,7 +20566,7 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
                 //     return;
                 // }
 
-                var aabb = scene.aabb;
+                var aabb = getSceneAABB(scene);
                 var diag = math.getAABB3Diag(aabb);
                 center[0] = aabb[0] + aabb[3] / 2.0;
                 center[1] = aabb[1] + aabb[4] / 2.0;
@@ -20377,7 +20690,7 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
                         return;
                     }
 
-                    var aabb = scene.aabb;
+                    var aabb = getSceneAABB(scene);
                     var diag = math.getAABB3Diag(aabb);
                     center[0] = aabb[0] + aabb[3] / 2.0;
                     center[1] = aabb[1] + aabb[4] / 2.0;
@@ -20435,7 +20748,7 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
                         case KEY_P: // Perspective view
                             camera.projection = "perspective";
                             break;
-    
+
                         case KEY_O: // Ortho view
                             camera.projection = "ortho";
                             break;
@@ -20455,14 +20768,15 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
         },
 
         _flyTo: function (hit) {
-
+            if (hit.entity.id === "DEFAULTBASEPLANE_XY")
+                return;
             var pos;
 
             if (hit && hit.worldPos) {
                 pos = hit.worldPos
             }
 
-            var aabb = hit ? hit.entity.aabb : this.scene.aabb;
+            var aabb = hit ? hit.entity.aabb : getSceneAABB(this.scene);
 
             this._boundaryHelper.geometry.targetAABB = aabb;
             //    this._boundaryHelper.visible = true;
@@ -20501,13 +20815,15 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
 
     });
 
-})();
-;/**
+})();;
+/**
  * Components for defining geometry.
  *
  * @module xeogl
  * @submodule geometry
- */;/**
+ */
+;
+/**
  A **Geometry** defines a mesh for attached {{#crossLink "Entity"}}Entities{{/crossLink}}.
 
  ## Usage
@@ -20611,11 +20927,11 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
     var nullVertexBufs = new xeogl.renderer.VertexBufs({});
 
     var SceneVertexBufs = function (scene,
-                                    hasPositions,
-                                    hasNormals,
-                                    hasColors,
-                                    hasUVs,
-                                    quantized) {
+        hasPositions,
+        hasNormals,
+        hasColors,
+        hasUVs,
+        quantized) {
 
         const CHUNK_LEN = bigIndicesSupported ? (Number.MAX_SAFE_INTEGER / 6) : (64000 * 4); // RGBA is largest item
 
@@ -20796,7 +21112,7 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
                     var indices;
 
                     if (indicesOffset) {
-                        indices = new (bigIndicesSupported ? Uint32Array : Uint16Array)(geometry.indices);
+                        indices = new(bigIndicesSupported ? Uint32Array : Uint16Array)(geometry.indices);
                         for (var i = 0, len = indices.length; i < len; i++) {
                             indices[i] += indicesOffset;
                             if (indices[i] > (CHUNK_LEN / 3)) {
@@ -20904,10 +21220,10 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
                 primitive: null, // WebGL enum
                 primitiveName: null, // String
 
-                positions: null,    // Uint16Array when quantized == true, else Float32Array
-                normals: null,      // Uint8Array when quantized == true, else Float32Array
+                positions: null, // Uint16Array when quantized == true, else Float32Array
+                normals: null, // Uint8Array when quantized == true, else Float32Array
                 colors: null,
-                uv: null,           // Uint8Array when quantized == true, else Float32Array
+                uv: null, // Uint8Array when quantized == true, else Float32Array
                 indices: null,
 
                 positionsDecodeMatrix: null, // Set when quantized == true
@@ -21755,7 +22071,8 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
     var mergeVertices = function (positions, indices) {
 
         var verticesMap = {}; // Hashmap for looking up vertices by position coordinates (and making sure they are unique)
-        var unique = [], changes = [];
+        var unique = [],
+            changes = [];
 
         var v, key;
         var precisionPoints = 4; // number of decimal points, e.g. 4 for epsilon of 0.0001
@@ -21798,7 +22115,7 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
             // if any duplicate vertices are found in a Face3
             // we have to remove the face as nothing can be saved
             for (var n = 0; n < 3; n++) {
-                if (indices[n] === indices[( n + 1 ) % 3]) {
+                if (indices[n] === indices[(n + 1) % 3]) {
                     faceIndicesToRemove.push(i);
                     break;
                 }
@@ -21888,7 +22205,9 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
                 math.cross3Vec3(cb, ab, cross);
                 math.normalizeVec3(cross, normal);
 
-                var face = faces[numFaces] || (faces[numFaces] = {normal: math.vec3()});
+                var face = faces[numFaces] || (faces[numFaces] = {
+                    normal: math.vec3()
+                });
 
                 face.normal[0] = normal[0];
                 face.normal[1] = normal[1];
@@ -21977,7 +22296,8 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
             return largeIndex ? new Uint32Array(edgeIndices) : new Uint16Array(edgeIndices);
         }
     })();
-})();;/**
+})();;
+/**
  A **BoxGeometry** is a parameterized {{#crossLink "Geometry"}}{{/crossLink}} that defines a box-shaped mesh for attached {{#crossLink "Entity"}}Entities{{/crossLink}}.
 
  <a href="../../examples/#geometry_primitives_box"><img src="../../assets/images/screenshots/BoxGeometry.png"></img></a>
@@ -22239,8 +22559,8 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
         }
     });
 
-})();
-;/**
+})();;
+/**
  A **TorusGeometry** is a parameterized {{#crossLink "Geometry"}}{{/crossLink}} that defines a torus-shaped mesh for attached {{#crossLink "Entity"}}Entities{{/crossLink}}.
 
  <a href="../../examples/#geometry_primitives_torus"><img src="../../assets/images/screenshots/TorusGeometry.png"></img></a>
@@ -22382,8 +22702,8 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
                     centerX = radius * Math.cos(u);
                     centerY = radius * Math.sin(u);
 
-                    x = (radius + tube * Math.cos(v) ) * Math.cos(u);
-                    y = (radius + tube * Math.cos(v) ) * Math.sin(u);
+                    x = (radius + tube * Math.cos(v)) * Math.cos(u);
+                    y = (radius + tube * Math.cos(v)) * Math.sin(u);
                     z = tube * Math.sin(v);
 
                     positions.push(x + centerX);
@@ -22409,10 +22729,10 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
             for (j = 1; j <= tubeSegments; j++) {
                 for (i = 1; i <= radialSegments; i++) {
 
-                    a = ( radialSegments + 1 ) * j + i - 1;
-                    b = ( radialSegments + 1 ) * ( j - 1 ) + i - 1;
-                    c = ( radialSegments + 1 ) * ( j - 1 ) + i;
-                    d = ( radialSegments + 1 ) * j + i;
+                    a = (radialSegments + 1) * j + i - 1;
+                    b = (radialSegments + 1) * (j - 1) + i - 1;
+                    c = (radialSegments + 1) * (j - 1) + i;
+                    d = (radialSegments + 1) * j + i;
 
                     indices.push(a);
                     indices.push(b);
@@ -22433,8 +22753,8 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
         }
     });
 
-})();
-;/**
+})();;
+/**
  A **SphereGeometry** is a parameterized {{#crossLink "Geometry"}}{{/crossLink}} that defines a sphere-shaped mesh for attached {{#crossLink "Entity"}}Entities{{/crossLink}}.
 
  <a href="../../examples/#geometry_primitives_sphere"><img src="../../assets/images/screenshots/SphereGeometry.png"></img></a>
@@ -22607,8 +22927,8 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
         }
     });
 
-})();
-;/**
+})();;
+/**
  An **OBBGeometry** is a {{#crossLink "Geometry"}}{{/crossLink}} that shows the extents of an oriented bounding box (OBB).
 
  <a href="../../examples/#geometry_primitives_OBBGeometry"><img src="http://i.giphy.com/3o6ZsSVy0NKXZ1vDSo.gif"></img></a>
@@ -22696,7 +23016,8 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
             this._super(xeogl._apply(cfg, {
                 primitive: cfg.primitive || "lines",
                 positions: cfg.positions || [1.0, 1.0, 1.0, 1.0, -1.0, 1.0, -1.0, -1.0, 1.0, -1.0,
-                    1.0, 1.0, 1.0, 1.0, -1.0, 1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, 1.0, -1.0],
+                    1.0, 1.0, 1.0, 1.0, -1.0, 1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, 1.0, -1.0
+                ],
                 indices: [0, 1, 1, 2, 2, 3, 3, 0, 4, 5, 5, 6, 6, 7, 7, 4, 0, 4, 1, 5, 2, 6, 3, 7]
             }));
 
@@ -22792,8 +23113,8 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
             ];
         }
     });
-})();
-;/**
+})();;
+/**
  An **AABBGeometry** is a {{#crossLink "Geometry"}}{{/crossLink}} that shows the extents of a World-space axis-aligned bounding box (AABB).
 
  <a href="../../examples/#geometry_primitives_AABBGeometry"><img src="http://i.giphy.com/3o6ZsSVy0NKXZ1vDSo.gif"></img></a>
@@ -22989,8 +23310,8 @@ xeogl.renderer.RenderBuffer.prototype.destroy = function () {
             ];
         }
     });
-})();
-;/**
+})();;
+/**
 
  A **PathGeometry** is a {{#crossLink "Geometry"}}{{/crossLink}} that is defined by a {{#crossLink "Curve"}}{{/crossLink}}.
 
@@ -23158,7 +23479,8 @@ xeogl.PathGeometry = xeogl.Geometry.extend({
             }
         }
     }
-});;/**
+});;
+/**
  A **CylinderGeometry** is a parameterized {{#crossLink "Geometry"}}{{/crossLink}} that defines a cylinder-shaped mesh for attached {{#crossLink "Entity"}}Entities{{/crossLink}}.
 
  <a href="../../examples/#geometry_primitives_cylinder"><img src="../../assets/images/screenshots/CylinderGeometry.png"></img></a>
@@ -23439,8 +23761,8 @@ xeogl.PathGeometry = xeogl.Geometry.extend({
         }
     });
 
-})();
-;/**
+})();;
+/**
  A **PlaneGeometry** is a parameterized {{#crossLink "Geometry"}}{{/crossLink}} that defines a plane-shaped mesh for attached {{#crossLink "Entity"}}Entities{{/crossLink}}.
 
  <a href="../../examples/#geometry_primitives_plane"><img src="../../assets/images/screenshots/PlaneGeometry.png"></img></a>
@@ -23587,7 +23909,7 @@ xeogl.PathGeometry = xeogl.Geometry.extend({
                     normals[offset + 2] = -1;
 
                     uvs[offset2] = (planeX - ix) / planeX;
-                    uvs[offset2 + 1] = ( (planeZ - iz) / planeZ );
+                    uvs[offset2 + 1] = ((planeZ - iz) / planeZ);
 
                     offset += 3;
                     offset2 += 2;
@@ -23596,16 +23918,16 @@ xeogl.PathGeometry = xeogl.Geometry.extend({
 
             offset = 0;
 
-            var indices = new ( ( positions.length / 3 ) > 65535 ? Uint32Array : Uint16Array )(planeX * planeZ * 6);
+            var indices = new((positions.length / 3) > 65535 ? Uint32Array : Uint16Array)(planeX * planeZ * 6);
 
             for (iz = 0; iz < planeZ; iz++) {
 
                 for (ix = 0; ix < planeX; ix++) {
 
                     a = ix + planeX1 * iz;
-                    b = ix + planeX1 * ( iz + 1 );
-                    c = ( ix + 1 ) + planeX1 * ( iz + 1 );
-                    d = ( ix + 1 ) + planeX1 * iz;
+                    b = ix + planeX1 * (iz + 1);
+                    c = (ix + 1) + planeX1 * (iz + 1);
+                    d = (ix + 1) + planeX1 * iz;
 
                     indices[offset] = d;
                     indices[offset + 1] = b;
@@ -23628,13 +23950,15 @@ xeogl.PathGeometry = xeogl.Geometry.extend({
         }
     });
 
-})();
-;/**
+})();;
+/**
  * Components for capturing user input.
  *
  * @module xeogl
  * @submodule input
- */;/**
+ */
+;
+/**
  Publishes keyboard and mouse events that occur on the parent {{#crossLink "Scene"}}{{/crossLink}}'s {{#crossLink "Canvas"}}{{/crossLink}}.
 
  * Each {{#crossLink "Scene"}}{{/crossLink}} provides an Input on itself as a read-only property.
@@ -23896,15 +24220,15 @@ xeogl.PathGeometry = xeogl.Geometry.extend({
 
                 switch (e.which) {
 
-                    case 1:// Left button
+                    case 1: // Left button
                         self.mouseDownLeft = true;
                         break;
 
-                    case 2:// Middle/both buttons
+                    case 2: // Middle/both buttons
                         self.mouseDownMiddle = true;
                         break;
 
-                    case 3:// Right button
+                    case 3: // Right button
                         self.mouseDownRight = true;
                         break;
 
@@ -23937,15 +24261,15 @@ xeogl.PathGeometry = xeogl.Geometry.extend({
 
                 switch (e.which) {
 
-                    case 1:// Left button
+                    case 1: // Left button
                         self.mouseDownLeft = false;
                         break;
 
-                    case 2:// Middle/both buttons
+                    case 2: // Middle/both buttons
                         self.mouseDownMiddle = false;
                         break;
 
-                    case 3:// Right button
+                    case 3: // Right button
                         self.mouseDownRight = false;
                         break;
 
@@ -23976,16 +24300,16 @@ xeogl.PathGeometry = xeogl.Geometry.extend({
 
                 switch (e.which) {
 
-                    case 1:// Left button
+                    case 1: // Left button
                         self.mouseDownLeft = false;
                         self.mouseDownRight = false;
                         break;
 
-                    case 2:// Middle/both buttons
+                    case 2: // Middle/both buttons
                         self.mouseDownMiddle = false;
                         break;
 
-                    case 3:// Right button
+                    case 3: // Right button
                         self.mouseDownLeft = false;
                         self.mouseDownRight = false;
                         break;
@@ -24045,7 +24369,9 @@ xeogl.PathGeometry = xeogl.Geometry.extend({
                  * @param delta {Number} The mouse wheel delta,
                  */
                 self.fire("mousewheel", delta, true);
-            }, {passive: true});
+            }, {
+                passive: true
+            });
 
             // mouseclicked
 
@@ -24217,8 +24543,7 @@ xeogl.PathGeometry = xeogl.Geometry.extend({
                 event = window.event;
                 coords.x = event.x;
                 coords.y = event.y;
-            }
-            else {
+            } else {
                 var element = event.target;
                 var totalOffsetLeft = 0;
                 var totalOffsetTop = 0;
@@ -25046,13 +25371,15 @@ xeogl.PathGeometry = xeogl.Geometry.extend({
         }
     });
 
-})();
-;/**
+})();;
+/**
  * Components for defining light sources.
  *
  * @module xeogl
  * @submodule lighting
- */;/**
+ */
+;
+/**
  A **Lights** defines a group of light sources within a {{#crossLink "Scene"}}{{/crossLink}}.
 
  ## Overview
@@ -25477,8 +25804,8 @@ xeogl.PathGeometry = xeogl.Geometry.extend({
             this._state.destroy();
         }
     });
-})();
-;/**
+})();;
+/**
  An **AmbientLight** defines an ambient light source of fixed intensity and color that affects all {{#crossLink "Entity"}}Entities{{/crossLink}}
  equally.
 
@@ -25588,7 +25915,7 @@ xeogl.PathGeometry = xeogl.Geometry.extend({
 
                 set: function (value) {
 
-                    this._state.color.set(value ||  [ 0.7, 0.7, 0.8 ]);
+                    this._state.color.set(value || [0.7, 0.7, 0.8]);
 
                     this._renderer.setImageForceDirty();
 
@@ -25619,7 +25946,7 @@ xeogl.PathGeometry = xeogl.Geometry.extend({
 
                 set: function (value) {
 
-                    this._state.intensity = value !== undefined ? value :  1.0;
+                    this._state.intensity = value !== undefined ? value : 1.0;
 
                     this._renderer.setImageForceDirty();
 
@@ -25638,8 +25965,8 @@ xeogl.PathGeometry = xeogl.Geometry.extend({
         }
     });
 
-})();
-;/**
+})();;
+/**
  A **DirLight** is a directional light source that illuminates all {{#crossLink "Entity"}}Entities{{/crossLink}} equally
  from a given direction.
 
@@ -25971,8 +26298,8 @@ xeogl.PathGeometry = xeogl.Geometry.extend({
         }
     });
 
-})();
-;/**
+})();;
+/**
  A **PointLight** defines a positional light source that originates from a single point and spreads outward in all directions,
  to illuminate {{#crossLink "Entity"}}Entities{{/crossLink}}.
 
@@ -26087,13 +26414,14 @@ xeogl.PathGeometry = xeogl.Geometry.extend({
                 type: "point",
                 pos: xeogl.math.vec3([1.0, 1.0, 1.0]),
                 color: xeogl.math.vec3([0.7, 0.7, 0.8]),
-                intensity: 1.0,attenuation: [0.0, 0.0, 0.0],
+                intensity: 1.0,
+                attenuation: [0.0, 0.0, 0.0],
                 space: "view",
                 shadow: false,
                 shadowDirty: true,
 
                 getShadowViewMatrix: (function () {
-                    var look = math.vec3([0,0,0]);
+                    var look = math.vec3([0, 0, 0]);
                     var up = math.vec3([0, 1, 0]);
                     return function () {
                         if (self._shadowViewMatrixDirty) {
@@ -26113,7 +26441,7 @@ xeogl.PathGeometry = xeogl.Geometry.extend({
                             self._shadowProjMatrix = math.identityMat4();
                         }
                         var canvas = self.scene.canvas.canvas;
-                        math.perspectiveMat4(70 *(Math.PI / 180.0), canvas.clientWidth / canvas.clientHeight, 0.1, 500.0, self._shadowProjMatrix);
+                        math.perspectiveMat4(70 * (Math.PI / 180.0), canvas.clientWidth / canvas.clientHeight, 0.1, 500.0, self._shadowProjMatrix);
                         self._shadowProjMatrixDirty = false;
                     }
                     return self._shadowProjMatrix;
@@ -26414,8 +26742,8 @@ xeogl.PathGeometry = xeogl.Geometry.extend({
         }
     });
 
-})();
-;/**
+})();;
+/**
  A **SpotLight** defines a positional light source that originates from a single point and eminates in a given direction,
  to illuminate {{#crossLink "Entity"}}Entities{{/crossLink}}.
 
@@ -26558,7 +26886,7 @@ xeogl.PathGeometry = xeogl.Geometry.extend({
                             self._shadowProjMatrix = math.identityMat4();
                         }
                         var canvas = self.scene.canvas.canvas;
-                        math.perspectiveMat4(60 *(Math.PI / 180.0), canvas.clientWidth / canvas.clientHeight, 0.1, 400.0, self._shadowProjMatrix);
+                        math.perspectiveMat4(60 * (Math.PI / 180.0), canvas.clientWidth / canvas.clientHeight, 0.1, 400.0, self._shadowProjMatrix);
                         self._shadowProjMatrixDirty = false;
                     }
                     return self._shadowProjMatrix;
@@ -26883,7 +27211,7 @@ xeogl.PathGeometry = xeogl.Geometry.extend({
         },
 
         _destroy: function () {
-//            this.scene.canvas.off(this._webglContextRestored);
+            //            this.scene.canvas.off(this._webglContextRestored);
 
             if (this._shadowRenderBuf) {
                 this._shadowRenderBuf.destroy();
@@ -26891,8 +27219,8 @@ xeogl.PathGeometry = xeogl.Geometry.extend({
         }
     });
 
-})();
-;/**
+})();;
+/**
  A **CubeTexture** specifies a cube texture map.
 
  ## Overview
@@ -27141,7 +27469,7 @@ xeogl.PathGeometry = xeogl.Geometry.extend({
                     value = value || "linear";
 
                     if (value !== "linear" && value !== "sRGB" && value !== "gamma") {
-                        this.error("Unsupported value for 'encoding': '" + value +  "' - supported values are 'linear', 'sRGB', 'gamma'. Defaulting to 'linear'.");
+                        this.error("Unsupported value for 'encoding': '" + value + "' - supported values are 'linear', 'sRGB', 'gamma'. Defaulting to 'linear'.");
 
                         value = "linear";
                     }
@@ -27169,8 +27497,8 @@ xeogl.PathGeometry = xeogl.Geometry.extend({
         }
     });
 
-})();
-;/**
+})();;
+/**
  A **Shadow** defines a shadow cast by a {{#crossLink "DirLight"}}{{/crossLink}} or a {{#crossLink "SpotLight"}}{{/crossLink}}.
 
  Work in progress!
@@ -27285,7 +27613,7 @@ xeogl.PathGeometry = xeogl.Geometry.extend({
                     return this._state.resolution;
                 }
             },
-            
+
             /**
              The intensity of this Shadow.
 
@@ -27320,13 +27648,15 @@ xeogl.PathGeometry = xeogl.Geometry.extend({
         }
     });
 
-})();
-;/**
+})();;
+/**
  * Models are units of xeogl content.
  *
  * @module xeogl
  * @submodule models
- */;/**
+ */
+;
+/**
  A **Model** is a collection of {{#crossLink "Component"}}Components{{/crossLink}}.
 
  ## Overview
@@ -28325,12 +28655,15 @@ xeogl.PathGeometry = xeogl.Geometry.extend({
         }
     });
 
-})();;/**
+})();;
+/**
  * Components to define the surface appearance of Entities.
  *
  * @module xeogl
  * @submodule materials
- */;/**
+ */
+;
+/**
  A **Material** defines the surface appearance of attached {{#crossLink "Entity"}}Entities{{/crossLink}}.
 
  Material is the base class for:
@@ -28364,13 +28697,13 @@ xeogl.PathGeometry = xeogl.Geometry.extend({
             xeogl.stats.memory.materials++;
         },
 
-        _destroy: function() {
+        _destroy: function () {
             xeogl.stats.memory.materials--;
         }
     });
 
-})();
-;/**
+})();;
+/**
  A **PhongMaterial** is a {{#crossLink "Material"}}{{/crossLink}} that defines the surface appearance of
  attached {{#crossLink "Entity"}}Entities{{/crossLink}} using
  the classic <a href="https://en.wikipedia.org/wiki/Blinn%E2%80%93Phong_shading_model">Blinn-Phong</a> lighting model.
@@ -29326,7 +29659,11 @@ xeogl.PathGeometry = xeogl.Geometry.extend({
              @type {String}
              */
             alphaMode: (function () {
-                var modes = {"opaque": 0, "mask": 1, "blend": 2};
+                var modes = {
+                    "opaque": 0,
+                    "mask": 1,
+                    "blend": 2
+                };
                 var modeNames = ["opaque", "mask", "blend"];
                 return {
                     set: function (alphaMode) {
@@ -29573,7 +29910,8 @@ xeogl.PathGeometry = xeogl.Geometry.extend({
         }
     });
 
-})();;/**
+})();;
+/**
  A **LambertMaterial** is a {{#crossLink "Material"}}{{/crossLink}} that defines the surface appearance of
  attached {{#crossLink "Entity"}}Entities{{/crossLink}} using
  the non-physically based <a href="https://en.wikipedia.org/wiki/Lambertian_reflectance">Lambertian</a> model for calculating reflectance.
@@ -29946,7 +30284,8 @@ TODO
         }
     });
 
-})();;/**
+})();;
+/**
  A **SpecularMaterial** is a physically-based {{#crossLink "Material"}}{{/crossLink}} that defines the surface appearance of
  {{#crossLink "Entity"}}Entities{{/crossLink}} using the *specular-glossiness* workflow.
 
@@ -30782,7 +31121,11 @@ TODO
              @type {String}
              */
             alphaMode: (function () {
-                var modes = {"opaque": 0, "mask": 1, "blend": 2};
+                var modes = {
+                    "opaque": 0,
+                    "mask": 1,
+                    "blend": 2
+                };
                 var modeNames = ["opaque", "mask", "blend"];
                 return {
                     set: function (alphaMode) {
@@ -31050,7 +31393,8 @@ TODO
         }
     });
 
-})();;/**
+})();;
+/**
  A **MetallicMaterial** is a physically-based {{#crossLink "Material"}}{{/crossLink}} that defines the surface appearance of
  {{#crossLink "Entity"}}Entities{{/crossLink}} using the *metallic-roughness* workflow.
 
@@ -31873,7 +32217,11 @@ TODO
              @type {String}
              */
             alphaMode: (function () {
-                var modes = {"opaque": 0, "mask": 1, "blend": 2};
+                var modes = {
+                    "opaque": 0,
+                    "mask": 1,
+                    "blend": 2
+                };
                 var modeNames = ["opaque", "mask", "blend"];
                 return {
                     set: function (alphaMode) {
@@ -32140,7 +32488,8 @@ TODO
         }
     });
 
-})();;/**
+})();;
+/**
  An **EmphasisMaterial** is a {{#crossLink "Material"}}{{/crossLink}} that defines the appearance of attached
  {{#crossLink "Entity"}}Entities{{/crossLink}} when they are highlighted, selected or ghosted.
 
@@ -32411,7 +32760,7 @@ TODO
                 this.preset = cfg.preset;
 
                 if (cfg.edges !== undefined) this.edges = cfg.edges;
-                if (cfg.edgeColor)  this.edgeColor = cfg.edgeColor;
+                if (cfg.edgeColor) this.edgeColor = cfg.edgeColor;
                 if (cfg.edgeAlpha !== undefined) this.edgeAlpha = cfg.edgeAlpha;
                 if (cfg.edgeWidth !== undefined) this.edgeWidth = cfg.edgeWidth;
                 if (cfg.vertices !== undefined) this.vertices = cfg.vertices;
@@ -32980,7 +33329,8 @@ TODO
 
     xeogl.GhostMaterial = xeogl.EmphasisMaterial; // Backward compatibility
 
-})();;/**
+})();;
+/**
  An **OutlineMaterial** is a {{#crossLink "Material"}}{{/crossLink}} that's applied to {{#crossLink "Entity"}}Entities{{/crossLink}}
  to render an outline around them.
 
@@ -33027,7 +33377,7 @@ TODO
         },
 
         _props: {
-            
+
             /**
              RGB outline color.
 
@@ -33128,7 +33478,8 @@ TODO
         }
     });
 
-})();;/**
+})();;
+/**
  A **Texture** specifies a texture map.
 
  ## Overview
@@ -33217,7 +33568,7 @@ TODO
             this._state = new xeogl.renderer.Texture({
 
                 texture: new xeogl.renderer.Texture2D(this.scene.canvas.gl),
-                matrix: null,   // Float32Array
+                matrix: null, // Float32Array
 
                 // Texture properties
 
@@ -33230,7 +33581,7 @@ TODO
 
             // Data source
 
-            this._src = null;   // URL string
+            this._src = null; // URL string
             this._image = null; // HTMLImageElement
 
             // Transformation
@@ -33799,7 +34150,7 @@ TODO
                     value = value || "linear";
 
                     if (value !== "linear" && value !== "sRGB" && value !== "gamma") {
-                        this.error("Unsupported value for 'encoding': '" + value +  "' - supported values are 'linear', 'sRGB', 'gamma'. Defaulting to 'linear'.");
+                        this.error("Unsupported value for 'encoding': '" + value + "' - supported values are 'linear', 'sRGB', 'gamma'. Defaulting to 'linear'.");
 
                         value = "linear";
                     }
@@ -33827,8 +34178,8 @@ TODO
         }
     });
 
-})();
-;/**
+})();;
+/**
  A **Fresnel** specifies a Fresnel effect for attached {{#crossLink "PhongMaterial"}}PhongMaterials{{/crossLink}}.
 
  <a href="../../examples/#materials_phong_fresnel"><img src="../../assets/images/screenshots/PhongMaterial/fresnelWide.png"></img></a>
@@ -34026,13 +34377,15 @@ TODO
         }
     });
 
-})();
-;/**
+})();;
+/**
  * Entities.
  *
  * @module xeogl
  * @submodule entities
- */;/**
+ */
+;
+/**
  An **Entity** is a 3D object within a {{#crossLink "Scene"}}Scene{{/crossLink}}.
 
  ## Overview
@@ -34662,7 +35015,7 @@ TODO
 
                     this._attach({
                         name: "geometry",
-                        type: "xeogl.Component",  // HACK
+                        type: "xeogl.Component", // HACK
                         component: value,
                         sceneDefault: true,
                         on: {
@@ -35272,9 +35625,9 @@ TODO
                             this._center = xeogl.math.AABB3();
                         }
                         var aabb = this.aabb;
-                        this._center[0] = (aabb[0] + aabb[3] ) / 2;
-                        this._center[1] = (aabb[1] + aabb[4] ) / 2;
-                        this._center[2] = (aabb[2] + aabb[5] ) / 2;
+                        this._center[0] = (aabb[0] + aabb[3]) / 2;
+                        this._center[1] = (aabb[1] + aabb[4]) / 2;
+                        this._center[2] = (aabb[2] + aabb[5]) / 2;
                     }
                     return this._center;
                 }
@@ -35442,7 +35795,7 @@ TODO
             var modelTransform = this.transform._state;
             var modes = this._getState();
 
-            var result = this._renderer.createObject(this.id, material, ghostMaterial, outlineMaterial, highlightMaterial, selectedMaterial,  vertexBufs, geometry, modelTransform, modes);
+            var result = this._renderer.createObject(this.id, material, ghostMaterial, outlineMaterial, highlightMaterial, selectedMaterial, vertexBufs, geometry, modelTransform, modes);
 
             if (this._loading) {
                 this._loading = false;
@@ -35491,13 +35844,15 @@ TODO
             }
         }
     });
-})();
-;/**
+})();;
+/**
  * Components that influence the way entities are rendered with WebGL.
  *
  * @module xeogl
  * @submodule rendering
- */;/**
+ */
+;
+/**
  A **Viewport** controls the canvas viewport for a {{#crossLink "Scene"}}{{/crossLink}}.
 
  <a href="../../examples/#effects_stereo_custom"><img src="../../../assets/images/screenshots/StereoEffect.png"></img></a>
@@ -35708,13 +36063,15 @@ TODO
         }
     });
 
-})();
-;/**
+})();;
+/**
  * Modelling transform components.
  *
  * @module xeogl
  * @submodule transforms
- */;/**
+ */
+;
+/**
  A **Transform** is a modelling, viewing or projection transformation.
 
  ## Overview
@@ -36175,8 +36532,8 @@ TODO
         }
     });
 
-})();
-;/**
+})();;
+/**
  A **Rotate** is a {{#crossLink "Transform"}}{{/crossLink}} that rotates associated {{#crossLink "Entity"}}Entities{{/crossLink}} or {{#crossLink "Model"}}Models{{/crossLink}} about an axis vector.
 
  ## Overview
@@ -36334,8 +36691,8 @@ TODO
         }
     });
 
-})();
-;/**
+})();;
+/**
  A **Quaternion** is a {{#crossLink "Transform"}}{{/crossLink}} that rotates associated {{#crossLink "Entity"}}Entities{{/crossLink}} or {{#crossLink "Model"}}Models{{/crossLink}}.
 
  ## Overview
@@ -36479,7 +36836,8 @@ TODO
             };
         })()
     });
-})();;/**
+})();;
+/**
  A **Scale** is a {{#crossLink "Transform"}}{{/crossLink}} that scales associated {{#crossLink "Entity"}}Entities{{/crossLink}} or {{#crossLink "Model"}}Models{{/crossLink}}.
 
  ## Overview
@@ -36605,8 +36963,8 @@ TODO
         }
     });
 
-})();
-;/**
+})();;
+/**
  A **Translate** is a {{#crossLink "Transform"}}{{/crossLink}} that translates associated {{#crossLink "Entity"}}Entities{{/crossLink}} or {{#crossLink "Model"}}Models{{/crossLink}}.
 
  ## Overview
@@ -36736,8 +37094,8 @@ TODO
             }
         }
     });
-})();
-;/**
+})();;
+/**
  A **Camera** defines viewing and projection transforms for its {{#crossLink "Scene"}}{{/crossLink}}.
 
  ## Overview
@@ -37615,8 +37973,8 @@ TODO
             }
         }
     });
-})();
-;/**
+})();;
+/**
  A **Frustum** defines a perspective projection as a frustum-shaped view volume for a {{#crossLink "Camera"}}Camera{{/crossLink}}.
 
  ## Overview
@@ -37903,8 +38261,8 @@ TODO
             }
         }
     });
-})();
-;/**
+})();;
+/**
  An **Ortho** defines an orthographic projection transform for a {{#crossLink "Camera"}}Camera{{/crossLink}}.
 
  ## Overview
@@ -38133,8 +38491,8 @@ TODO
         }
     });
 
-})();
-;/**
+})();;
+/**
  A **Perspective** defines a perspective projection transform for a {{#crossLink "Camera"}}Camera{{/crossLink}}.
 
  ## Overview
@@ -38178,7 +38536,7 @@ TODO
             this._state = new xeogl.renderer.ProjTransform({
                 matrix: xeogl.math.mat4()
             });
-            
+
             this._dirty = false;
             this._fov = 60.0;
             this._near = 0.1;
@@ -38385,13 +38743,15 @@ TODO
         }
     });
 
-})();
-;/**
+})();;
+/**
  * Components to help visualise other components.
  *
  * @module xeogl
  * @submodule helpers
- */;/**
+ */
+;
+/**
 
  Helper that visualizes the boundary of a target {{#crossLink "Component"}}{{/crossLink}} subtype with a World-space axis-aligned boundary (AABB).
 
@@ -38444,7 +38804,7 @@ TODO
             target: {
 
                 set: function (target) {
-                  this._box.geometry.target = target;
+                    this._box.geometry.target = target;
                 },
 
                 get: function () {
@@ -38512,7 +38872,8 @@ TODO
             }
         }
     });
-})();;(function () {
+})();;
+(function () {
 
     "use strict";
 
@@ -38596,18 +38957,18 @@ TODO
 
         var helperLookat = scene.camera;
 
-        lookat.on("matrix",            function () {
+        lookat.on("matrix", function () {
 
-                var eye = lookat.eye;
-                var look = lookat.look;
-                var up = lookat.up;
+            var eye = lookat.eye;
+            var look = lookat.look;
+            var up = lookat.up;
 
-                var eyeLook = xeogl.math.mulVec3Scalar(xeogl.math.normalizeVec3(xeogl.math.subVec3(eye, look, [])), 22);
+            var eyeLook = xeogl.math.mulVec3Scalar(xeogl.math.normalizeVec3(xeogl.math.subVec3(eye, look, [])), 22);
 
-                helperLookat.look = [0, 0, 0];
-                helperLookat.eye = eyeLook;
-                helperLookat.up = up;
-            });
+            helperLookat.look = [0, 0, 0];
+            helperLookat.eye = eyeLook;
+            helperLookat.up = up;
+        });
 
         // ----------------- Components that are shared among more than one entity ---------------
 
@@ -38669,7 +39030,7 @@ TODO
         });
 
 
-        var zAxisMaterial  = new xeogl.PhongMaterial(scene, { // Blue by convention
+        var zAxisMaterial = new xeogl.PhongMaterial(scene, { // Blue by convention
             diffuse: [0.3, 0.3, 1],
             ambient: [0.0, 0.0, 0.0],
             specular: [.6, .6, .3],
@@ -38710,7 +39071,7 @@ TODO
                     diffuse: [0.0, 0.0, 0.0],
                     emissive: [0.1, 0.1, 0.1],
                     ambient: [0.1, 0.1, 0.2],
-                    specular: [0,0,0],
+                    specular: [0, 0, 0],
                     alpha: 0.4,
                     alphaMode: "blend",
                     frontface: "cw"
@@ -38722,7 +39083,7 @@ TODO
 
             // Ball at center of axis
 
-            new xeogl.Entity(scene, {  // Arrow
+            new xeogl.Entity(scene, { // Arrow
                 geometry: new xeogl.SphereGeometry(scene, {
                     radius: 1.0
                 }),
@@ -38734,7 +39095,7 @@ TODO
 
             // X-axis arrow, shaft and label
 
-            new xeogl.Entity(scene, {  // Arrow
+            new xeogl.Entity(scene, { // Arrow
                 geometry: arrowHead,
                 material: xAxisMaterial,
                 pickable: false,
@@ -38749,7 +39110,7 @@ TODO
                 })
             }),
 
-            new xeogl.Entity(scene, {  // Shaft
+            new xeogl.Entity(scene, { // Shaft
                 geometry: arrowShaft,
                 material: xAxisMaterial,
                 pickable: false,
@@ -38764,8 +39125,11 @@ TODO
                 })
             }),
 
-            new xeogl.Entity(scene, {  // Label
-                geometry: new xeogl.VectorTextGeometry(scene, {text: "X", size: 1.5}),
+            new xeogl.Entity(scene, { // Label
+                geometry: new xeogl.VectorTextGeometry(scene, {
+                    text: "X",
+                    size: 1.5
+                }),
                 material: xAxisLabelMaterial,
                 pickable: false,
                 collidable: false,
@@ -38778,7 +39142,7 @@ TODO
 
             // Y-axis arrow, shaft and label
 
-            new xeogl.Entity(scene, {  // Arrow
+            new xeogl.Entity(scene, { // Arrow
                 geometry: arrowHead,
                 material: yAxisMaterial,
                 pickable: false,
@@ -38789,7 +39153,7 @@ TODO
                 })
             }),
 
-            new xeogl.Entity(scene, {  // Shaft
+            new xeogl.Entity(scene, { // Shaft
                 geometry: arrowShaft,
                 material: yAxisMaterial,
                 pickable: false,
@@ -38800,8 +39164,11 @@ TODO
                 })
             }),
 
-            new xeogl.Entity(scene, {  // Label
-                geometry: new xeogl.VectorTextGeometry(scene, {text: "Y", size: 1.5}),
+            new xeogl.Entity(scene, { // Label
+                geometry: new xeogl.VectorTextGeometry(scene, {
+                    text: "Y",
+                    size: 1.5
+                }),
                 material: yAxisLabelMaterial,
                 pickable: false,
                 collidable: false,
@@ -38814,7 +39181,7 @@ TODO
 
             // Z-axis arrow, shaft and label
 
-            new xeogl.Entity(scene, {  // Arrow
+            new xeogl.Entity(scene, { // Arrow
                 geometry: arrowHead,
                 material: zAxisMaterial,
                 pickable: false,
@@ -38829,7 +39196,7 @@ TODO
                 })
             }),
 
-            new xeogl.Entity(scene, {  // Shaft
+            new xeogl.Entity(scene, { // Shaft
                 geometry: arrowShaft,
                 material: zAxisMaterial,
                 pickable: false,
@@ -38844,8 +39211,11 @@ TODO
                 })
             }),
 
-            new xeogl.Entity(scene, {  // Label
-                geometry: new xeogl.VectorTextGeometry(scene, {text: "Z", size: 1.5}),
+            new xeogl.Entity(scene, { // Label
+                geometry: new xeogl.VectorTextGeometry(scene, {
+                    text: "Z",
+                    size: 1.5
+                }),
                 material: zAxisLabelMaterial,
                 pickable: false,
                 collidable: false,
@@ -38944,8 +39314,8 @@ TODO
         // };
         //
     };
-})();
-;/**
+})();;
+/**
 
  Helper that visualizes the position and direction of a {{#crossLink "Clip"}}{{/crossLink}}.
 
@@ -39118,7 +39488,7 @@ TODO
                     return this._planeHelper.solid;
                 }
             },
-            
+
             /**
              Indicates whether this ClipHelper is visible or not.
 
@@ -39149,7 +39519,8 @@ TODO
             }
         }
     });
-})();;(function () {
+})();;
+(function () {
 
     "use strict";
 
@@ -39254,8 +39625,8 @@ TODO
             };
         })()
     });
-})();
-;/**
+})();;
+/**
 
  Helper that visualizes the object-aligned boundary of a target {{#crossLink "Component"}}{{/crossLink}} subtype with a World-space object-aligned boundary (OBB).
 
@@ -39353,7 +39724,8 @@ TODO
             }
         }
     });
-})();;/**
+})();;
+/**
 
  Helper that visualizes the position and direction of a plane.
 
@@ -39602,7 +39974,7 @@ TODO
                     if (this._autoPlaneSize) {
                         if (!this._onSceneAABB) {
                             this._onSceneAABB = this.scene.on("boundary", function () {
-                                var aabbDiag = xeogl.math.getAABB3Diag(this.scene.aabb);
+                                var aabbDiag = xeogl.math.getAABB3Diag(getSceneAABB(this.scene));
                                 var clipSize = (aabbDiag * 0.50);
                                 this.planeSize = [clipSize, clipSize];
                             }, this);
@@ -39630,7 +40002,7 @@ TODO
             color: {
 
                 set: function (value) {
-                    (this._color = this._color || new xeogl.math.vec3()).set(value || [0.4,0.4,0.4]);
+                    (this._color = this._color || new xeogl.math.vec3()).set(value || [0.4, 0.4, 0.4]);
                     this._planeWire.material.emissive = this._color;
                     this._arrow.material.emissive = this._color;
                 },
@@ -39658,7 +40030,7 @@ TODO
                     return this._solid;
                 }
             },
-            
+
             /**
              Indicates whether this PlaneHelper is visible or not.
 
@@ -39688,7 +40060,8 @@ TODO
             }
         }
     });
-})();;/**
+})();;
+/**
  Shows the shape and control points of {{#crossLink "SplineCurve"}}{{/crossLink}}
 
  @class SplineCurveHelper
@@ -39818,7 +40191,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
     _destroy: function () {
         this._line.destroy();
     }
-});;/**
+});;
+/**
  A **VectorTextGeometry** extends {{#crossLink "Geometry"}}{{/crossLink}} to define vector text geometry for attached {{#crossLink "Entity"}}Entities{{/crossLink}}.
 
  <a href="../../examples/#geometry_primitives_vectorText"><img src="../../assets/images/screenshots/VectorTextGeometry.png"></img></a>
@@ -39981,9 +40355,13 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
 
     function buildStrokeData() {
         return {
-            ' ': {width: 16, points: []},
+            ' ': {
+                width: 16,
+                points: []
+            },
             '!': {
-                width: 10, points: [
+                width: 10,
+                points: [
                     [5, 21],
                     [5, 7],
                     [-1, -1],
@@ -39995,7 +40373,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             '"': {
-                width: 16, points: [
+                width: 16,
+                points: [
                     [4, 21],
                     [4, 14],
                     [-1, -1],
@@ -40004,7 +40383,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             '#': {
-                width: 21, points: [
+                width: 21,
+                points: [
                     [11, 25],
                     [4, -7],
                     [-1, -1],
@@ -40019,7 +40399,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             '$': {
-                width: 20, points: [
+                width: 20,
+                points: [
                     [8, 25],
                     [8, -4],
                     [-1, -1],
@@ -40049,7 +40430,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             '%': {
-                width: 24, points: [
+                width: 24,
+                points: [
                     [21, 21],
                     [3, 0],
                     [-1, -1],
@@ -40084,7 +40466,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             '&': {
-                width: 26, points: [
+                width: 26,
+                points: [
                     [23, 12],
                     [23, 13],
                     [22, 14],
@@ -40122,7 +40505,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             '\'': {
-                width: 10, points: [
+                width: 10,
+                points: [
                     [5, 19],
                     [4, 20],
                     [5, 21],
@@ -40133,7 +40517,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             '(': {
-                width: 14, points: [
+                width: 14,
+                points: [
                     [11, 25],
                     [9, 23],
                     [7, 20],
@@ -40147,7 +40532,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             ')': {
-                width: 14, points: [
+                width: 14,
+                points: [
                     [3, 25],
                     [5, 23],
                     [7, 20],
@@ -40161,7 +40547,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             '*': {
-                width: 16, points: [
+                width: 16,
+                points: [
                     [8, 21],
                     [8, 9],
                     [-1, -1],
@@ -40173,7 +40560,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             '+': {
-                width: 26, points: [
+                width: 26,
+                points: [
                     [13, 18],
                     [13, 0],
                     [-1, -1],
@@ -40182,7 +40570,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             ',': {
-                width: 10, points: [
+                width: 10,
+                points: [
                     [6, 1],
                     [5, 0],
                     [4, 1],
@@ -40194,13 +40583,15 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             '-': {
-                width: 26, points: [
+                width: 26,
+                points: [
                     [4, 9],
                     [22, 9]
                 ]
             },
             '.': {
-                width: 10, points: [
+                width: 10,
+                points: [
                     [5, 2],
                     [4, 1],
                     [5, 0],
@@ -40209,13 +40600,15 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             '/': {
-                width: 22, points: [
+                width: 22,
+                points: [
                     [20, 25],
                     [2, -7]
                 ]
             },
             '0': {
-                width: 20, points: [
+                width: 20,
+                points: [
                     [9, 21],
                     [6, 20],
                     [4, 17],
@@ -40236,7 +40629,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             '1': {
-                width: 20, points: [
+                width: 20,
+                points: [
                     [6, 17],
                     [8, 18],
                     [11, 21],
@@ -40244,7 +40638,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             '2': {
-                width: 20, points: [
+                width: 20,
+                points: [
                     [4, 16],
                     [4, 17],
                     [5, 19],
@@ -40262,7 +40657,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             '3': {
-                width: 20, points: [
+                width: 20,
+                points: [
                     [5, 21],
                     [16, 21],
                     [10, 13],
@@ -40281,7 +40677,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             '4': {
-                width: 20, points: [
+                width: 20,
+                points: [
                     [13, 21],
                     [3, 7],
                     [18, 7],
@@ -40291,7 +40688,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             '5': {
-                width: 20, points: [
+                width: 20,
+                points: [
                     [15, 21],
                     [5, 21],
                     [4, 12],
@@ -40312,7 +40710,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             '6': {
-                width: 20, points: [
+                width: 20,
+                points: [
                     [16, 18],
                     [15, 20],
                     [12, 21],
@@ -40339,7 +40738,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             '7': {
-                width: 20, points: [
+                width: 20,
+                points: [
                     [17, 21],
                     [7, 0],
                     [-1, -1],
@@ -40348,7 +40748,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             '8': {
-                width: 20, points: [
+                width: 20,
+                points: [
                     [8, 21],
                     [5, 20],
                     [4, 18],
@@ -40381,7 +40782,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             '9': {
-                width: 20, points: [
+                width: 20,
+                points: [
                     [16, 14],
                     [15, 11],
                     [13, 9],
@@ -40408,7 +40810,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             ':': {
-                width: 10, points: [
+                width: 10,
+                points: [
                     [5, 14],
                     [4, 13],
                     [5, 12],
@@ -40423,7 +40826,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             ';': {
-                width: 10, points: [
+                width: 10,
+                points: [
                     [5, 14],
                     [4, 13],
                     [5, 12],
@@ -40441,14 +40845,16 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             '<': {
-                width: 24, points: [
+                width: 24,
+                points: [
                     [20, 18],
                     [4, 9],
                     [20, 0]
                 ]
             },
             '=': {
-                width: 26, points: [
+                width: 26,
+                points: [
                     [4, 12],
                     [22, 12],
                     [-1, -1],
@@ -40457,14 +40863,16 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             '>': {
-                width: 24, points: [
+                width: 24,
+                points: [
                     [4, 18],
                     [20, 9],
                     [4, 0]
                 ]
             },
             '?': {
-                width: 18, points: [
+                width: 18,
+                points: [
                     [3, 16],
                     [3, 17],
                     [4, 19],
@@ -40488,7 +40896,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             '@': {
-                width: 27, points: [
+                width: 27,
+                points: [
                     [18, 13],
                     [17, 15],
                     [15, 16],
@@ -40547,7 +40956,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             'A': {
-                width: 18, points: [
+                width: 18,
+                points: [
                     [9, 21],
                     [1, 0],
                     [-1, -1],
@@ -40559,7 +40969,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             'B': {
-                width: 21, points: [
+                width: 21,
+                points: [
                     [4, 21],
                     [4, 0],
                     [-1, -1],
@@ -40586,7 +40997,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             'C': {
-                width: 21, points: [
+                width: 21,
+                points: [
                     [18, 16],
                     [17, 18],
                     [15, 20],
@@ -40608,7 +41020,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             'D': {
-                width: 21, points: [
+                width: 21,
+                points: [
                     [4, 21],
                     [4, 0],
                     [-1, -1],
@@ -40627,7 +41040,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             'E': {
-                width: 19, points: [
+                width: 19,
+                points: [
                     [4, 21],
                     [4, 0],
                     [-1, -1],
@@ -40642,7 +41056,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             'F': {
-                width: 18, points: [
+                width: 18,
+                points: [
                     [4, 21],
                     [4, 0],
                     [-1, -1],
@@ -40654,7 +41069,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             'G': {
-                width: 21, points: [
+                width: 21,
+                points: [
                     [18, 16],
                     [17, 18],
                     [15, 20],
@@ -40680,7 +41096,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             'H': {
-                width: 22, points: [
+                width: 22,
+                points: [
                     [4, 21],
                     [4, 0],
                     [-1, -1],
@@ -40692,13 +41109,15 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             'I': {
-                width: 8, points: [
+                width: 8,
+                points: [
                     [4, 21],
                     [4, 0]
                 ]
             },
             'J': {
-                width: 16, points: [
+                width: 16,
+                points: [
                     [12, 21],
                     [12, 5],
                     [11, 2],
@@ -40712,7 +41131,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             'K': {
-                width: 21, points: [
+                width: 21,
+                points: [
                     [4, 21],
                     [4, 0],
                     [-1, -1],
@@ -40724,7 +41144,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             'L': {
-                width: 17, points: [
+                width: 17,
+                points: [
                     [4, 21],
                     [4, 0],
                     [-1, -1],
@@ -40733,7 +41154,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             'M': {
-                width: 24, points: [
+                width: 24,
+                points: [
                     [4, 21],
                     [4, 0],
                     [-1, -1],
@@ -40748,7 +41170,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             'N': {
-                width: 22, points: [
+                width: 22,
+                points: [
                     [4, 21],
                     [4, 0],
                     [-1, -1],
@@ -40760,7 +41183,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             'O': {
-                width: 22, points: [
+                width: 22,
+                points: [
                     [9, 21],
                     [7, 20],
                     [5, 18],
@@ -40785,7 +41209,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             'P': {
-                width: 21, points: [
+                width: 21,
+                points: [
                     [4, 21],
                     [4, 0],
                     [-1, -1],
@@ -40802,7 +41227,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             'Q': {
-                width: 22, points: [
+                width: 22,
+                points: [
                     [9, 21],
                     [7, 20],
                     [5, 18],
@@ -40830,7 +41256,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             'R': {
-                width: 21, points: [
+                width: 21,
+                points: [
                     [4, 21],
                     [4, 0],
                     [-1, -1],
@@ -40850,7 +41277,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             'S': {
-                width: 20, points: [
+                width: 20,
+                points: [
                     [17, 18],
                     [15, 20],
                     [12, 21],
@@ -40874,7 +41302,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             'T': {
-                width: 16, points: [
+                width: 16,
+                points: [
                     [8, 21],
                     [8, 0],
                     [-1, -1],
@@ -40883,7 +41312,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             'U': {
-                width: 22, points: [
+                width: 22,
+                points: [
                     [4, 21],
                     [4, 6],
                     [5, 3],
@@ -40897,7 +41327,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             'V': {
-                width: 18, points: [
+                width: 18,
+                points: [
                     [1, 21],
                     [9, 0],
                     [-1, -1],
@@ -40906,7 +41337,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             'W': {
-                width: 24, points: [
+                width: 24,
+                points: [
                     [2, 21],
                     [7, 0],
                     [-1, -1],
@@ -40921,7 +41353,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             'X': {
-                width: 20, points: [
+                width: 20,
+                points: [
                     [3, 21],
                     [17, 0],
                     [-1, -1],
@@ -40930,7 +41363,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             'Y': {
-                width: 18, points: [
+                width: 18,
+                points: [
                     [1, 21],
                     [9, 11],
                     [9, 0],
@@ -40940,7 +41374,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             'Z': {
-                width: 20, points: [
+                width: 20,
+                points: [
                     [17, 21],
                     [3, 0],
                     [-1, -1],
@@ -40952,7 +41387,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             '[': {
-                width: 14, points: [
+                width: 14,
+                points: [
                     [4, 25],
                     [4, -7],
                     [-1, -1],
@@ -40967,13 +41403,15 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             '\\': {
-                width: 14, points: [
+                width: 14,
+                points: [
                     [0, 21],
                     [14, -3]
                 ]
             },
             ']': {
-                width: 14, points: [
+                width: 14,
+                points: [
                     [9, 25],
                     [9, -7],
                     [-1, -1],
@@ -40988,7 +41426,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             '^': {
-                width: 16, points: [
+                width: 16,
+                points: [
                     [6, 15],
                     [8, 18],
                     [10, 15],
@@ -41002,13 +41441,15 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             '_': {
-                width: 16, points: [
+                width: 16,
+                points: [
                     [0, -2],
                     [16, -2]
                 ]
             },
             '`': {
-                width: 10, points: [
+                width: 10,
+                points: [
                     [6, 21],
                     [5, 20],
                     [4, 18],
@@ -41019,7 +41460,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             'a': {
-                width: 19, points: [
+                width: 19,
+                points: [
                     [15, 14],
                     [15, 0],
                     [-1, -1],
@@ -41040,7 +41482,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             'b': {
-                width: 19, points: [
+                width: 19,
+                points: [
                     [4, 21],
                     [4, 0],
                     [-1, -1],
@@ -41061,7 +41504,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             'c': {
-                width: 18, points: [
+                width: 18,
+                points: [
                     [15, 11],
                     [13, 13],
                     [11, 14],
@@ -41079,7 +41523,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             'd': {
-                width: 19, points: [
+                width: 19,
+                points: [
                     [15, 21],
                     [15, 0],
                     [-1, -1],
@@ -41100,7 +41545,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             'e': {
-                width: 18, points: [
+                width: 18,
+                points: [
                     [3, 8],
                     [15, 8],
                     [15, 10],
@@ -41121,7 +41567,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             'f': {
-                width: 12, points: [
+                width: 12,
+                points: [
                     [10, 21],
                     [8, 21],
                     [6, 20],
@@ -41133,7 +41580,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             'g': {
-                width: 19, points: [
+                width: 19,
+                points: [
                     [15, 14],
                     [15, -2],
                     [14, -5],
@@ -41159,7 +41607,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             'h': {
-                width: 19, points: [
+                width: 19,
+                points: [
                     [4, 21],
                     [4, 0],
                     [-1, -1],
@@ -41173,7 +41622,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             'i': {
-                width: 8, points: [
+                width: 8,
+                points: [
                     [3, 21],
                     [4, 20],
                     [5, 21],
@@ -41185,7 +41635,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             'j': {
-                width: 10, points: [
+                width: 10,
+                points: [
                     [5, 21],
                     [6, 20],
                     [7, 21],
@@ -41200,7 +41651,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             'k': {
-                width: 17, points: [
+                width: 17,
+                points: [
                     [4, 21],
                     [4, 0],
                     [-1, -1],
@@ -41212,13 +41664,15 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             'l': {
-                width: 8, points: [
+                width: 8,
+                points: [
                     [4, 21],
                     [4, 0]
                 ]
             },
             'm': {
-                width: 30, points: [
+                width: 30,
+                points: [
                     [4, 14],
                     [4, 0],
                     [-1, -1],
@@ -41240,7 +41694,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             'n': {
-                width: 19, points: [
+                width: 19,
+                points: [
                     [4, 14],
                     [4, 0],
                     [-1, -1],
@@ -41254,7 +41709,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             'o': {
-                width: 19, points: [
+                width: 19,
+                points: [
                     [8, 14],
                     [6, 13],
                     [4, 11],
@@ -41275,7 +41731,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             'p': {
-                width: 19, points: [
+                width: 19,
+                points: [
                     [4, 14],
                     [4, -7],
                     [-1, -1],
@@ -41296,7 +41753,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             'q': {
-                width: 19, points: [
+                width: 19,
+                points: [
                     [15, 14],
                     [15, -7],
                     [-1, -1],
@@ -41317,7 +41775,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             'r': {
-                width: 13, points: [
+                width: 13,
+                points: [
                     [4, 14],
                     [4, 0],
                     [-1, -1],
@@ -41329,7 +41788,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             's': {
-                width: 17, points: [
+                width: 17,
+                points: [
                     [14, 11],
                     [13, 13],
                     [10, 14],
@@ -41350,7 +41810,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             't': {
-                width: 12, points: [
+                width: 12,
+                points: [
                     [5, 21],
                     [5, 4],
                     [6, 1],
@@ -41362,7 +41823,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             'u': {
-                width: 19, points: [
+                width: 19,
+                points: [
                     [4, 14],
                     [4, 4],
                     [5, 1],
@@ -41376,7 +41838,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             'v': {
-                width: 16, points: [
+                width: 16,
+                points: [
                     [2, 14],
                     [8, 0],
                     [-1, -1],
@@ -41385,7 +41848,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             'w': {
-                width: 22, points: [
+                width: 22,
+                points: [
                     [3, 14],
                     [7, 0],
                     [-1, -1],
@@ -41400,7 +41864,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             'x': {
-                width: 17, points: [
+                width: 17,
+                points: [
                     [3, 14],
                     [14, 0],
                     [-1, -1],
@@ -41409,7 +41874,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             'y': {
-                width: 16, points: [
+                width: 16,
+                points: [
                     [2, 14],
                     [8, 0],
                     [-1, -1],
@@ -41422,7 +41888,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             'z': {
-                width: 17, points: [
+                width: 17,
+                points: [
                     [14, 14],
                     [3, 0],
                     [-1, -1],
@@ -41434,7 +41901,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             '{': {
-                width: 14, points: [
+                width: 14,
+                points: [
                     [9, 25],
                     [7, 24],
                     [6, 23],
@@ -41477,13 +41945,15 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             '|': {
-                width: 8, points: [
+                width: 8,
+                points: [
                     [4, 25],
                     [4, -7]
                 ]
             },
             '}': {
-                width: 14, points: [
+                width: 14,
+                points: [
                     [5, 25],
                     [7, 24],
                     [8, 23],
@@ -41526,7 +41996,8 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 ]
             },
             '~': {
-                width: 24, points: [
+                width: 24,
+                points: [
                     [3, 6],
                     [3, 8],
                     [4, 11],
@@ -41554,13 +42025,15 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
             }
         };
     }
-})();
-;/**
+})();;
+/**
  * Components for annotating entities.
  *
  * @module xeogl
  * @submodule annotations
- */;/**
+ */
+;
+/**
  A **Pin** is a pinned position on the surface of an {{#crossLink "Entity"}}{{/crossLink}}.
 
  ## Overview
@@ -41773,7 +42246,9 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                 specular: [0, 0, 0],
                 pointSize: 5
             }),
-            transform: {type: "xeogl.Translate"},
+            transform: {
+                type: "xeogl.Translate"
+            },
             visible: true
         });
         this._testablePins[pinId] = pin;
@@ -41871,8 +42346,14 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
                         type: "xeogl.Entity",
                         component: value,
                         sceneDefault: false,
-                        onAttached: {callback: this._entityAttached, scope: this},
-                        onDetached: {callback: this._entityDetached, scope: this}
+                        onAttached: {
+                            callback: this._entityAttached,
+                            scope: this
+                        },
+                        onDetached: {
+                            callback: this._entityDetached,
+                            scope: this
+                        }
                     });
                 },
 
@@ -42370,8 +42851,9 @@ xeogl.SplineCurveHelper = xeogl.Component.extend({
         }
     });
 })();
-    
-;/**
+
+;
+/**
  An **Annotation** is a labeled {{#crossLink "Pin"}}{{/crossLink}} that's attached to the surface of an {{#crossLink "Entity"}}{{/crossLink}}.
 
  <a href="../../examples/#annotations_tronTank"><img src="../../assets/images/screenshots/annotationsTank.png"></img></a>
@@ -42957,12 +43439,15 @@ xeogl.Annotation = xeogl.Pin.extend({
         this._spot.parentNode.removeChild(this._spot);
         this._label.parentNode.removeChild(this._label);
     }
-});;/**
+});;
+/**
  * Units of xeogl content.
  *
  * @module xeogl
  * @submodule models
- */;/**
+ */
+;
+/**
  A **BuildableModel** is a {{#crossLink "Model"}}{{/crossLink}} that provides a "stateful builder" API through which you can
  procedurally generate xeogl content.
 
@@ -43285,13 +43770,13 @@ xeogl.Annotation = xeogl.Pin.extend({
             this.scale(1, 1, 1);
             this.angles(0, 0, 0);
             this.axis(0, 1, 2);
-            this.colorize(1,1,1,1);
+            this.colorize(1, 1, 1, 1);
             this.material(null);
             this.geometry(null);
         }
     });
-})();
-;/**
+})();;
+/**
  A **GLTFModel** is a {{#crossLink "Model"}}{{/crossLink}} loaded from a <a href="https://github.com/KhronosGroup/glTF" target = "_other">glTF</a> file.
 
  <a href="../../examples/#importing_gltf_GearboxAssy"><img src="../../../assets/images/gltf/glTF_gearbox_squashed.png"></img></a>
@@ -43808,16 +44293,16 @@ xeogl.Annotation = xeogl.Pin.extend({
     var parseGLTF = (function () {
 
         const WebGLConstants = {
-            34963: 'ELEMENT_ARRAY_BUFFER',  //0x8893
-            34962: 'ARRAY_BUFFER',          //0x8892
-            5123: 'UNSIGNED_SHORT',         //0x1403
-            5126: 'FLOAT',                  //0x1406
-            4: 'TRIANGLES',                 //0x0004
-            35678: 'SAMPLER_2D',            //0x8B5E
-            35664: 'FLOAT_VEC2',            //0x8B50
-            35665: 'FLOAT_VEC3',            //0x8B51
-            35666: 'FLOAT_VEC4',            //0x8B52
-            35676: 'FLOAT_MAT4'             //0x8B5C
+            34963: 'ELEMENT_ARRAY_BUFFER', //0x8893
+            34962: 'ARRAY_BUFFER', //0x8892
+            5123: 'UNSIGNED_SHORT', //0x1403
+            5126: 'FLOAT', //0x1406
+            4: 'TRIANGLES', //0x0004
+            35678: 'SAMPLER_2D', //0x8B5E
+            35664: 'FLOAT_VEC2', //0x8B50
+            35665: 'FLOAT_VEC3', //0x8B51
+            35666: 'FLOAT_VEC4', //0x8B52
+            35676: 'FLOAT_MAT4' //0x8B5C
         };
 
         const WEBGL_COMPONENT_TYPES = {
@@ -43914,8 +44399,7 @@ xeogl.Annotation = xeogl.Pin.extend({
                         ok();
                     },
                     err);
-            }
-            else {
+            } else {
                 err('gltf/handleBuffer missing uri in ' + JSON.stringify(bufferInfo));
             }
         }
@@ -44031,7 +44515,7 @@ xeogl.Annotation = xeogl.Pin.extend({
 
                 //TODO
 
-//                alert("interleaved buffer!");
+                //                alert("interleaved buffer!");
 
             } else {
                 accessorInfo._typedArray = new TypedArray(arraybuffer._buffer, accessorInfo.byteOffset || 0, accessorInfo.count * itemSize);
@@ -44683,8 +45167,8 @@ xeogl.Annotation = xeogl.Pin.extend({
 
     })();
 
-})();
-;/**
+})();;
+/**
  An **OBJModel** is a {{#crossLink "Model"}}{{/crossLink}} that loads itself from OBJ and MTL files.
 
  <a href="../../examples/#importing_obj_conferenceRoom"><img src="../../../assets/images/screenshots/OBJModel.png"></img></a>
@@ -45025,12 +45509,14 @@ xeogl.Annotation = xeogl.Pin.extend({
             }
 
             var lines = text.split('\n');
-            var line = '', lineFirstChar = '', lineSecondChar = '';
+            var line = '',
+                lineFirstChar = '',
+                lineSecondChar = '';
             var lineLength = 0;
             var result = [];
 
             // Faster to just trim left side of the line. Use if available.
-            var trimLeft = ( typeof ''.trimLeft === 'function' );
+            var trimLeft = (typeof ''.trimLeft === 'function');
 
             for (var i = 0, l = lines.length; i < l; i++) {
 
@@ -45054,7 +45540,7 @@ xeogl.Annotation = xeogl.Pin.extend({
 
                     lineSecondChar = line.charAt(1);
 
-                    if (lineSecondChar === ' ' && ( result = regexp.vertex_pattern.exec(line) ) !== null) {
+                    if (lineSecondChar === ' ' && (result = regexp.vertex_pattern.exec(line)) !== null) {
 
                         // 0                  1      2      3
                         // ['v 1.0 2.0 3.0', '1.0', '2.0', '3.0']
@@ -45065,7 +45551,7 @@ xeogl.Annotation = xeogl.Pin.extend({
                             parseFloat(result[3])
                         );
 
-                    } else if (lineSecondChar === 'n' && ( result = regexp.normal_pattern.exec(line) ) !== null) {
+                    } else if (lineSecondChar === 'n' && (result = regexp.normal_pattern.exec(line)) !== null) {
 
                         // 0                   1      2      3
                         // ['vn 1.0 2.0 3.0', '1.0', '2.0', '3.0']
@@ -45076,7 +45562,7 @@ xeogl.Annotation = xeogl.Pin.extend({
                             parseFloat(result[3])
                         );
 
-                    } else if (lineSecondChar === 't' && ( result = regexp.uv_pattern.exec(line) ) !== null) {
+                    } else if (lineSecondChar === 't' && (result = regexp.uv_pattern.exec(line)) !== null) {
 
                         // 0               1      2
                         // ['vt 0.1 0.2', '0.1', '0.2']
@@ -45094,7 +45580,7 @@ xeogl.Annotation = xeogl.Pin.extend({
 
                 } else if (lineFirstChar === 'f') {
 
-                    if (( result = regexp.face_vertex_uv_normal.exec(line) ) !== null) {
+                    if ((result = regexp.face_vertex_uv_normal.exec(line)) !== null) {
 
                         // f vertex/uv/normal vertex/uv/normal vertex/uv/normal
                         // 0                        1    2    3    4    5    6    7    8    9   10         11         12
@@ -45106,7 +45592,7 @@ xeogl.Annotation = xeogl.Pin.extend({
                             result[3], result[6], result[9], result[12]
                         );
 
-                    } else if (( result = regexp.face_vertex_uv.exec(line) ) !== null) {
+                    } else if ((result = regexp.face_vertex_uv.exec(line)) !== null) {
 
                         // f vertex/uv vertex/uv vertex/uv
                         // 0                  1    2    3    4    5    6   7          8
@@ -45117,7 +45603,7 @@ xeogl.Annotation = xeogl.Pin.extend({
                             result[2], result[4], result[6], result[8]
                         );
 
-                    } else if (( result = regexp.face_vertex_normal.exec(line) ) !== null) {
+                    } else if ((result = regexp.face_vertex_normal.exec(line)) !== null) {
 
                         // f vertex//normal vertex//normal vertex//normal
                         // 0                     1    2    3    4    5    6   7          8
@@ -45129,7 +45615,7 @@ xeogl.Annotation = xeogl.Pin.extend({
                             result[2], result[4], result[6], result[8]
                         );
 
-                    } else if (( result = regexp.face_vertex.exec(line) ) !== null) {
+                    } else if ((result = regexp.face_vertex.exec(line)) !== null) {
 
                         // f vertex vertex vertex
                         // 0            1    2    3   4
@@ -45144,7 +45630,8 @@ xeogl.Annotation = xeogl.Pin.extend({
                 } else if (lineFirstChar === 'l') {
 
                     var lineParts = line.substring(1).trim().split(' ');
-                    var lineVertices = [], lineUVs = [];
+                    var lineVertices = [],
+                        lineUVs = [];
 
                     if (line.indexOf('/') === -1) {
 
@@ -45163,7 +45650,7 @@ xeogl.Annotation = xeogl.Pin.extend({
                     }
                     addLineGeometry(state, lineVertices, lineUVs);
 
-                } else if (( result = regexp.object_pattern.exec(line) ) !== null) {
+                } else if ((result = regexp.object_pattern.exec(line)) !== null) {
 
                     // o object_name
                     // or
@@ -45185,12 +45672,12 @@ xeogl.Annotation = xeogl.Pin.extend({
 
                     state.materialLibraries[line.substring(7).trim()] = true;
 
-                } else if (( result = regexp.smoothing_pattern.exec(line) ) !== null) {
+                } else if ((result = regexp.smoothing_pattern.exec(line)) !== null) {
 
                     // smooth shading
 
                     var value = result[1].trim().toLowerCase();
-                    state.object.material.smooth = ( value === '1' || value === 'on' );
+                    state.object.material.smooth = (value === '1' || value === 'on');
 
                 } else {
 
@@ -45215,7 +45702,7 @@ xeogl.Annotation = xeogl.Pin.extend({
         function startObject(state, id, fromDeclaration) {
             if (state.object && state.object.fromDeclaration === false) {
                 state.object.id = id;
-                state.object.fromDeclaration = ( fromDeclaration !== false );
+                state.object.fromDeclaration = (fromDeclaration !== false);
                 return;
             }
             state.object = {
@@ -45229,24 +45716,24 @@ xeogl.Annotation = xeogl.Pin.extend({
                     id: '',
                     smooth: true
                 },
-                fromDeclaration: ( fromDeclaration !== false )
+                fromDeclaration: (fromDeclaration !== false)
             };
             state.objects.push(state.object);
         }
 
         function parseVertexIndex(value, len) {
             var index = parseInt(value, 10);
-            return ( index >= 0 ? index - 1 : index + len / 3 ) * 3;
+            return (index >= 0 ? index - 1 : index + len / 3) * 3;
         }
 
         function parseNormalIndex(value, len) {
             var index = parseInt(value, 10);
-            return ( index >= 0 ? index - 1 : index + len / 3 ) * 3;
+            return (index >= 0 ? index - 1 : index + len / 3) * 3;
         }
 
         function parseUVIndex(value, len) {
             var index = parseInt(value, 10);
-            return ( index >= 0 ? index - 1 : index + len / 2 ) * 2;
+            return (index >= 0 ? index - 1 : index + len / 2) * 2;
         }
 
         function addVertex(state, a, b, c) {
@@ -45436,10 +45923,10 @@ xeogl.Annotation = xeogl.Pin.extend({
 
                 pos = line.indexOf(' ');
 
-                key = ( pos >= 0 ) ? line.substring(0, pos) : line;
+                key = (pos >= 0) ? line.substring(0, pos) : line;
                 key = key.toLowerCase();
 
-                value = ( pos >= 0 ) ? line.substring(pos + 1) : '';
+                value = (pos >= 0) ? line.substring(pos + 1) : '';
                 value = value.trim();
 
                 switch (key.toLowerCase()) {
@@ -45474,7 +45961,7 @@ xeogl.Annotation = xeogl.Pin.extend({
 
                     case 'map_ks':
                         if (!materialCfg.specularMap) {
-                            materialCfg.specularMap = createTexture(model, basePath, value,"linear");
+                            materialCfg.specularMap = createTexture(model, basePath, value, "linear");
                         }
                         break;
 
@@ -45506,7 +45993,7 @@ xeogl.Annotation = xeogl.Pin.extend({
                         break;
 
                     default:
-                       // model.error("Unrecognized token: " + key);
+                        // model.error("Unrecognized token: " + key);
                 }
             }
 
@@ -45565,7 +46052,7 @@ xeogl.Annotation = xeogl.Pin.extend({
 
                 var object = state.objects[j];
                 var geometry = object.geometry;
-                var isLine = ( geometry.type === 'Line' );
+                var isLine = (geometry.type === 'Line');
 
                 if (geometry.positions.length === 0) {
                     // Skip o/g line declarations that did not follow with any faces
@@ -45657,8 +46144,8 @@ xeogl.Annotation = xeogl.Pin.extend({
         }, false);
         request.send(null);
     }
-})();
-;/**
+})();;
+/**
  An **STLModel** is a {{#crossLink "Model"}}{{/crossLink}} that's loaded from an <a href="https://en.wikipedia.org/wiki/STL_(file_format)">STL</a> file.
 
  <a href="../../examples/#importing_stl_shapes"><img src="../../../assets/images/screenshots/STLModel.png"></img></a>
@@ -45970,7 +46457,7 @@ xeogl.Annotation = xeogl.Pin.extend({
                 ghostEdgeThreshold: cfg.ghostEdgeThreshold,
                 splitEntities: cfg.splitEntities,
                 smoothNormals: cfg.smoothNormals,
-                smoothNormalsAngleThreshold:cfg.smoothNormalsAngleThreshold
+                smoothNormalsAngleThreshold: cfg.smoothNormalsAngleThreshold
             };
             this.src = cfg.src;
         },
@@ -46118,8 +46605,8 @@ xeogl.Annotation = xeogl.Pin.extend({
         function isBinary(data) {
             var reader = new DataView(data);
             var numFaces = reader.getUint32(80, true);
-            var faceSize = ( 32 / 8 * 3 ) + ( ( 32 / 8 * 3 ) * 3 ) + ( 16 / 8 );
-            var numExpectedBytes = 80 + ( 32 / 8 ) + ( numFaces * faceSize );
+            var faceSize = (32 / 8 * 3) + ((32 / 8 * 3) * 3) + (16 / 8);
+            var numExpectedBytes = 80 + (32 / 8) + (numFaces * faceSize);
             if (numExpectedBytes === reader.byteLength) {
                 return true;
             }
@@ -46153,9 +46640,9 @@ xeogl.Annotation = xeogl.Pin.extend({
             var geometry;
             var entity;
             for (var index = 0; index < 80 - 10; index++) {
-                if (( reader.getUint32(index, false) == 0x434F4C4F /*COLO*/ ) &&
-                    ( reader.getUint8(index + 4) == 0x52 /*'R'*/ ) &&
-                    ( reader.getUint8(index + 5) == 0x3D /*'='*/ )) {
+                if ((reader.getUint32(index, false) == 0x434F4C4F /*COLO*/ ) &&
+                    (reader.getUint8(index + 4) == 0x52 /*'R'*/ ) &&
+                    (reader.getUint8(index + 5) == 0x3D /*'='*/ )) {
                     hasColors = true;
                     colors = [];
                     defaultR = reader.getUint8(index + 6) / 255;
@@ -46180,10 +46667,10 @@ xeogl.Annotation = xeogl.Pin.extend({
                 var normalZ = reader.getFloat32(start + 8, true);
                 if (hasColors) {
                     var packedColor = reader.getUint16(start + 48, true);
-                    if (( packedColor & 0x8000 ) === 0) {
-                        r = ( packedColor & 0x1F ) / 31;
-                        g = ( ( packedColor >> 5 ) & 0x1F ) / 31;
-                        b = ( ( packedColor >> 10 ) & 0x1F ) / 31;
+                    if ((packedColor & 0x8000) === 0) {
+                        r = (packedColor & 0x1F) / 31;
+                        g = ((packedColor >> 5) & 0x1F) / 31;
+                        b = ((packedColor >> 10) & 0x1F) / 31;
                     } else {
                         r = defaultR;
                         g = defaultG;
@@ -46239,17 +46726,17 @@ xeogl.Annotation = xeogl.Pin.extend({
             var verticesPerFace;
             var normalsPerFace;
             var text;
-            while (( result = faceRegex.exec(data) ) !== null) {
+            while ((result = faceRegex.exec(data)) !== null) {
                 verticesPerFace = 0;
                 normalsPerFace = 0;
                 text = result[0];
-                while (( result = normalRegex.exec(text) ) !== null) {
+                while ((result = normalRegex.exec(text)) !== null) {
                     normalx = parseFloat(result[1]);
                     normaly = parseFloat(result[2]);
                     normalz = parseFloat(result[3]);
                     normalsPerFace++;
                 }
-                while (( result = vertexRegex.exec(text) ) !== null) {
+                while ((result = vertexRegex.exec(text)) !== null) {
                     positions.push(parseFloat(result[1]), parseFloat(result[2]), parseFloat(result[3]));
                     normals.push(normalx, normaly, normalz);
                     verticesPerFace++;
@@ -46287,7 +46774,7 @@ xeogl.Annotation = xeogl.Pin.extend({
                 primitive: "triangles",
                 positions: positions,
                 normals: normals,
-               // autoVertexNormals: !normals,
+                // autoVertexNormals: !normals,
                 colors: colors,
                 indices: indices
             });
@@ -46337,8 +46824,8 @@ xeogl.Annotation = xeogl.Pin.extend({
         return isBinary(binData) ? parseBinary(binData, model, options) : parseASCII(ensureString(data), model, options);
 
     }
-})();
-;/**
+})();;
+/**
  A **SceneJSModel** is a {{#crossLink "Model"}}{{/crossLink}} that
  imports content from the JSON-based <a href="http://scenejs.org">SceneJS</a> scene definition format.
 
@@ -46768,21 +47255,21 @@ xeogl.Annotation = xeogl.Pin.extend({
         //---------------------------------------------------------------------------------------------------------------
 
         _parse: function (node,
-                          transform,
-                          material,
-                          diffuseMap,
-                          specularMap,
-                          emissiveMap,
-                          normalMap,
-                          alphaMap,
-                          diffuseFresnel,
-                          specularFresnel,
-                          emissiveFresnel,
-                          normalFresnel,
-                          alphaFresnel,
-                          transparent,
-                          backfaces,
-                          layer) {
+            transform,
+            material,
+            diffuseMap,
+            specularMap,
+            emissiveMap,
+            normalMap,
+            alphaMap,
+            diffuseFresnel,
+            specularFresnel,
+            emissiveFresnel,
+            normalFresnel,
+            alphaFresnel,
+            transparent,
+            backfaces,
+            layer) {
 
             switch (node.type) {
 
@@ -47069,4 +47556,6 @@ xeogl.Annotation = xeogl.Pin.extend({
         xhr.send(null);
     }
 
-})();xeogl.version="0.7.0";
+})();
+
+xeogl.version = "0.7.0";

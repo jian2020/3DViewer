@@ -10,8 +10,12 @@ define([
     "./helpers/bimBoundaryHelper",
     "./effects/highlightEffect",
     "./utils/collection",
-    "../materialManager",
-    "../MeasureController"
+    "../MaterialManager",
+    "../MeasureController",
+    "../LineDrawer",
+    "../CircleDrawer",
+    "../TextDrawer",
+    "../Mover"
 ], function (DefaultMaterials, THREE, EventHandler, Utils) {
 
     "use strict";
@@ -21,7 +25,7 @@ define([
     function xeoViewer(cfg) {
 
         // Distance to WebGL's far clipping plane.
-        const FAR_CLIP = 5000;
+        const FAR_CLIP = 500000;
 
         // Create xeoViewer
         var math = xeogl.math;
@@ -53,6 +57,18 @@ define([
         status.style.padding = "5px";
         document.body.appendChild(status);
 
+        var drawActions = {
+            NONE: 'none',
+            LINE: 'line',
+            CIRCLE: 'circle',
+            TEXT: 'text',
+            MEASURE: 'measure',
+            PUSHPULL: 'pushpull'
+        };
+
+        var currentDrawAction = drawActions.NONE;
+
+
         // Create a Scene
         var scene = self.scene = new xeogl.Scene({ // http://xeoengine.org/docs/classes/Scene.html
             canvas: canvas,
@@ -62,11 +78,10 @@ define([
         });
 
         // Redefine default light sources;
-        var lights = [
-            {
+        var lights = [{
                 type: "ambient",
                 params: {
-                    color: [0.65, 0.65, 0.75],
+                    color: [1, 1, 1],
                     intensity: 1
                 }
             },
@@ -81,10 +96,26 @@ define([
             }
         ];
 
-        var t_scene = new THREE.Scene();
-        console.log(t_scene);
-        
-        scene.lights.lights = buildLights(lights);
+
+
+        //var t_scene = new THREE.Scene();
+        //console.log(t_scene);
+
+        // scene.lights.lights = buildLights(lights);
+        // var light_pos = new xeogl.Translate(scene,{
+        //     xyz: [0,0,100]
+        // });
+
+        // var light_rot = new xeogl.Rotate(scene, {
+        //     parent: light_pos,
+        //     xyz: [1, 0, 0],
+        //     angle: -45
+        // });
+
+        // for(var i = 0; i<scene.lights.lights.length; i++){
+        //     scene.lights.lights[i].transform = light_rot;
+        // }
+        // console.log("dddd",scene.lights.lights);
 
         // Attached to all objects to fit the model inside the view volume
         var scale = new xeogl.Scale(scene, {
@@ -111,6 +142,7 @@ define([
         });
         // Grid Plane
         var gridPlane1 = new xeogl.Entity(scene, {
+            id: "DEFAULTGRIDPLANE_1",
             geometry: new xeogl.Geometry(scene, {
                 primitive: "lines",
                 positions: [
@@ -173,6 +205,7 @@ define([
         });
 
         var gridPlane2 = new xeogl.Entity(scene, {
+            id: "DEFAULTGRIDPLANE_2",
             geometry: new xeogl.Geometry(scene, {
                 primitive: "lines",
                 positions: [
@@ -196,10 +229,66 @@ define([
             layer: 0
         });
 
-        var materialManager = new xeogl.MaterialManager(scene, { colors: DefaultMaterials });
+        var planeXY = new xeogl.Entity(scene, {
+            id: "DEFAULTBASEPLANE_XY",
+            geometry: new xeogl.PlaneGeometry(scene, {
+                primitive: "triangles",
+                xSize: 100000,
+                zSize: 100000,
+                xSegments: 1,
+                zSegments: 1
+            }),
+            material: new xeogl.PhongMaterial(scene, {
+                id: "DEFAULTBASEPLANE_MAT",
+                diffuse: [0.1, 0.1, 0.2],
+                backfaces: true,
+                alpha: 1
+            }),
+            ghostMaterial: new xeogl.GhostMaterial(scene, {
+                edges: false,
+                edgeAlpha: 1.0,
+                edgeColor: [0.227451, 0.227451, 0.227451],
+                edgeWidth: 2,
+                vertices: false,
+                vertexAlpha: 1.0,
+                vertexColor: [0.6, 1.0, 0.6],
+                vertexSize: 10,
+                fill: true,
+                fillColor: [0, 0, 0],
+                fillAlpha: 0
+            }),
+            ghosted: true,
+            pickable: true,
+            layer: -1
+        });
+
+        var rot_x_90 = new xeogl.Rotate(scene, {
+            xyz: [1, 0, 0],
+            angle: 90
+        });
+
+        planeXY.transform = rot_x_90;
+
+        var materialManager = new xeogl.MaterialManager(scene, {
+            colors: DefaultMaterials
+        });
         materialManager.initMaterials();
 
-        var measureController = new xeogl.MeasureController(scene, {status: status});
+        var measureController = new xeogl.MeasureController(scene, {
+            status: status
+        });
+        var lineDrawer = new xeogl.LineDrawer(scene, {
+            status: status
+        });
+        var circleDrawer = new xeogl.CircleDrawer(scene, {
+            status: status
+        });
+        var textDrawer = new xeogl.TextDrawer(scene, {
+            status: status
+        });
+        var mover = new xeogl.Mover(scene, {
+            status: status
+        });
 
         // Registers loaded xeoEngine components for easy destruction
         var collection = new xeogl.Collection(scene); // http://xeoengine.org/docs/classes/Collection.html
@@ -207,7 +296,9 @@ define([
         // Shows a wireframe box at the given boundary
         // var boundaryHelper = new xeogl.BIMBoundaryHelper(scene, self, {color: cfg.selectionBorderColor});
 
-        var highlightEffect = new xeogl.HighlightEffect(scene, { color: cfg.selectionColor });
+        var highlightEffect = new xeogl.HighlightEffect(scene, {
+            color: cfg.selectionColor
+        });
 
         // Models mapped to their IDs
         var models = {};
@@ -245,7 +336,14 @@ define([
 
         // Component for each projection type,
         // to swap on the camera when we switch projection types
-        var project = { perspective: camera.project, ortho: new xeogl.Ortho(scene, { scale: 5000, near: 0.1, far: FAR_CLIP }) };
+        var project = {
+            perspective: camera.project,
+            ortho: new xeogl.Ortho(scene, {
+                scale: 5000,
+                near: 0.1,
+                far: FAR_CLIP
+            })
+        };
         // var projections = {
 
         //     persp: camera.project, // Camera has a xeogl.Perspective by default
@@ -316,7 +414,9 @@ define([
         //     camera: camera
         // });
 
-        var cameraControl = new xeogl.CameraControl(scene, { camera: camera });
+        var cameraControl = new xeogl.CameraControl(scene, {
+            camera: camera
+        });
 
 
 
@@ -326,6 +426,9 @@ define([
                 // Get BIM object ID from entity metadata
 
                 var entity = hit.entity;
+
+                if (entity.id === "DEFAULTBASEPLANE_XY")
+                    return;
 
                 if (!entity.meta) {
                     return;
@@ -635,8 +738,7 @@ define([
                 self.typenames.push(type);
                 self.objects_by_type[type] = [];
                 self.objects_by_type[type].push(object);
-            }
-            else {
+            } else {
                 self.objects_by_type[type].push(object);
             }
         };
@@ -787,9 +889,9 @@ define([
                 var index = hiddenTypes.indexOf(type);
 
                 if (index !== -1 && visible) {
-                    hiddenTypes.splice(index, 1);	// remove type from array
+                    hiddenTypes.splice(index, 1); // remove type from array
                 } else if (index === -1 && !visible) {
-                    hiddenTypes.push(type);			// add type to array
+                    hiddenTypes.push(type); // add type to array
                 }
             }
             //console.log(objects);
@@ -910,7 +1012,10 @@ define([
                  * @event selection-changed
                  * @params Array of IDs of all currently-selected objects.
                  */
-                this.fire("selection-changed", [{ objects: selectedObjectList, clickPosition: params.clickPosition }]);
+                this.fire("selection-changed", [{
+                    objects: selectedObjectList,
+                    clickPosition: params.clickPosition
+                }]);
             }
         };
 
@@ -993,7 +1098,7 @@ define([
             }
         };
 
-		/**
+        /**
          * Sets the alpha of objects specified by IDs of IFC types.
          *
          * @param params
@@ -1074,7 +1179,7 @@ define([
         };
 
 
-		/**
+        /**
          * Sets the wireframe of objects specified by IDs of IFC types.
          *
          * @param params
@@ -1137,8 +1242,7 @@ define([
                     if (wireframe) {
                         entities[i].ghostMaterial.edges = true;
                         entities[i].ghostMaterial.fill = false;
-                    }
-                    else {
+                    } else {
                         entities[i].ghostMaterial.edges = false;
                         entities[i].ghostMaterial.fill = true;
                     }
@@ -1230,12 +1334,73 @@ define([
         };
 
         this.newDimensions = function (actionName) {
+            if (currentDrawAction !== drawActions.MEASURE)
+                return;
             measureController.newDimensions(actionName);
             highlightEffect.clear();
         };
 
         this.deleteDimensions = function () {
             measureController.deleteDimensions();
+        };
+
+        this.newStraightLine = function () {
+            if (currentDrawAction !== drawActions.LINE)
+                return;
+            lineDrawer.newStraightLine();
+        };
+
+        self.newFreeLine = function () {
+            if (currentDrawAction !== drawActions.LINE)
+                return;
+            lineDrawer.newFreeLine();
+        };
+
+        self.newSeveralLine = function () {
+            if (currentDrawAction !== drawActions.LINE)
+                return;
+            lineDrawer.newSeveralLine();
+        };
+
+        self.newCircle = function () {
+            if (currentDrawAction !== drawActions.CIRCLE)
+                return;
+            circleDrawer.newCommonCircle();
+        };
+
+        self.newText = function (action) {
+            if (currentDrawAction !== drawActions.TEXT)
+                return;
+            textDrawer.newText(action);
+        };
+
+        self.setDrawAction = function (action) {
+            currentDrawAction = action;
+            if(currentDrawAction === drawActions.LINE || currentDrawAction === drawActions.CIRCLE || currentDrawAction === drawActions.TEXT){
+                planeXY.pickable = true;
+            }
+            else{
+                planeXY.pickable = false;
+            }
+        };
+
+        self.getDrawAction = function () {
+            return currentDrawAction;
+        };
+
+        self.onPushPull = function () {
+            if (currentDrawAction !== drawActions.PUSHPULL)
+                return;
+            mover.newMover('PushPull');
+        };
+
+        self.initDrawingTools = function(){
+            measureController.cancelMeasure();
+            lineDrawer.cancelDrawLine();
+            circleDrawer.cancelDrawCircle();
+            textDrawer.cancelDrawText();
+            currentDrawAction = drawActions.NONE;
+            cameraControl.toolbarDragAction = 'selector';
         };
 
         /**
@@ -1343,7 +1508,7 @@ define([
          * Redefines light sources.
          * 
          * @param params Array of lights {type: "ambient"|"dir"|"point", params: {[...]}}
-		 * See http://xeoengine.org/docs/classes/Lights.html for possible params for each light type
+         * See http://xeoengine.org/docs/classes/Lights.html for possible params for each light type
          */
         this.setLights = function (params) {
             lights = params;
@@ -1405,10 +1570,10 @@ define([
             if (params.animate) {
 
                 cameraFlight.flyTo({
-                    aabb: aabb,
-                    fitFOV: params.fitFOV,
-                    duration: params.duration
-                },
+                        aabb: aabb,
+                        fitFOV: params.fitFOV,
+                        duration: params.duration
+                    },
                     function () {
                         if (ok) {
                             ok();
@@ -1776,7 +1941,10 @@ define([
          */
         this.getTypes = function () {
             return Object.keys(rfcTypes).map(function (n) {
-                return { name: n, visible: hiddenTypes.indexOf(n) === -1 };
+                return {
+                    name: n,
+                    visible: hiddenTypes.indexOf(n) === -1
+                };
             });
         };
 
@@ -1842,4 +2010,3 @@ define([
 
     return xeoViewer;
 });
-

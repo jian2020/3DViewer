@@ -79,14 +79,14 @@ define(["../../../lib/xeogl"], function () {
                 type: "xeogl.EmphasisMaterial",
                 edges: true,
                 edgeAlpha: 1.0,
-                edgeColor: [0.227451, 0.227451, 0.227451],
+                edgeColor: [0, 0, 1],
                 edgeWidth: 2,
                 vertices: true,
                 vertexAlpha: 1.0,
-                vertexColor: [0.6, 1.0, 0.6],
+                vertexColor: [0, 0, 1],
                 vertexSize: 5,
                 fill: true,
-                fillColor: [0, 0.9, 0.1],
+                fillColor: [0, 0, 1],
                 fillAlpha: 0.7
             });
 
@@ -111,7 +111,20 @@ define(["../../../lib/xeogl"], function () {
                     material: this.material,
                     ghostMaterial: this.ghostMaterial,
                     ghosted: true,
-                    highlightMaterial: this.highlightMaterial,
+                    highlightMaterial: this.create({
+                        type: "xeogl.EmphasisMaterial",
+                        edges: true,
+                        edgeAlpha: 1.0,
+                        edgeColor: [0, 0, 1],
+                        edgeWidth: 2,
+                        vertices: true,
+                        vertexAlpha: 1.0,
+                        vertexColor: [0, 0, 1],
+                        vertexSize: 5,
+                        fill: true,
+                        fillColor: [0, 0, 1],
+                        fillAlpha: 0.7
+                    }),
                     highlighted: false
                 });
 
@@ -132,7 +145,20 @@ define(["../../../lib/xeogl"], function () {
                 material: this.material,
                 ghostMaterial: this.ghostMaterial,
                 ghosted: true,
-                highlightMaterial: this.highlightMaterial,
+                highlightMaterial: this.create({
+                    type: "xeogl.EmphasisMaterial",
+                    edges: true,
+                    edgeAlpha: 1.0,
+                    edgeColor: [0, 0, 1],
+                    edgeWidth: 2,
+                    vertices: true,
+                    vertexAlpha: 1.0,
+                    vertexColor: [0, 0, 1],
+                    vertexSize: 5,
+                    fill: true,
+                    fillColor: [0, 0, 1],
+                    fillAlpha: 0.7
+                }),
                 highlighted: false
             });
 

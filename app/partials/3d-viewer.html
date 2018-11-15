@@ -9,671 +9,355 @@
 <link rel="stylesheet" href="../bimsurfer/examples/css/tree.css">
 <link rel="stylesheet" href="../bimsurfer/examples/css/newtree.css">
 <link rel="stylesheet" href="../bimsurfer/examples/css/annotation-style.css" />
-<nav class="navbar top-toolbar fixed-top navbar-expand-lg navbar-light px-2">
-
-  <a class="navbar-brand"><img src="../assets/images/logo.png" /></a>
-
-  <!-- <div class="mx-auto align-items-center d-flex">
-          <div class="border-right border-dark pr-2">
-            <button class="btn mr-2">
-              <i class="fas fa-file text-green"></i>
-            </button>
-            <button class="btn mr-2">
-              <i class="fas fa-save text-green"></i>
-            </button>
-            <button class="btn">
-              <i class="fas fa-times-circle text-green"></i>
-            </button>
+<div class="mainContainer">
+  <div id="modal_dlg_container" class="modalDlgContainer">
+    <!-- Project Open Dialog -->
+    <section id="dlg_openproject" class="dialog dialog-openproject" style="display: none">
+      <header id="dlg_openproject_header" class="dialog-header">
+        <div class="dialog-actions" onclick="getElementById('dlg_openproject').style.display = 'none';getElementById('modal_dlg_container').style.display = 'none';">
+          <a class="dialog-action dialog-action-dismiss" data-dialog-dismiss></a>
+        </div>
+        <h2 id="dlg_openproject_focus" class="dialog-title">Open Projects</h2>
+      </header>
+      <div class="dialog-body">
+        <div class="scrollable" data-plugin-scrollable>
+          <div class="scrollable-content">
+            <div id="open_project_content">
+              <div id="bimserver_status" class="project-open-status"></div>
+              <div id="project_list"></div>
+            </div>
           </div>
-
-          <div class="border-right border-dark px-2">
-            <button class="btn mr-2">
-              <i class="fas fa-cube text-primary"></i>
-            </button>
-            <button class="btn mr-2">
-              <i class="fas fa-database text-primary"></i>
-            </button>
-            <button class="btn mr-2">
-              <i class="fas fa-drafting-compass text-primary"></i>
-            </button>
-            <button class="btn">
-              <i class="fas fa-image text-primary"></i>
-            </button>
-          </div>
-
-          <div class="border-right border-dark px-2">
-            <button class="btn mr-2">
-              <i class="fas fa-long-arrow-alt-up text-grey"></i>
-            </button>
-            <button class="btn mr-2">
-              <i class="fas fa-palette text-grey"></i>
-            </button>
-            <button class="btn mr-2">
-              <i class="fas fa-square-full text-grey"></i>
-            </button>
-            <button class="btn mr-2">
-              <i class="fas fa-project-diagram text-grey"></i>
-            </button>
-            <button class="btn mr-2">
-              <i class="fas fa-th-large text-grey"></i>
-            </button>
-            <button class="btn mr-2">
-              <i class="fas fa-signature text-grey"></i>
-            </button>
-            <button class="btn mr-2">
-              <i class="fas fa-eye text-grey"></i>
-            </button>
-            <button class="btn mr-2">
-              <i class="fas fa-exchange-alt text-grey"></i>
-            </button>
-          </div>
-
-          <div class="border-right border-dark px-2">
-            <button class="btn mr-2">
-              <i class="fas fa-bullseye text-dark"></i>
-            </button>
-            <button class="btn mr-2">
-              <i class="fas fa-camera text-dark"></i>
-            </button>
-            <button class="btn mr-2">
-              <i class="fas fa-users-cog text-dark"></i>
-            </button>
-            <button class="btn mr-2">
-              <i class="fas fa-exclamation-triangle text-dark"></i>
-            </button>
-          </div>
-        </div> -->
-
-  <div class="ml-auto align-items-center d-flex">
-    <!-- <div class="slider-container mr-1">
-              <div class="range-slide-container">
-                   <input type="range" min="1" max="100" value="50" class="range-slider">
-              </div>  
-          </div>
-
-          <button class="btn mr-4">
-            <i class="fas fa-crosshairs text-dark"></i>
-          </button>
-
-          <div class="undo-redo mr-4">
-            <button class="btn">
-              <i class="fas fa-undo text-warning"></i>
-            </button>
-            <button class="btn">
-              <i class="fas fa-redo text-warning"></i>
-            </button>
-          </div> -->
-    <div class="windows mr-4">
-      <div class="dropdown">
-        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-          Windows
-        </button>
-        <div class="dropdown-menu" role="menu">
-          <a class="dropdown-item small px-2" onclick="if(getElementById('chk_components').classList.contains('fa-check')) { getElementById('chk_components').classList.remove('fa-check'); getElementById('dlg_components').style.display = 'none'; } else { getElementById('chk_components').classList.add('fa-check'); getElementById('dlg_components').style.display = 'block'; }"><i
-              id="chk_components" class="fas fa-check fa-sm text-success"></i> Components</a>
-          <a class="dropdown-item small px-2" onclick="if(getElementById('chk_materials').classList.contains('fa-check')) { getElementById('chk_materials').classList.remove('fa-check'); getElementById('dlg_materials').style.display = 'none'; } else { getElementById('chk_materials').classList.add('fa-check'); getElementById('dlg_materials').style.display = 'block'; }"><i
-              id="chk_materials" class="fas fa-check fa-sm  text-success"></i>Materials and colors</a>
-          <a class="dropdown-item small px-2" onclick="if(getElementById('chk_collision').classList.contains('fa-check')) { getElementById('chk_collision').classList.remove('fa-check'); getElementById('dlg_collision').style.display = 'none'; } else { getElementById('chk_collision').classList.add('fa-check'); getElementById('dlg_collision').style.display = 'block'; }"><i
-              id="chk_collision" class="fas fa-check fa-sm  text-success"></i>Collision check</a>
-          <a class="dropdown-item small px-2" onclick="if(getElementById('chk_story').classList.contains('fa-check')) { getElementById('chk_story').classList.remove('fa-check'); getElementById('dlg_story').style.display = 'none'; } else { getElementById('chk_story').classList.add('fa-check'); getElementById('dlg_story').style.display = 'block'; }"><i
-              id="chk_story" class="fas fa-check fa-sm  text-success"></i>Home Story</a>
         </div>
       </div>
-    </div>
-    <!-- <div class="ca m-0 bg-light row  rounded py-1 text-dark">
-            <div class="col px-2 border-right">
-              Calibration <br> 1 unit = 0 units
-            </div>
-            <div class="col pl-0 pr-1 border-right">
-              <span>x: 100</span><span>y: 480</span><br>
-              <span>w: 100</span><span>h: 480</span>
-            </div>
-          </div> -->
-    <div class="header-right">
-
-      <ul class="notifications">
-        <li>
-          <a class="notification-icon" data-toggle="dropdown">
-            <i class="faaa fa-envelope"></i>
-            <span class="badge">4</span>
-          </a>
-
-          <div class="dropdown-menu notification-menu">
-            <div class="notification-title">
-              <span class="float-right badge badge-default">230</span>
-              Messages
-            </div>
-
-            <div class="content">
-              <ul>
-                <li>
-                  <a class="clearfix">
-                    <figure class="image">
-                      <img src="../assets/images/user.jpg" alt="Harsh" class="rounded-circle" />
-                    </figure>
-                    <span class="title">Harsh</span>
-                    <span class="message">Lorem ipsum dolor sit.</span>
-                  </a>
-                </li>
-              </ul>
-
-              <hr />
-
-              <div class="text-right">
-                <a class="view-more">View All</a>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li>
-          <a class="notification-icon" data-toggle="dropdown">
-            <i class="faaa fa-bell"></i>
-            <span class="badge">3</span>
-          </a>
-
-          <div class="dropdown-menu notification-menu">
-            <div class="notification-title">
-              <span class="float-right badge badge-default">3</span>
-              Alerts
-            </div>
-
-            <div class="content">
-              <ul>
-                <li>
-                  <a class="clearfix">
-                    <div class="image">
-                      <i class="faaa fa-thumbs-down bg-danger text-light"></i>
-                    </div>
-                    <span class="title">Server is Down!</span>
-                    <span class="message">Just now</span>
-                  </a>
-                </li>
-                <li>
-                  <a class="clearfix">
-                    <div class="image">
-                      <i class="faaa fa-lock bg-warning text-light"></i>
-                    </div>
-                    <span class="title">User Locked</span>
-                    <span class="message">15 minutes ago</span>
-                  </a>
-                </li>
-                <li>
-                  <a class="clearfix">
-                    <div class="image">
-                      <i class="faaa fa-signal bg-success text-light"></i>
-                    </div>
-                    <span class="title">Connection Restaured</span>
-                    <span class="message">10/10/2017</span>
-                  </a>
-                </li>
-              </ul>
-
-              <hr />
-
-              <div class="text-right">
-                <a class="view-more">View All</a>
-              </div>
-            </div>
-          </div>
-        </li>
-      </ul>
-
-      <span class="separator"></span>
-
-      <div id="userbox" class="userbox">
-        <a data-toggle="dropdown" aria-expanded="false">
-          <figure class="profile-picture">
-            <img src="../assets/images/user.jpg" alt="Harsh" class="rounded-circle" data-lock-picture="../assets/images/user.jpg">
-          </figure>
-          <div class="profile-info" data-lock-name="Harsh" data-lock-email="Harsh@CloudES.com">
-            <span class="name">Harsh</span>
-            <span class="role">administrator</span>
-          </div>
-
-          <i class="faaa custom-caret"></i>
-        </a>
-
-        <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(-8px, 35px, 0px); top: 0px; left: 0px; will-change: transform;">
-          <ul class="list-unstyled mb-2">
-            <li class="divider"></li>
-            <li>
-              <a role="menuitem" tabindex="-1" href="pages-user-profile.html"><i class="faaa fa-user"></i> My Profile</a>
-            </li>
-            <li>
-              <a role="menuitem" tabindex="-1" data-lock-screen="true"><i class="faaa fa-lock"></i> Lock Screen</a>
-            </li>
-            <li>
-              <a role="menuitem" tabindex="-1" href="pages-signin.html"><i class="faaa fa-power-off"></i> Logout</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
+    </section>
   </div>
-</nav>
-
-<div class="viewContainer circle-toolbar-container" id="toolbarContainer">
-  <iframe src="../bimsurfer/bimsurfer.html" id="bimviewer" style="width:-webkit-fill-available;height:-webkit-fill-available;margin-left:50px;"
-    frameborder="0" oncontextmenu="return false;">
-    <div id="localhost8082"></div>
-  </iframe>
-  <!-- circle toolbar -->
-  <!-- <div class="circle-toolbar" id="toolbar"> 
-            <div class="circle-toolbar-center" id="toolbar_center"></div>
-            <div id = "btnfileload" class="toolbar-icon" onclick="onToolbarSelect('fileload');"><img class="circle-toolbar-icon" src="../assets/images/toolbar/fileload.png"/></div>
-            <div id = "btnlayer" class="toolbar-icon" onclick="onToolbarSelect('layer');"><img class="circle-toolbar-icon" src="../assets/images/toolbar/layer.png"/></div>
-            <div id = "btnviewtype" class="toolbar-icon" onclick="onToolbarSelect('viewtype');"><img class="circle-toolbar-icon" src="../assets/images/toolbar/viewtype.png"/></div>
-            <div id = "btndraw" class="toolbar-icon" onclick="onToolbarSelect('draw');"><img class="circle-toolbar-icon" src="../assets/images/toolbar/draw.png"/></div>
-            <div id = "btnfilesave" class="toolbar-icon" onclick="onToolbarSelect('filesave');"><img class="circle-toolbar-icon" src="../assets/images/toolbar/filesave.png"/></div>
-            <div id = "btnviewport" class="toolbar-icon" onclick="onToolbarSelect('viewport');"><img class="circle-toolbar-icon" src="../assets/images/toolbar/viewport.png"/></div>
-            <div id = "btnselector" class="toolbar-icon" onclick="onToolbarSelect('selector');"><img class="circle-toolbar-icon" src="../assets/images/toolbar/select.png"/></div>
-            <div id = "btnmeasure" class="toolbar-icon" onclick="onToolbarSelect('measure');"><img class="circle-toolbar-icon" src="../assets/images/toolbar/measure.png"/>
-              <div id = "subMeasure" style="display:none">
-                <div id = "newDimensions" class="sub-toolbar-icon" style="left:-60px;top: -10px;" onclick="onNewDimensions();"><img class="circle-toolbar-icon" src="../assets/images/toolbar/newDimensions.png"/></div>
-                <div id = "delDimensions" class="sub-toolbar-icon" style="left:-10px;top: -60px;" onclick="onDeleteDimensions();"><img class="circle-toolbar-icon" src="../assets/images/toolbar/deleteDimensions.png"/></div>
-              </div>
-            </div>
-        </div> -->
-
-  <div class="rect-toolbar">
-    <div class="rect-toolbar-group">
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/1.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/2.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/3.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/4.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/5.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/6.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/7.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/8.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/9.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/10.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/11.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/12.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/13.png" />
-      </div>
+  <div class="topbar">
+    <div class="topbar-brand">
+      <img src="../assets/images/logo1024.png" />
+      <label class="navbar-brand-title">
+        <span style="color:black">Cloud</span>
+        <span style="color:#F89603">E</span>
+        <span style="color:#00A5C8">S</span>
+      </label>
     </div>
-
-    <div class="rect-toolbar-group">
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/14.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/15.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/16.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/17.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/18.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/19.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/20.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/21.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <!-- <img class="rect-toolbar-img" src="../assets/images/toolbar/22.png" /> -->
+    <!-- <div class="camview-toolbar">
+      <div class="item">
         <div class="dropdown">
-          <button class="btn dropdown-toggle only-icon" type="button" data-toggle="dropdown">
-            <img id="img_measure_length" class="rect-toolbar-img" src="../assets/images/toolbar/22.png" />
+          <button class="top-toolbar-btn" type="button" data-toggle="dropdown" aria-expanded="false">
+            <img src="../assets/images/toolbar/video-camera.png">
+            <label>Cameras</label>
           </button>
-          <div class="dropdown-menu" role="menu">
-            <a class="dropdown-item small px-2 chk-measure-length"><img class="measure-length-icon" src="../assets/images/toolbar/22.png" />
-              Common Length</a>
-            <a class="dropdown-item small px-2 chk-measure-length"><img class="measure-length-icon" src="../assets/images/toolbar/length_edge.png" />
-              Edge Calibrate</a>
-            <a class="dropdown-item small px-2 chk-measure-length"><img class="measure-length-icon" src="../assets/images/toolbar/length_vertex.png" />
-              Vertex Calibrate</a>
+          <div class="dropdown-menu">
+            <a id="chk_cam_persp" class="dropdown-item submenu px-2" onclick="onCheckCameras('perspective')"><i id="chk_persp"
+                class="fas fa-check fa-sm text-success"></i>Perspective&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;P</a>
+            <a id="chk_cam_ortho" class="dropdown-item submenu px-2" onclick="onCheckCameras('ortho')"><i id="chk_ortho"
+                class="fas fa-sm text-success"></i>Orthographic&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;O</a>
+            <a id="chk_cam_top" class="dropdown-item submenu px-2" onclick="onCheckCameras('top')"><i id="chk_top"
+                class="fas fa-sm text-success"></i>Top&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Num
+              1</a>
+            <a id="chk_cam_bottom" class="dropdown-item submenu px-2" onclick="onCheckCameras('bottom')"><i id="chk_bottom"
+                class="fas fa-sm text-success"></i>Bottom&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Num
+              2</a>
+            <a id="chk_cam_front" class="dropdown-item submenu px-2" onclick="onCheckCameras('front')"><i id="chk_front"
+                class="fas fa-sm text-success"></i>Front&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Num
+              3</a>
+            <a id="chk_cam_back" class="dropdown-item submenu px-2" onclick="onCheckCameras('back')"><i id="chk_back"
+                class="fas fa-sm text-success"></i>Back&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Num
+              4</a>
+            <a id="chk_cam_left" class="dropdown-item submenu px-2" onclick="onCheckCameras('left')"><i id="chk_left"
+                class="fas fa-sm text-success"></i>Left&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Num
+              5</a>
+            <a id="chk_cam_right" class="dropdown-item submenu px-2" onclick="onCheckCameras('right')"><i id="chk_right"
+                class="fas fa-sm text-success"></i>Right&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Num
+              6</a>
           </div>
         </div>
       </div>
-      <div class="rect-toolbar-icon">
+      <div class="separator-camview"></div>
+      <div class="item">
         <div class="dropdown">
-          <button class="btn dropdown-toggle only-icon" type="button" data-toggle="dropdown">
-            <img id="img_measure_area" class="rect-toolbar-img" src="../assets/images/toolbar/area_sameplane.png" />
+          <button class="top-toolbar-btn" type="button" data-toggle="dropdown" aria-expanded="false">
+            <img src="../assets/images/toolbar/views.png">
+            <label>&nbsp;Views&nbsp;</label>
           </button>
-          <div class="dropdown-menu" role="menu">
-            <!-- <a class="dropdown-item small px-2 chk-measure-area"><img class="measure-area-icon" src="../assets/images/toolbar/area_triangle.png" />
-              Triangle Area</a> -->
-            <a class="dropdown-item small px-2 chk-measure-area"><img class="measure-area-icon" src="../assets/images/toolbar/area_sameplane.png" />
-              Same Plane</a>
-            <a class="dropdown-item small px-2 chk-measure-area"><img class="measure-area-icon" src="../assets/images/toolbar/area_total.png" />
-              Total Area</a>
+          <div class="dropdown-menu" style="right:-110px">
+            <a id="chk_view_shaded" class="dropdown-item submenu px-2" onclick="onCheckViews('shaded')"><i id="chk_shaded"
+                class="fas fa-check fa-sm text-success"></i>Shaded</a>
+            <a id="chk_view_wire" class="dropdown-item submenu px-2" onclick="onCheckViews('wire')"><i id="chk_wire"
+                class="fas fa-sm text-success"></i>Wireframe</a>
+            <a id="chk_view_transp" class="dropdown-item submenu px-2" onclick="onCheckViews('transp')"><i id="chk_transp"
+                class="fas fa-sm text-success"></i>Transparence</a>
+            <a id="chk_view_edge" class="dropdown-item submenu px-2" onclick="onCheckViews('edge')"><i id="chk_edge"
+                class="fas fa-sm text-success"></i>Edged Faces</a>
+            <a id="chk_view_grid" class="dropdown-item submenu px-2" onclick="onCheckViews('grid')"><i id="chk_grid"
+                class="fas fa-check fa-sm text-success"></i>Grid</a>
           </div>
         </div>
       </div>
-      <div class="rect-toolbar-icon" id="btn_calc_volume">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/volume.png" />
+    </div> -->
+    <div class="menubar">
+      <div class="menuItem">
+        <img src="../assets/images/menubar/menu_equipment.png" />
+        <label>EQUIPMENT</label>
       </div>
-      <div class="rect-toolbar-icon" id="btn_delete_dimension">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/deleteDimensions.png" />
+      <div class="menuItem">
+        <img src="../assets/images/menubar/menu_materials.png" />
+        <label>MATERIALS</label>
       </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/23.png" />
+      <div class="menuItem">
+        <img src="../assets/images/menubar/menu_supplier.png" />
+        <label>SUPPLIER</label>
       </div>
-      <div class="rect-toolbar-icon" id="btn_calc_angle">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/24.png" />
+      <div class="menuItem">
+        <img src="../assets/images/menubar/menu_subcontractors.png" />
+        <label>SUBCONTRACTORS</label>
       </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/25.png" />
+      <div class="menuItem">
+        <img src="../assets/images/menubar/menu_visualplan.png" />
+        <label>VISUAL PLAN</label>
       </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/26.png" />
+      <div class="menuItem">
+        <img src="../assets/images/menubar/menu_keyfigures.png" />
+        <label>KEY FIGURES</label>
       </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/27.png" />
+      <div class="menuItem">
+        <img src="../assets/images/menubar/menu_timeline.png" />
+        <label>TIMELINE</label>
       </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/28.png" />
+      <div class="menuItem">
+        <img src="../assets/images/menubar/menu_offers.png" />
+        <label>OFFERS</label>
       </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/29.png" />
+      <div class="menuItem">
+        <img src="../assets/images/menubar/menu_budget.png" />
+        <label>BUDGET</label>
       </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/30.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/31.png" />
-      </div>
-    </div>
-
-    <div class="rect-toolbar-group">
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/32.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/33.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/34.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/35.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/36.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/37.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/38.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/39.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/40.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/41.png" />
-      </div>
-    </div>
-
-    <div class="rect-toolbar-group">
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/42.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/43.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/44.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/45.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/46.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/47.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/48.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/49.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/50.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/51.png" />
-      </div>
-    </div>
-
-    <div class="rect-toolbar-group">
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/52.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/53.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/54.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/55.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/56.png" />
-      </div>
-      <div id="btn_open_project" class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/57.png" />
-      </div>
-      <div id = "btn_upload" class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/upload.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/58.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/59.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/60.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/61.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/62.png" />
-      </div>
-      <div class="rect-toolbar-icon">
-        <img class="rect-toolbar-img" src="../assets/images/toolbar/63.png" />
+      <div class="menuItem">
+        <img src="../assets/images/menubar/menu_profit.png" />
+        <label>PROFIT, RISK & COST PLANNER</label>
       </div>
     </div>
   </div>
-  <!-- top controller -->
-  <!-- camera view -->
-  <!-- view method -->
-  <div class="top-controller">
-    <div class="item">
-      <div class="dropdown">
-        <button class="dropdown-toggle top-toolbar-btn" type="button" data-toggle="dropdown" aria-expanded="false">
-          Cameras
-        </button>
-        <div class="dropdown-menu">
-          <a id="chk_cam_persp" class="dropdown-item submenu px-2" onclick="onCheckCameras('perspective')"><i id="chk_persp"
-              class="fas fa-check fa-sm text-success"></i>Perspective&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;P</a>
-          <a id="chk_cam_ortho" class="dropdown-item submenu px-2" onclick="onCheckCameras('ortho')"><i id="chk_ortho"
-              class="fas fa-sm text-success"></i>Orthographic&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;O</a>
-          <a id="chk_cam_top" class="dropdown-item submenu px-2" onclick="onCheckCameras('top')"><i id="chk_top" class="fas fa-sm text-success"></i>Top&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Num
-            1</a>
-          <a id="chk_cam_bottom" class="dropdown-item submenu px-2" onclick="onCheckCameras('bottom')"><i id="chk_bottom"
-              class="fas fa-sm text-success"></i>Bottom&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Num
-            2</a>
-          <a id="chk_cam_front" class="dropdown-item submenu px-2" onclick="onCheckCameras('front')"><i id="chk_front"
-              class="fas fa-sm text-success"></i>Front&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Num
-            3</a>
-          <a id="chk_cam_back" class="dropdown-item submenu px-2" onclick="onCheckCameras('back')"><i id="chk_back"
-              class="fas fa-sm text-success"></i>Back&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Num
-            4</a>
-          <a id="chk_cam_left" class="dropdown-item submenu px-2" onclick="onCheckCameras('left')"><i id="chk_left"
-              class="fas fa-sm text-success"></i>Left&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Num
-            5</a>
-          <a id="chk_cam_right" class="dropdown-item submenu px-2" onclick="onCheckCameras('right')"><i id="chk_right"
-              class="fas fa-sm text-success"></i>Right&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Num
-            6</a>
-        </div>
+  <div class="toptoolbar">
+    <div id="btn_open_project" class="toolbar-icon" data-toggle="tooltip" data-placement="bottom" title="Open Project">
+      <div class="toolbar-icon-img">
+        <img src="../assets/images/toolbar/57.png" />
       </div>
     </div>
-    <div class="item">
-      <div class="dropdown">
-        <button class="dropdown-toggle top-toolbar-btn" type="button" data-toggle="dropdown" aria-expanded="false">
-          Views
-        </button>
-        <div class="dropdown-menu">
-          <a id="chk_view_shaded" class="dropdown-item submenu px-2" onclick="onCheckViews('shaded')"><i id="chk_shaded"
-              class="fas fa-check fa-sm text-success"></i>Shaded</a>
-          <a id="chk_view_wire" class="dropdown-item submenu px-2" onclick="onCheckViews('wire')"><i id="chk_wire"
-              class="fas fa-sm text-success"></i>Wireframe</a>
-          <a id="chk_view_transp" class="dropdown-item submenu px-2" onclick="onCheckViews('transp')"><i id="chk_transp"
-              class="fas fa-sm text-success"></i>Transparence</a>
-          <a id="chk_view_edge" class="dropdown-item submenu px-2" onclick="onCheckViews('edge')"><i id="chk_edge"
-              class="fas fa-sm text-success"></i>Edged Faces</a>
-          <a id="chk_view_grid" class="dropdown-item submenu px-2" onclick="onCheckViews('grid')"><i id="chk_grid"
-              class="fas fa-check fa-sm text-success"></i>Grid</a>
-        </div>
+    <div id="btn_upload" class="toolbar-icon" data-toggle="tooltip" data-placement="bottom" title="Upload">
+      <div class="toolbar-icon-img">
+        <img src="../assets/images/toolbar/new_toolbar/-_Delete copy 80.png" />
+      </div>
+    </div>
+    <div class="separator"></div>
+    <div id="btn_picker" class="toolbar-icon" onclick="onbtnPicker()" data-toggle="tooltip" data-placement="bottom" title="Picker">
+      <div class="toolbar-icon-img">
+        <img src="../assets/images/toolbar/new_toolbar/-_Delete copy 65.png" />
+      </div>
+    </div>
+    <div id="btn_pan" class="toolbar-icon" onclick="onbtnPanMove()" data-toggle="tooltip" data-placement="bottom" title="Pan">
+      <div class="toolbar-icon-img">
+        <img src="../assets/images/toolbar/pan.png" />
+      </div>
+    </div>
+    <div id="btn_orbit" class="toolbar-icon" onclick="onbtnOrbit()" data-toggle="tooltip" data-placement="bottom" title="Orbit">
+      <div class="toolbar-icon-img">
+        <img src="../assets/images/toolbar/orbit.png" />
+      </div>
+    </div>
+    <div class="separator"></div>
+    <div id="cam_persp" class="toolbar-icon" onclick="onCheckCameras('perspective')" data-toggle="tooltip" data-placement="bottom" title="Perspective">
+      <div class="toolbar-icon-img">
+        <img src="../assets/images/toolbar/cam_persp.png" />
+      </div>
+    </div>
+    <div id="cam_ortho" class="toolbar-icon" onclick="onCheckCameras('ortho')" data-toggle="tooltip" data-placement="bottom" title="Orthographic">
+      <div class="toolbar-icon-img">
+        <img src="../assets/images/toolbar/cam_ortho.png" />
+      </div>
+    </div>
+    <div id="cam_top" class="toolbar-icon" onclick="onCheckCameras('top')" data-toggle="tooltip" data-placement="bottom" title="Top">
+      <div class="toolbar-icon-img">
+        <img src="../assets/images/toolbar/cam_top.png" />
+      </div>
+    </div>
+    <div id="cam_bottom" class="toolbar-icon" onclick="onCheckCameras('bottom')" data-toggle="tooltip" data-placement="bottom" title="Bottom">
+      <div class="toolbar-icon-img">
+        <img src="../assets/images/toolbar/cam_bottom.png" />
+      </div>
+    </div>
+    <div id="cam_front" class="toolbar-icon" onclick="onCheckCameras('front')" data-toggle="tooltip" data-placement="bottom" title="Front">
+      <div class="toolbar-icon-img">
+        <img src="../assets/images/toolbar/cam_front.png" />
+      </div>
+    </div>
+    <div id="cam_back" class="toolbar-icon" onclick="onCheckCameras('back')" data-toggle="tooltip" data-placement="bottom" title="Back">
+      <div class="toolbar-icon-img">
+        <img src="../assets/images/toolbar/cam_back.png" />
+      </div>
+    </div>
+    <div id="cam_left" class="toolbar-icon" onclick="onCheckCameras('left')" data-toggle="tooltip" data-placement="bottom" title="Left">
+      <div class="toolbar-icon-img">
+        <img src="../assets/images/toolbar/cam_left.png" />
+      </div>
+    </div>
+    <div id="cam_right" class="toolbar-icon" onclick="onCheckCameras('right')" data-toggle="tooltip" data-placement="bottom" title="Right">
+      <div class="toolbar-icon-img">
+        <img src="../assets/images/toolbar/cam_right.png" />
+      </div>
+    </div>
+    <div class="separator"></div>
+    <div id="view_shaded" class="toolbar-icon" onclick="onCheckViews('shaded')" data-toggle="tooltip" data-placement="bottom" title="Shaded">
+      <div class="toolbar-icon-img">
+        <img src="../assets/images/toolbar/view_shaded.png" />
+      </div>
+    </div>
+    <div id="view_edge" class="toolbar-icon" onclick="onCheckViews('edge')" data-toggle="tooltip" data-placement="bottom" title="Edge">
+      <div class="toolbar-icon-img">
+        <img src="../assets/images/toolbar/view_edge.png" />
+      </div>
+    </div>
+    <div id="view_transp" class="toolbar-icon" onclick="onCheckViews('transp')" data-toggle="tooltip" data-placement="bottom" title="Transparency">
+      <div class="toolbar-icon-img">
+        <img src="../assets/images/toolbar/view_transp.png" />
+      </div>
+    </div>
+    <div id="view_wire" class="toolbar-icon" onclick="onCheckViews('wire')" data-toggle="tooltip" data-placement="bottom" title="Wireframe">
+      <div class="toolbar-icon-img">
+        <img src="../assets/images/toolbar/view_wire.png" />
+      </div>
+    </div>
+    <div id="view_grid" class="toolbar-icon" onclick="onCheckViews('grid')" data-toggle="tooltip" data-placement="bottom" title="Grid">
+      <div class="toolbar-icon-img">
+        <img src="../assets/images/toolbar/view_grid.png" />
+      </div>
+    </div>
+    <div class="separator"></div>
+    <div id="pushpull" class="toolbar-icon" data-toggle="tooltip" data-placement="bottom" title="Push/Pull">
+      <div class="toolbar-icon-img">
+        <img src="../assets/images/toolbar/17.png" />
       </div>
     </div>
   </div>
+  <div class="viewContainer" id="toolbarContainer">
+    <div class="leftPart">
+      <div id="left_toolbar" class="left-toolbar">
 
-  <!-- left toolbar -->
-  <div id="left_toolbar" class="left-toolbar">
-    <div id="btn_structures" class="left-toolbar-icon" onclick="onbtnStructures()">
-      <div class="left-toolbar-img">
-        <img src="../assets/images/lefttoolbar/structures_.png" style="width: 20px;" />
-      </div>
-    </div>
-    <div id="btn_layers" class="left-toolbar-icon" onclick="onbtnLayers()">
-      <div class="left-toolbar-img">
-        <img src="../assets/images/lefttoolbar/layers_.png" style="width: 20px;" />
-      </div>
-    </div>
-    <div id="btn_types" class="left-toolbar-icon" onclick="onbtnTypes()">
-      <div class="left-toolbar-img">
-        <img src="../assets/images/lefttoolbar/types.png" style="width: 20px;" />
-      </div>
-    </div>
-    <div class="separator-horizontal"></div>
-    <div id="btn_selector" class="left-toolbar-icon" onclick="onbtnSelector()">
-      <div class="left-toolbar-img">
-        <img src="../assets/images/lefttoolbar/selector.png" style="width: 20px;" />
-      </div>
-    </div>
-    <div id="btn_pan" class="left-toolbar-icon" onclick="onbtnPanMove()">
-      <div class="left-toolbar-img">
-        <img src="../assets/images/lefttoolbar/pan.png" style="width: 20px;" />
-      </div>
-    </div>
-    <div id="btn_orbit" class="left-toolbar-icon" onclick="onbtnOrbit()">
-      <div class="left-toolbar-img">
-        <img src="../assets/images/lefttoolbar/orbit.png" style="width: 20px;" />
-      </div>
-    </div>
-  </div>
-  <!-- structure dialog -->
-  <section id="dlg_structures" class="dialog dialog-structure">
-    <header class="dialog-header">
-      <div class="dialog-actions" onclick="getElementById('dlg_structures').style.display = 'none'; getElementById('btn_structures').classList.remove('select');">
-        <a class="dialog-action dialog-action-dismiss" data-dialog-dismiss></a>
-      </div>
-      <h2 class="dialog-title">Structures</h2>
-    </header>
-    <div class="dialog-body">
-      <div class="scrollable" data-plugin-scrollable style="height: 100%;">
-        <div id="dlg_structures_content" class="scrollable-content">
+        <div id="btn_draw_straightline" class="toolbar-icon" data-toggle="tooltip" data-placement="right" title="Straight Line">
+          <div class="toolbar-icon-img">
+            <img src="../assets/images/toolbar/new_toolbar/-_Delete copy 66.png" />
+          </div>
         </div>
-      </div>
-    </div>
-  </section>
-  <!-- layers dialog -->
-  <section id="dlg_layers" class="dialog dialog-structure">
-    <header class="dialog-header">
-      <div class="dialog-actions" onclick="getElementById('dlg_layers').style.display = 'none'; getElementById('btn_layers').classList.remove('select');">
-        <a class="dialog-action dialog-action-dismiss" data-dialog-dismiss></a>
-      </div>
-      <h2 class="dialog-title">Layers</h2>
-    </header>
-    <div class="dialog-body">
-      <div class="scrollable" data-plugin-scrollable style="height: 100%;">
-        <div class="scrollable-content">
-          <table class="layertable">
-            <thead class="text-dark">
-            </thead>
-            <tbody id="dlg_layers_content">
-            </tbody>
-          </table>
+        <div id="btn_draw_freeline" class="toolbar-icon"  data-toggle="tooltip" data-placement="right" title="Free Hand">
+          <div class="toolbar-icon-img">
+            <img src="../assets/images/toolbar/new_toolbar/-_Delete copy 67.png" />
+          </div>
         </div>
-      </div>
-    </div>
-  </section>
-  <!-- types dialog -->
-  <section id="dlg_types" class="dialog dialog-structure">
-    <header class="dialog-header">
-      <div class="dialog-actions" onclick="getElementById('dlg_types').style.display = 'none'; getElementById('btn_types').classList.remove('select');">
-        <a class="dialog-action dialog-action-dismiss" data-dialog-dismiss></a>
-      </div>
-      <h2 class="dialog-title">Types</h2>
-    </header>
-    <div class="dialog-body">
-      <div class="scrollable" data-plugin-scrollable style="height: 100%;">
-        <div class="scrollable-content">
-          <table class="layertable">
-            <thead class="text-dark">
-            </thead>
-            <tbody id="dlg_types_content">
-            </tbody>
-          </table>
+        <div id="btn_draw_severalline" class="toolbar-icon"  data-toggle="tooltip" data-placement="right" title="Several Points">
+          <div class="toolbar-icon-img">
+            <img src="../assets/images/toolbar/new_toolbar/-_Delete copy 68.png" />
+          </div>
         </div>
+        <div class="toolbar-icon" id="btn_draw_circle"  data-toggle="tooltip" data-placement="right" title="Circle">
+          <div class="toolbar-icon-img">
+            <img src="../assets/images/toolbar/drawCircle.png" />
+          </div>
+        </div>
+        <div id="btn_draw_text" class="toolbar-icon"  data-toggle="tooltip" data-placement="right" title="Text">
+          <div class="toolbar-icon-img">
+            <img src="../assets/images/toolbar/new_toolbar/-_Delete copy 78.png" />
+          </div>
+        </div>
+        <div id="btn_draw_locationtext" class="toolbar-icon"  data-toggle="tooltip" data-placement="right" title="Locations Text">
+          <div class="toolbar-icon-img">
+            <img src="../assets/images/toolbar/new_toolbar/-_Delete copy 77.png" />
+          </div>
+        </div>
+        <div class="toolbar-icon"  data-toggle="tooltip" data-placement="right" title="Color">
+          <div class="toolbar-icon-img">
+            <img src="../assets/images/toolbar/new_toolbar/-_Delete copy 79.png" />
+          </div>
+        </div>
+        <div class="separator-horizontal"></div>
+        
+        <div id="btn_calc_angle" class="toolbar-icon"  data-toggle="tooltip" data-placement="right" title="Angle Measure">
+          <div class="toolbar-icon-img">
+            <img src="../assets/images/toolbar/new_toolbar/-_Delete copy 69.png" />
+          </div>
+        </div>
+        <div class="toolbar-icon" data-toggle="tooltip" data-placement="right" title="Square Marker">
+          <div class="toolbar-icon-img">
+            <img src="../assets/images/toolbar/new_toolbar/-_Delete copy 70.png" />
+          </div>
+        </div>
+        <div id="btn_calc_circle_circum" class="toolbar-icon" data-toggle="tooltip" data-placement="right" title="Circumference">
+          <div class="toolbar-icon-img">
+            <img src="../assets/images/toolbar/new_toolbar/-_Delete copy 71.png" />
+          </div>
+        </div>
+        <div id="btn_calc_circle_diameter" class="toolbar-icon"  data-toggle="tooltip" data-placement="right" title="Diameter">
+          <div class="toolbar-icon-img">
+            <img src="../assets/images/toolbar/new_toolbar/-_Delete copy 72.png" />
+          </div>
+        </div>
+        <div id="btn_calc_area" class="toolbar-icon"  data-toggle="tooltip" data-placement="right" title="Area Measure">
+          <div class="dropdown">
+            <button class="btn dropdown-toggle only-icon" type="button" data-toggle="dropdown">
+              <img id="img_measure_area" class="toolbar-icon-img" src="../assets/images/toolbar/area_sameplane.png" />
+            </button>
+            <div class="dropdown-menu" role="menu">
+              <!-- <a class="dropdown-item small px-2 chk-measure-area"><img class="measure-area-icon" src="../assets/images/toolbar/area_triangle.png" />
+                          Triangle Area</a> -->
+              <a class="dropdown-item small px-2 chk-measure-area"><img class="measure-area-icon" src="../assets/images/toolbar/area_sameplane.png" />
+                Same Plane</a>
+              <a class="dropdown-item small px-2 chk-measure-area"><img class="measure-area-icon" src="../assets/images/toolbar/area_total.png" />
+                Total Area</a>
+            </div>
+          </div>
+        </div>
+        <div id="btn_calc_length" class="toolbar-icon"  data-toggle="tooltip" data-placement="right" title="Length Measure">
+          <!-- <img class="rect-toolbar-img" src="../assets/images/toolbar/22.png" /> -->
+          <div class="dropdown">
+            <button class="btn dropdown-toggle only-icon" type="button" data-toggle="dropdown">
+              <img id="img_measure_length" class="toolbar-icon-img" src="../assets/images/toolbar/22.png" />
+            </button>
+            <div class="dropdown-menu" role="menu">
+              <a class="dropdown-item small px-2 chk-measure-length"><img class="measure-length-icon" src="../assets/images/toolbar/22.png" />
+                Common Length</a>
+              <a class="dropdown-item small px-2 chk-measure-length"><img class="measure-length-icon" src="../assets/images/toolbar/length_edge.png" />
+                Edge Calibrate</a>
+              <a class="dropdown-item small px-2 chk-measure-length"><img class="measure-length-icon" src="../assets/images/toolbar/length_vertex.png" />
+                Vertex Calibrate</a>
+            </div>
+          </div>
+        </div>
+        <div class="toolbar-icon" id="btn_calc_volume"  data-toggle="tooltip" data-placement="right" title="Volume">
+          <img class="rect-toolbar-img" src="../assets/images/toolbar/volume.png" />
+        </div>
+        <div id="btn_delete_dimension" class="toolbar-icon"  data-toggle="tooltip" data-placement="right" title="Delete All Dimensions">
+          <div class="toolbar-icon-img">
+            <img src="../assets/images/toolbar/new_toolbar/-_Delete copy 75.png" />
+          </div>
+        </div>
+      
       </div>
+
     </div>
-  </section>
-  <!-- Components dialog -->
-  <section id="dlg_components" class="dialog dialog-components" style="display: none">
-    <header id="dlg_components_header" class="dialog-header">
-      <div class="dialog-actions" onclick="getElementById('dlg_components').style.display = 'none'; getElementById('chk_components').classList.remove('fa-check');">
-        <a class="dialog-action dialog-action-dismiss" data-dialog-dismiss></a>
-      </div>
-      <h2 id="drag_item" class="dialog-title">Components</h2>
-    </header>
-    <div class="dialog-body">
-      <div class="scrollable" data-plugin-scrollable>
-        <div class="scrollable-content">
+    <div class="viewerPart">
+      <iframe src="../bimsurfer/bimsurfer.html" id="bimviewer" frameborder="0" oncontextmenu="return false;">
+      </iframe>
+    </div>
+    <div class="rightPart">
+      <!-- Components dialog -->
+      <section class="card">
+        <header class="card-header">
+          <div class="card-actions">
+            <a class="card-action card-action-toggle" data-card-toggle></a>
+          </div>
+
+          <h2 class="card-title">Components</h2>
+        </header>
+        <div class="card-body">
           <div class="top-part">
             <table style="width:-webkit-fill-available;height:-webkit-fill-available;">
               <tbody>
@@ -691,12 +375,18 @@
                       <button type="button" class="mb-1 mt-1 mr-1 dropdown-btn btn-default" data-toggle="dropdown">Select<i
                           class="caret"></i></button>
                       <div class="dropdown-menu">
-                        <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> Component1</a>
-                        <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> Component2</a>
-                        <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> Component3</a>
-                        <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> Component4</a>
-                        <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> Component5</a>
-                        <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> Component6</a>
+                        <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i>
+                          Component1</a>
+                        <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i>
+                          Component2</a>
+                        <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i>
+                          Component3</a>
+                        <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i>
+                          Component4</a>
+                        <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i>
+                          Component5</a>
+                        <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i>
+                          Component6</a>
                       </div>
                     </div>
                     <div class="btn-group flex-wrap">
@@ -731,20 +421,17 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
-  <!-- Materials and colors dialog -->
-  <section id="dlg_materials" class="dialog dialog-materials" style="display: none">
-    <header id="dlg_materials_header" class="dialog-header">
-      <div class="dialog-actions" onclick="getElementById('dlg_materials').style.display = 'none';getElementById('chk_materials').classList.remove('fa-check');">
-        <a class="dialog-action dialog-action-dismiss" data-dialog-dismiss></a>
-      </div>
-      <h2 id="dlg_materials_focus" class="dialog-title">Materials and colors</h2>
-    </header>
-    <div class="dialog-body">
-      <div class="scrollable" data-plugin-scrollable>
-        <div class="scrollable-content">
+      </section>
+      <!-- Materials and colors dialog -->
+      <section class="card">
+        <header class="card-header">
+          <div class="card-actions">
+            <a class="card-action card-action-toggle" data-card-toggle></a>
+          </div>
+
+          <h2 class="card-title">Materials and Colors</h2>
+        </header>
+        <div class="card-body">
           <div class="top-part">
             <table style="width:-webkit-fill-available;height:-webkit-fill-available;">
               <tbody>
@@ -805,45 +492,37 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
-    <section id="dlg_edit_materials" class="dialog dialog-edit-materials" style="display:none">
-      <header class="edit-header">
-        <div class="dialog-actions" onclick="getElementById('dlg_edit_materials').style.display = 'none'">
-          <a class="dialog-action dialog-action-dismiss" data-dialog-dismiss></a>
-        </div>
-        <div id="edit_mat_name"></div>
-      </header>
-      <div class="dialog-body">
-        <div class="scrollable" data-plugin-scrollable>
-          <div class="scrollable-content">
-            <div>
-              <table class="table table-responsive-md mb-0">
-                <tbody id="edit_mat_values">
-                </tbody>
-              </table>
-              <!-- <div>
-                Fill Color
-                <div id="edit_mat_color" style="width:50px; height:30px; background:navy"></div>
-              </div> -->
+        <section id="dlg_edit_materials" class="dialog dialog-edit-materials" style="display:none">
+          <header class="edit-header">
+            <div class="dialog-actions" onclick="getElementById('dlg_edit_materials').style.display = 'none'">
+              <a class="dialog-action dialog-action-dismiss" data-dialog-dismiss></a>
+            </div>
+            <div id="edit_mat_name"></div>
+          </header>
+          <div class="dialog-body">
+            <div class="scrollable" data-plugin-scrollable>
+              <div class="scrollable-content">
+                <div>
+                  <table class="table table-responsive-md mb-0">
+                    <tbody id="edit_mat_values">
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-    </section>
-  </section>
+        </section>
+      </section>
+      <!-- Collision check -->
+      <section class="card">
+        <header class="card-header">
+          <div class="card-actions">
+            <a class="card-action card-action-toggle" data-card-toggle></a>
+          </div>
 
-  <!-- Collision check -->
-  <section id="dlg_collision" class="dialog dialog-collision" style="display: none">
-    <header id="dlg_collision_header" class="dialog-header">
-      <div class="dialog-actions" onclick="getElementById('dlg_collision').style.display = 'none';getElementById('chk_collision').classList.remove('fa-check');">
-        <a class="dialog-action dialog-action-dismiss" data-dialog-dismiss></a>
-      </div>
-      <h2 id="dlg_collision_focus" class="dialog-title">Collision check</h2>
-    </header>
-    <div class="dialog-body">
-      <div class="scrollable" data-plugin-scrollable>
-        <div class="scrollable-content">
+          <h2 class="card-title">Collision Check</h2>
+        </header>
+        <div class="card-body">
           <div class="top-part">
             <table style="width:-webkit-fill-available;height:-webkit-fill-available;">
               <tbody>
@@ -861,11 +540,16 @@
                       <button type="button" class="mb-1 mt-1 mr-1 dropdown-btn btn-default" data-toggle="dropdown">Select<i
                           class="caret"></i></button>
                       <div class="dropdown-menu" role="menu">
-                        <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> Collision</a>
-                        <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> Collision</a>
-                        <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> Collision</a>
-                        <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> Collision</a>
-                        <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i> Collision</a>
+                        <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i>
+                          Collision</a>
+                        <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i>
+                          Collision</a>
+                        <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i>
+                          Collision</a>
+                        <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i>
+                          Collision</a>
+                        <a class="dropdown-item small px-2"><i class="fas fa-check fa-sm text-success"></i>
+                          Collision</a>
                       </div>
                     </div>
                     <div class="btn-group flex-wrap">
@@ -895,7 +579,8 @@
                       <img src="../assets/images/dialog/collision_sample.png">
                       <div class="edit-icon"><img src="../assets/images/dialog/edit.png"></div>
                     </div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget diam
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget
+                      diam
                       posuere porta. Quisque ut nulla at nunc lacinia. Proin adipiscing porta
                       tellus, ut feugiat nibh adipiscing sit amet.</p>
                   </div>
@@ -913,7 +598,8 @@
                       <img src="../assets/images/dialog/collision_sample.png">
                       <div class="edit-icon"><img src="../assets/images/dialog/edit.png"></div>
                     </div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget diam
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget
+                      diam
                       posuere porta. Quisque ut nulla at nunc lacinia. Proin adipiscing porta
                       tellus, ut feugiat nibh adipiscing sit amet.</p>
                   </div>
@@ -931,7 +617,8 @@
                       <img src="../assets/images/dialog/collision_sample.png">
                       <div class="edit-icon"><img src="../assets/images/dialog/edit.png"></div>
                     </div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget diam
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget
+                      diam
                       posuere porta. Quisque ut nulla at nunc lacinia. Proin adipiscing porta
                       tellus, ut feugiat nibh adipiscing sit amet.</p>
                   </div>
@@ -949,7 +636,8 @@
                       <img src="../assets/images/dialog/collision_sample.png">
                       <div class="edit-icon"><img src="../assets/images/dialog/edit.png"></div>
                     </div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget diam
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget
+                      diam
                       posuere porta. Quisque ut nulla at nunc lacinia. Proin adipiscing porta
                       tellus, ut feugiat nibh adipiscing sit amet.</p>
                   </div>
@@ -967,7 +655,8 @@
                       <img src="../assets/images/dialog/collision_sample.png">
                       <div class="edit-icon"><img src="../assets/images/dialog/edit.png"></div>
                     </div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget diam
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget
+                      diam
                       posuere porta. Quisque ut nulla at nunc lacinia. Proin adipiscing porta
                       tellus, ut feugiat nibh adipiscing sit amet.</p>
                   </div>
@@ -977,9 +666,61 @@
             </div>
           </div>
         </div>
-      </div>
+      </section>
+      <!-- Structures -->
+      <section class="card">
+        <header class="card-header">
+          <div class="card-actions">
+            <a class="card-action card-action-toggle" data-card-toggle></a>
+          </div>
+
+          <h2 class="card-title">Structures</h2>
+        </header>
+        <div class="card-body">
+          <div id="dlg_structures_content" class="scrollable-content">
+          </div>
+      </section>
+      <!-- Layers -->
+      <section class="card">
+        <header class="card-header">
+          <div class="card-actions">
+            <a class="card-action card-action-toggle" data-card-toggle></a>
+          </div>
+
+          <h2 class="card-title">Layers</h2>
+        </header>
+        <div class="card-body">
+          <table class="layertable">
+            <thead class="text-dark">
+            </thead>
+            <tbody id="dlg_layers_content">
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <!-- Types -->
+      <section class="card">
+        <header class="card-header">
+          <div class="card-actions">
+            <a class="card-action card-action-toggle" data-card-toggle></a>
+          </div>
+
+          <h2 class="card-title">Types</h2>
+        </header>
+        <div class="card-body">
+          <table class="typetable">
+            <thead class="text-dark">
+            </thead>
+            <tbody id="dlg_types_content">
+            </tbody>
+          </table>
+        </div>
+      </section>
     </div>
-  </section>
+  </div>
+  <div class="viewerStatus">
+  </div>
+
 
   <!-- Home Story -->
   <section id="dlg_story" class="dialog dialog-story" style="display: none">
@@ -1124,238 +865,12 @@
       </div>
     </div>
   </section>
-
-  <!-- Project Open Dialog -->
-  <section id="dlg_openproject" class="dialog dialog-openproject" style="display: none">
-    <header id="dlg_openproject_header" class="dialog-header">
-      <div class="dialog-actions" onclick="getElementById('dlg_openproject').style.display = 'none';">
-        <a class="dialog-action dialog-action-dismiss" data-dialog-dismiss></a>
-      </div>
-      <h2 id="dlg_openproject_focus" class="dialog-title">Open Projects</h2>
-    </header>
-    <div class="dialog-body">
-      <div class="scrollable" data-plugin-scrollable>
-        <div class="scrollable-content">
-          <div id="open_project_content">
-            <div id = "bimserver_status" class="project-open-status"></div>
-            <div id = "project_list"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 </div>
-<!-- <div class="window-left window rounded bg-light border text-center"> 
-      <div class="drag-space">
-        <button class="btn m-0"><i class="fas fa-times fa-sm"></i></button>
-      </div>
-      <hr class="mt-0">
-      <button class="btn"><img src="../assets/images/move.png"></button>
-      <button class="btn"><img src="../assets/images/hand.png"></button>
-      <button class="btn"><img src="../assets/images/zoom.png"></button>
-      <hr>
-      <button class="btn"><img src="../assets/images/scale.png"></button>
-      <hr>
-      <button class="btn"><img src="../assets/images/edit.png"></button>
-      <hr>
-      <button class="btn"><i class="fas fa-eraser"></i></button>
-      <hr>
-      <div class="btn-group dropright w-dd-mw">
-        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <img src="../assets/images/square.png">
-        </button>
-        <div class="dropdown-menu box-shadow">
-          <div class="">
-            <button class="btn mx-1"><img src="../assets/images/square.png"></button>
-            <button class="btn mx-1"><img src="../assets/images/round.png"></button>
-          </div>
-          <div class="">
-            <button class="btn mx-1"><img src="../assets/images/line.png"></button>
-            <button class="btn mx-1"><img src="../assets/images/poly.png"></button>
-          </div>
-        </div>
-      </div>
-      <button class="btn"><img src="../assets/images/text-tool.png"></button>
-    </div> -->
-
-
-
-<!-- <div class="window-right-wrapper bg-white box-shadow p-1 window">   
-
-      <button class="minimize btn m-0">
-        <i class="fas fa-angle-double-right"></i>
-      </button>
-
-      <div class="rounded bg-light border"> 
-        <div class="drag-space d-flex justify-content-between px-2">
-          <a class="btn m-0" data-toggle="collapse" href="#group" role="button"><i class="fas fa-caret-down"></i>Group</a><button class="btn m-0"><i class="fas fa-times fa-sm"></i></button>
-        </div>
-        <div id="group" class="collapse show">
-          <div class="bg-white p-2">
-            <div class="row align-items-center">
-              <div class="col-md-3">
-                <a href=""><img src="../assets/images/pattern.jpg" class="w-100"></a>
-              </div>
-              <div class="col-md-9 form-inline">
-                <div class="form-group mb-2">
-                  <label class="pr-2">Layer </label> 
-                  <select class="form-control form-control-sm">
-                    <option>option 1</option>
-                    <option>option 1</option>
-                    <option>option 1</option>
-                  </select>
-                </div>
-                <div class="form-group mb-2">
-                  <label class="pr-2">Instance </label> 
-                  <span class="h6 m-0"><b>Wig</b></span>
-                </div>
-                <div class="form-group">
-                  <label class="pr-2">Type </label> 
-                  <select class="form-control form-control-sm">
-                    <option>option 1</option>
-                    <option>option 1</option>
-                    <option>option 1</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <hr>
-            <div class="toggle">
-              <span class="mr-3">Toggles</span> 
-              <button class="btn m-0"><i class="fas fa-eye"></i></button>
-              <button class="btn m-0"><i class="fas fa-lock"></i></button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="rounded bg-light border mt-1"> 
-        <div class="drag-space d-flex justify-content-between px-2">
-          <a class="btn m-0" data-toggle="collapse" href="#layers" role="button"><i class="fas fa-caret-down"></i>Layers</a><button class="btn m-0"><i class="fas fa-times fa-sm"></i></button>
-        </div>
-        <div id="layers" class="collapse show">
-          <div class="d-flex px-2">
-            <button class="btn"><i class="fas fa-plus-circle rounded"></i></button>
-            <button class="btn"><i class="fas fa-minus-circle"></i></button>
-            <button class="btn ml-auto"><i class="fas fa-arrow-alt-circle-right"></i></button>
-          </div>
-          <div class="bg-white px-2">
-            <table class="layertable">
-              <thead class="text-dark">
-              </thead>
-              <tbody id="layerTable" >
-               
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-      <div class="rounded bg-light border mt-1"> 
-        <div class="drag-space d-flex justify-content-between px-2">
-          <a class="btn m-0" data-toggle="collapse" href="#materials" role="button"><i class="fas fa-caret-down"></i>Materials</a><button class="btn m-0"><i class="fas fa-times fa-sm"></i></button>
-        </div>
-        <div id="materials" class="collapse show">
-          <div class="bg-white p-2">
-            <div class="row align-items-center">
-              <div class="col-md-3">
-                <a href=""><img src="../assets/images/pattern.jpg" class="w-100"></a>
-              </div>
-              <div class="col-md-6">Title of the pattern</div>
-            </div>
-            <hr>
-            <ul class="nav nav-tabs mt-1">
-              <li><a data-toggle="tab" href="#select" class="active">Select</a></li>
-              <li><a data-toggle="tab" href="#edit">Edit</a></li>
-            </ul>
-
-            <div class="tab-content">
-              <div>
-                <select class="form-control form-control-sm mb-2">
-                  <option>option 1</option>
-                  <option>option 1</option>
-                  <option>option 1</option>
-                </select>
-              </div>
-              <div id="select" class="tab-pane active">
-                <div class="row m-0">
-                  <div class="col-md-2 p-0 m-0">
-                    <button class="btn m-0 border p-1 rounded-0"><img src="../assets/images/pattern.jpg" class="w-100"></button>
-                  </div>
-                  <div class="col-md-2 p-0 m-0">
-                    <button class="btn m-0 border p-1 rounded-0"><img src="../assets/images/pattern.jpg" class="w-100"></button>
-                  </div>
-                  <div class="col-md-2 p-0 m-0">
-                    <button class="btn m-0 border p-1 rounded-0"><img src="../assets/images/pattern.jpg" class="w-100"></button>
-                  </div>
-                  <div class="col-md-2 p-0 m-0">
-                    <button class="btn m-0 border p-1 rounded-0"><img src="../assets/images/pattern.jpg" class="w-100"></button>
-                  </div>
-                  <div class="col-md-2 p-0 m-0">
-                    <button class="btn m-0 border p-1 rounded-0"><img src="../assets/images/pattern.jpg" class="w-100"></button>
-                  </div>
-                  <div class="col-md-2 p-0 m-0">
-                    <button class="btn m-0 border p-1 rounded-0"><img src="../assets/images/pattern.jpg" class="w-100"></button>
-                  </div>
-                  <div class="col-md-2 p-0 m-0">
-                    <button class="btn m-0 border p-1 rounded-0"><img src="../assets/images/pattern.jpg" class="w-100"></button>
-                  </div>
-                  <div class="col-md-2 p-0 m-0">
-                    <button class="btn m-0 border p-1 rounded-0"><img src="../assets/images/pattern.jpg" class="w-100"></button>
-                  </div>
-                  <div class="col-md-2 p-0 m-0">
-                    <button class="btn m-0 border p-1 rounded-0"><img src="../assets/images/pattern.jpg" class="w-100"></button>
-                  </div>
-
-                </div>
-              </div>
-              <div id="edit" class="tab-pane">
-                <h3>Menu 1</h3>
-                <p>Some content in menu 1.</p>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </div>
-
-      <div class="rounded bg-light border mt-1"> 
-        <div class="drag-space d-flex justify-content-between px-2">
-          <a class="btn m-0" data-toggle="collapse" href="#components" role="button"><i class="fas fa-caret-down"></i>Components</a><button class="btn m-0"><i class="fas fa-times fa-sm"></i></button>
-        </div>
-        
-      </div>
-      <div class="rounded bg-light border mt-1"> 
-          <div class="drag-space d-flex justify-content-between px-2">
-            <a class="btn m-0" data-toggle="collapse" href="#properties" role="button"><i class="fas fa-caret-down"></i>Properties</a><button class="btn m-0"><i class="fas fa-times fa-sm"></i></button>
-          </div>
-          <div id="properties" class="collapse show bimsurfer-metadata">
-          </div>
-      </div>
-    </div> -->
-
-
-<!-- <div class="window-float window rounded bg-light border text-center" id="properties"> 
-      <div class="drag-space d-flex justify-content-between px-2" id="properties-header">
-        <a class="btn m-0" data-toggle="collapse" href="#properties-box" role="button"><i class="fas fa-caret-down"></i>Properties</a><button class="btn m-0"><i class="fas fa-times fa-sm"></i></button>
-      </div>
-      <div class="row mx-0 py-2 collapse show" id="properties-box">
-        <div class="col-md-5 px-2">
-          <input type="text" name="" value="1/4" class="form-control form-control-xs rounded-0 mb-1">
-          <input type="text" name="" value="1/4" class="form-control form-control-xs rounded-0 mb-1">
-          <input type="text" name="" value="1/4" class="form-control form-control-xs rounded-0 mb-1">
-          <input type="text" name="" value="1/4" class="form-control form-control-xs rounded-0 mb-1">
-        </div>
-        <div class="col-md-7 pl-0 pr-2"><img src="../assets/images/pic.png" class="w-100"></div>
-      </div>
-    </div> -->
 
 <!-- Theme Base, Components and Settings -->
 <script src="../bimsurfer/examples/js/modernizr.js"></script>
-<!-- <script src="../bimsurfer/examples/js/jquery.js"></script> -->
 <script src="../bimsurfer/examples/js/jquery.browser.mobile.js"></script>
 <script src="../bimsurfer/examples/js/popper.min.js"></script>
-<!-- <script src="../bimsurfer/examples/js/bootstrap.js"></script> -->
-<!-- <script src="../bimsurfer/examples/js/bootstrap-datepicker.js"></script> -->
 <script src="../bimsurfer/examples/js/common.js"></script>
 <script src="../bimsurfer/examples/js/nanoscroller.js"></script>
 <script src="../bimsurfer/examples/js/jquery.magnific-popup.js"></script>
@@ -1365,4 +880,3 @@
 <script src="../bimsurfer/examples/js/vanilla-picker.js"></script>
 <script src="../bimsurfer/src/3d-viewer.js"></script>
 <script src="../bimsurfer/lib/three.js"></script>
-

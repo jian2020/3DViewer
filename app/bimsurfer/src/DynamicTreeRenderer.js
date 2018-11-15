@@ -34,8 +34,9 @@ define(["./EventHandler", "./Request", "./Utils"], function(EventHandler, Reques
                 } else if (mode == DESELECT) {
                     s = selectionState[id] = false;
                 }
-                
-                domNodes[id].className = s ? "label selected" : "label";
+                if(domNodes[id]){
+                    domNodes[id].className = s ? "label selected" : "label";
+                }
             });
             
             var desiredViewRange = self.getSelected().map(function(id) {

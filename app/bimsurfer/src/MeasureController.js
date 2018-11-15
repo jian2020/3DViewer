@@ -46,14 +46,16 @@ define([
 
             var actions = {
                 NONE: -1,
-                COMMON_LENGTH: 0,   //Common Length
-                EDGE_LENGTH: 1,     //Edge Calibrate
-                VERTEX_LENGTH: 2,    //Vertex Calibrate
-                TRIANGLE_AREA: 3,    //Triangle Area
-                SAME_PLANE: 4,      //Same Plane
-                TOTAL_AREA: 5,      //Total Area
-                VOLUME: 6,            //Volume
-                ANGLE: 7            //Angle
+                COMMON_LENGTH: 0, //Common Length
+                EDGE_LENGTH: 1, //Edge Calibrate
+                VERTEX_LENGTH: 2, //Vertex Calibrate
+                TRIANGLE_AREA: 3, //Triangle Area
+                SAME_PLANE: 4, //Same Plane
+                TOTAL_AREA: 5, //Total Area
+                VOLUME: 6, //Volume
+                ANGLE: 7, //Angle
+                CIRCLE_DIAMETER: 8, //CircleDiameter
+                CIRCLE_CIRCUM: 9, //CircleCircum
             };
 
             var currentAction = actions.COMMON_LENGTH;
@@ -125,6 +127,40 @@ define([
                 visible: false
             });
             var _calibrateLinePreview = new xeogl.Entity(scene, {
+                geometry: new xeogl.Geometry(scene, {
+                    primitive: "lines",
+                    positions: [
+                        0, 0, 0, 0, 0, 0
+                    ],
+                    indices: [
+                        0, 1
+                    ]
+                }),
+                material: new xeogl.PhongMaterial(scene, {
+                    diffuse: [0, 0, 0],
+                    backfaces: true,
+                    lineWidth: 5
+                }),
+                highlightMaterial: new xeogl.EmphasisMaterial(scene, {
+                    edges: true,
+                    edgeAlpha: 1.0,
+                    edgeColor: [1, 0.0039, 0.782],
+                    edgeWidth: 5,
+                    vertices: true,
+                    vertexAlpha: 0.5,
+                    vertexColor: [1, 0.0039, 0.782],
+                    vertexSize: 10,
+                    fill: false,
+                    fillColor: [0, 0, 0],
+                    fillAlpha: 1
+                }),
+                highlighted: true,
+                pickable: false,
+                layer: 0,
+                visible: false
+            });
+
+            var _calibrateCircleDiameterPreview = new xeogl.Entity(scene, {
                 geometry: new xeogl.Geometry(scene, {
                     primitive: "lines",
                     positions: [
@@ -324,7 +360,7 @@ define([
                 });
             input.on("mousedown",
                 function (canvasPos) {
-                    if (_isCreate) {
+                    if (_isCreate && input.mouseDownLeft) {
                         dimensionDecide(canvasPos);
                     }
                 });
@@ -355,11 +391,46 @@ define([
                     case 'Angle':
                         currentAction = actions.ANGLE;
                         break;
+                    case 'CircleDiameter':
+                        currentAction = actions.CIRCLE_DIAMETER;
+                        break;
+                    case 'CircleCircum':
+                        currentAction = actions.CIRCLE_CIRCUM;
+                        break;
                     default:
                         break;
                 }
                 console.log(actionName);
                 _isCreate = true;
+                _isFirstDimensionPos = false;
+                _isEndDimensionPos = false;
+                _firstPosDimension = math.vec3();
+                _endPosDimension = math.vec3();
+                _nearVertexPos = null;
+                _calibrateLinePreview.visible = false;
+                _calibrateVertexPreview.visible = false;
+
+                _trianglePos0 = math.vec3();
+                _trianglePos1 = math.vec3();
+                _trianglePos2 = math.vec3();
+                _calibrateTrianglePreview.visible = false;
+
+                _calibrateSameplanePreview.visible = false;
+
+                _calibrateTotalAreaPreview.visible = false;
+
+                _calibrateVolumePreview.visible = false;
+
+                _firstLinePos0 = math.vec3();
+                _firstLinePos1 = math.vec3();
+                _secondLinePos0 = math.vec3();
+                _secondLinePos1 = math.vec3();
+                _angleStep = 0;
+                _calibrateAngleLinePreview.visible = false;
+            };
+
+            this.cancelMeasure = function () {
+                _isCreate = false;
                 _isFirstDimensionPos = false;
                 _isEndDimensionPos = false;
                 _firstPosDimension = math.vec3();
@@ -528,8 +599,7 @@ define([
                     // dimension text
                     marker(txtPos, dis + "mm");
 
-                }
-                else {
+                } else {
                     _isFirstDimensionPos = true;
                     _firstPosDimension[0] = hit.worldPos[0];
                     _firstPosDimension[1] = hit.worldPos[1];
@@ -569,8 +639,7 @@ define([
 
                 if (_nearVertexPos === null) {
                     _calibrateVertexPreview.visible = false;
-                }
-                else {
+                } else {
                     var t1 = new xeogl.Translate(scene, {
                         xyz: _nearVertexPos
                     });
@@ -644,8 +713,7 @@ define([
                     // dimension text
                     marker(txtPos, dis + "mm");
 
-                }
-                else {
+                } else {
                     _isFirstDimensionPos = true;
                     _firstPosDimension[0] = _nearVertexPos[0];
                     _firstPosDimension[1] = _nearVertexPos[1];
@@ -691,8 +759,7 @@ define([
 
                 if (minDis > snapDis) {
                     _calibrateLinePreview.visible = false;
-                }
-                else {
+                } else {
                     _firstPosDimension[0] = pos0[0];
                     _firstPosDimension[1] = pos0[1];
                     _firstPosDimension[2] = pos0[2];
@@ -1139,8 +1206,7 @@ define([
 
                 if (minDis > snapDis) {
                     _calibrateAngleLinePreview.visible = false;
-                }
-                else {
+                } else {
                     if (_angleStep === 0) {
                         _firstLinePos0[0] = pos0[0];
                         _firstLinePos0[1] = pos0[1];
@@ -1148,8 +1214,7 @@ define([
                         _firstLinePos1[0] = pos1[0];
                         _firstLinePos1[1] = pos1[1];
                         _firstLinePos1[2] = pos1[2];
-                    }
-                    else if (_angleStep === 1) {
+                    } else if (_angleStep === 1) {
                         _secondLinePos0[0] = pos0[0];
                         _secondLinePos0[1] = pos0[1];
                         _secondLinePos0[2] = pos0[2];
@@ -1241,7 +1306,7 @@ define([
                         //Two straight lines are parallel
                         status.innerHTML = "Two straight lines are parallel";
                     } else {
-                        status.innerHTML = "Angle : " + Math.ceil(angle)+"&deg";
+                        status.innerHTML = "Angle : " + Math.ceil(angle) + "&deg";
                     }
 
                     _isCreate = false;
@@ -1285,6 +1350,199 @@ define([
 
             };
 
+            var circleCandidate;
+            var circleDiameterFirstPos = [];
+            var circleDiameterEndPos = [];
+            var circleCentroidPos = [];
+            var circleDiameter = 0;
+            var calibrateCircleDiameter = function (hit) {
+                var entity = hit.entity;
+                var positions = entity.worldPositions;
+
+                if (circleCandidate) {
+                    if (entity.id === circleCandidate.id)
+                        return;
+
+                    circleCandidate.highlighted = false;
+                    circleCandidate = entity;
+                    entity.highlighted = true;
+                } else {
+                    entity.highlighted = true;
+                    circleCandidate = entity;
+                }
+
+                //check circle
+                if (circleCandidate) {
+
+                    //Get center pos of mass of mesh
+                    var centroidPos = CalculateCentroid(positions);
+
+                    //find positon that is most far from centorid position
+                    var farPos = new math.vec3();
+                    var dis = 0;
+                    for (var i = 0; i < positions.length / 3; i++) {
+                        var p = [positions[i * 3], positions[i * 3 + 1], positions[i * 3 + 2]];
+                        var dis1 = distanceVec3(centroidPos, p);
+                        if (dis < dis1) {
+                            farPos = p;
+                            dis = dis1;
+                        }
+                    }
+                    // same position
+                    var circlePos = [];
+                    for (var j = 0; j < positions.length / 3; j++) {
+                        var spos = [positions[j * 3], positions[j * 3 + 1], positions[j * 3 + 2]];
+                        var dis2 = distanceVec3(centroidPos, spos);
+                        if (Math.abs(dis - dis2) < 1) {
+                            console.log("dd");
+                            circlePos.push(spos);
+                        }
+                    }
+                    // console.log(circlePos);
+                    // circle is consist of 8 pos
+                    if (circlePos.length >= 10) {
+                        //The Entity is Circle
+                        var diameter = dis * 2;
+                        var drawPos0 = circlePos[0];
+                        var drawPos1 = [2 * centroidPos[0] - drawPos0[0], 2 * centroidPos[1] - drawPos0[1], 2 * centroidPos[2] - drawPos0[2]];
+                        _calibrateCircleDiameterPreview.geometry.positions = [drawPos0[0], drawPos0[1], drawPos0[2], drawPos1[0], drawPos1[1], drawPos1[2]];
+                        _calibrateCircleDiameterPreview.visible = true;
+
+                        circleDiameter = diameter;
+                        circleDiameterFirstPos = drawPos0;
+                        circleDiameterEndPos = drawPos1;
+                        circleCentroidPos = centroidPos;
+                        return;
+                    }
+                }
+                _calibrateCircleDiameterPreview.visible = false;
+
+            };
+
+            var calibrateCircleDiameterDecide = function (hit) {
+                if (!_calibrateCircleDiameterPreview.visible)
+                    return;
+
+                _isCreate = false;
+                circleCandidate.highlighted = false;
+                _calibrateCircleDiameterPreview.visible = false;
+                //Draw new dimension
+                dimensionEntity.push(new xeogl.Entity(scene, {
+                    geometry: new xeogl.Geometry(scene, {
+                        primitive: "lines",
+                        positions: [circleDiameterFirstPos[0], circleDiameterFirstPos[1], circleDiameterFirstPos[2], circleDiameterEndPos[0], circleDiameterEndPos[1], circleDiameterEndPos[2]],
+                        indices: [0, 1]
+                    }),
+                    material: new xeogl.PhongMaterial(scene, {
+                        emissive: [0.9, 0.3, 0.3],
+                        backfaces: true,
+                        lineWidth: 2
+                    }),
+                    highlightMaterial: new xeogl.EmphasisMaterial(scene, {
+                        edges: true,
+                        edgeAlpha: 1.0,
+                        edgeColor: [1, 0.0039, 0.682], //pink color
+                        edgeWidth: 2,
+                        vertices: true,
+                        vertexAlpha: 0.3,
+                        vertexColor: [1, 0.005, 0.682],
+                        vertexSize: 8,
+                        fill: false,
+                        fillColor: [1, 0.0039, 0.682],
+                        fillAlpha: 0.8
+                    }),
+                    highlighted: true,
+                    pickable: false,
+                    layer: -2,
+                    visible: true
+                }));
+
+                // dimension text
+                circleDiameter = dimensionRatio * circleDiameter;
+                circleDiameter = Math.ceil(circleDiameter);
+                var ppp = [circleCentroidPos[0],circleCentroidPos[1],circleCentroidPos[2]+4];
+                marker(ppp, "Diameter : " + circleDiameter + "mm");
+            };
+
+
+            var circleCircum = 0;
+            var circleFind = false;
+            var calibrateCircleCircum = function (hit) {
+                var entity = hit.entity;
+                var positions = entity.worldPositions;
+
+                if (circleCandidate) {
+                    if (entity.id === circleCandidate.id)
+                        return;
+
+                    circleCandidate.highlighted = false;
+                    circleCandidate = entity;
+                    entity.highlighted = true;
+                } else {
+                    entity.highlighted = true;
+                    circleCandidate = entity;
+                }
+
+                //check circle
+                if (circleCandidate) {
+
+                    //Get center pos of mass of mesh
+                    var centroidPos = CalculateCentroid(positions);
+
+                    //find positon that is most far from centorid position
+                    var farPos = new math.vec3();
+                    var dis = 0;
+                    for (var i = 0; i < positions.length / 3; i++) {
+                        var p = [positions[i * 3], positions[i * 3 + 1], positions[i * 3 + 2]];
+                        var dis1 = distanceVec3(centroidPos, p);
+                        if (dis < dis1) {
+                            farPos = p;
+                            dis = dis1;
+                        }
+                    }
+                    // same position
+                    var circlePos = [];
+                    for (var j = 0; j < positions.length / 3; j++) {
+                        var spos = [positions[j * 3], positions[j * 3 + 1], positions[j * 3 + 2]];
+                        var dis2 = distanceVec3(centroidPos, spos);
+                        if (Math.abs(dis - dis2) < 1) {
+                            console.log("dd");
+                            circlePos.push(spos);
+                        }
+                    }
+                    // console.log(circlePos);
+                    // circle is consist of 8 pos
+                    if (circlePos.length >= 8) {
+                        //The Entity is Circle
+                        circleFind = true;
+                        var drawPos0 = circlePos[0];
+                        var drawPos1 = [2 * centroidPos[0] - drawPos0[0], 2 * centroidPos[1] - drawPos0[1], 2 * centroidPos[2] - drawPos0[2]];
+
+                        circleCircum = 2 * dis * Math.PI;
+                        circleDiameterFirstPos = drawPos0;
+                        circleDiameterEndPos = drawPos1;
+                        circleCentroidPos = centroidPos;
+                        return;
+                    }
+                }
+
+            };
+
+            var calibrateCircleCircumDecide = function (hit) {
+                if (!circleFind)
+                    return;
+
+                _isCreate = false;
+                circleFind = false;
+                circleCandidate.highlighted = false;
+                
+                // dimension text
+                circleCircum = dimensionRatio * circleCircum;
+                circleCircum = Math.ceil(circleCircum);
+                marker(circleCentroidPos, "Circumference : " + circleCircum + "mm");
+            };
+
+
             var updateHitCursorForMeasure = function (canvasPos) {
                 var hit = scene.pick({
                     canvasPos: canvasPos,
@@ -1319,6 +1577,12 @@ define([
                             case actions.ANGLE:
                                 calibrateAngle(hit);
                                 break;
+                            case actions.CIRCLE_DIAMETER:
+                                calibrateCircleDiameter(hit);
+                                break;
+                            case actions.CIRCLE_CIRCUM:
+                                calibrateCircleCircum(hit);
+                                break;
                             default:
                                 break;
                         }
@@ -1332,7 +1596,12 @@ define([
                     _calibrateVertexPreview.visible = false;
                     _calibrateSameplanePreview.visible = false;
                     _calibrateAngleLinePreview.visible = false;
-                    
+
+                    if(circleCandidate){
+                        circleCandidate.highlighted = false;
+                        circleCandidate = null;
+                    }
+                    _calibrateCircleDiameterPreview.visible = false;
                     // setCursor("auto", true);
                 }
             };
@@ -1369,6 +1638,12 @@ define([
                                 break;
                             case actions.ANGLE:
                                 calibrateAngleDecide(hit);
+                                break;
+                            case actions.CIRCLE_DIAMETER:
+                                calibrateCircleDiameterDecide(hit);
+                                break;
+                            case actions.CIRCLE_CIRCUM:
+                                calibrateCircleCircumDecide(hit);
                                 break;
                             default:
                                 break;
@@ -1481,6 +1756,53 @@ define([
                 var v213 = p2[0] * p1[1] * p3[2];
                 var v123 = p1[0] * p2[1] * p3[2];
                 return (1.0 / 6.0) * (-v321 + v231 + v312 - v132 - v213 + v123);
+            };
+
+            var CalculateCentroid = function (positions) {
+                var s = new math.vec3();
+                var areaTotal = 0.0;
+
+                var p1 = new math.vec3();
+                var p2 = new math.vec3();
+                p1[0] = positions[0];
+                p1[1] = positions[1];
+                p1[2] = positions[2];
+                p2[0] = positions[3];
+                p2[1] = positions[4];
+                p2[2] = positions[5];
+
+                for (var i = 2; i < positions.length / 3; i++) {
+                    var p3 = new math.vec3();
+                    p3[0] = positions[i * 3];
+                    p3[1] = positions[i * 3 + 1];
+                    p3[2] = positions[i * 3 + 2];
+
+                    var edge1 = new math.vec3();
+                    math.subVec3(p3, p1, edge1);
+
+                    var edge2 = new math.vec3();
+                    math.subVec3(p3, p2, edge2);
+
+                    var crossProduct = new math.vec3();
+                    math.cross3Vec3(edge1, edge2, crossProduct);
+
+                    var zero = [0, 0, 0];
+                    var area = distanceVec3(crossProduct, zero) / 2;
+
+                    s[0] += area * (p1[0] + p2[0] + p3[0]) / 3;
+                    s[1] += area * (p1[1] + p2[1] + p3[1]) / 3;
+                    s[2] += area * (p1[2] + p2[2] + p3[2]) / 3;
+
+                    areaTotal += area;
+                    p2 = p3;
+                }
+
+                var point = new math.vec3();
+                point[0] = s[0] / areaTotal;
+                point[1] = s[1] / areaTotal;
+                point[2] = s[2] / areaTotal;
+
+                return point;
             };
 
             var removeMarker = function () {

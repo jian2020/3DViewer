@@ -26,10 +26,10 @@
 		var address = QueryString.address;
 		var token = QueryString.token;
 
-        /* Generating a new version based on the current time, this way resources are never cached
-         When building a version of BIMsurfer V2 this should be replaced by an actual version number in order
-         To facilitate proper caching
-        */
+		/* Generating a new version based on the current time, this way resources are never cached
+		 When building a version of BIMsurfer V2 this should be replaced by an actual version number in order
+		 To facilitate proper caching
+		*/
 		var version = new Date().getTime();
 
 		// This has been moved to bimserverapi, can be removed in a day
@@ -57,7 +57,8 @@
 		var apiVersion = new Date().getTime();
 
 		var p = new Promise(function (resolve, reject) {
-			var str = `
+			var str =
+				`
                 import("${address}/apps/bimserverjavascriptapi/bimserverclient.js?_v=${apiVersion}").then((bimserverapi) => {
                     window.BimServerClient = bimserverapi.default;
                     window.BimServerApiPromise = bimserverapi.BimServerApiPromise;
@@ -66,7 +67,9 @@
 			eval(str);
 		});
 		p.then(() => {
-			require(["src/BimSurfer", "src/BimServerModelLoader", "src/StaticTreeRenderer", "src/DynamicTreeRenderer", "src/MetaDataRenderer"],
+			require(["src/BimSurfer", "src/BimServerModelLoader", "src/StaticTreeRenderer", "src/DynamicTreeRenderer",
+					"src/MetaDataRenderer"
+				],
 				function (BimSurfer, BimServerModelLoader, StaticTreeRenderer, DynamicTreeRenderer, MetaDataRenderer) {
 
 					function processBimSurferModel(roid, bimSurferModel) {
@@ -77,7 +80,11 @@
 							var domtree = new DynamicTreeRenderer({
 								domNode: 'dlg_structures_content'
 							});
-							domtree.addModel({ name: "", id: roid, tree: tree });
+							domtree.addModel({
+								name: "",
+								id: roid,
+								tree: tree
+							});
 							domtree.build();
 
 							treeTheme(parent.document.getElementById('dlg_structures_content'));
@@ -88,7 +95,11 @@
 							var metadata = new MetaDataRenderer({
 								domNode: 'dlg_components_content'
 							});
-							metadata.addModel({ name: "", id: roid, model: bimSurferModel });
+							metadata.addModel({
+								name: "",
+								id: roid,
+								model: bimSurferModel
+							});
 
 							o.bimSurfer.on("selection-changed", function (params) {
 								domtree.setSelected(params.objects, domtree.SELECT_EXCLUSIVE);
@@ -215,7 +226,10 @@
 							eye.onclick = function () {
 								on = !on;
 								setClass();
-								bimSurfer.setVisibility({ types: [ifc_type.name], visible: on });
+								bimSurfer.setVisibility({
+									types: [ifc_type.name],
+									visible: on
+								});
 							};
 							td2.appendChild(eye);
 							var span = document.createElement("span");
@@ -271,7 +285,8 @@
 									var model = models[roid];
 									// Example 1: Load a full model
 									o.modelLoader.setGlobalTransformationMatrix(globalTransformationMatrix);
-									o.modelLoader.loadFullModel(model, parent.document.getElementById("dlg_layers_content")).then(function (bimSurferModel) {
+									o.modelLoader.loadFullModel(model, parent.document.getElementById("dlg_layers_content")).then(function (
+										bimSurferModel) {
 										processBimSurferModel(roid, bimSurferModel);
 									});
 
@@ -302,7 +317,9 @@
 
 
 
-							bimServerClient.call("ServiceInterface", "getAllRelatedProjects", { poid: poid }, function (projects) {
+							bimServerClient.call("ServiceInterface", "getAllRelatedProjects", {
+								poid: poid
+							}, function (projects) {
 								nrProjects = projects.length;
 
 								var totalBounds = {
@@ -312,13 +329,18 @@
 
 								projects.forEach(function (project) {
 									if (project.lastRevisionId != -1 && (project.nrSubProjects == 0 || project.oid != poid)) {
-										bimServerClient.getModel(project.oid, project.lastRevisionId, project.schema, false, function (model) {
+										bimServerClient.getModel(project.oid, project.lastRevisionId, project.schema, false, function (
+											model) {
 											models[project.lastRevisionId] = model;
 
 											//loadLayers(project, model);
 
-											bimServerClient.call("ServiceInterface", "getModelMinBounds", { roid: project.lastRevisionId }, function (minBounds) {
-												bimServerClient.call("ServiceInterface", "getModelMaxBounds", { roid: project.lastRevisionId }, function (maxBounds) {
+											bimServerClient.call("ServiceInterface", "getModelMinBounds", {
+												roid: project.lastRevisionId
+											}, function (minBounds) {
+												bimServerClient.call("ServiceInterface", "getModelMaxBounds", {
+													roid: project.lastRevisionId
+												}, function (maxBounds) {
 													if (minBounds.x < totalBounds.min[0]) {
 														totalBounds.min[0] = minBounds.x;
 													}
@@ -363,10 +385,14 @@
 		window.setCameraView = function (type) {
 			switch (type) {
 				case "perspective":
-					o.bimSurfer.setCamera({ type: type });
+					o.bimSurfer.setCamera({
+						type: type
+					});
 					break;
 				case "ortho":
-					o.bimSurfer.setCamera({ type: type });
+					o.bimSurfer.setCamera({
+						type: type
+					});
 					break;
 				case "top":
 					o.bimSurfer.setCameraView(type);
@@ -396,18 +422,33 @@
 
 			switch (type) {
 				case "shaded":
-					o.bimSurfer.setWireframeView({ ids: o.modelLoader.allObjectIds, wireframe: false });
-					o.bimSurfer.setEdgesView({ ids: o.modelLoader.allObjectIds, edges: _isEdges ? true : false });
+					o.bimSurfer.setWireframeView({
+						ids: o.modelLoader.allObjectIds,
+						wireframe: false
+					});
+					o.bimSurfer.setEdgesView({
+						ids: o.modelLoader.allObjectIds,
+						edges: _isEdges ? true : false
+					});
 					break;
 				case "transp":
-					o.bimSurfer.setTransparentView({ ids: o.modelLoader.allObjectIds, opacity: _isTransp ? 1 : 0.6 });
+					o.bimSurfer.setTransparentView({
+						ids: o.modelLoader.allObjectIds,
+						opacity: _isTransp ? 1 : 0.6
+					});
 					_isTransp = !_isTransp;
 					break;
 				case "wire":
-					o.bimSurfer.setWireframeView({ ids: o.modelLoader.allObjectIds, wireframe: true });
+					o.bimSurfer.setWireframeView({
+						ids: o.modelLoader.allObjectIds,
+						wireframe: true
+					});
 					break;
 				case "edge":
-					o.bimSurfer.setEdgesView({ ids: o.modelLoader.allObjectIds, edges: _isEdges ? false : true });
+					o.bimSurfer.setEdgesView({
+						ids: o.modelLoader.allObjectIds,
+						edges: _isEdges ? false : true
+					});
 					_isEdges = !_isEdges;
 					break;
 			}
@@ -429,6 +470,38 @@
 			o.bimSurfer.deleteDimensions();
 		}
 
+		window.newStraightLine = function () {
+			o.bimSurfer.newStraightLine();
+		}
+
+		window.newFreeLine = function () {
+			o.bimSurfer.newFreeLine();
+		}
+
+		window.newSeveralLine = function () {
+			o.bimSurfer.newSeveralLine();
+		}
+
+		window.newCircle = function () {
+			o.bimSurfer.newCircle();
+		}
+
+		window.newText = function (action) {
+			o.bimSurfer.newText(action);
+		}
+
+		window.setDrawAction = function (action) {
+			o.bimSurfer.setDrawAction(action);
+		}
+
+		window.initDrawingTools = function () {
+			o.bimSurfer.initDrawingTools();
+		}
+
+		window.onPushPull = function () {
+			o.bimSurfer.onPushPull();
+		}
+
 		window.getScene = function () {
 			return o.bimSurfer.getScene();
 		}
@@ -441,7 +514,6 @@
 		window.changeSelectedMaterial = function (material) {
 			o.bimSurfer.changeSelectedMaterial(material);
 		}
-
 	</script>
 </head>
 
